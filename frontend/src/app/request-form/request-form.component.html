@@ -1,0 +1,96 @@
+
+<div style="text-align:center">
+  <h1>Request a TCU Spirit Appearance</h1>
+    
+    <form [formGroup]="requestForm">
+      
+      <div class="form-group">
+      <label>
+        Contact First Name:
+        <input type="text" formControlName="firstName">
+      </label>
+    
+      <label>
+             Last Name:
+        <input type="text" formControlName="lastName">
+      </label>
+    </div>
+
+    <div class="form-group">
+        <label>
+          Date:
+          <input type="text" formControlName="date">
+        </label>
+      
+        <label>
+               Start Time:
+          <input type="text" formControlName="startTime">
+        </label>
+      
+
+      <label>
+          End Time:
+     <input type="text" formControlName="endTime">
+   </label>
+  </div>
+
+  <div class="form-group">
+      <label>
+        Organization requesting appearance (if applicable):
+        <input type="text" formControlName="organization">
+      </label>
+  </div>
+
+  <div class="form-group">
+      <label>
+        Phone Number:
+        <input type="text" formControlName="phoneNumber">
+      </label>
+  </div>
+
+  <div class="form-group">
+      <label>
+        Email:
+        <input type="email" formControlName="email">
+      </label>
+  </div>
+
+  <div class="form-group">
+      <label>
+        Location Address:
+        <input type="text" formControlName="location">
+      </label>
+  </div>
+
+  <div class="form-group">
+      <label>
+        Special Instructions (Parking, gate code, location for spirit members to change/ keep belongings):
+        <input type="text" formControlName="specialInstruction">
+      </label>
+  </div>
+
+  <div class="form-group">
+      <label>
+          What expenses/benefits, if any, will the spirit member(s) receive while participating?
+        <input type="text" formControlName="expenses">
+      </label>
+  </div>
+
+  <div class="form-group">
+      <label>
+          Will there be any other outside organizations involved in sponsoring the event?
+
+        <input type="text" formControlName="outsideOrg">
+      </label>
+  </div>
+
+  <div class="form-group">
+      <label>
+          Description of Event, if applicable:
+        <input type="text" formControlName="description">
+      </label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <p>By requesting this event, you are agreeing to the terms & conditions of a TCU Spirit Appearance.</p>
+</div>
