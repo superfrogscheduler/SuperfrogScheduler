@@ -1,6 +1,6 @@
 from django.db import models
 
-class SuperFrog(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+class Event(models.Model):
+    name = models.CharField(max_length=50)
+    date = models.DateTimeField()
 
