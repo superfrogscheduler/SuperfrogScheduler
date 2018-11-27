@@ -4,6 +4,7 @@ class Event(models.Model):
     name = models.CharField(max_length=255)
     date = models.DateTimeField()
 
+
 class Appearance(models.Model):
     event_id = models.ForeignKey(Event, on_delete = "CASCADE")
     organization = models.CharField(max_length = 255)
@@ -23,3 +24,4 @@ class OrgType(models.Model):
 class TeamType(models.Model):
     team_type = models.CharField(max_length = 255)
     
+
