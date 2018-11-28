@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RequestFormComponent } from './request-form/request-form.component';
 import { LandingComponent } from './landing/landing.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
@@ -28,6 +30,7 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     ),
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule
