@@ -1,18 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
+import { FormsModule }   from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule, Routes } from '@angular/router';
+
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RequestFormComponent } from './request-form/request-form.component';
 import { LandingComponent } from './landing/landing.component';
+import { EventDetailComponent } from './event-detail/event-detail.component';
+
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
   { path: 'request-form', component: RequestFormComponent},
-  
+  {path: 'event-detail', component:EventDetailComponent}
 
 ];
 
@@ -20,7 +22,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     RequestFormComponent,
-    LandingComponent
+    LandingComponent,
+    EventDetailComponent,
   ],
   imports: [
     RouterModule.forRoot(
@@ -28,7 +31,7 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     ),
     BrowserModule,
-    ReactiveFormsModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule
   ],

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import {Request} from '../request';
 
 @Component({
   selector: 'app-request-form',
@@ -7,27 +8,17 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./request-form.component.css']
 })
 export class RequestFormComponent implements OnInit {
-  requestForm = new FormGroup({
-    firstName: new FormControl(),
-    lastName: new FormControl(),
-    date: new FormControl(),
-    startTime: new FormControl(),
-    endTime: new FormControl(),
-    eventTitle: new FormControl(),
-    organization: new FormControl(),
-    phoneNumber: new FormControl(),
-    email: new FormControl(),
-    location: new FormControl(),
-    specialInstruction: new FormControl(),
-    expenses: new FormControl(),
-    outsideOrg: new FormControl(),
-    description: new FormControl(),
-    requiresPerformance: new FormControl(),
 
-  });
-  constructor() { }
+  model = new Request('Sarah', 'Allen', "sarah@allen.com", "2148886754", "12-1-18", "2", "5", "my party", "none", "123 Frog St.", "Superfrog", "Dance a lot", "none", "none", "a great time", "no", false );
+  members = ['Superfrog', 'Cheerleaders', 'Showgirls'];
+  submitted = false;
+
+  onSubmit() { this.submitted = true; }
+
+  // TODO: Remove this when we're done
+  get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit() {
   }
-
+  
 }
