@@ -27,6 +27,9 @@ class Event(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
+    def __str__(self):
+        return ""+str(self.pk)+": "+self.name+" "+str(self.date)+" "+str(self.start_time)+"-"+str(self.end_time)
+
 class Appearance(models.Model):
     event_id = models.ForeignKey(Event, on_delete = "CASCADE")
     organization = models.CharField(max_length = 255)
@@ -43,5 +46,11 @@ class Appearance(models.Model):
 class OrgType(models.Model):
     org_type=models.CharField(max_length = 255)
 
+    def  __str__(self):
+       return ""+str(self.pk)+": "+self.org_type
+
 class TeamType(models.Model):
     team_type = models.CharField(max_length = 255)
+
+    def  __str__(self):
+       return ""+str(self.pk)+": "+self.team_type
