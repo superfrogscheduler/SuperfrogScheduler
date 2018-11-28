@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { AppearanceRequest } from '../models/appearance-request';
+import {Request} from '../request';
 
 @Component({
   selector: 'app-request-form',
@@ -8,46 +8,15 @@ import { AppearanceRequest } from '../models/appearance-request';
   styleUrls: ['./request-form.component.css']
 })
 export class RequestFormComponent implements OnInit {
-  
-  requestForm: FormGroup;
-  
-  members = ['Cheerleaders', 'Showgirls'];
 
-  constructor() { 
-    this.requestForm = this.createFormGroup();
-  }
+  model = new Request('Sarah', 'Allen', "sarah@allen.com", "2148886754", "12-1-18", "2", "5", "my party", "none", "123 Frog St.", "Superfrog", "Dance a lot", "none", "none", "a great time", "no", false );
 
-  createFormGroup() {
-    return new FormGroup({
-      requestForm: new FormGroup({
-        firstName: new FormControl(),
-        lastName: new FormControl(),
-        date: new FormControl(),
-        startTime: new FormControl(),
-        endTime: new FormControl(),
-        eventTitle: new FormControl(),
-        organization: new FormControl(),
-        phoneNumber: new FormControl(),
-        email: new FormControl(),
-        location: new FormControl(),
-        specialInstruction: new FormControl(),
-        expenses: new FormControl(),
-        outsideOrg: new FormControl(),
-        description: new FormControl(),
-        requiresPerformance: new FormControl(),
-        members: new FormControl(),
-        onCampus: new FormControl()
-      })
-    });
-  }
+  submitted = false;
 
-  onSubmit() {
-    // Make sure to create a deep copy of the form-model
-    const result: AppearanceRequest = Object.assign({}, this.requestForm.value);
+  onSubmit() { this.submitted = true; }
 
-    console.log(result);
-
-  }
+  // TODO: Remove this when we're done
+  get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit() {
   }
