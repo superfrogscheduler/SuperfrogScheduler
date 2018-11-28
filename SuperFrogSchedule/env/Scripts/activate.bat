@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=C:\SuperFrogScheduler\SuperFrogSchedule\env"
+set "VIRTUAL_ENV=C:\Users\josel\OneDrive\Documents\GitHub\SuperfrogScheduler\SuperFrogSchedule\env"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
