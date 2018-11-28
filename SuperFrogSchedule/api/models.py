@@ -40,7 +40,7 @@ class Event(models.Model):
 
 
 class Appearance(models.Model):
-    event_id = models.ForeignKey(Event, on_delete = "CASCADE")
+    event = models.ForeignKey(Event, on_delete = "CASCADE")
     organization = models.CharField(max_length = 255)
     location = models.CharField(max_length=255)
     parking_info = models.CharField(max_length=255, blank=True)
