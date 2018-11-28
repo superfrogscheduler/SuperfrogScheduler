@@ -1,0 +1,30 @@
+
+<div style="text-align:center">
+    <div class = "container align-center" id="pad-container">
+      <div class = "row top-buffer">
+        <h1>Details: {{model.eventTitle}}</h1>
+      </div>
+      <div class = "row top-buffer">
+        <p>Event code will show here.</p>
+      </div>
+      <div class = "row">
+        <div class = "col-md-4">
+          <h3>Contact Name</h3> <h2>{{model.firstName}} {{model.lastName}}</h2>
+          <h3>Phone Number</h3> <h2>{{model.phoneNumber}}</h2>
+          <h3>Email</h3> <h2>{{model.email}}</h2>
+        </div>
+        <div class = "col-md-4">
+            <h3>Event Date</h3> <h2>{{model.date}}</h2>
+            <h3>Time</h3> <h2>{{model.startTime}} - {{model.endTime}}</h2>
+            <h3>Location</h3> <h2>{{model.location}}</h2>
+        </div>
+        <div class = "col-md-4">
+            <h3>Spirit Members</h3> <h2>{{model.members}}</h2>
+            <h3>Special Instructions</h3> <h2>{{model.specialInstruction}}</h2>
+            <h3>Description</h3> <h2>{{model.description}}</h2>
+            
+        </div>
+
+      </div>
+    </div>
+  </div>

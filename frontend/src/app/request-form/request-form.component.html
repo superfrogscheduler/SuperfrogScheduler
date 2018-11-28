@@ -1,5 +1,6 @@
 
 <div style="text-align:center">
+  <div class = "container align-center" id="pad-container">
   <div class = "row top-buffer">
   <h1>Request a TCU Spirit Appearance</h1>
   </div>
@@ -7,7 +8,7 @@
   <p>Fill out and submit the form below. We will review your request within a week and let you know if Superfrog can be there!</p>
   </div>
   <form #requestForm="ngForm">
-  <div class = "container top-buffer">
+  <div class = "container top-buffer" id = "form-container">
         <div class="form-group col-md-6">  
           <label >Contact First Name:</label>
           <input type="text" class="form-control" id="firstName" required
@@ -18,6 +19,12 @@
           <input type="text" class="form-control" id="lastName" required
           [(ngModel)]="model.lastName" name="lastName">
         </div>
+
+        <div class="form-group col-md-12">
+            <label class = "col-form-label">Event Title:</label>
+            <input type="text" class="form-control" id="eventTitle" required
+            [(ngModel)]="model.eventTitle" name="eventTitle">
+        </div>  
 
       <div class="form-group col-md-12">
           <label class = "col-form-label">Organization requesting appearance (if applicable):</label>
@@ -106,7 +113,8 @@
         [(ngModel)]="model.description" name="description"></textarea>  
       </div>
       <div class = "col-md-12"><p>By requesting this event, you are agreeing to the terms & conditions of a TCU Spirit Appearance.</p></div>
-      <div class = "col-md-12"><button type="submit" class="btn btn-primary">Submit</button></div>
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large">Submit</button></div>
   </div>
   </form>
+  </div>
 </div>

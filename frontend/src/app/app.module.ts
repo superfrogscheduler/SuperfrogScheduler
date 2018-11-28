@@ -8,12 +8,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { RequestFormComponent } from './request-form/request-form.component';
 import { LandingComponent } from './landing/landing.component';
+import { EventDetailComponent } from './event-detail/event-detail.component';
 
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
   { path: 'request-form', component: RequestFormComponent},
-  
+  {path: 'event-detail', component:EventDetailComponent}
 
 ];
 
@@ -21,7 +22,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     RequestFormComponent,
-    LandingComponent
+    LandingComponent,
+    EventDetailComponent,
   ],
   imports: [
     RouterModule.forRoot(
