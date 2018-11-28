@@ -1,1 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+h1 {
+    color: #4d1979;
+}
+
+h2 {
+    color: #4d1979;
+}
+
+p {
+    color: #a3a9ac;
+}
+
+.btn-primary, .btn-primary:visited{
+    background-color: #4d1979 !important;
+    border: 0px;
+    box-shadow: 0 3px 0 0 #000000;
+
+}
+
+.btn-primary:hover{
+    background-color:  #a3a9ac !important;
+
+}
+.top-buffer { margin-top:20px; }
+
+.btn-xlarge {
+    padding: 18px 28px;
+    font-size: 22px; 
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+}
+
+#btn-text {
+    color:white;
+}
+
+#jumbo-header {
+
+    color:white;
+}
