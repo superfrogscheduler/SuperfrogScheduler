@@ -4,6 +4,7 @@ from .models import Superfrog, Admin, Customer, Event, Appearance, OrgType, Team
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, OrgSerializer, TeamSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
+from rest_framework.decorators import action, list_route
 
 class AppearanceViewSet(viewsets.ViewSet):
     queryset = Appearance.objects.all()
@@ -14,4 +15,9 @@ class AppearanceViewSet(viewsets.ViewSet):
         serializer = AppearanceShortSerializer(appearances, many=True)
         return Response(serializer.data)
 
+    @list_route(methods=['get'])
+    def list_by_status(self, request, status_id):
+        appearances = queryset.filter(status=status_id)
+        serializer = AppearanceShortSerializer(appearances, many=True)
+        return Response(serializer.data)
     
