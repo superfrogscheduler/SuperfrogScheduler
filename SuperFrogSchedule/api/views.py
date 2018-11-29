@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
 from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 
 # class AppearanceViewSet(viewsets.ViewSet):
 #     queryset = Appearance.objects.all()
@@ -33,11 +34,18 @@ def list_by_status(request, status=None):
     else:
         return HttpResponseBadRequest()
 
-def list(request):
+def appearances(request):
     if request.method == 'GET':
         queryset = Appearance.objects.all()
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
+    elif request.method=='POST':
+            data = JSONParser().parse(request.body)
+            serializer = AppearanceSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return HttpResponse(serializer.data, status = 201)
+            return HttpResponse(serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()
 
@@ -46,5 +54,16 @@ def detail(request, id=None):
         queryset = Appearance.objects.get(pk=id)
         serializer = AppearanceSerializer(queryset, many=False)
         return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+
+def create(request):
+    if request.method=='POST':
+            data = JSONParser().parse(request.body)
+            serializer = AppearanceSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return HttpResponse(serializer.data, status = 201)
+            return HttpResponse(serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()

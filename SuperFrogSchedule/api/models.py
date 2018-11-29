@@ -51,7 +51,7 @@ class Appearance(Event):
     expenses_and_benefits = models.CharField(max_length=255, blank=True)
     outside_orgs = models.BooleanField()
     description = models.CharField(max_length = 1000)
-    status = models.ForeignKey("AppearanceStatus", on_delete="NULL")
+    status = models.ForeignKey("AppearanceStatus", on_delete="NULL", default=1)
 
 
     def __str__(self):
