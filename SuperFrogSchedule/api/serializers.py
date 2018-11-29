@@ -26,6 +26,10 @@ class AppearanceSerializer(serializers.ModelSerializer):
         model = Appearance
         fields = "__all__"
 
+class AppearanceShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Appearance
+        fields = ('id','name','date','start_time','location','status')
 class OrgSerializer(serializers.ModelSerializer):
     class Meta: 
         model = OrgType

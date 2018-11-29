@@ -39,8 +39,8 @@ class Event(models.Model):
         return ""+str(self.pk)+": "+self.name+" "+str(self.date)+" "+str(self.start_time)+"-"+str(self.end_time)
 
 
-class Appearance(models.Model):
-    event = models.ForeignKey(Event, on_delete = "CASCADE")
+class Appearance(Event):
+    #event = models.ForeignKey(Event, on_delete = "CASCADE")
     organization = models.CharField(max_length = 255)
     location = models.CharField(max_length=255)
     parking_info = models.CharField(max_length=255, blank=True)
