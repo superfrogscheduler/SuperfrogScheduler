@@ -55,7 +55,7 @@ class Appearance(Event):
 
 
     def __str__(self):
-        return str(self.event)
+        return super().__str__()
 class AppearanceStatus(models.Model):
     status = models.CharField(max_length=255)
 

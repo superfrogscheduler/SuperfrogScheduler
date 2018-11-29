@@ -29,7 +29,7 @@ class AppearanceSerializer(serializers.ModelSerializer):
 class AppearanceShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appearance
-        fields = ('name','date','start_time','location','status')
+        fields = ('id','name','date','start_time','end_time','location','status')
 class OrgSerializer(serializers.ModelSerializer):
     class Meta: 
         model = OrgType
