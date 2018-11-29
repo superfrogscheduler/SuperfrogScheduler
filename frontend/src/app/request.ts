@@ -11,7 +11,7 @@ export class Request {
         public eventTitle: string,
         public organization: string,
         public location: string,
-        public members: string,
+        public teams: number[],
         public specialInstruction: string,
         public expenses: string,
         public outsideOrg: string,
