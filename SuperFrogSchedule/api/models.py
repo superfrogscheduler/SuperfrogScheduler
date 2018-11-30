@@ -51,9 +51,13 @@ class Appearance(models.Model):
     expenses_and_benefits = models.CharField(max_length=255, blank=True)
     outside_orgs = models.BooleanField()
     description = models.CharField(max_length = 1000)
+    status = models.ForeignKey("AppearanceStatus", on_delete="NULL")
+
 
     def __str__(self):
         return str(self.event)
+class AppearanceStatus(models.Model):
+    status = models.CharField(max_length=255)
 
 class OrgType(models.Model):
     org_type=models.CharField(max_length = 255)
