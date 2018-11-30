@@ -24,9 +24,16 @@ from rest_framework.parsers import JSONParser
 #         serializer = AppearanceShortSerializer(appearances, many=True)
 #         return Response(serializer.data)
 
-#     serializer = AppearanceShortSerializer
 
 def list_by_status(request, status=None):
+    if request.method == 'GET':
+        queryset = Appearance.objects.filter(status=status)
+        serializer = AppearanceSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+
+def short_list_by_status(request, status=None):
     if request.method == 'GET':
         queryset = Appearance.objects.filter(status=status)
         serializer = AppearanceShortSerializer(queryset, many=True)
@@ -57,13 +64,11 @@ def detail(request, id=None):
     else:
         return HttpResponseBadRequest()
 
-def create(request):
-    if request.method=='POST':
-            data = JSONParser().parse(request.body)
-            serializer = AppearanceSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return HttpResponse(serializer.data, status = 201)
-            return HttpResponse(serializer.errors, status = 400)
-    else:
-        return HttpResponseBadRequest()
+def update(request)
+    if request.method == 'PUT':
+        data = JSONParser().parse(request.body)
+        serializer = AppearanceSerializer(data, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return HttpResponse(serializer.data, status = 201)
+        return HttpResponse(serializer.errors, status = 400)
