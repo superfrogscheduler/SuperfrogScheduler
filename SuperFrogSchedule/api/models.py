@@ -39,8 +39,8 @@ class Event(models.Model):
         return ""+str(self.pk)+": "+self.name+" "+str(self.date)+" "+str(self.start_time)+"-"+str(self.end_time)
 
 
-class Appearance(models.Model):
-    event = models.ForeignKey(Event, on_delete = "CASCADE")
+class Appearance(Event):
+    #event = models.ForeignKey(Event, on_delete = "CASCADE")
     organization = models.CharField(max_length = 255)
     location = models.CharField(max_length=255)
     parking_info = models.CharField(max_length=255, blank=True)
@@ -51,11 +51,11 @@ class Appearance(models.Model):
     expenses_and_benefits = models.CharField(max_length=255, blank=True)
     outside_orgs = models.BooleanField()
     description = models.CharField(max_length = 1000)
-    status = models.ForeignKey("AppearanceStatus", on_delete="NULL")
+    status = models.ForeignKey("AppearanceStatus", on_delete="NULL", default=1)
 
 
     def __str__(self):
-        return str(self.event)
+        return super().__str__()
 class AppearanceStatus(models.Model):
     status = models.CharField(max_length=255)
 
