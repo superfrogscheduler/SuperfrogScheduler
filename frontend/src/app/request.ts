@@ -1,5 +1,4 @@
 export class Request {
-    
     constructor( 
         public firstName: string,
         public lastName: string,

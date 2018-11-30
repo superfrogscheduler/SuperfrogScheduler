@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { RequestFormComponent } from './request-form/request-form.component';
 import { LandingComponent } from './landing/landing.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
+import { AcceptFormComponent } from './accept-form/accept-form.component';
 
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
   { path: 'request-form', component: RequestFormComponent},
-  {path: 'event-detail', component:EventDetailComponent}
+  {path: 'event-detail', component:EventDetailComponent},
+  {path: 'accept-form', component: AcceptFormComponent},
 
 ];
 
@@ -24,6 +26,7 @@ const appRoutes: Routes = [
     RequestFormComponent,
     LandingComponent,
     EventDetailComponent,
+    AcceptFormComponent,
   ],
   imports: [
     RouterModule.forRoot(
