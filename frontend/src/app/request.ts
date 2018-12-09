@@ -1,11 +1,13 @@
+import { Time } from "@angular/common";
+
 export interface RequestForm {
         firstName?: string,
         lastName?: string,
         email?: string,
         phoneNumber?: string,
         date?: Date,
-        startTime?: string,
-        endTime?: string,
+        startTime?: Time,
+        endTime?: Time,
         eventTitle?: string,
         organization?: string,
         location?: string,
