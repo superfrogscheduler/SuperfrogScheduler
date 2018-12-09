@@ -3,7 +3,7 @@ export interface RequestForm {
         lastName?: string,
         email?: string,
         phoneNumber?: string,
-        date?: string,
+        date?: Date,
         startTime?: string,
         endTime?: string,
         eventTitle?: string,

@@ -31,7 +31,7 @@ export class RequestFormComponent implements OnInit {
   }
 
   saveRequest(){
-    alert("Save Request");
+    console.log("Save Request");
     //this.requestService.saveRequest(this.model).subscribe();
   }
   
