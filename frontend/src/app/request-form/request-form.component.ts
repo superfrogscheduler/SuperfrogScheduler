@@ -19,7 +19,7 @@ export class RequestFormComponent implements OnInit {
   members = ['Superfrog', 'Cheerleaders', 'Showgirls'];
   submitted = false;
 
-  constructor(private requestService: RequestFormService){}
+  constructor(private requestService: RequestFormService) {}
 
   onSubmit() { this.submitted = true; }
 
@@ -30,9 +30,8 @@ export class RequestFormComponent implements OnInit {
     let model = {};
   }
 
-  saveRequest(){
+  saveRequest() {
     console.log("Save Request");
-    //this.requestService.saveRequest(this.model).subscribe();
+    this.requestService.saveRequest(this.model).subscribe();
   }
-  
 }
