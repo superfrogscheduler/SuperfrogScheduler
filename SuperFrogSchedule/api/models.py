@@ -29,10 +29,10 @@ class Customer(models.Model):
     phone = models.IntegerField(default=0)
 
 class Event(models.Model):
-    name = models.CharField(max_length=255)
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    name = models.CharField(max_length=255, blank=True)
+    date = models.DateField(blank = True)
+    start_time = models.TimeField(blank = True)
+    end_time = models.TimeField(blank = True)
     objects = models.Manager()
 
     def __str__(self):
@@ -41,16 +41,16 @@ class Event(models.Model):
 
 class Appearance(Event):
     #event = models.ForeignKey(Event, on_delete = "CASCADE")
-    organization = models.CharField(max_length = 255)
-    location = models.CharField(max_length=255)
+    organization = models.CharField(max_length = 255, blank = True)
+    location = models.CharField(max_length=255, blank=True)
     parking_info = models.CharField(max_length=255, blank=True)
-    org_type = models.ForeignKey("OrgType", on_delete="NULL")
-    team_type = models.ForeignKey("TeamType", on_delete="NULL")
-    performance_required = models.BooleanField()
+    org_type = models.ForeignKey("OrgType", on_delete="NULL", blank=True)
+    team_type = models.ForeignKey("TeamType", on_delete="NULL", blank=True)
+    performance_required = models.BooleanField(default=False)
     location_for_belongings = models.CharField(max_length=255, blank=True)
     expenses_and_benefits = models.CharField(max_length=255, blank=True)
-    outside_orgs = models.BooleanField()
-    description = models.CharField(max_length = 1000)
+    outside_orgs = models.BooleanField(default=False)
+    description = models.CharField(max_length = 1000, blank = True)
     status = models.ForeignKey("AppearanceStatus", on_delete="NULL", default=1)
 
 

@@ -11,19 +11,19 @@
   <div class = "container top-buffer" id = "form-container">
         <div class="form-group col-md-6">  
           <label >Contact First Name:</label>
-          <input type="text" class="form-control" id="firstName" required
-          [(ngModel)]="model.firstName" name="firstName">
+          <input type="text" class="form-control" id="first_name" required
+          [(ngModel)]="model.first_name" name="first_name">
           </div>
           <div class="form-group col-md-6">
           <label >Contact Last Name:</label>
-          <input type="text" class="form-control" id="lastName" required
-          [(ngModel)]="model.lastName" name="lastName">
+          <input type="text" class="form-control" id="last_name" required
+          [(ngModel)]="model.last_name" name="last_name">
         </div>
 
         <div class="form-group col-md-12">
             <label class = "col-form-label">Event Title:</label>
-            <input type="text" class="form-control" id="eventTitle" required
-            [(ngModel)]="model.eventTitle" name="eventTitle">
+            <input type="text" class="form-control" id="event_title" required
+            [(ngModel)]="model.event_title" name="event_title">
         </div>  
 
       <div class="form-group col-md-12">
@@ -40,19 +40,19 @@
         <div class="form-group col-md-2">
           <label class = "col-form-label">Start Time:</label>
           <input class="form-control" type="time" required
-          [(ngModel)]="model.startTime" name="startTime"/>
+          [(ngModel)]="model.start_time" name="start_time"/>
         </div>
       
         <div class="form-group col-md-2">
           <label class = "col-form-label">End Time:</label>
           <input class="form-control" type="time" required
-          [(ngModel)]="model.endTime" name="endTime"/>
+          [(ngModel)]="model.end_time" name="end_time"/>
         </div>
 
         <div class="form-group col-md-6">
           <label class = "col-form-label">Phone Number:</label>
-          <input type="text" class="form-control" id="phoneNumber" required
-          [(ngModel)]="model.phoneNumber" name="phoneNumber">
+          <input type="text" class="form-control" id="phone" required
+          [(ngModel)]="model.phone" name="phone">
         </div>
 
         <div class="form-group col-md-6">
@@ -69,16 +69,16 @@
 
       <div class="form-group col-md-12">
           <label for="power">Spirit Members requested:</label>
-          <select class="form-control" id="power" required required
-          [(ngModel)]="model.power" name="power">
+          <select class="form-control" id="team" required required
+          [(ngModel)]="model.team" name="team">
             <option *ngFor="let mem of members" [value]="mem">{{mem}}</option>
           </select>
         </div>
 
       <div class="form-group col-md-12">
         <label class = "col-form-label">Special Instructions (Parking, gate code, location for spirit members to change/ keep belongings):  </label>
-        <textarea type="text" class="form-control" rows = "3" id="specialInstruction" required
-        [(ngModel)]="model.specialInstruction" name="specialInstruction"></textarea>
+        <textarea type="text" class="form-control" rows = "3" id="special_instruction" required
+        [(ngModel)]="model.special_instruction" name="special_instruction"></textarea>
       </div>
 
       <div class="form-group col-md-12">
@@ -91,8 +91,8 @@
 
       <div class="form-group col-md-12">
         <label class = "col-form-label"> Will there be any other outside organizations involved in sponsoring the event?</label>
-        <input type="text" class="form-control" id="outsideOrg" required
-        [(ngModel)]="model.outsideOrg" name="outsideOrg">  
+        <input type="text" class="form-control" id="outside_orgs" required
+        [(ngModel)]="model.outside_orgs" name="outside_orgs">  
       </div>
 
       <div class="form-group col-md-12">
