@@ -9,3 +9,4 @@ workspace.xml
 SuperFrogSchedule/db.sqlite3
 *.pyc
 *.pyc
+*.pyc
