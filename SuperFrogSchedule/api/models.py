@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime
 
+#To add: customer foreign key on appearance
+
 class Superfrog(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -17,22 +19,22 @@ class SuperfrogAppearance(models.Model):
     date_assigned = models.DateTimeField(default=datetime.now())
 
 class Admin(models.Model):
-    firstName = models.CharField(max_length=30)
-    lastName = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     email = models.CharField(max_length=200)
     phone = models.IntegerField(default=0)
 
 class Customer(models.Model):
-    firstName = models.CharField(max_length=30)
-    lastName = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     email = models.CharField(max_length=200)
     phone = models.IntegerField(default=0)
 
 class Event(models.Model):
-    name = models.CharField(max_length=255)
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    name = models.CharField(max_length=255, blank=True)
+    date = models.DateField(blank = True)
+    start_time = models.TimeField(blank = True)
+    end_time = models.TimeField(blank = True)
     objects = models.Manager()
 
     def __str__(self):
@@ -41,17 +43,17 @@ class Event(models.Model):
 
 class Appearance(Event):
     #event = models.ForeignKey(Event, on_delete = "CASCADE")
-    organization = models.CharField(max_length = 255)
-    location = models.CharField(max_length=255)
+    organization = models.CharField(max_length = 255, blank = True)
+    location = models.CharField(max_length=255, blank=True)
     parking_info = models.CharField(max_length=255, blank=True)
-    org_type = models.ForeignKey("OrgType", on_delete="NULL")
-    team_type = models.ForeignKey("TeamType", on_delete="NULL")
-    performance_required = models.BooleanField()
+    org_type = models.CharField(max_length=255, blank = True)
+    team_type = models.CharField(max_length=255, blank = True)
+    performance_required = models.BooleanField(default=False)
     location_for_belongings = models.CharField(max_length=255, blank=True)
     expenses_and_benefits = models.CharField(max_length=255, blank=True)
-    outside_orgs = models.BooleanField()
-    description = models.CharField(max_length = 1000)
-    status = models.ForeignKey("AppearanceStatus", on_delete="NULL", default=1)
+    outside_orgs = models.CharField(max_length = 255, blank = True)
+    description = models.CharField(max_length = 1000, blank = True)
+    status = models.CharField(max_length = 255, default = "Pending")
 
 
     def __str__(self):
@@ -59,16 +61,16 @@ class Appearance(Event):
 class AppearanceStatus(models.Model):
     status = models.CharField(max_length=255)
 
-class OrgType(models.Model):
-    org_type=models.CharField(max_length = 255)
+# class OrgType(models.Model):
+#     org_type=models.CharField(max_length = 255)
 
-    def  __str__(self):
-       return ""+str(self.pk)+": "+self.org_type
+#     def  __str__(self):
+#        return ""+str(self.pk)+": "+self.org_type
 
-class TeamType(models.Model):
-    team_type = models.CharField(max_length = 255)
+# class TeamType(models.Model):
+#     team_type = models.CharField(max_length = 255)
 
-    def  __str__(self):
-       return ""+str(self.pk)+": "+self.team_type
+#     def  __str__(self):
+#        return ""+str(self.pk)+": "+self.team_type
     
 
