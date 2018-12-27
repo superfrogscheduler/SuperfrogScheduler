@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
     baseurl = "http://127.0.0.1:8000/";
     httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
     constructor(private http: HttpClient) { }
-    saveRequest(req: {}): Observable<any> {
+    getSignUp(req: {}): Observable<any> {
       console.log(req);
-      return this.http.post(this.baseurl + "appearances/", req);
+      return this.http.get(this.baseurl + "appearances/", req);
     }
   }

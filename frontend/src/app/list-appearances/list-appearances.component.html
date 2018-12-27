@@ -1,0 +1,14 @@
+<div style= "text-align: center">
+  <div class= "container align-center" id="pad-container">
+    <div class = "row top-buffer">
+      <h1>All Upcoming Appearances</h1>
+    </div>
+    <div class = "col md-6">
+      <ul *ngFor="let names of getData">
+        <li>
+          {{names.appearance.name}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>>

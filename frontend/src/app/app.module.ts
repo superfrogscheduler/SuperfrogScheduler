@@ -11,6 +11,7 @@ import { LandingComponent } from './landing/landing.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
 import { SuperFrogSignupComponent } from './super-frog-signup/super-frog-signup.component';
+import { ListAppearancesComponent } from './list-appearances/list-appearances.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
   {path: 'event-detail', component: EventDetailComponent},
   {path: 'accept-form', component: AcceptFormComponent},
   {path: 'sign-up', component: SuperFrogSignupComponent},
+  { path: 'avail-appear', component: ListAppearancesComponent},
 ];
 
 @NgModule({
@@ -28,6 +30,7 @@ const appRoutes: Routes = [
     EventDetailComponent,
     AcceptFormComponent,
     SuperFrogSignupComponent,
+    ListAppearancesComponent,
   ],
   imports: [
     RouterModule.forRoot(

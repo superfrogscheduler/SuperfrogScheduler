@@ -30,7 +30,4 @@ export class SuperFrogSignupComponent implements OnInit {
   ngOnInit() {
   }
 
-  getAppearance() {
-    this.signUpService.saveRequest(this.data).subscribe();
-  }
 }
