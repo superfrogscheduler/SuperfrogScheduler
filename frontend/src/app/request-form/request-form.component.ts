@@ -1,17 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import {Request} from '../request';
+import { Component, OnInit, forwardRef } from '@angular/core';
+import { FormGroup, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {RequestForm} from '../request';
+import { RequestFormService } from './request-form.service';
+import { Customer } from '../shared/customer';
+import { Appearance } from '../shared/appearance';
+import {Event} from '../shared/event';
 
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
-  styleUrls: ['./request-form.component.css']
+  styleUrls: ['./request-form.component.css'],
+  providers: [RequestFormService,     {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => RequestFormComponent),
+    multi: true
+  }]
 })
 export class RequestFormComponent implements OnInit {
 
-  model = new Request('Sarah', 'Allen', "sarah@allen.com", "2148886754", "12-1-18", "2", "5", "my party", "none", "123 Frog St.", "Superfrog", "Dance a lot", "none", "none", "a great time", "no", false );
-  members = ['Superfrog', 'Cheerleaders', 'Showgirls'];
+  model: RequestForm = {};
+  members = [1, 2, 3];
   submitted = false;
+  data: {"customer": Customer, "appearance": Appearance} = {"customer":{}, "appearance":{}};
+
+  constructor(private requestService: RequestFormService) {}
 
   onSubmit() { this.submitted = true; }
 
@@ -20,5 +32,8 @@ export class RequestFormComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
+  saveRequest() {
+    this.requestService.saveRequest(this.data).subscribe();
+  }
 }

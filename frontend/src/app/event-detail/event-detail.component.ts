@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Request} from '../request';
+import {RequestForm} from '../request';
 
 @Component({
   selector: 'app-event-detail',
@@ -7,8 +7,7 @@ import {Request} from '../request';
   styleUrls: ['./event-detail.component.css']
 })
 export class EventDetailComponent implements OnInit {
-
-  model = new Request('Sarah', 'Allen', "sarah@allen.com", "2148886754", "12-1-18", "2", "5", "my party", "none", "123 Frog St.", "Superfrog", "Dance a lot", "none", "none", "a great time", "no", false );
+  model: RequestForm;
   members = ['Superfrog', 'Cheerleaders', 'Showgirls'];
   submitted = false;
 

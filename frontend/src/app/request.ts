@@ -1,22 +1,22 @@
-export class Request {
-    
-    constructor( 
-        public firstName: string,
-        public lastName: string,
-        public email: string,
-        public phoneNumber: string,
-        public date: string,
-        public startTime: string,
-        public endTime: string,
-        public eventTitle: string,
-        public organization: string,
-        public location: string,
-        public members: string,
-        public specialInstruction: string,
-        public expenses: string,
-        public outsideOrg: string,
-        public description: string,
-        public requiresPerformance: string,
-        public onCampus: boolean
-    ) { }
+import { Time } from "@angular/common";
+
+export interface RequestForm {
+        first_name?: string,
+        last_name?: string,
+        email?: string,
+        phone?: string,
+        date?: Date,
+        start_time?: Time,
+        end_time?: Time,
+        even_title?: string,
+        organization?: string,
+        location?: string,
+        members?: string,
+        special_instruction?: string,
+        expenses?: string,
+        outside_org?: string,
+        description?: string,
+        requires_performance?: string,
+        on_campus?: boolean
 }
+
