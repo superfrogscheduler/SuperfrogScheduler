@@ -18,6 +18,10 @@ p {
     color: #a3a9ac;
 }
 
+body { 
+    padding-top: 70px; 
+}
+
 .lead {
     color: white;
 }
