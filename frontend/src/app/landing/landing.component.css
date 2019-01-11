@@ -46,7 +46,8 @@ navbar, .navbar-expand-lg {
 
 .btn-primary:hover{
     background-color:  #4d1979 !important;
-    border-color: white;
+    border-radius: 0px;
+    border-color: #4d1979 !important;
     color: white;
 
 }

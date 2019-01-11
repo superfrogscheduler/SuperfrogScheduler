@@ -8,6 +8,7 @@ from rest_framework.decorators import action, list_route
 from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from django.core.mail import send_mail
 
 # class AppearanceViewSet(viewsets.ViewSet):
 #     queryset = Appearance.objects.all()
@@ -67,3 +68,24 @@ def create(request):
             return HttpResponse(serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()
+
+# function to send confirmation to customer. called after customer is saved in db when requesting event.
+
+def EmailFunc(em):
+
+	recs = Customer.objects.filter(email = em)
+	if len(recs) == 0:
+		newCustomer = Customer()
+		newCustomer.email = em
+
+		send_mail(
+		    'Hay',
+		    'Here is a confirmation message for the event request.',
+		    'superfrog@scheduler.com',
+		    [newCustomer.email],
+		    fail_silently = False,
+		)
+		print("email sent")
+		return True
+	else: 
+		return False
