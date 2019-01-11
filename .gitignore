@@ -6,3 +6,7 @@ modules.xml
 SuperfrogScheduler.iml
 vcs.xml
 workspace.xml
+SuperFrogSchedule/db.sqlite3
+*.pyc
+*.pyc
+*.pyc

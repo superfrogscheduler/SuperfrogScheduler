@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Superfrog, Admin, Customer, Appearance, Event, OrgType, TeamType
+from .models import Superfrog, Admin, Customer, Appearance, Event
 
 class SuperfrogSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,21 +21,18 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = "__all__"
 
+    def create(self, validated_data):
+        return Event(**validated_data)
+
 class AppearanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appearance
         fields = "__all__"
 
+    def create(self, validated_data):
+        return Appearance(**validated_data)
+
 class AppearanceShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appearance
         fields = ('id','name','date','start_time','end_time','location','status')
-class OrgSerializer(serializers.ModelSerializer):
-    class Meta: 
-        model = OrgType
-        fields = "__all__"
-
-class TeamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TeamType
-        fields = "__all__"

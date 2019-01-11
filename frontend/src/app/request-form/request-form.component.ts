@@ -2,6 +2,9 @@ import { Component, OnInit, forwardRef } from '@angular/core';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {RequestForm} from '../request';
 import { RequestFormService } from './request-form.service';
+import { Customer } from '../shared/customer';
+import { Appearance } from '../shared/appearance';
+import {Event} from '../shared/event';
 
 @Component({
   selector: 'app-request-form',
@@ -16,10 +19,11 @@ import { RequestFormService } from './request-form.service';
 export class RequestFormComponent implements OnInit {
 
   model: RequestForm = {};
-  members = ['Superfrog', 'Cheerleaders', 'Showgirls'];
+  members = [1, 2, 3];
   submitted = false;
+  data: {"customer": Customer, "appearance": Appearance} = {"customer":{}, "appearance":{}};
 
-  constructor(private requestService: RequestFormService){}
+  constructor(private requestService: RequestFormService) {}
 
   onSubmit() { this.submitted = true; }
 
@@ -27,12 +31,9 @@ export class RequestFormComponent implements OnInit {
   get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit() {
-    let model = {};
   }
 
-  saveRequest(){
-    console.log("Save Request");
-    //this.requestService.saveRequest(this.model).subscribe();
+  saveRequest() {
+    this.requestService.saveRequest(this.data).subscribe();
   }
-  
 }

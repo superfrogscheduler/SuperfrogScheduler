@@ -1,22 +1,22 @@
 import { Time } from "@angular/common";
 
 export interface RequestForm {
-        firstName?: string,
-        lastName?: string,
+        first_name?: string,
+        last_name?: string,
         email?: string,
-        phoneNumber?: string,
+        phone?: string,
         date?: Date,
-        startTime?: Time,
-        endTime?: Time,
-        eventTitle?: string,
+        start_time?: Time,
+        end_time?: Time,
+        even_title?: string,
         organization?: string,
         location?: string,
         members?: string,
-        specialInstruction?: string,
+        special_instruction?: string,
         expenses?: string,
-        outsideOrg?: string,
+        outside_org?: string,
         description?: string,
-        requiresPerformance?: string,
-        onCampus?: boolean
+        requires_performance?: string,
+        on_campus?: boolean
 }
 
