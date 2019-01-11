@@ -1,4 +1,6 @@
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Component, OnInit, forwardRef, ViewChild } from '@angular/core';
+import { CalendarComponent } from 'ng-fullcalendar';
+import { Options } from 'fullcalendar';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {RequestForm} from '../request';
 import { RequestFormService } from './request-form.service';
@@ -17,7 +19,8 @@ import {Event} from '../shared/event';
   }]
 })
 export class RequestFormComponent implements OnInit {
-
+  calendarOptions: Options;
+  @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   model: RequestForm = {};
   members = [1, 2, 3];
   submitted = false;
@@ -31,9 +34,20 @@ export class RequestFormComponent implements OnInit {
   get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit() {
+    this.calendarOptions = {
+      editable: true,
+      eventLimit: false,
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listMonth'
+      },
+      events: []
+    };
   }
 
   saveRequest() {
     this.requestService.saveRequest(this.data).subscribe();
   }
+
 }

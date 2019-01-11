@@ -10,7 +10,8 @@ import { RequestFormComponent } from './request-form/request-form.component';
 import { LandingComponent } from './landing/landing.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
-
+import { FullCalendarModule } from 'ng-fullcalendar';
+import * as $ from 'jquery';
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
   { path: 'request-form', component: RequestFormComponent},
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     ),
     BrowserModule,
+    FullCalendarModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule
