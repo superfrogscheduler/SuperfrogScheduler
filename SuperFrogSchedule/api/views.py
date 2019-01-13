@@ -9,6 +9,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
 
 import json
 
@@ -42,6 +43,7 @@ def appearances(request):
         queryset = Appearance.objects.all()
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
+    #save information from form into appearance request
     elif request.method=='POST':
         data = json.loads(request.body)
         print(data)
@@ -51,14 +53,17 @@ def appearances(request):
             appearance_serializer = AppearanceSerializer(appearance)
             print(appearance_serializer.data)
             appearance.save()
+            
         else:
             print(appearance_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
                 
         customer_serializer = CustomerSerializer(data=data['customer'])
+        #after adding customer to db, send confirmation email to customer confirming contact information and event information.
         if customer_serializer.is_valid():
             customer = customer_serializer.save()
             customer.save()
+            send_mail('Event request confirmation','Thanks for requesting a Superfrog appearance! Here is a confirmation message for the event request: \n' + '\n' + 'Customer Contact Information \n' + 'Customer Name: ' + customer.first_name + ' ' + customer.last_name + '\n' + 'Phone Number: ' + str(customer.phone) + '\n' + 'Customer email: ' + customer.email + '\n' + ' \n' + 'Appearance Information \n' + 'Organization requesting event: ' + appearance.organization + '\n' + 'Location: ' + appearance.location + '\n' + 'Description: ' + appearance.description + '\n' + 'Status: ' + appearance.status + '\n' + '\n' + 'Our team will review your request within the next two weeks. You will receive an email updating you on our decision when it is made. Thanks and Go Frogs!' ,'superfrog@scheduler.com',[customer.email],fail_silently = False)
         else:
             print(customer_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
