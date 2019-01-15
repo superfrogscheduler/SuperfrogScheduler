@@ -91,21 +91,3 @@ def create(request):
     else:
         return HttpResponseBadRequest()
 
-# def EmailFunc(em):
-
-# 	recs = Customer.objects.filter(email = em)
-# 	if len(recs) == 0:
-# 		newCustomer = Customer()
-# 		newCustomer.email = em
-
-# 		send_mail(
-# 		    'Hay',
-# 		    'Here is a confirmation message for the event request.',
-# 		    'superfrog@scheduler.com',
-# 		    [newCustomer.email],
-# 		    fail_silently = False,
-# 		)
-# 		print("email sent")
-# 		return True
-# 	else: 
-# 		return False
