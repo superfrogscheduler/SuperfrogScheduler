@@ -1,1 +1,20 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+
+.navbar {
+    background-color: #FFFFFF;
+    min-height:50px;
+    padding-bottom: 10px; 
+
+}
+
+#a-nav {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#a-nav:visited {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
