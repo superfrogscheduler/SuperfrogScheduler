@@ -16,10 +16,16 @@ h3 {
 
 p {
     color: #a3a9ac;
+    font-size: 18px;
 }
 
 .lead {
     color: white;
+}
+
+.card{
+    border: 2px;
+
 }
 navbar, .navbar-expand-lg {
     margin-bottom: 0;
@@ -37,11 +43,14 @@ navbar, .navbar-expand-lg {
 }
 
 .btn-primary, .btn-primary:visited{
-    color:#4d1979;
-    background-color: transparent;
+    color:#ffffff;
+    background-color: #ffffff;
     border-color: #4d1979;
     border-radius: 0px;
-    border-width: 4px;
+    border-width: 2px;
+    -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
 }
 
 .btn-primary:hover{
@@ -50,6 +59,11 @@ navbar, .navbar-expand-lg {
     border-color: #4d1979 !important;
     color: white;
 
+}
+
+.card-img-top{
+    max-width: 300px;
+    max-height: 600px;
 }
 .top-buffer { margin-top:20px; }
 
