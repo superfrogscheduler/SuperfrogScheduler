@@ -21,6 +21,7 @@ export class SuperFrogSignupComponent implements OnInit {
   members = [1, 2, 3];
   signedUp = false;
   data: {"customer": Customer, "appearance": Appearance} = {"customer":{}, "appearance":{}};
+  getData: {};
   constructor(private signUpService: SignUpService) { }
 
   onSignedUp() {this.signedUp = true; }
@@ -28,6 +29,11 @@ export class SuperFrogSignupComponent implements OnInit {
   get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit() {
+    this.getSignUp();
   }
-
+  getSignUp() {
+    this.signUpService.getSignUp(this.data).subscribe(data => {
+      this.getData = data;
+    });
+  }
 }

@@ -12,6 +12,6 @@ export class ListAppearanceService {
   constructor(private http: HttpClient) { }
   getAppearances(req: {}): Observable<any> {
     console.log(req);
-    return this.http.get(this.baseurl + "appearances/", req);
+    return this.http.get(this.baseurl + "appearances/status/Pending/", req);
   }
 }

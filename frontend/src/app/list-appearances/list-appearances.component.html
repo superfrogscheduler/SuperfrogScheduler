@@ -6,9 +6,13 @@
     <div class = "col md-6">
       <ul *ngFor="let names of getData">
         <li>
-          {{names.appearance.name}}
+          {{names.name}}
+          {{names.date}}
+          {{names.start_time}}
+          {{names.end_time}}
+          <button id = "jumbo-button" type="button" class="shadow btn btn-primary btn-sm"><a id = "btn-text" routerLink="/sign-up" routerLinkActive="active">View Details</a></button>
         </li>
-      </ul>
+      </ul> 
     </div>
   </div>
 </div>>

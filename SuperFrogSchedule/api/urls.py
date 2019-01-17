@@ -11,7 +11,7 @@ from .views import (
     )
 urlpatterns = [
     url(r'^appearances/$', appearances),
-    url(r'^appearances/status/(?P<status>\d+)/$', list_by_status),
+    url(r'^appearances/status/(?P<status>\w+)/$', list_by_status),
     url(r'^appearances/(?P<id>\d+)/$', detail),
    
 ]

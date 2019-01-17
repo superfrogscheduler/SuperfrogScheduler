@@ -40,7 +40,11 @@ def list_by_status(request, status=None):
 def appearances(request):
     if request.method == 'GET':
         queryset = Appearance.objects.all()
+        # queryset2 = Customer.objects.all()
         serializer = AppearanceShortSerializer(queryset, many=True)
+        # serial = CustomerSerializer(queryset2, many=True)
+        # response = serializer.data + serial.data
+        # return HttpResponse(JSONRenderer().render(response))
         return HttpResponse(JSONRenderer().render(serializer.data))
     elif request.method=='POST':
         data = json.loads(request.body)
@@ -70,8 +74,11 @@ def appearances(request):
 def detail(request, id=None):
     if request.method == 'GET':
         queryset = Appearance.objects.get(pk=id)
+        queryset2 = Customer.objects.get(pk=id)
         serializer = AppearanceSerializer(queryset, many=False)
-        return HttpResponse(JSONRenderer().render(serializer.data))
+        serial = CustomerSerializer(queryset2, many= False)
+        response = serializer.data + serial.data
+        return HttpResponse(JSONRenderer().render(response))
     else:
         return HttpResponseBadRequest()
 

@@ -30,6 +30,9 @@ class Customer(models.Model):
     email = models.CharField(max_length=200)
     phone = models.IntegerField(default=0)
 
+    def __str__(self):
+        return ""+str(self.pk)+": "+self.first_name+" "+self.last_name+" " +self.email+" "+self.phone
+
 class Event(models.Model):
     name = models.CharField(max_length=255, blank=True)
     date = models.DateField(blank = True)
@@ -54,7 +57,7 @@ class Appearance(Event):
     outside_orgs = models.CharField(max_length = 255, blank = True)
     description = models.CharField(max_length = 1000, blank = True)
     status = models.CharField(max_length = 255, default = "Pending")
-
+    # customer_info = models.ForeignKey(Customer, on_delete = "CASCADE")
 
     def __str__(self):
         return super().__str__()
