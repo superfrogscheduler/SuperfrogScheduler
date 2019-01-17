@@ -11,6 +11,7 @@ import { LandingComponent } from './landing/landing.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
 import { CustomerConfirmationComponent } from './customer-confirmation/customer-confirmation.component';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
     EventDetailComponent,
     AcceptFormComponent,
     CustomerConfirmationComponent,
+    LoginComponent,
   ],
   imports: [
     RouterModule.forRoot(
