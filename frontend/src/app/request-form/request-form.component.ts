@@ -7,6 +7,7 @@ import { RequestFormService } from './request-form.service';
 import { Customer } from '../shared/customer';
 import { Appearance } from '../shared/appearance';
 import {Event} from '../shared/event';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-request-form',
@@ -25,7 +26,7 @@ export class RequestFormComponent implements OnInit {
   members = [1, 2, 3];
   submitted = false;
   data: {"customer": Customer, "appearance": Appearance} = {"customer":{}, "appearance":{}};
-
+  clickedDay: any = 'test';
   constructor(private requestService: RequestFormService) {}
 
   onSubmit() { this.submitted = true; }
@@ -40,14 +41,28 @@ export class RequestFormComponent implements OnInit {
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'month,agendaWeek,agendaDay,listMonth'
+        right: ''
       },
-      events: []
+      events: [
+        {
+          id: '2week',
+          allDay: true,
+          start: moment(),
+          end: moment().add(2, 'weeks'),
+          rendering: 'background',
+          backgroundColor: 'lightgray'
+        }
+      ]
     };
   }
 
   saveRequest() {
     this.requestService.saveRequest(this.data).subscribe();
+  }
+  dayClick(event: any) {
+    console.log(event);
+    // this.clickedDay = event.date.format();
+    // this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay);
   }
 
 }

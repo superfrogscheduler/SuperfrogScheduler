@@ -1,2 +1,9 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~fullcalendar/dist/fullcalendar.min.css";
+a {
+    color: #4d1979;
+}
+a[_ngcontent-c0]:hover {
+    color: #4d1979;
+    text-decoration: underline;
+}
