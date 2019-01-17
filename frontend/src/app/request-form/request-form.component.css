@@ -51,6 +51,15 @@ navbar, .navbar-expand-lg {
     border-width: 4px;
 }
 
+a, a:visited{
+    color: #4d1979;
+    font-weight: bold;
+}
+
+a:hover{
+    color: #ffffff;
+}
+
 .btn-primary:hover{
     background-color:  #4d1979 !important;
     border-color: white;

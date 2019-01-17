@@ -100,7 +100,7 @@
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="description" required
         [(ngModel)]="data.appearance.description" name="description"></textarea>  
       </div>
-      <div class = "col-md-12"><p>By requesting this event, you are agreeing to the terms & conditions of a TCU Spirit Appearance.</p></div>
+      <div class = "col-md-12"><p>By requesting this event, you are agreeing to the <a routerLink="/terms-and-conditions" routerLinkActive="active">terms & conditions of a TCU Spirit Appearance.</a></p></div>
       <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="saveRequest()"><a routerLink="/customer-confirmation" routerLinkActive="active">Submit</a></button></div>
   </div>
   </form>
