@@ -51,6 +51,12 @@ export class RequestFormComponent implements OnInit {
           end: moment().add(2, 'weeks'),
           rendering: 'background',
           backgroundColor: 'lightgray'
+        },
+        {
+          title: 'My Event',
+          start: moment(),
+          end: moment().add(2,'hours'),
+          color: 'purple'
         }
       ]
     };
@@ -60,9 +66,9 @@ export class RequestFormComponent implements OnInit {
     this.requestService.saveRequest(this.data).subscribe();
   }
   dayClick(event: any) {
-    console.log(event);
-    // this.clickedDay = event.date.format();
-    // this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay);
+    // console.log(event);
+    this.clickedDay = event.date.format();
+    this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay);
   }
 
 }
