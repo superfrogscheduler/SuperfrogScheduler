@@ -37,3 +37,8 @@ class AppearanceShortSerializer(serializers.ModelSerializer):
         model = Appearance
         fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','team_type')
 
+class CustomerAppearanceSerializer(serializers.ModelSerializer):
+    customers = CustomerSerializer()
+    class Meta:
+        model = Appearance
+        fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','team_type','customers')

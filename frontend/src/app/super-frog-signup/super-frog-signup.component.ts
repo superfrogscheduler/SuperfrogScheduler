@@ -5,6 +5,7 @@ import { Appearance } from '../shared/appearance';
 import { Event } from '../shared/event';
 import { SignUpService} from './super-frog-signup.service';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-super-frog-signup',

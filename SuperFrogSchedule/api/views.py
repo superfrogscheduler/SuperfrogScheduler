@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, views, generics
 from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -42,6 +42,7 @@ def appearances(request):
         queryset = Appearance.objects.all()
         # queryset2 = Customer.objects.all()
         serializer = AppearanceShortSerializer(queryset, many=True)
+        # serializer = CustomerAppearanceSerializer(queryset, many=True)
         # serial = CustomerSerializer(queryset2, many=True)
         # response = serializer.data + serial.data
         # return HttpResponse(JSONRenderer().render(response))
@@ -74,11 +75,11 @@ def appearances(request):
 def detail(request, id=None):
     if request.method == 'GET':
         queryset = Appearance.objects.get(pk=id)
-        queryset2 = Customer.objects.get(pk=id)
-        serializer = AppearanceSerializer(queryset, many=False)
-        serial = CustomerSerializer(queryset2, many= False)
-        response = serializer.data + serial.data
-        return HttpResponse(JSONRenderer().render(response))
+        # queryset2 = Customer.objects.get(pk=id)
+        serializer = CustomerAppearanceSerializer(queryset, many=False)
+        # serial = CustomerSerializer(queryset2, many= False)
+        # response = serializer.data + serial.data
+        return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
 
