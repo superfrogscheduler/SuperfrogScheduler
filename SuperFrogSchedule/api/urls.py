@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^appearances/$', appearances),
     url(r'^appearances/status/(?P<status>\d+)/$', list_by_status),
     url(r'^appearances/(?P<id>\d+)/$', detail),
-   
+    url(r'^api-auth', include('rest_framework.urls', namespace='rest_framework')),
+    
 ]
