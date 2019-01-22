@@ -12,6 +12,7 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
 import { CustomerConfirmationComponent } from './customer-confirmation/customer-confirmation.component';
 import { LoginComponent } from './login/login.component';
+import { RequestListComponent } from './request-list/request-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
   {path: 'event-detail', component: EventDetailComponent},
   {path: 'accept-form', component: AcceptFormComponent},
   {path: 'customer-confirmation', component: CustomerConfirmationComponent },
+  {path: 'request-list', component: RequestListComponent},
 ];
 
 @NgModule({
@@ -30,6 +32,7 @@ const appRoutes: Routes = [
     AcceptFormComponent,
     CustomerConfirmationComponent,
     LoginComponent,
+    RequestListComponent,
   ],
   imports: [
     RouterModule.forRoot(
