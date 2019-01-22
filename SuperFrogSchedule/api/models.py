@@ -54,6 +54,7 @@ class Appearance(Event):
     outside_orgs = models.CharField(max_length = 255, blank = True)
     description = models.CharField(max_length = 1000, blank = True)
     status = models.CharField(max_length = 255, default = "Pending")
+    customers = models.ForeignKey(Customer, on_delete = "NULL")
 
 
     def __str__(self):

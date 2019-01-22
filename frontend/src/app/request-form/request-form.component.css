@@ -22,6 +22,10 @@ body {
     padding-top: 70px; 
 }
 
+a {
+    color: #4d1979;
+}
+
 .lead {
     color: white;
 }

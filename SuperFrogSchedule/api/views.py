@@ -32,6 +32,7 @@ import json
 
 def list_by_status(request, status=None):
     if request.method == 'GET':
+        print('we did it')
         queryset = Appearance.objects.filter(status=status)
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
@@ -90,4 +91,3 @@ def create(request):
         return HttpResponse(serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()
-
