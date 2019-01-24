@@ -1,77 +1,35 @@
 <div style="text-align: center">
+  <!-- <pre>{{getData}}</pre> -->
   <div class = "container align-center" id = "pad-container">
     <div class = "row top-buffer">
-      <h1>Appearance Title: </h1>
-        <h2 *ngFor = "let names of getData">
-          {{names.name}}
-        </h2>
+      <h1>Appearance Title: {{getData.name}}</h1> 
     </div>
     <div class = "row">
       <div class = "col-md-4">
-        <h3>Status</h3>
-          <h2 *ngFor = "let stat of getData">
-            <li>
-              {{stat.status}}
-            </li>
-          </h2>
+        <h3>Status : {{getData.status}}</h3>
       </div>
       <div class = "col-md-4">
-        <h3>Location</h3>
-          <h2 *ngFor = "let loc of getData">
-            <li>
-              {{loc.location}}
-            </li>
-          </h2>
+        <h3>Location : {{getData.location}}</h3>
+
       </div>
       <div class = "col-md-4">
-        <h3>Date</h3>
-          <h2 *ngFor = "let dates of getData">
-            <li>
-              {{dates.date}}
-            </li>
-          </h2>
-        <h3>Time</h3>
-          <h2 *ngFor = "let times of getData">
-            <li>
-              {{times.start_time}}
-              {{times.end_time}}
-            </li>
-          </h2>
+        <h3>Date: {{getData.date}}</h3>
+        <h3>Time: {{getData.start_time}}, {{getData.end_time}}</h3>
       </div>
       <div class = "col-md-4">
-        <h3>Customer Information</h3>
-          <h2 *ngFor = "let info of getData">
-            <li>
-              {{info.first_name}}
-              {{info.last_name}}
-              {{info.email}}
-              {{info.phone}}
-            </li>
-          </h2>
+        <h3>Customer Information: 
+          {{getData.customers.first_name}} {{getData.customers.last_name}}
+          {{getData.customers.email}}
+          {{getData.customers.phone}}</h3>
       </div>
       <div class = "col-md-4">
-        <h3>Details</h3>
-          <h2 *ngFor = "let det of getData">
-            <li>
-              {{det.description}}
-            </li>
-          </h2>
+        <h3>Details: {{getData.description}}</h3>
       </div>
       <div class = "col-md-4">
-        <h3>Parking Details</h3>
-          <h2 *ngFor = "let park of getData">
-            <li>
-              {{park.parking_info}}
-            </li>
-          </h2>
+        <h3>Parking Details: {{getData.parking_info}}</h3>
       </div>
       <div class = "col-md-4">
-        <h3>Other Spirit Members Requested</h3>
-          <h2 *ngFor = "let mem of getData">
-            <li>
-              {{mem.team_type}}
-            </li>
-          </h2>
+        <h3>Other Spirit Members Requested: {{getData.team_type}}</h3>
       </div>
     </div>
   </div>

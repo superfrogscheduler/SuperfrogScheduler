@@ -21,19 +21,28 @@ export class SuperFrogSignupComponent implements OnInit {
   model: SignUp = {};
   members = [1, 2, 3];
   signedUp = false;
-  data: {"customer": Customer, "appearance": Appearance} = {"customer":{}, "appearance":{}};
-  getData: {};
-  constructor(private signUpService: SignUpService) { }
+  data: {"customers": Customer, "appearance": Appearance} = {"customers":{}, "appearance":{}};
+  getData: any = {};
+  id: number;
+  constructor(private signUpService: SignUpService, private route: ActivatedRoute) { }
 
   onSignedUp() {this.signedUp = true; }
 
   get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit() {
-    this.getSignUp();
+    this.id = this.route.snapshot.params['id'];
+    // this.getSignUp();
+    this.getID();
   }
-  getSignUp() {
-    this.signUpService.getSignUp(this.data).subscribe(data => {
+  // getSignUp() {
+  //   this.signUpService.getSignUp(this.data).subscribe(data => {
+  //     this.getData = data;
+  //   });
+  // }
+  getID() {
+    this.signUpService.getID(this.id).subscribe(data => {
+      console.log(data);
       this.getData = data;
     });
   }

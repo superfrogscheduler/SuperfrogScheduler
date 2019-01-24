@@ -18,7 +18,7 @@ const appRoutes: Routes = [
   { path: 'request-form', component: RequestFormComponent},
   {path: 'event-detail', component: EventDetailComponent},
   {path: 'accept-form', component: AcceptFormComponent},
-  {path: 'sign-up', component: SuperFrogSignupComponent},
+  {path: 'sign-up/:id', component: SuperFrogSignupComponent},
   { path: 'avail-appear', component: ListAppearancesComponent},
 ];
 

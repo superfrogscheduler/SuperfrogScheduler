@@ -1,6 +1,7 @@
 import { Time } from "@angular/common";
 
 export interface Appearance{
+    id?: string,
     name?: string,
     date?: Date,
     start_time?: Time,

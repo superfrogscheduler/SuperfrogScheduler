@@ -4,13 +4,13 @@
       <h1>All Upcoming Appearances</h1>
     </div>
     <div class = "col md-6">
-      <ul *ngFor="let names of getData">
+      <ul *ngFor="let names of getData" >
         <li>
           {{names.name}}
           {{names.date}}
           {{names.start_time}}
           {{names.end_time}}
-          <button id = "jumbo-button" type="button" class="shadow btn btn-primary btn-sm"><a id = "btn-text" routerLink="/sign-up" routerLinkActive="active">View Details</a></button>
+          <button id = "jumbo-button" type="button" class="shadow btn btn-primary btn-sm"><a id = "btn-text" routerLink="/sign-up/{{names.id}}" routerLinkActive="active">Get Details</a></button>
         </li>
       </ul> 
     </div>

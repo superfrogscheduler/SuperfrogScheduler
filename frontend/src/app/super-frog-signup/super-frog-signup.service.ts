@@ -7,10 +7,14 @@ import { Observable } from 'rxjs';
   })
   export class SignUpService {
     baseurl = "http://127.0.0.1:8000/";
+    id: string;
     httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
     constructor(private http: HttpClient) { }
     getSignUp(req: {}): Observable<any> {
       console.log(req);
       return this.http.get(this.baseurl + "appearances/", req);
+    }
+    getID(id: number): Observable<any> {
+      return this.http.get(this.baseurl + "appearances/" + id);
     }
   }
