@@ -36,6 +36,7 @@ def list_by_status(request, status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
 @csrf_exempt
 def appearances(request):
     if request.method == 'GET':
@@ -73,6 +74,17 @@ def detail(request, id=None):
         serializer = AppearanceSerializer(queryset, many=False)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
+        return HttpResponseBadRequest()
+
+def superfrog(request):
+    if request.method=='POST':
+        data = JSONParser().parse(request.body)
+        serializer = SuperfrogSerializer(data = data)
+        if serializer.is_valid():
+            serializer.save()
+            return HttpResponse(serializer.data, status = 201)
+        return HttpResponse(serializer.errors, status = 400)
+    else: 
         return HttpResponseBadRequest()
 
 def create(request):

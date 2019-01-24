@@ -4,7 +4,13 @@ from .models import Superfrog, Admin, Customer, Appearance, Event
 class SuperfrogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Superfrog
-        fields = "__all__"
+        #fields = "__all__"
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True, 'required': True}}
+    #@classmethod
+    #def create(self, validated_data):
+        #superfrog = Superfrog.objects.create_superfrog(**validated_data)
+        #return superfrog 
 
 class AdminSerializer(serializers.ModelSerializer):
     class Meta:

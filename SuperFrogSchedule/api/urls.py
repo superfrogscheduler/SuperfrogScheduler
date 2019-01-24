@@ -7,9 +7,11 @@ from .views import (
     list_by_status,
     appearances,
     detail,
-    create
+    create,
+    superfrog,
     )
 urlpatterns = [
+    url(r'^superfrog', superfrog),
     url(r'^appearances/$', appearances),
     url(r'^appearances/status/(?P<status>\d+)/$', list_by_status),
     url(r'^appearances/(?P<id>\d+)/$', detail),
