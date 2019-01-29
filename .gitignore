@@ -7,6 +7,6 @@ SuperfrogScheduler.iml
 vcs.xml
 workspace.xml
 SuperFrogSchedule/db.sqlite3
+settings.json
 *.pyc
-*.pyc
-*.pyc
+.gitignore

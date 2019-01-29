@@ -29,6 +29,7 @@ export class RequestFormComponent implements OnInit {
   clickedDay: any;
   errorMsg: string = "";
   earliestDay: any = moment().add(2, 'weeks').subtract(1, 'day').startOf('day');
+  events = {id: "events", events: [], editable: false, color: 'purple'};
   constructor(private requestService: RequestFormService) {}
 
   onSubmit() { this.submitted = true; }
@@ -37,6 +38,7 @@ export class RequestFormComponent implements OnInit {
   get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit() {
+
     this.calendarOptions = {
       editable: true,
       eventLimit: false,
@@ -45,15 +47,20 @@ export class RequestFormComponent implements OnInit {
         center: 'title',
         right: ''
       },
-      events: [
-        {
+      eventSources: [
+        [{
           id: '2week',
           allDay: true,
           start: moment(0),
           end: this.earliestDay.add(1, 'day'),
           rendering: 'background',
           backgroundColor: 'lightgray'
-        }
+        },
+      {
+        title: "test",
+        start: "2019-03-05 12:00:00",
+        end: "2019-03-05 13:00:00"
+      }]
       ],
       eventOverlap: false,
       customButtons: {
@@ -73,6 +80,16 @@ export class RequestFormComponent implements OnInit {
         }
       }
     };
+    this.requestService.getEvents(2019, 3).subscribe(data =>{
+      data.forEach(element => {
+        this.events.events.push({title: "Unavailable", start: element.start, end: element.end})
+      });
+      this.ucCalendar.fullCalendar('addEventSource', this.events);
+      console.log(this.events);
+      console.log(this.ucCalendar.fullCalendar('getEventSources'));
+      this.ucCalendar.fullCalendar('refetchEvents');
+      this.ucCalendar.fullCalendar('rerenderEvents');
+    });
   }
 
   saveRequest() {
