@@ -1,16 +1,11 @@
 from rest_framework import serializers
 from .models import Superfrog, Admin, Customer, Appearance, Event
+from django.contrib.auth.models import User
 
 class SuperfrogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Superfrog
-        #fields = "__all__"
-        fields = ('id', 'username', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True, 'required': True}}
-    #@classmethod
-    #def create(self, validated_data):
-        #superfrog = Superfrog.objects.create_superfrog(**validated_data)
-        #return superfrog 
+        fields = "__all__"
 
 class AdminSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,3 +37,13 @@ class AppearanceShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appearance
         fields = ('id','name','date','start_time','end_time','location','status')
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password')
+        extra_kwargs = {'password' : {'write_only': True, 'required': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user

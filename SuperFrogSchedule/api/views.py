@@ -9,6 +9,10 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from .serializers import UserSerializer
+from django.contrib.auth.models import User
 
 import json
 
@@ -76,8 +80,11 @@ def detail(request, id=None):
     else:
         return HttpResponseBadRequest()
 
+@csrf_exempt
 def superfrog(request):
     if request.method=='POST':
+        print ('request', request)
+
         data = JSONParser().parse(request.body)
         serializer = SuperfrogSerializer(data = data)
         if serializer.is_valid():
@@ -85,7 +92,12 @@ def superfrog(request):
             return HttpResponse(serializer.data, status = 201)
         return HttpResponse(serializer.errors, status = 400)
     else: 
-        return HttpResponseBadRequest()
+        return HttpResponse(JSONRenderer().render(serializer.data))
+
+class SuperfrogViewSet (viewsets.ModelViewSet):
+    serializer_class = SuperfrogSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
 def create(request):
     if request.method=='POST':
@@ -98,3 +110,11 @@ def create(request):
     else:
         return HttpResponseBadRequest()
 
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)

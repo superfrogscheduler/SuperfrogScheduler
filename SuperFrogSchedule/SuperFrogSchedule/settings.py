@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'api',
     'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,9 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
 )
+
+#REST_FRAMEWORK = {
+#    'DEFAULT_PERMISSION_CLASSES': (
+#        'rest_framework.permissions.IsAuthenticated',
+#    )
+#}

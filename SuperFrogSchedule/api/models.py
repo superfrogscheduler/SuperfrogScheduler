@@ -1,9 +1,11 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
 
 #To add: customer foreign key on appearance
 
 class Superfrog(models.Model):
+    #user = models.OneToOneField(User, on_delete = models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     username = models.CharField(max_length=30)
