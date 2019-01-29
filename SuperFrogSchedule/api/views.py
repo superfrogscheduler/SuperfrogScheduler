@@ -94,10 +94,10 @@ def superfrog(request):
     else: 
         return HttpResponse(JSONRenderer().render(serializer.data))
 
-class SuperfrogViewSet (viewsets.ModelViewSet):
-    serializer_class = SuperfrogSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+#class SuperfrogViewSet (viewsets.ModelViewSet):
+#    serializer_class = SuperfrogSerializer
+#    authentication_classes = (TokenAuthentication,)
+#    permission_classes = (IsAuthenticated,)
 
 def create(request):
     if request.method=='POST':
