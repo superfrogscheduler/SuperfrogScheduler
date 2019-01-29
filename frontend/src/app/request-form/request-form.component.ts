@@ -26,7 +26,9 @@ export class RequestFormComponent implements OnInit {
   members = [1, 2, 3];
   submitted = false;
   data: {"customer": Customer, "appearance": Appearance} = {"customer":{}, "appearance":{}};
-  clickedDay: any = 'test';
+  clickedDay: any;
+  errorMsg: string = "";
+  earliestDay: any = moment().add(2, 'weeks').subtract(1, 'day').startOf('day');
   constructor(private requestService: RequestFormService) {}
 
   onSubmit() { this.submitted = true; }
@@ -47,12 +49,29 @@ export class RequestFormComponent implements OnInit {
         {
           id: '2week',
           allDay: true,
-          start: moment(),
-          end: moment().add(2, 'weeks'),
+          start: moment(0),
+          end: this.earliestDay.add(1, 'day'),
           rendering: 'background',
           backgroundColor: 'lightgray'
         }
-      ]
+      ],
+      eventOverlap: false,
+      customButtons: {
+        back: {
+          text: 'back',
+          click : () => {
+            this.ucCalendar.fullCalendar('changeView', 'month', this.clickedDay);
+            this.ucCalendar.fullCalendar('option', {
+              header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: ''
+              }
+            });
+            this.ucCalendar.fullCalendar('goToDate', this.clickedDay)
+          }
+        }
+      }
     };
   }
 
@@ -61,8 +80,21 @@ export class RequestFormComponent implements OnInit {
   }
   dayClick(event: any) {
     console.log(event);
-    // this.clickedDay = event.date.format();
-    // this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay);
-  }
+    this.clickedDay = event.date;
+    if(event.date.isBefore(this.earliestDay, 'day')){
+      this.errorMsg = "Appearances must be scheduled at least two weeks in advance."
+    }
+    else{
+      this.errorMsg = "";
+      this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay);
+      this.ucCalendar.fullCalendar('option', {
+        header: {
+          left: 'back',
+          center: 'title',
+          right: ''
+        }
+      });
+    }
 
+  }
 }

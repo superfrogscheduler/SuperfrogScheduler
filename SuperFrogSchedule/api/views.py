@@ -86,3 +86,12 @@ def create(request):
     else:
         return HttpResponseBadRequest()
 
+def events(request):
+    if request.method == 'GET':
+        queryset = Event.objects.all()
+        serializer = EventSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data))    
+
+def events_customer_monthly(request, month):
+    queryset = Event.objects.filter(date__month = month)
+    print(queryset)

@@ -3,6 +3,7 @@
     <div class="col-md-10">
       <div *ngIf="calendarOptions">
         <pre>{{clickedDay}}</pre>
+        <pre>{{errorMsg}}</pre>
         <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
             (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)" (dayClick)="dayClick($event.detail)"></ng-fullcalendar>
       </div>
