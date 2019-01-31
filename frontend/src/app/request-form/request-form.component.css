@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    padding: 70px;
+}
 h1 {
     color: #4d1979;
 }
@@ -50,6 +53,15 @@ navbar, .navbar-expand-lg {
     border-color: #4d1979;
     border-radius: 0px;
     border-width: 4px;
+}
+
+a, a:visited{
+    color: #4d1979;
+    font-weight: bold;
+}
+
+a:hover{
+    color: #ffffff;
 }
 
 .btn-primary:hover{
