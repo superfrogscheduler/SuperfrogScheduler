@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, views, generics
-from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer
+from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -36,16 +36,17 @@ def list_by_status(request, status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
+def getEmployee(request):
+    if request.method == 'GET':
+        queryset = Superfrog.objects.all()
+        serializer = SuperfrogSerializer(queryset, many= True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
 @csrf_exempt
 def appearances(request):
     if request.method == 'GET':
         queryset = Appearance.objects.all()
-        # queryset2 = Customer.objects.all()
         serializer = AppearanceShortSerializer(queryset, many=True)
-        # serializer = CustomerAppearanceSerializer(queryset, many=True)
-        # serial = CustomerSerializer(queryset2, many=True)
-        # response = serializer.data + serial.data
-        # return HttpResponse(JSONRenderer().render(response))
         return HttpResponse(JSONRenderer().render(serializer.data))
     elif request.method=='POST':
         data = json.loads(request.body)
@@ -75,10 +76,7 @@ def appearances(request):
 def detail(request, id=None):
     if request.method == 'GET':
         queryset = Appearance.objects.get(pk=id)
-        # queryset2 = Customer.objects.get(pk=id)
         serializer = CustomerAppearanceSerializer(queryset, many=False)
-        # serial = CustomerSerializer(queryset2, many= False)
-        # response = serializer.data + serial.data
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
@@ -93,4 +91,14 @@ def create(request):
         return HttpResponse(serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()
-
+        
+@csrf_exempt
+def signUp(request, id=None):
+    if request.method=='PATCH':
+        appearance_id = Appearance.objects.get(pk=id)
+        superfrog_id = Superfrog.objects.get(id = 1)
+        superfrog_appearance = SuperfrogAppearance(superfrog=superfrog_id, appearance=appearance_id)
+        superfrog_appearance.save()
+        appearance_id.status = "Assigned"
+        appearance_id.save()
+        return HttpResponse(superfrog_appearance, status= 201)

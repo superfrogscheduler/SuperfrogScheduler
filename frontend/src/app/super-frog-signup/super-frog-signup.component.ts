@@ -6,6 +6,7 @@ import { Event } from '../shared/event';
 import { SignUpService} from './super-frog-signup.service';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Superfrog } from '../shared/superfrog';
 
 @Component({
   selector: 'app-super-frog-signup',
@@ -21,7 +22,8 @@ export class SuperFrogSignupComponent implements OnInit {
   model: SignUp = {};
   members = [1, 2, 3];
   signedUp = false;
-  data: {"customers": Customer, "appearance": Appearance} = {"customers":{}, "appearance":{}};
+  data: {"customers": Customer, "appearance": Appearance, "superfrog": Superfrog} = {"customers":{}, "appearance":{}, "superfrog": {}};
+  putdata: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance":{}, "superfrog": {}};
   getData: any = {};
   id: number;
   constructor(private signUpService: SignUpService, private route: ActivatedRoute) { }
@@ -32,16 +34,22 @@ export class SuperFrogSignupComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    // this.getSignUp();
+    this.getSuperfrog();
     this.getID();
   }
-  // getSignUp() {
-  //   this.signUpService.getSignUp(this.data).subscribe(data => {
-  //     this.getData = data;
-  //   });
-  // }
+  getSuperfrog() {
+    this.signUpService.getSuperFrog(this.data).subscribe(data => {
+      this.getData = data;
+    });
+  }
   getID() {
     this.signUpService.getID(this.id).subscribe(data => {
+      console.log(data);
+      this.getData = data;
+    });
+  }
+  signUp() {
+    this.signUpService.signUp(this.id, this.data).subscribe(data => {
       console.log(data);
       this.getData = data;
     });

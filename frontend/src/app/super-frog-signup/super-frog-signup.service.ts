@@ -10,11 +10,14 @@ import { Observable } from 'rxjs';
     id: string;
     httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
     constructor(private http: HttpClient) { }
-    getSignUp(req: {}): Observable<any> {
+    getSuperFrog(req: {}): Observable<any> {
       console.log(req);
-      return this.http.get(this.baseurl + "appearances/", req);
+      return this.http.get(this.baseurl + "employees/", req);
     }
     getID(id: number): Observable<any> {
       return this.http.get(this.baseurl + "appearances/" + id);
+    }
+    signUp(id: number, req: {}): Observable<any> {
+      return this.http.patch(this.baseurl + "employeeAppearance/" + id + "/", req);
     }
   }

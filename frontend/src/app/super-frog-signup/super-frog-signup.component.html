@@ -3,6 +3,9 @@
   <div class = "container align-center" id = "pad-container">
     <div class = "row top-buffer">
       <h1>Appearance Title: {{getData.name}}</h1> 
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="signUp()">Sign Up</button></div>
+      <h3>Be aware that you will not be able to cancel your appearance once you sign up. You will have to contact admin to cancel.</h3>
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" routerLink="/avail-appear">Cancel</button></div>
     </div>
     <div class = "row">
       <div class = "col-md-4">
