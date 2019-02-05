@@ -40,7 +40,7 @@ export class RequestFormComponent implements OnInit {
   get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit() {
-
+    //Initialize the calendar's options
     this.calendarOptions = {
       editable: true,
       eventLimit: false,
@@ -52,6 +52,7 @@ export class RequestFormComponent implements OnInit {
         center: 'title',
         right: ''
       },
+      //block out two weeks before
       eventSources: [
         [{
           id: '2week',
@@ -81,13 +82,13 @@ export class RequestFormComponent implements OnInit {
         }
       }
     };
+    //get preexisting events from the database
     this.requestService.getEvents(2019, 3).subscribe(data => {
       data.forEach(element => {
         this.events.events.push({ title: "Unavailable", start: element.start, end: element.end })
       });
+      //Add them to the calendar
       this.ucCalendar.fullCalendar('addEventSource', this.events);
-      console.log(this.events);
-      console.log(this.ucCalendar.fullCalendar('getEventSources'));
       this.ucCalendar.fullCalendar('refetchEvents');
       this.ucCalendar.fullCalendar('rerenderEvents');
     });
@@ -96,14 +97,17 @@ export class RequestFormComponent implements OnInit {
   saveRequest() {
     this.requestService.saveRequest(this.data).subscribe();
   }
+  //This function is called when a day is clicked on the calendar
   dayClick(event: any) {
     this.errorMsg = "";
-    console.log(event);
+    //We only want the view to change if a day is clicked in the month view
     if (event.view.type == "month") {
       this.clickedDay = event.date;
+      //Check if its 2 weeks ahead
       if (event.date.isBefore(this.earliestDay, 'day')) {
         this.errorMsg = "Appearances must be scheduled at least two weeks in advance."
       }
+      //Switch the view
       else {
         this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay);
         this.ucCalendar.fullCalendar('option', {
@@ -117,6 +121,9 @@ export class RequestFormComponent implements OnInit {
       }
     }
   }
+  //This function is called when the user drags a selection around a time.
+  //It creates an event on the calendar during that time representing
+  //the customer's event.
   select(event: any) {
     this.errorMsg = "";
     if (this.newEvent.length == 0) {
@@ -135,26 +142,27 @@ export class RequestFormComponent implements OnInit {
         start: event.start,
         end: event.end
       };
-      console.log(this.newEvent[0].end.format());
       this.ucCalendar.fullCalendar('removeEventSource', this.newEvent);
       this.ucCalendar.fullCalendar('addEventSource', this.newEvent);
     }
     this.ucCalendar.fullCalendar('refetchEvents');
     this.ucCalendar.fullCalendar('rerenderEvents');
   }
+  //This function is called when the user rezises or moves their event
   updateEvent(event: any){
     this.errorMsg = "";
-    console.log(event.event.end.format());
     this.newEvent[0] = event.event;
-    console.log(this.newEvent[0].start.format() + " " +this.newEvent[0].end.format());
     this.ucCalendar.fullCalendar("rerenderEvents");
   }
+  //This function is called when the user clicks the continue button.
+  //They are brought to the empty form with their date and time filled out.
   continueClick(){
     this.data.appearance.date = this.newEvent[0].start.format('YYYY-MM-DD');
     this.data.appearance.start_time = this.newEvent[0].start.format('hh:mm');
     this.data.appearance.end_time = this.newEvent[0].end.format('hh:mm');
     this.showCalendar = false;
   }
+  //This function brings the user back to the calendar view from the form
   backToCalendar(){
     this.ucCalendar.fullCalendar('refetchEvents');
     this.ucCalendar.fullCalendar("changeView", "month");
