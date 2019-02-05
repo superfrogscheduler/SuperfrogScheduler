@@ -76,6 +76,11 @@ navbar, .navbar-expand-lg {
             border-radius: 0px;
 }
 
+.responsive{
+    max-height: 50%;
+    max-width: 100%;
+}
+
 #btn-text {
     color:white;
     text-decoration: none;
@@ -120,4 +125,14 @@ navbar, .navbar-expand-lg {
 
 #pad-container {
     padding: 50px;
+}
+
+#info-jumbotron{
+    background-image: url(/assets/images/superfrogInfo.png);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    margin-top: 0;
 }
