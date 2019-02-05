@@ -7,11 +7,13 @@ from .views import (
     list_by_status,
     appearances,
     detail,
-    create
+    create,
+    events_customer_monthly
     )
 urlpatterns = [
     url(r'^appearances/$', appearances),
     url(r'^appearances/status/(?P<status>\d+)/$', list_by_status),
     url(r'^appearances/(?P<id>\d+)/$', detail),
+    url(r'^events/customer-monthly/(?P<year>\d+)/(?P<month>\d+)/$', events_customer_monthly)
    
 ]
