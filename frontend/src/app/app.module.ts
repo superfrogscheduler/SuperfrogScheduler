@@ -17,6 +17,7 @@ const appRoutes: Routes = [
   { path: 'request-form', component: RequestFormComponent},
   {path: 'event-detail', component: EventDetailComponent},
   {path: 'accept-form', component: AcceptFormComponent},
+  {path: 'login', component: LoginComponent},
 ];
 
 @NgModule({
