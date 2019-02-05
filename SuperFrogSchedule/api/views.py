@@ -10,6 +10,11 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 
+#for login authorization
+from django.contrib.auth.models import User
+from rest_framework import viewsets
+from .serializers import UserSerializer
+
 import json
 
 # class AppearanceViewSet(viewsets.ViewSet):
@@ -86,3 +91,10 @@ def create(request):
     else:
         return HttpResponseBadRequest()
 
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
