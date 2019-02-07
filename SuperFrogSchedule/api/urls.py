@@ -7,11 +7,15 @@ from .views import (
     list_by_status,
     appearances,
     detail,
-    create
+    create,
+    UserViewSet
     )
+
+router.register(r'users', UserViewSet)
+
 urlpatterns = [
     url(r'^appearances/$', appearances),
     url(r'^appearances/status/(?P<status>\d+)/$', list_by_status),
     url(r'^appearances/(?P<id>\d+)/$', detail),
-   
+    url(r'^', include(router.urls)),
 ]
