@@ -101,7 +101,7 @@
         [(ngModel)]="data.appearance.description" name="description"></textarea>  
       </div>
       <div class = "col-md-12"><p>By requesting this event, you are agreeing to the <a href="https://gofrogs.com/documents/2018/12/4/Terms_Conditions.pdf">terms & conditions of a TCU Spirit Appearance.</a></p></div>
-      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="saveRequest()">Submit</button></div>
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="saveRequest()" routerLink="/customer-confirmation" routerLinkActive="active">Submit</button></div>
   </div>
   </form>
   </div>
