@@ -5,6 +5,7 @@ import { Appearance } from '../shared/appearance';
 import { Customer } from '../shared/customer';
 import { ListAppearancesService } from './view-appearances.service';
 import { from } from 'rxjs';
+import * as moment from 'moment/moment.js';
 
 @Component({
   selector: 'app-view-appearances',
@@ -18,20 +19,20 @@ export class ViewAppearancesComponent implements OnInit {
   constructor(private listService: ListAppearancesService) { }
 
   ngOnInit() {
-    this.listService.getAppearances(this.data).subscribe(data => {
-      this.calendarOptions = {
-        editable: false,
-        eventLimit: false,
-        header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'listYear,listMonth,listWeek,listDay'
-        },
-        selectable: true,
-        events: [],
-        defaultView: 'listWeek'
-      };
-    });
+    this.calendarOptions = {
+      editable: false,
+      eventLimit: false,
+      selectOverlap: false,
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'listYear,listMonth,listWeek,listDay'
+      },
+      selectable: true,
+      events: [],
+      defaultView: 'listWeek',
+      eventOverlap: false,
+    };
   }
   getPastAppearance() {
     this.listService.getPastAppearances(this.data).subscribe();
