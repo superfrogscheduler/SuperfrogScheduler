@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule, Routes } from '@angular/router';
+import { FullCalendarModule } from 'ng-fullcalendar';
 
 import { AppComponent } from './app.component';
 import { RequestFormComponent } from './request-form/request-form.component';
@@ -12,6 +13,7 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
 import { SuperFrogSignupComponent } from './super-frog-signup/super-frog-signup.component';
 import { ListAppearancesComponent } from './list-appearances/list-appearances.component';
+import { ViewAppearancesComponent } from './view-appearances/view-appearances.component';
 
 
 const appRoutes: Routes = [
@@ -21,6 +23,7 @@ const appRoutes: Routes = [
   {path: 'accept-form', component: AcceptFormComponent},
   {path: 'sign-up/:id', component: SuperFrogSignupComponent},
   { path: 'avail-appear', component: ListAppearancesComponent},
+  { path: 'view-appearance', component: ViewAppearancesComponent}
 ];
 
 @NgModule({
@@ -32,6 +35,7 @@ const appRoutes: Routes = [
     AcceptFormComponent,
     SuperFrogSignupComponent,
     ListAppearancesComponent,
+    ViewAppearancesComponent,
   ],
   imports: [
     RouterModule.forRoot(
@@ -41,7 +45,8 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
