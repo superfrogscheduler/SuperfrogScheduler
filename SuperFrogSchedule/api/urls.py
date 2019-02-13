@@ -9,12 +9,14 @@ from .views import (
     detail,
     create,
     getEmployee,
-    signUp
+    signUp,
+    list_by_status_list
     )
 urlpatterns = [
     url(r'^appearances/$', appearances),
     url(r'^appearances/status/(?P<status>\w+)/$', list_by_status),
     url(r'^appearances/(?P<id>\d+)/$', detail),
     url(r'^employees/$', getEmployee),
-    url(r'^employeeAppearance/(?P<id>\d+)/$', signUp)
+    url(r'^employeeAppearance/(?P<id>\d+)/$', signUp),
+    url(r'^listAppearances/status/(?P<status>\w+)/$', list_by_status_list)
 ]

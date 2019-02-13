@@ -10,16 +10,13 @@ export class ListAppearancesService {
   baseurl = "http://127.0.0.1:8000/";
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
-  getPastAppearances(req: {}): Observable<any> {
-    console.log(req);
-    return this.http.get(this.baseurl + "appearances/status/Completed/", req);
+  getPastAppearances(): Observable<any> {
+    return this.http.get(this.baseurl + "listAppearances/status/Completed/");
   }
-  getAssignedAppearances(req: {}): Observable<any> {
-    console.log(req);
-    return this.http.get(this.baseurl + "appearances/status/Assigned/", req);
+  getAssignedAppearances(): Observable<any> {
+    return this.http.get(this.baseurl + "listAppearances/status/Assigned/");
   }
-  getAppearances(req: {}): Observable<any> {
-    console.log(req);
-    return this.http.get(this.baseurl + "appearances/", req);
+  getID(id: number): Observable<any> {
+    return this.http.get(this.baseurl + "appearances/" + id);
   }
 }

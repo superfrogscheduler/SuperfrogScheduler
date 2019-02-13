@@ -102,3 +102,11 @@ def signUp(request, id=None):
         appearance_id.status = "Assigned"
         appearance_id.save()
         return HttpResponse(superfrog_appearance, status= 201)
+
+def list_by_status_list(request, status=None):
+    if request.method == 'GET':
+        queryset = Appearance.objects.filter(status=status)
+        serializer = AppearanceShortSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
