@@ -129,3 +129,5 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
 )
+
+AUTH_USER_MODEL = 'api.User'
