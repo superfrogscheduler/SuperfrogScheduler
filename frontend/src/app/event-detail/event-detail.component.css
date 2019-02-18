@@ -1,3 +1,4 @@
+@import "~bootstrap/dist/css/bootstrap.css";
 a {
     color: #4d1979;
 }
@@ -30,4 +31,23 @@ h1{
 
 #edit {
     color:  grey;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    min-height:50px;
+    padding-bottom: 10px; 
+
+}
+
+#a-nav {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#a-nav:visited {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
 }

@@ -13,6 +13,8 @@ import { AcceptFormComponent } from './accept-form/accept-form.component';
 import { CustomerConfirmationComponent } from './customer-confirmation/customer-confirmation.component';
 import { LoginComponent } from './login/login.component';
 import { RequestListComponent } from './request-list/request-list.component';
+import { SuperfrogLandingComponent } from './superfrog-landing/superfrog-landing.component';
+import { AdminLandingComponent } from './admin-landing/admin-landing.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
@@ -21,6 +23,8 @@ const appRoutes: Routes = [
   {path: 'accept-form', component: AcceptFormComponent},
   {path: 'customer-confirmation', component: CustomerConfirmationComponent },
   {path: 'request-list', component: RequestListComponent},
+  {path: 'superfrog-landing', component: SuperfrogLandingComponent},
+  {path: 'admin-landing', component: AdminLandingComponent},
 ];
 
 @NgModule({
@@ -33,6 +37,8 @@ const appRoutes: Routes = [
     CustomerConfirmationComponent,
     LoginComponent,
     RequestListComponent,
+    SuperfrogLandingComponent,
+    AdminLandingComponent,
   ],
   imports: [
     RouterModule.forRoot(

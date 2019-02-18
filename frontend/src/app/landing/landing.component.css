@@ -1,3 +1,4 @@
+@import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
 h1 {
     color: #4d1979;
@@ -26,10 +27,6 @@ p {
 .card{
     border: 2px;
 
-}
-navbar, .navbar-expand-lg {
-    margin-bottom: 0;
-    background-color: rgba(f,f,f,0.56);
 }
 
 .jumbotron{
@@ -92,19 +89,6 @@ navbar, .navbar-expand-lg {
     font-size: 42px;
 }
 
-#a-nav, #a-nav:visited {
-    color: #a3a9ac;
-    font-size: 14px;
-    font-weight: lighter;
-    letter-spacing: 1px;
-    font-family: Helvetica, Arial, sans-serif;
-}
-
-#a-nav:hover {
-    background-color: transparent;
-    color: black;
-}
-
 #jumbo-button {
     background-color: transparent !important;
     border-color: white;
@@ -135,4 +119,23 @@ navbar, .navbar-expand-lg {
     background-size: cover;
     height: 100vh;
     margin-top: 0;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    min-height:50px;
+    padding-bottom: 10px; 
+
+}
+
+#a-nav {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#a-nav:visited {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
 }
