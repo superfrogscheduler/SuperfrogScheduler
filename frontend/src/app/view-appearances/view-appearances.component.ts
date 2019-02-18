@@ -20,15 +20,13 @@ export class ViewAppearancesComponent implements OnInit {
   constructor(private listService: ListAppearancesService) { }
 
   ngOnInit() {
-    this.getAssignedAppearance();
-    this.getPastAppearance();
     this.calendarOptions = {
-      editable: true,
+      editable: false,
       eventLimit: false,
       header: {
-        left: 'prev,next today',
+        left: '',
         center: 'title',
-        right: 'listYear,listMonth,listWeek,listDay'
+        right: 'prev,next'
       },
       selectable: true,
       events: this.appearances,
@@ -39,23 +37,43 @@ export class ViewAppearancesComponent implements OnInit {
     this.listService.getPastAppearances().subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
+          id: element.id,
           title: element.name,
           start: "" + element.date + " " + element.start_time,
           end: ""+ element.date + " " + element.end_time
         });   
       });
       console.log(this.appearances);
+      this.ucCalendar.fullCalendar('removeEvents');
+      this.ucCalendar.fullCalendar('removeEventSources');
+      this.ucCalendar.fullCalendar('addEventSource', this.appearances);
+      // this.ucCalendar.fullCalendar('rerenderEvents');
     });
   }
   getAssignedAppearance() {
     this.listService.getAssignedAppearances().subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
+          id: element.id,
           title: element.name,
           start: "" + element.date + " " + element.start_time,
           end: "" + element.date + " " + element.end
         });
       });
+      this.ucCalendar.fullCalendar('removeEvents');
+      this.ucCalendar.fullCalendar('removeEventSources');
+      this.ucCalendar.fullCalendar('addEventSource', this.appearances);
+      // this.ucCalendar.fullCalendar('rerenderEvents');
     });
+  }
+  next() {
+    this.ucCalendar.fullCalendar('next');
+  }
+  prev() {
+    this.ucCalendar.fullCalendar('prev');
+  }
+  eventClick(event: any) {
+      alert(event.event.id);
+      window.open("http://localhost:4200/appearance-details/"+ event.event.id);
   }
 }

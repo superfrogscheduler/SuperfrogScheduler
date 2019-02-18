@@ -14,6 +14,7 @@ import { AcceptFormComponent } from './accept-form/accept-form.component';
 import { SuperFrogSignupComponent } from './super-frog-signup/super-frog-signup.component';
 import { ListAppearancesComponent } from './list-appearances/list-appearances.component';
 import { ViewAppearancesComponent } from './view-appearances/view-appearances.component';
+import { AppearanceDetailComponent } from './appearance-detail/appearance-detail.component';
 
 
 const appRoutes: Routes = [
@@ -23,7 +24,8 @@ const appRoutes: Routes = [
   {path: 'accept-form', component: AcceptFormComponent},
   {path: 'sign-up/:id', component: SuperFrogSignupComponent},
   { path: 'avail-appear', component: ListAppearancesComponent},
-  { path: 'view-appearance', component: ViewAppearancesComponent}
+  { path: 'view-appearance', component: ViewAppearancesComponent},
+  { path: 'appearance-details/:id', component: AppearanceDetailComponent}
 ];
 
 @NgModule({
@@ -36,6 +38,7 @@ const appRoutes: Routes = [
     SuperFrogSignupComponent,
     ListAppearancesComponent,
     ViewAppearancesComponent,
+    AppearanceDetailComponent,
   ],
   imports: [
     RouterModule.forRoot(
