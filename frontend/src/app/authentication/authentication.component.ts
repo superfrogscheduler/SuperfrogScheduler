@@ -8,20 +8,41 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
   styleUrls: ['./authentication.component.css'],
   providers: [AuthenticationService] 
 })
+
 export class AuthenticationComponent implements OnInit {
 
   superfrog = {
+    id: "",
     email: "",
-    password : ""
+    created_at: "",
+    updated_at: "",
+    first_name: "",
+    last_name: "",
+    password : "",
+    confirm_password: "",
   };
+
+  data;
+
+  edited: Boolean;
+
+  alert = 'This is alert';
 
   constructor(private authService: AuthenticationService) {}
 
   ngOnInit() {
     this.superfrog = {
-      email: '', 
-      password: ''
+      id: '',
+      email: '',
+      created_at: '',
+      updated_at: '',
+      first_name: '',
+      last_name: '',
+      password : '',
+      confirm_password: '',
     };
+
+    this.edited =  false;
   }
 
   //register Superfrog user 
@@ -39,9 +60,13 @@ export class AuthenticationComponent implements OnInit {
   onLogin() {
     this.authService.loginSuperfrog(this.superfrog).subscribe(
       response =>{
-        alert ('User ' + this.superfrog.email + ' has login') 
+        this.alert = 'User has logged in' 
+        this.edited = true
       }, 
-      error => console.log('error', error)
+      error => {
+        this.alert = 'Email/Password combination is invalid'
+        this.edited = true
+      }
     );
   }
 
