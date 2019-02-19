@@ -12,7 +12,7 @@ h2 {
 h3 {
     font-size: 24px !important;
     font-weight: lighter;
-    color: #a3a9ac !important;
+    color: white;
 }
 
 p {
@@ -43,6 +43,7 @@ p {
     color:#ffffff;
     background-color: #ffffff;
     border-color: #4d1979;
+    margin: 8px;
     border-radius: 0px;
     border-width: 2px;
     -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);

@@ -5,6 +5,7 @@ body {
 }
 h1 {
     color: #4d1979;
+    text-align:center;
 }
 
 h2 {
@@ -37,6 +38,10 @@ navbar, .navbar-expand-lg {
     margin-bottom: 0;
     background-color: rgba(f,f,f,0.56);
 }
+
+.text-center {
+    text-align: center;
+  }
 
 .jumbotron{
     background-image: url(/assets/images/SuperfrogFog.png);

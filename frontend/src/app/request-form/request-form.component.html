@@ -19,10 +19,10 @@
 
 <!--page content-->
 
-<div style="text-align:center">
+<div style="text-align:center;">
   <div class = "container align-center" style="padding-top: 50px;" >
-  <div class = "row top-buffer">
-  <h1>Request a TCU Spirit Appearance</h1>
+  <div class = "row top-buffer" style = "text-align:center;">
+  <h1 class = "text-center">Request a TCU Spirit Appearance</h1>
   </div>
   <div class = "row top-buffer">
   <p>Fill out and submit the form below. We will review your request within a week and let you know if Superfrog can be there!</p>
@@ -121,7 +121,7 @@
         [(ngModel)]="data.appearance.description" name="description"></textarea>  
       </div>
       <div class = "col-md-12"><p>By requesting this event, you are agreeing to the <a href="https://gofrogs.com/documents/2018/12/4/Terms_Conditions.pdf">terms & conditions of a TCU Spirit Appearance.</a></p></div>
-      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="saveRequest()" routerLink="/customer-confirmation" routerLinkActive="active">Submit</button></div>
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-lg" (click)="saveRequest()" routerLink="/customer-confirmation" routerLinkActive="active">Submit</button></div>
   </div>
   </form>
   </div>
