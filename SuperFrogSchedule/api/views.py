@@ -108,9 +108,9 @@ class LoginView(views.APIView):
             if user.is_active:
                 #login() create a new session for this user
                 login(request, user)
-                serialized = UserSerializer(user, context={'request': request})
+                serializer = UserSerializer(user, context={'request': request})
                 #return the user information using the serializer in form of a JSON object
-                return Response(serialized.data)
+                return Response(serializer.data,status=status.HTTP_200_OK)
             else: #inactive user account
                 return Response({
                     'status': 'Unauthorized',

@@ -10,12 +10,14 @@ import { RequestFormComponent } from './request-form/request-form.component';
 import { LandingComponent } from './landing/landing.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
   { path: 'request-form', component: RequestFormComponent},
   {path: 'event-detail', component: EventDetailComponent},
   {path: 'accept-form', component: AcceptFormComponent},
+  {path: 'auth', component: AuthenticationComponent},
 ];
 
 @NgModule({
@@ -25,6 +27,7 @@ const appRoutes: Routes = [
     LandingComponent,
     EventDetailComponent,
     AcceptFormComponent,
+    AuthenticationComponent,
   ],
   imports: [
     RouterModule.forRoot(
