@@ -10,6 +10,12 @@ import { RequestFormComponent } from './request-form/request-form.component';
 import { LandingComponent } from './landing/landing.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
+import { CustomerConfirmationComponent } from './customer-confirmation/customer-confirmation.component';
+import { LoginComponent } from './login/login.component';
+import { RequestListComponent } from './request-list/request-list.component';
+import { SuperfrogLandingComponent } from './superfrog-landing/superfrog-landing.component';
+import { AdminLandingComponent } from './admin-landing/admin-landing.component';
+
 import { FullCalendarModule } from 'ng-fullcalendar';
 import * as $ from 'jquery';
 import { GooglePlacesDirective } from './shared/google-places.directive';
@@ -18,6 +24,10 @@ const appRoutes: Routes = [
   { path: 'request-form', component: RequestFormComponent},
   {path: 'event-detail', component: EventDetailComponent},
   {path: 'accept-form', component: AcceptFormComponent},
+  {path: 'customer-confirmation', component: CustomerConfirmationComponent },
+  {path: 'request-list', component: RequestListComponent},
+  {path: 'superfrog-landing', component: SuperfrogLandingComponent},
+  {path: 'admin-landing', component: AdminLandingComponent},
 ];
 
 @NgModule({
@@ -27,6 +37,11 @@ const appRoutes: Routes = [
     LandingComponent,
     EventDetailComponent,
     AcceptFormComponent,
+    CustomerConfirmationComponent,
+    LoginComponent,
+    RequestListComponent,
+    SuperfrogLandingComponent,
+    AdminLandingComponent,
     GooglePlacesDirective,
   ],
   imports: [

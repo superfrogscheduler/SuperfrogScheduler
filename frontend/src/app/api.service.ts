@@ -12,4 +12,7 @@ export class ApiService {
   getSite(): Observable<any> {
     return this.http.get(this.baseurl, {headers: this.httpHeaders});
   }
+
+  
+
 }

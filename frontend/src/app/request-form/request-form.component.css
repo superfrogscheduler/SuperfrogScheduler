@@ -1,3 +1,4 @@
+@import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
 body {
     padding: 70px;
@@ -19,6 +20,14 @@ h3 {
 
 p {
     color: #a3a9ac;
+}
+
+body { 
+    padding-top: 70px; 
+}
+
+a {
+    color: #4d1979;
 }
 
 .lead {
@@ -45,6 +54,15 @@ navbar, .navbar-expand-lg {
     border-color: #4d1979;
     border-radius: 0px;
     border-width: 4px;
+}
+
+a, a:visited{
+    color: #4d1979;
+    font-weight: bold;
+}
+
+a:hover{
+    color: #ffffff;
 }
 
 .btn-primary:hover{
@@ -108,4 +126,23 @@ navbar, .navbar-expand-lg {
 
 #pad-container {
     padding: 50px;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    min-height:50px;
+    padding-bottom: 10px; 
+
+}
+
+#a-nav {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#a-nav:visited {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
 }
