@@ -105,7 +105,7 @@ class UserManager(BaseUserManager):
             email,
             password=password,
         )
-        user.staff = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
 
@@ -117,8 +117,8 @@ class UserManager(BaseUserManager):
             email,
             password=password,
         )
-        user.staff = True
-        user.admin = True
+        user.is_staff = True
+        user.is_admin = True
         user.save(using=self._db)
         return user
 
@@ -129,16 +129,22 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
+    #might not need username
+    #username = models.CharField(max_length=40, unique=True)
+
     #password field is built-in
     first_name = models.CharField(max_length=40, blank=True)
     last_name = models.CharField(max_length=40, blank=True)
 
-    active = models.BooleanField(default=True) # can login
-    staff = models.BooleanField(default=False) # a admin user; non super-user
-    admin = models.BooleanField(default=False) # a superuser
+    is_active = models.BooleanField(default=True) # can login
+    is_staff = models.BooleanField(default=False) # a admin user; non super-user
+    is_admin = models.BooleanField(default=False) # a superuser
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # Email & Password are required by default.
+    REQUIRED_FIELDS = [] # Email & Password are required by default. 'username'
 
     objects = UserManager()
 
@@ -162,18 +168,3 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
-
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        return self.staff
-
-    @property
-    def is_admin(self):
-        "Is the user a admin member?"
-        return self.admin
-
-    @property
-    def is_active(self):
-        "Is the user active?"
-        return self.active

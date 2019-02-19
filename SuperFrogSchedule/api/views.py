@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from rest_framework import viewsets, views, generics
+from rest_framework import viewsets, views, generics, status
 from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -86,3 +86,38 @@ def create(request):
     else:
         return HttpResponseBadRequest()
 
+import json
+
+#Function needs for login user
+from django.contrib.auth import authenticate, login
+
+#Login View
+class LoginView(views.APIView):
+    #override post function
+    def post(self, request, format=None):
+        data = json.loads(request.body)
+
+        email = data.get('email', None)
+        password = data.get('password', None)
+
+        #authenticate user
+        user = authenticate(email=email, password=password)
+
+        #authenticate() looks for an user in database using email and then verify if the password matches
+        if user is not None:
+            if user.is_active:
+                #login() create a new session for this user
+                login(request, user)
+                serialized = UserSerializer(user, context={'request': request})
+                #return the user information using the serializer in form of a JSON object
+                return Response(serialized.data)
+            else: #inactive user account
+                return Response({
+                    'status': 'Unauthorized',
+                    'message': 'This user has been disabled.'
+                }, status=status.HTTP_401_UNAUTHORIZED)
+        else: #no matched user 
+            return Response({
+                'status': 'Unauthorized',
+                'message': 'Username/password combination invalid.'
+            }, status=status.HTTP_401_UNAUTHORIZED)

@@ -7,11 +7,12 @@ from .views import (
     list_by_status,
     appearances,
     detail,
-    create
+    create,
+    LoginView
     )
 urlpatterns = [
     url(r'^appearances/$', appearances),
     url(r'^appearances/status/(?P<status>\d+)/$', list_by_status),
     url(r'^appearances/(?P<id>\d+)/$', detail),
-   
+    url(r'^auth/login/$', LoginView.as_view(), name='Login'),
 ]
