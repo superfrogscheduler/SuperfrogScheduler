@@ -12,6 +12,7 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
 import { FullCalendarModule } from 'ng-fullcalendar';
 import * as $ from 'jquery';
+import { GooglePlacesDirective } from './shared/google-places.directive';
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
   { path: 'request-form', component: RequestFormComponent},
@@ -26,6 +27,7 @@ const appRoutes: Routes = [
     LandingComponent,
     EventDetailComponent,
     AcceptFormComponent,
+    GooglePlacesDirective,
   ],
   imports: [
     RouterModule.forRoot(

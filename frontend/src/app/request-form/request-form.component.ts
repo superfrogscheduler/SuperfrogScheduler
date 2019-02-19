@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, ViewChild } from '@angular/core';
+import { Component, OnInit, forwardRef, ViewChild, NgZone } from '@angular/core';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -8,12 +8,13 @@ import { Customer } from '../shared/customer';
 import { Appearance } from '../shared/appearance';
 import { Event } from '../shared/event';
 import * as moment from 'moment';
+import { GoogleService } from '../shared/google.service';
 
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
   styleUrls: ['./request-form.component.css'],
-  providers: [RequestFormService, {
+  providers: [RequestFormService, GoogleService, {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => RequestFormComponent),
     multi: true
@@ -30,9 +31,14 @@ export class RequestFormComponent implements OnInit {
   clickedDay: any;
   errorMsg: string = "";
   earliestDay: any = moment().add(2, 'weeks').subtract(1, 'day').startOf('day');
+  onCampus: string = "true";
+  locationAddr: string;
+  locationAptNum: string;
+  locationName: string;
   events = { id: "events", events: [], editable: false, overlap: false, color: 'purple' };
   newEvent = [];
-  constructor(private requestService: RequestFormService) { }
+  test: any;
+  constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone) { }
 
   onSubmit() { this.submitted = true; }
 
@@ -95,6 +101,16 @@ export class RequestFormComponent implements OnInit {
   }
 
   saveRequest() {
+    if(!this.onCampus){
+      this.data.appearance.location = "";
+      if(this.locationName){
+        this.data.appearance.location+=this.locationName +", ";
+      }
+      this.data.appearance.location+=this.locationAddr;
+      if(this.locationAptNum){
+        this.data.appearance.location+=" #"+this.locationAptNum;
+      }
+    }
     this.requestService.saveRequest(this.data).subscribe();
   }
   //This function is called when a day is clicked on the calendar
@@ -167,5 +183,12 @@ export class RequestFormComponent implements OnInit {
     this.ucCalendar.fullCalendar('refetchEvents');
     this.ucCalendar.fullCalendar("changeView", "month");
     this.showCalendar = true;
+  }
+
+  autocompleteSelect(place){
+    this.zone.run(() => {
+      console.log(place);
+      this.locationAddr = place.formatted_address;
+    });
   }
 }
