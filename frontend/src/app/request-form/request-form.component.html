@@ -1,108 +1,167 @@
-
-<div style="text-align:center">
-  <div class = "container align-center" id="pad-container">
-  <div class = "row top-buffer">
-  <h1>Request a TCU Spirit Appearance</h1>
+<div class="container" [hidden]="!showCalendar">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div *ngIf="calendarOptions">
+        <pre>{{clickedDay}}</pre>
+        <pre>{{locationType}}</pre>
+        <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
+            (select) = "select($event.detail)" (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)" (dayClick)="dayClick($event.detail)"></ng-fullcalendar>
+      </div>
+    </div>
   </div>
-  <div class = "row top-buffer">
-  <p>Fill out and submit the form below. We will review your request within a week and let you know if Superfrog can be there!</p>
+  <div class="row justify-content-center" *ngIf="newEvent[0]">
+    <div class="col-md-10">
+      <button class="btn btn-primary" (click)="continueClick()">Continue</button>
+    </div>
   </div>
-  <form #requestForm="ngForm">
-  <div class = "container top-buffer" id = "form-container">
-        <div class="form-group col-md-6">  
-          <label >Contact First Name:</label>
-          <input type="text" class="form-control" id="first_name" required
-          [(ngModel)]="data.customer.first_name" name="firstName">
+</div>
+<div [hidden]="showCalendar">
+    <pre>{{locationType}}</pre>
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-secondary" (click)="backToCalendar()"> Back to Calendar </button>
+    </div>
+  </div>
+  <div style="text-align:center">
+    <div class="container align-center" id="pad-container">
+      <div class="row top-buffer">
+        <h1>Request a TCU Spirit Appearance</h1>
+      </div>
+      <div class="row top-buffer">
+        <p>Fill out and submit the form below. We will review your request within a week and let you know if Superfrog can be
+          there!</p>
+      </div>
+      <form #requestForm="ngForm">
+        <div class="container top-buffer" id="form-container">
+          <div class="form-group col-md-6">
+            <label>Contact First Name:</label>
+            <input type="text" class="form-control" id="first_name" required [(ngModel)]="data.customer.first_name" name="firstName">
           </div>
           <div class="form-group col-md-6">
-          <label >Contact Last Name:</label>
-          <input type="text" class="form-control" id="last_name" required
-          [(ngModel)]="data.customer.last_name" name="last_name">
+            <label>Contact Last Name:</label>
+            <input type="text" class="form-control" id="last_name" required [(ngModel)]="data.customer.last_name" name="last_name">
+          </div>
+
+          <div class="form-group col-md-12">
+            <label class="col-form-label">Event Title:</label>
+            <input type="text" class="form-control" id="event_title" required [(ngModel)]="data.appearance.name" name="event_title">
+          </div>
+
+          <div class="form-group col-md-12">
+            <label class="col-form-label">Organization requesting appearance (if applicable):</label>
+            <input type="text" class="form-control" id="organization" required [(ngModel)]="data.appearance.organization" name="organization">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label> Date: </label>
+            <input class="form-control" type="date" required [(ngModel)]="data.appearance.date" name="date" readonly />
+          </div>
+
+          <div class="form-group col-md-2">
+            <label class="col-form-label">Start Time:</label>
+            <input class="form-control" type="time" required [(ngModel)]="data.appearance.start_time" name="start_time" readonly/>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label class="col-form-label">End Time:</label>
+            <input class="form-control" type="time" required [(ngModel)]="data.appearance.end_time" name="end_time" readonly/>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="col-form-label">Phone Number:</label>
+            <input type="tel" class="form-control" id="phone" required [(ngModel)]="data.customer.phone" name="phone">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="col-form-label">Email:</label>
+            <input type="email" class="form-control" id="email" required [(ngModel)]="data.customer.email" name="email">
+          </div>
+          
+          <div class="form-group col-md-12">
+            <label class="col-form-label">On TCU Campus:</label>
+            <select class="form-control" [(ngModel)]="onCampus" name="onCampus">
+                <option value="true" selected>Yes</option>
+                <option value="">No</option>
+              </select>
+          </div>
+          
+          <div *ngIf="onCampus">
+            <div class="form-group col-md-12">
+              <label>Location:</label>
+              <input autocomplete="off" type="text" class="form-control" id="location" required [(ngModel)]="data.appearance.location" name="location">
+            </div>
+          </div>
+
+          <div *ngIf="!onCampus">
+            <div class="form-group col-md-10">
+              <label>Location Address:</label>
+              <input autocomplete="off" google-place  (onSelect)="autocompleteSelect($event)" type="text" class="form-control" id="location" required [(ngModel)]="locationAddr" name="locationAddr">
+            </div>
+            <div class="form-group col-md-2">
+              <label>Suite/Apt. Number</label>
+              <input class="form-control" type="text" [(ngModel)]="locationAptNum" name="aptNum">
+            </div>
+            <div class="form-group col-md-12">
+                <label>Location Name (Optional)</label>
+                <input class="form-control" type="text" [(ngModel)]="locationName" name="locationName">
+              </div>
+          </div>
+
+
+          <div class="form-group col-md-12">
+            <label for="team">Additional Spirit Members:</label>
+            <!-- <select class="form-control" id="team" required required [(ngModel)]="data.appearance.team" name="team">
+              <option *ngFor="let mem of members" [value]="mem">{{mem}}</option>
+            </select> -->
+          </div>
+          <div class="form-group col-md-6">
+            <label>Cheerleaders</label>
+            <select class="form-control" [(ngModel)]="data.appearance.cheerleaders" name ="cheerleaders" value="None">
+              <option selected>None</option>
+              <option>Small Team</option>
+              <option>Large Team</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Showgirls</label>
+              <select class="form-control" [(ngModel)]="data.appearance.showgirls" name ="showgirls" value = "None">
+                <option selected>None</option>
+                <option>Small Team</option>
+                <option>Large Team</option>
+              </select>
+            </div>
+
+          <div class="form-group col-md-12">
+            <label class="col-form-label">Special Instructions (Parking, gate code, location for spirit members to change/ keep belongings): </label>
+            <textarea type="text" class="form-control" rows="3" id="special_instruction" required [(ngModel)]="data.appearance.special_instruction"
+              name="special_instruction"></textarea>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label class="col-form-label">
+              What expenses/benefits, if any, will the spirit member(s) receive while participating?
+            </label>
+            <input type="text" class="form-control" id="expenses" required [(ngModel)]="data.appearance.expenses" name="expenses">
+          </div>
+
+          <div class="form-group col-md-12">
+            <label class="col-form-label"> Will there be any other outside organizations involved in sponsoring the event?</label>
+            <input type="text" class="form-control" id="outside_orgs" required [(ngModel)]="data.appearance.outside_orgs" name="outside_orgs">
+          </div>
+
+          <div class="form-group col-md-12">
+            <label class="col-form-label">Description of Event, if applicable:</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="description" required [(ngModel)]="data.appearance.description"
+              name="description"></textarea>
+          </div>
+          <div class="col-md-12">
+            <p>By requesting this event, you are agreeing to the terms &amp; conditions of a TCU Spirit Appearance.</p>
+          </div>
+          <div class="col-md-12">
+            <button type="button" class="btn btn-primary btn-large" (click)="saveRequest()">Submit</button>
+          </div>
         </div>
-
-        <div class="form-group col-md-12">
-            <label class = "col-form-label">Event Title:</label>
-            <input type="text" class="form-control" id="event_title" required
-            [(ngModel)]="data.appearance.name" name="event_title">
-        </div>  
-
-      <div class="form-group col-md-12">
-          <label class = "col-form-label">Organization requesting appearance (if applicable):</label>
-          <input type="text" class="form-control" id="organization" required
-          [(ngModel)]="data.appearance.organization" name="organization">
-      </div>
-      
-        <div class="form-group col-md-4">
-          <label> Date: </label> 
-          <input class = "form-control" type= "date" required [(ngModel)] = "data.appearance.date" name = "date"/>
-        </div>
-      
-        <div class="form-group col-md-2">
-          <label class = "col-form-label">Start Time:</label>
-          <input class="form-control" type="time" required
-          [(ngModel)]="data.appearance.start_time" name="start_time"/>
-        </div>
-      
-        <div class="form-group col-md-2">
-          <label class = "col-form-label">End Time:</label>
-          <input class="form-control" type="time" required
-          [(ngModel)]="data.appearance.end_time" name="end_time"/>
-        </div>
-
-        <div class="form-group col-md-6">
-          <label class = "col-form-label">Phone Number:</label>
-          <input type="text" class="form-control" id="phone" required
-          [(ngModel)]="data.customer.phone" name="phone">
-        </div>
-
-        <div class="form-group col-md-6">
-          <label class = "col-form-label">Email:</label>
-          <input type="email" class="form-control" id="email" required
-          [(ngModel)]="data.customer.email" name="email">
-        </div>
-
-      <div class="form-group col-md-12">
-        <label>Location Address:</label>
-        <input type="text" class="form-control" id="location" required
-        [(ngModel)]="data.appearance.location" name="location">
-      </div>
-
-      <div class="form-group col-md-12">
-          <label for="team">Spirit Members requested:</label>
-          <select class="form-control" id="team" required required
-          [(ngModel)]="data.appearance.team" name="team">
-            <option *ngFor="let mem of members" [value]="mem">{{mem}}</option>
-          </select>
-        </div>
-
-      <div class="form-group col-md-12">
-        <label class = "col-form-label">Special Instructions (Parking, gate code, location for spirit members to change/ keep belongings):  </label>
-        <textarea type="text" class="form-control" rows = "3" id="special_instruction" required
-        [(ngModel)]="data.appearance.special_instruction" name="special_instruction"></textarea>
-      </div>
-
-      <div class="form-group col-md-12">
-        <label class = "col-form-label">
-          What expenses/benefits, if any, will the spirit member(s) receive while participating?
-        </label>
-        <input type="text" class="form-control" id="expenses" required
-        [(ngModel)]="data.appearance.expenses" name="expenses">
-      </div>
-
-      <div class="form-group col-md-12">
-        <label class = "col-form-label"> Will there be any other outside organizations involved in sponsoring the event?</label>
-        <input type="text" class="form-control" id="outside_orgs" required
-        [(ngModel)]="data.appearance.outside_orgs" name="outside_orgs">  
-      </div>
-
-      <div class="form-group col-md-12">
-        <label class = "col-form-label">Description of Event, if applicable:</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="description" required
-        [(ngModel)]="data.appearance.description" name="description"></textarea>  
-      </div>
-      <div class = "col-md-12"><p>By requesting this event, you are agreeing to the terms & conditions of a TCU Spirit Appearance.</p></div>
-      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="saveRequest()">Submit</button></div>
-  </div>
-  </form>
+      </form>
+    </div>
   </div>
 </div>
