@@ -1,6 +1,7 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authentication',
@@ -25,10 +26,10 @@ export class AuthenticationComponent implements OnInit {
   data;
 
   edited: Boolean;
-
+  baseurl = 'This is homepage url'
   alert = 'This is alert';
 
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService, private router: Router) {}
 
   ngOnInit() {
     this.superfrog = {
@@ -41,7 +42,7 @@ export class AuthenticationComponent implements OnInit {
       password : '',
       confirm_password: '',
     };
-
+    this.baseurl = "http://127.0.0.1:8000/";
     this.edited =  false;
   }
 
@@ -60,8 +61,10 @@ export class AuthenticationComponent implements OnInit {
   onLogin() {
     this.authService.loginSuperfrog(this.superfrog).subscribe(
       response =>{
-        this.alert = 'User has logged in' 
-        this.edited = true
+        //this.alert = 'User has logged in' 
+        //this.edited = true
+        //navigate to homepage
+        this.router.navigate([''])
       }, 
       error => {
         this.alert = 'Email/Password combination is invalid'
