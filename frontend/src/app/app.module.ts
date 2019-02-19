@@ -16,6 +16,9 @@ import { RequestListComponent } from './request-list/request-list.component';
 import { SuperfrogLandingComponent } from './superfrog-landing/superfrog-landing.component';
 import { AdminLandingComponent } from './admin-landing/admin-landing.component';
 
+import { FullCalendarModule } from 'ng-fullcalendar';
+import * as $ from 'jquery';
+import { GooglePlacesDirective } from './shared/google-places.directive';
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
   { path: 'request-form', component: RequestFormComponent},
@@ -39,6 +42,7 @@ const appRoutes: Routes = [
     RequestListComponent,
     SuperfrogLandingComponent,
     AdminLandingComponent,
+    GooglePlacesDirective,
   ],
   imports: [
     RouterModule.forRoot(
@@ -46,6 +50,7 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     ),
     BrowserModule,
+    FullCalendarModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule

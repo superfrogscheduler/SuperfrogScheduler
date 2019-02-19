@@ -1,15 +1,17 @@
 import { Time } from "@angular/common";
+import { Moment } from "moment";
 
 export interface Appearance{
     name?: string,
-    date?: Date,
-    start_time?: Time,
-    end_time?: Time,
+    date?: string,
+    start_time?: string,
+    end_time?: string,
     organization?: string,
     location?: string,
     parking_info?: string,
     org_type?: string,
-    team_type?: string,
+    cheerleaders?: string,
+    showgirls?: string,
     performance_required?: boolean,
     special_instruction?: string,
     expenses?: string,

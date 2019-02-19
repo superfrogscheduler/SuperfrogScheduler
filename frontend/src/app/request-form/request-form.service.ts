@@ -14,4 +14,7 @@ export class RequestFormService {
     console.log(req);
     return this.http.post(this.baseurl + "appearances/", req);
   }
+  getEvents(year: number, month: number): Observable<any>{
+    return this.http.get(this.baseurl + "events/customer-monthly/"+year+"/"+month);
+  }
 }

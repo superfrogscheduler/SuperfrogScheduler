@@ -1,5 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.css";
-
+@import "~fullcalendar/dist/fullcalendar.min.css";
 .navbar {
     background-color: #FFFFFF;
     min-height:50px;
@@ -17,4 +17,11 @@
     font-family: "Helvetica Neue", sans-serif;
     font-weight: normal;
     color: #4d1979;
+}
+a {
+    color: #4d1979;
+}
+a[_ngcontent-c0]:hover {
+    color: #4d1979;
+    text-decoration: underline;
 }
