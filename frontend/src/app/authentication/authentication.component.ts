@@ -61,10 +61,11 @@ export class AuthenticationComponent implements OnInit {
   onLogin() {
     this.authService.loginSuperfrog(this.superfrog).subscribe(
       response =>{
-        //this.alert = 'User has logged in' 
-        //this.edited = true
+        this.superfrog = response
+        this.alert = 'Welcome ' + this.superfrog.first_name
+        this.edited = true
         //navigate to homepage
-        this.router.navigate([''])
+        //this.router.navigate([''])
       }, 
       error => {
         this.alert = 'Email/Password combination is invalid'

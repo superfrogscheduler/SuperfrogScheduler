@@ -80,7 +80,7 @@ from django.contrib.auth.models import (
 )
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, first_name, password=None):
         """
         Creates and saves a User with the given email and password.
         """
@@ -91,30 +91,33 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
+            first_name=first_name
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, email, password):
+    def create_staffuser(self, email, first_name, password):
         """
         Creates and saves a staff user with the given email and password.
         """
         user = self.create_user(
             email,
+            first_name,
             password=password,
         )
         user.is_staff = True
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, first_name, password):
         """
         Creates and saves a superuser with the given email and password.
         """
         user = self.create_user(
             email,
+            first_name,
             password=password,
         )
         user.is_staff = True
@@ -144,7 +147,7 @@ class User(AbstractBaseUser):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # Email & Password are required by default. 'username'
+    REQUIRED_FIELDS = ['first_name'] # Email & Password are required by default. 'username'
 
     objects = UserManager()
 
