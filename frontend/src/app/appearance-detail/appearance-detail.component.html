@@ -1,0 +1,35 @@
+<div style="text-align: center">
+  <div class="container align-center" id = "pad-container">
+    <div class= "row top-buffer">
+      <h1>Appearance Details: {{getData.name}}</h1>
+    </div>
+    <div class = "row">
+      <div class = "col-md-4">
+        <h3>Status: {{getData.status}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Location: {{getData.location}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Date: {{getData.date}}</h3>
+        <h3>Time: {{getData.start_time}}, {{getData.end_time}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Customer Information: 
+          {{getData.customers.first_name}} {{getData.customers.last_name}},
+          {{getData.customers.email}},
+          {{getData.customers.phone}}
+        </h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Description: {{getData.description}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Parking Details: {{getData.parking_info}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Other Spirit Members: {{getData.team_type}}</h3>
+      </div>
+    </div>
+  </div>
+</div>

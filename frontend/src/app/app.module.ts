@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule, Routes } from '@angular/router';
+import { FullCalendarModule } from 'ng-fullcalendar';
 
 import { AppComponent } from './app.component';
 import { RequestFormComponent } from './request-form/request-form.component';
@@ -15,8 +16,12 @@ import { LoginComponent } from './login/login.component';
 import { RequestListComponent } from './request-list/request-list.component';
 import { SuperfrogLandingComponent } from './superfrog-landing/superfrog-landing.component';
 import { AdminLandingComponent } from './admin-landing/admin-landing.component';
+import { SuperFrogSignupComponent } from './super-frog-signup/super-frog-signup.component';
+import { ListAppearancesComponent } from './list-appearances/list-appearances.component';
+import { ViewAppearancesComponent } from './view-appearances/view-appearances.component';
+import { AppearanceDetailComponent } from './appearance-detail/appearance-detail.component';
 
-import { FullCalendarModule } from 'ng-fullcalendar';
+
 import * as $ from 'jquery';
 import { GooglePlacesDirective } from './shared/google-places.directive';
 const appRoutes: Routes = [
@@ -28,6 +33,10 @@ const appRoutes: Routes = [
   {path: 'request-list', component: RequestListComponent},
   {path: 'superfrog-landing', component: SuperfrogLandingComponent},
   {path: 'admin-landing', component: AdminLandingComponent},
+  {path: 'sign-up/:id', component: SuperFrogSignupComponent},
+  { path: 'avail-appear', component: ListAppearancesComponent},
+  { path: 'view-appearance', component: ViewAppearancesComponent},
+  { path: 'appearance-details/:id', component: AppearanceDetailComponent}
 ];
 
 @NgModule({
@@ -43,6 +52,10 @@ const appRoutes: Routes = [
     SuperfrogLandingComponent,
     AdminLandingComponent,
     GooglePlacesDirective,
+    SuperFrogSignupComponent,
+    ListAppearancesComponent,
+    ViewAppearancesComponent,
+    AppearanceDetailComponent,
   ],
   imports: [
     RouterModule.forRoot(
@@ -53,7 +66,8 @@ const appRoutes: Routes = [
     FullCalendarModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

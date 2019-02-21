@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, views, generics
-from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer
+from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -36,10 +36,16 @@ def list_by_status(request, status=None):
     if request.method == 'GET':
         print('we did it')
         queryset = Appearance.objects.filter(status=status)
-        serializer = AppearanceShortSerializer(queryset, many=True)
+        serializer = CustomerAppearanceSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
+def getEmployee(request):
+    if request.method == 'GET':
+        queryset = Superfrog.objects.all()
+        serializer = SuperfrogSerializer(queryset, many= True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
 @csrf_exempt
 def appearances(request):
     print('hi')
@@ -79,7 +85,7 @@ def appearances(request):
 def detail(request, id=None):
     if request.method == 'GET':
         queryset = Appearance.objects.get(pk=id)
-        serializer = AppearanceSerializer(queryset, many=False)
+        serializer = CustomerAppearanceSerializer(queryset, many=False)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
@@ -94,6 +100,17 @@ def create(request):
         return HttpResponse(serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()
+        
+@csrf_exempt
+def signUp(request, id=None):
+    if request.method=='PATCH':
+        appearance_id = Appearance.objects.get(pk=id)
+        superfrog_id = Superfrog.objects.get(id = 1)
+        superfrog_appearance = SuperfrogAppearance(superfrog=superfrog_id, appearance=appearance_id)
+        superfrog_appearance.save()
+        appearance_id.status = "Assigned"
+        appearance_id.save()
+        return HttpResponse(superfrog_appearance, status= 201)
 
 def events(request):
     if request.method == 'GET':
@@ -134,3 +151,10 @@ def events_customer_monthly(request, year, month):
     return HttpResponse(JSONRenderer().render(response))
 
 
+def list_by_status_list(request, status=None):
+    if request.method == 'GET':
+        queryset = Appearance.objects.filter(status=status)
+        serializer = AppearanceShortSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()

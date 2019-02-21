@@ -1,0 +1,37 @@
+<div style="text-align: center">
+  <div class = "container align-center" id = "pad-container">
+    <div class = "row top-buffer">
+      <h1>Appearance Title: {{getData.name}}</h1> 
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="signUp()">Sign Up</button></div>
+      <h3>Be aware that you will not be able to cancel your appearance once you sign up. You will have to contact admin to cancel.</h3>
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" routerLink="/avail-appear">Cancel</button></div>
+    </div>
+    <div class = "row">
+      <div class = "col-md-4">
+        <h3>Status : {{getData.status}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Location : {{getData.location}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Date: {{getData.date}}</h3>
+        <h3>Time: {{getData.start_time}}, {{getData.end_time}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Customer Information: 
+          {{getData.customers.first_name}} {{getData.customers.last_name}}
+          {{getData.customers.email}}
+          {{getData.customers.phone}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Details: {{getData.description}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Parking Details: {{getData.parking_info}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Other Spirit Members Requested: {{getData.team_type}}</h3>
+      </div>
+    </div>
+  </div>
+</div>

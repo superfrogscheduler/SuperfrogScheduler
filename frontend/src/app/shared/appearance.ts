@@ -2,6 +2,7 @@ import { Time } from "@angular/common";
 import { Moment } from "moment";
 
 export interface Appearance{
+    id?: string,
     name?: string,
     date?: string,
     start_time?: string,

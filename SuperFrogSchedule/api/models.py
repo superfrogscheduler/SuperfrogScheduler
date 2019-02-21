@@ -15,9 +15,9 @@ class Superfrog(models.Model):
         return self.first_name + " " + self.last_name
 
 class SuperfrogAppearance(models.Model):
-    superfrog = models.ForeignKey(Superfrog, on_delete="NULL")
-    appearance = models.ForeignKey("Appearance", on_delete="CASCADE")
-    date_assigned = models.DateTimeField(default=datetime.now, blank=True)
+    superfrog = models.ForeignKey(Superfrog, on_delete="NULL", null = True)
+    appearance = models.ForeignKey("Appearance", on_delete="CASCADE", null = True)
+    date_assigned = models.DateTimeField(default=datetime.now())
 
 class Admin(models.Model):
     first_name = models.CharField(max_length=30)
@@ -28,8 +28,9 @@ class Admin(models.Model):
 class Customer(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=200)
+    email = models.CharField(max_length=200 )
     phone = models.IntegerField(default=0)
+
 
 class Event(models.Model):
     name = models.CharField(max_length=255, blank=True)
@@ -56,8 +57,7 @@ class Appearance(Event):
     outside_orgs = models.CharField(max_length = 255, blank = True)
     description = models.CharField(max_length = 1000, blank = True)
     status = models.CharField(max_length = 255, default = "Pending")
-    #customers = models.ForeignKey('Customer', on_delete = "NULL")
-
+    customers = models.ForeignKey(Customer, on_delete = "NULL")
 
     def __str__(self):
         return super().__str__()
