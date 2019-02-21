@@ -19,11 +19,11 @@ export class GooglePlacesDirective implements OnInit {
     var bounds = new google.maps.Circle({center: latlng, radius: radius}).getBounds();
     const options = {
       types: ['address'],
+      fields: ['formatted_address','address_components', 'geometry', 'name'],
       bounds: bounds,
       strictBounds: true
     }
     const autocomplete = new google.maps.places.Autocomplete(this.element, options);
-    autocomplete.setFields(['formatted_address','address_components', 'geometry', 'name']);
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
       this.onSelect.emit(autocomplete.getPlace());
     });
