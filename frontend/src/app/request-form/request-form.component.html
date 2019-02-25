@@ -22,40 +22,47 @@
 <div style="text-align:center">
   <div class = "container align-center" style="padding-top: 50px;" >
   <div class = "row top-buffer">
-  <h1>Request a TCU Spirit Appearance</h1>
-<div class="container" [hidden]="!showCalendar">
+  <div class = "container">
+    <h1>Request a TCU Spirit Appearance</h1>
+  </div>
+
+  <div class="container" [hidden]="!showCalendar">
+  <div class = "container" style = "padding-bottom: 50px;">
+    <p>Please select a date from the calendar. Available dates will be white. Then click and drag to select your time slot.</p>
+  </div>
   <div class="row justify-content-center">
     <div class="col-md-10">
       <div *ngIf="calendarOptions">
-        <pre>{{clickedDay}}</pre>
-        <pre>{{locationType}}</pre>
+        <!-- <pre>{{clickedDay}}</pre>
+        <pre>{{locationType}}</pre> -->
         <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
             (select) = "select($event.detail)" (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)" (dayClick)="dayClick($event.detail)"></ng-fullcalendar>
       </div>
     </div>
   </div>
   <div class="row justify-content-center" *ngIf="newEvent[0]">
-    <div class="col-md-10">
-      <button class="btn btn-primary" (click)="continueClick()">Continue</button>
+    <div class="col-md-10" style = "padding: 20px;">
+      <button class="btn btn-primary btn-lg" (click)="continueClick()">Continue</button>
     </div>
   </div>
 </div>
 <div [hidden]="showCalendar">
-    <pre>{{locationType}}</pre>
-  <div class="row">
-    <div class="col">
-      <button class="btn btn-secondary" (click)="backToCalendar()"> Back to Calendar </button>
-    </div>
-  </div>
+    <!-- <pre>{{locationType}}</pre> -->
+
   <div style="text-align:center">
-    <div class="container align-center" id="pad-container">
-      <div class="row top-buffer">
+    <div class="container align-center" >
+      <!-- <div class="row top-buffer">
         <h1>Request a TCU Spirit Appearance</h1>
-      </div>
-      <div class="row top-buffer">
+      </div> -->
+      <div class="container">
         <p>Fill out and submit the form below. We will review your request within a week and let you know if Superfrog can be
           there!</p>
       </div>
+      <div class="container">
+          <div class="col">
+            <button class="btn btn-secondary btn-lg" (click)="backToCalendar()"> Back to Calendar </button>
+          </div>
+        </div>
       <form #requestForm="ngForm">
         <div class="container top-buffer" id="form-container">
           <div class="form-group col-md-6">
@@ -112,7 +119,7 @@
           
           <div *ngIf="onCampus">
             <div class="form-group col-md-12">
-              <label>Location:</label>
+              <label>Location:<p class = "text-muted">(Location must be within 100 miles of TCU's campus)</p></label> 
               <input autocomplete="off" type="text" class="form-control" id="location" required [(ngModel)]="data.appearance.location" name="location">
             </div>
           </div>
@@ -183,7 +190,7 @@
             <p>By requesting this event, you are agreeing to the terms &amp; conditions of a TCU Spirit Appearance.</p>
           </div>
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary btn-large" (click)="saveRequest()">Submit</button>
+            <button type="button" class="btn btn-primary btn-lg" (click)="saveRequest()"><a href="/customer-confirmation" routerLinkActive = "active">Submit</a></button>
           </div>
         </div>
       </form>

@@ -35,7 +35,7 @@ export class RequestFormComponent implements OnInit {
   locationAddr: string;
   locationAptNum: string;
   locationName: string;
-  events = { id: "events", events: [], editable: false, overlap: false, color: 'purple' };
+  events = { id: "events", events: [], editable: false, overlap: false, color: 'gray' };
   newEvent = [];
   test: any;
   constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone) { }
@@ -147,7 +147,8 @@ export class RequestFormComponent implements OnInit {
         id: "myevent",
         title: "My Event",
         start: event.start,
-        end: event.end
+        end: event.end,
+        color: "#4d1979" 
       });
       this.ucCalendar.fullCalendar('addEventSource', this.newEvent);
     }
@@ -156,7 +157,8 @@ export class RequestFormComponent implements OnInit {
         id: "myevent",
         title: "My Event",
         start: event.start,
-        end: event.end
+        end: event.end,
+        color:"#4d1979"
       };
       this.ucCalendar.fullCalendar('removeEventSource', this.newEvent);
       this.ucCalendar.fullCalendar('addEventSource', this.newEvent);
