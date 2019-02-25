@@ -45,7 +45,7 @@ class Event(models.Model):
 
 class Appearance(Event):
     #event = models.ForeignKey(Event, on_delete = "CASCADE")
-    event_key = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    event_key = models.UUIDField(default=uuid.uuid4, editable=False)
     organization = models.CharField(max_length = 255, blank = True)
     location = models.CharField(max_length=255, blank=True)
     parking_info = models.CharField(max_length=255, blank=True)
