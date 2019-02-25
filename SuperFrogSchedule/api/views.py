@@ -2,6 +2,9 @@ from django.shortcuts import render
 from rest_framework import viewsets, views, generics
 from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
+from rest_framework import viewsets, views, generics, status
+from .models import Superfrog, Admin, Customer, Event, Appearance
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -12,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
+from django.contrib.auth import authenticate, login
 
 import json
 
@@ -158,3 +162,36 @@ def list_by_status_list(request, status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
+
+
+#Login View
+class LoginView(views.APIView):
+    #override post function
+    def post(self, request, format=None):
+        data = json.loads(request.body)
+
+        email = data.get('email', None)
+        password = data.get('password', None)
+
+        #authenticate user
+        user = authenticate(email=email, password=password)
+
+        #authenticate() looks for an user in database using email and then verify if the password matches
+        if user is not None:
+            if user.is_active:
+                #login() create a new session for this user
+                login(request, user)
+                serializer = UserSerializer(user, context={'request': request})
+                #return the user information using the serializer in form of a JSON object
+                return Response(serializer.data,status=status.HTTP_200_OK)
+            else: #inactive user account
+                return Response({
+                    'status': 'Unauthorized',
+                    'message': 'This user has been disabled.'
+                }, status=status.HTTP_401_UNAUTHORIZED)
+        else: #no matched user 
+            return Response({
+                'status': 'Unauthorized',
+                'message': 'Username/password combination invalid.'
+            }, status=status.HTTP_401_UNAUTHORIZED)

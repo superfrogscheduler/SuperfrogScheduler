@@ -132,3 +132,6 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
 )
+
+#Redirect Django authentication to our new custom user model
+AUTH_USER_MODEL = 'api.User'

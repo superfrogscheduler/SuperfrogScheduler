@@ -20,6 +20,7 @@ import { SuperFrogSignupComponent } from './super-frog-signup/super-frog-signup.
 import { ListAppearancesComponent } from './list-appearances/list-appearances.component';
 import { ViewAppearancesComponent } from './view-appearances/view-appearances.component';
 import { AppearanceDetailComponent } from './appearance-detail/appearance-detail.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 
 import * as $ from 'jquery';
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
   {path: 'sign-up/:id', component: SuperFrogSignupComponent},
   { path: 'avail-appear', component: ListAppearancesComponent},
   { path: 'view-appearance', component: ViewAppearancesComponent},
-  { path: 'appearance-details/:id', component: AppearanceDetailComponent}
+  { path: 'appearance-details/:id', component: AppearanceDetailComponent},
+  {path: 'auth', component: AuthenticationComponent},
 ];
 
 @NgModule({
@@ -56,6 +58,7 @@ const appRoutes: Routes = [
     ListAppearancesComponent,
     ViewAppearancesComponent,
     AppearanceDetailComponent,
+    AuthenticationComponent,
   ],
   imports: [
     RouterModule.forRoot(

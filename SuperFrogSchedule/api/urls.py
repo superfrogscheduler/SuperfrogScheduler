@@ -11,7 +11,8 @@ from .views import (
     events_customer_monthly,
     getEmployee,
     signUp,
-    list_by_status_list
+    list_by_status_list,
+    LoginView
     )
 urlpatterns = [
     url(r'^appearances/$', appearances),
@@ -20,5 +21,6 @@ urlpatterns = [
     url(r'^events/customer-monthly/(?P<year>\d+)/(?P<month>\d+)/$', events_customer_monthly),   
     url(r'^employees/$', getEmployee),
     url(r'^employeeAppearance/(?P<id>\d+)/$', signUp),
-    url(r'^listAppearances/status/(?P<status>\w+)/$', list_by_status_list)
+    url(r'^listAppearances/status/(?P<status>\w+)/$', list_by_status_list),
+    url(r'^auth/login/$', LoginView.as_view(), name='Login'),
 ]
