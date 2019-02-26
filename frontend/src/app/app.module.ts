@@ -35,7 +35,7 @@ const appRoutes: Routes = [
   {path: 'superfrog-landing', component: SuperfrogLandingComponent},
   {path: 'admin-landing', component: AdminLandingComponent},
   {path: 'sign-up/:id', component: SuperFrogSignupComponent},
-  { path: 'avail-appear', component: ListAppearancesComponent},
+  { path: 'list-appearances', component: ListAppearancesComponent},
   { path: 'view-appearance', component: ViewAppearancesComponent},
   { path: 'appearance-details/:id', component: AppearanceDetailComponent},
   {path: 'auth', component: AuthenticationComponent},
