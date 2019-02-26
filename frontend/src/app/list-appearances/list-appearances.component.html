@@ -1,18 +1,50 @@
-<div style= "text-align: center">
-  <div class= "container align-center" id="pad-container">
-    <div class = "row top-buffer">
-      <h1>All Upcoming Appearances</h1>
+<!--superfrog nav-->
+<div style="text-align:center">
+    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="nav navbar-nav ml-auto">
+                <li><a id = "a-nav" routerLink="/superfrog-landing" routerLinkActive="active">CALENDAR</a></li>
+                <li><a id = "a-nav" href="/superfrog-landing" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
+              </ul>
+        </div>
+      </nav>
+  </div>
+
+<!--page content-->
+<div style="text-align:center; padding-top:125px;">
+    <div style = "padding-bottom: 50px;">
+      <h1>New Appearances Requested</h1>
     </div>
-    <div class = "col md-6">
-      <ul *ngFor="let names of getData" >
-        <li>
-          {{names.name}}
-          {{names.date}}
-          {{names.start_time}}
-          {{names.end_time}}
-          <button id = "jumbo-button" type="button" class="shadow btn btn-primary btn-sm"><a id = "btn-text" routerLink="/sign-up/{{names.id}}" routerLinkActive="active">Get Details</a></button>
-        </li>
-      </ul> 
+    <div *ngFor="let names of getData">
+    <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
+      <h3><a href="#">{{names.name}}</a></h3>
+      <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
+      <div class= "col-md-6">
+        <p class = "label">Start Time</p>
+        <p>{{names.start_time}}</p>
+        <p class = "label">End Time</p>
+        <p>{{names.end_time}}</p>
+      </div>
+      <div class= "col-md-6">
+        <p class = "label">Date</p>
+        <p>{{names.date}}</p>
+        <p class = "label">Location</p>
+        <p>{{names.location}}</p>
+      </div>
+      <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+          <p class = "label">Description</p>
+          <p>{{names.description}}</p>
+      </div>
+      </div>
+      <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
+        <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/sign-up/{{names.id}}" routerLinkActive="active">View Details</a></button>
+        <button class="btn btn-secondary btn-space btn-lg" type="reject">View on Calendar</button>
+      </div>
+    </div>
     </div>
   </div>
-</div>>

@@ -35,7 +35,7 @@ export class RequestFormComponent implements OnInit {
   locationAddr: string;
   locationAptNum: string;
   locationName: string;
-  events = { id: "events", events: [], editable: false, overlap: false, color: 'purple' };
+  events = { id: "events", events: [], editable: false, overlap: false, eventColor: '#4d1979' };
   newEvent = [];
   test: any;
   constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone) { }
@@ -53,6 +53,7 @@ export class RequestFormComponent implements OnInit {
       selectable: false,
       selectOverlap: false,
       longPressDelay: 500,
+      eventColor: '#4d1979',
       header: {
         left: 'prev,next today',
         center: 'title',
