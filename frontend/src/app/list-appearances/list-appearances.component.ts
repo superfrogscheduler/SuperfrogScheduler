@@ -15,7 +15,7 @@ export class ListAppearancesComponent implements OnInit {
   model: List = {};
   members = [1, 2, 3];
   view = false;
-  data: { "appearance": Appearance, "customer": Customer} = { "appearance": {}, "customer": {}};
+  data: { "appearance": Appearance} = { "appearance": {}};
   constructor(private listService: ListAppearanceService) { }
   getData: {};
   onSubmitted() { this.view = true; }

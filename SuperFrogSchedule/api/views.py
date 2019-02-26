@@ -40,7 +40,7 @@ def list_by_status(request, status=None):
     if request.method == 'GET':
         print('we did it')
         queryset = Appearance.objects.filter(status=status)
-        serializer = CustomerAppearanceSerializer(queryset, many=True)
+        serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()

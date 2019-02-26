@@ -35,13 +35,13 @@ class AppearanceSerializer(serializers.ModelSerializer):
 class AppearanceShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appearance
-        fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','team_type')
+        fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','cheerleaders', 'showgirls')
 
 class CustomerAppearanceSerializer(serializers.ModelSerializer):
-    customers = CustomerSerializer()
+    customer = CustomerSerializer()
     class Meta:
         model = Appearance
-        fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','team_type','customers')
+        fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','cheerleaders','showgirls','customer')
 
 class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
     # superfrog = SuperfrogSerializer()
