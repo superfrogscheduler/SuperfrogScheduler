@@ -22,15 +22,17 @@
     "@angular/platform-browser": "~7.0.0",
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
+    "angular-web-storage": "^4.1.0",
     "angular4-datepicker": "^1.0.1",
     "core-js": "^2.5.4",
+    "ngx-webstorage": "^3.0.2",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.0",
     "@angular/cli": "~7.0.6",
-    "@angular/compiler-cli": "~7.0.0",
+    "@angular/compiler-cli": "^7.2.6",
     "@angular/language-service": "~7.0.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",

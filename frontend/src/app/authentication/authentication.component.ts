@@ -19,8 +19,6 @@ export class AuthenticationComponent implements OnInit {
     updated_at: "",
     first_name: "",
     last_name: "",
-    password : "",
-    confirm_password: "",
   };
 
   data;
@@ -39,8 +37,6 @@ export class AuthenticationComponent implements OnInit {
       updated_at: '',
       first_name: '',
       last_name: '',
-      password : '',
-      confirm_password: '',
     };
     this.baseurl = "http://127.0.0.1:8000/";
     this.edited =  false;
@@ -62,16 +58,24 @@ export class AuthenticationComponent implements OnInit {
     this.authService.loginSuperfrog(this.superfrog).subscribe(
       response =>{
         this.superfrog = response
-        this.alert = 'Welcome ' + this.superfrog.first_name
-        this.edited = true
+        //this.alert = 'Welcome ' + this.superfrog.first_name
+        //this.edited = true
+        this.authService.setUser(this.superfrog)
+        alert('save user ' + this.authService.getUser('logged').first_name +  ' in storage')
+       // this.storeUser(this.superfrog)
         //navigate to homepage
-        //this.router.navigate([''])
+        this.router.navigate([''])
+
       }, 
       error => {
         this.alert = 'Email/Password combination is invalid'
         this.edited = true
       }
     );
+  }
+
+  storeUser(user){
+    this.authService.setUser(user)
   }
 
 }

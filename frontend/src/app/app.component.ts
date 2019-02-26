@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from './api.service';
 import { getSymbolIterator } from '@angular/core/src/util';
+import {SuperFrog} from './shared/superfrog';
+import {AuthenticationService} from './authentication/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +11,28 @@ import { getSymbolIterator } from '@angular/core/src/util';
   providers: [ApiService]
 })
 export class AppComponent {
-  superfrog = [{title: 'frontend'}];
-  constructor(private api: ApiService) {
+  superfrog : SuperFrog;
+  logged: boolean;
+  constructor(private api: ApiService, private authService: AuthenticationService ) {
     this.getSites();
+    this.getUser();
   }
+
   getSites = () => {
     this.api.getSite().subscribe(
       data => {
-        this.superfrog = data;
+        this.superfrog = data
       },
       error => {
         console.log(error);
       }
     );
+  }
+
+  getUser() {
+    this.superfrog = this.authService.getUser('logged')
+    if (this.superfrog != null) {
+      this.logged = true
+    } else this.logged = false
   }
 }
