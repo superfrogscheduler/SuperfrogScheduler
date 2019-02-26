@@ -22,7 +22,7 @@ export class SuperFrogSignupComponent implements OnInit {
   model: SignUp = {};
   members = [1, 2, 3];
   signedUp = false;
-  data: {"customers": Customer, "appearance": Appearance, "superfrog": Superfrog} = {"customers":{}, "appearance":{}, "superfrog": {}};
+  data: {"customer": Customer, "appearance": Appearance, "superfrog": Superfrog} = {"customer":{}, "appearance":{}, "superfrog": {}};
   putdata: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance":{}, "superfrog": {}};
   getData: any = {};
   id: number;
