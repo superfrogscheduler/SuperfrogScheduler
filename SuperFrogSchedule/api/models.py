@@ -58,7 +58,7 @@ class Appearance(Event):
     outside_orgs = models.CharField(max_length = 255, blank = True)
     description = models.CharField(max_length = 1000, blank = True)
     status = models.CharField(max_length = 255, default = "Pending")
-    customer = models.ForeignKey(Customer, on_delete = "NULL", null=True)
+    customer = models.ForeignKey(Customer, on_delete = "NULL", null=True, blank=True)
     mileage = models.IntegerField(default = 0)
     cost = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
     receipt_number = models.CharField(max_length = 255, blank = True, null=True)

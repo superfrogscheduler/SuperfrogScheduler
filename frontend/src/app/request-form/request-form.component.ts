@@ -9,6 +9,7 @@ import { Appearance } from '../shared/appearance';
 import { Event } from '../shared/event';
 import * as moment from 'moment';
 import { GoogleService } from '../shared/google.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-request-form',
@@ -38,7 +39,7 @@ export class RequestFormComponent implements OnInit {
   events = { id: "events", events: [], editable: false, overlap: false, eventColor: '#4d1979' };
   newEvent = [];
   test: any;
-  constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone) { }
+  constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
 
   onSubmit() { this.submitted = true; }
 
@@ -112,7 +113,12 @@ export class RequestFormComponent implements OnInit {
         this.data.appearance.location+=" #"+this.locationAptNum;
       }
     }
-    this.requestService.saveRequest(this.data).subscribe();
+    this.requestService.saveRequest(this.data).subscribe(response => {
+      this.router.navigate(['/customer-confirmation']);
+      },
+      error => {
+        this.router.navigate(['/customer-confirmation']);
+      });
   }
   //This function is called when a day is clicked on the calendar
   dayClick(event: any) {
@@ -192,4 +198,5 @@ export class RequestFormComponent implements OnInit {
       this.locationAddr = place.formatted_address;
     });
   }
+
 }
