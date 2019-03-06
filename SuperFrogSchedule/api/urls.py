@@ -12,7 +12,9 @@ from .views import (
     getEmployee,
     signUp,
     list_by_status_list,
-    LoginView
+    LoginView,
+    acceptAppearance,
+    rejectAppearance
     )
 urlpatterns = [
     url(r'^appearances/$', appearances),
@@ -23,4 +25,6 @@ urlpatterns = [
     url(r'^employeeAppearance/(?P<id>\d+)/$', signUp),
     url(r'^listAppearances/status/(?P<status>\w+)/$', list_by_status_list),
     url(r'^auth/login/$', LoginView.as_view(), name='Login'),
+    url(r'adminAccept/(?P<id>\d+)/$',acceptAppearance),
+    url(r'adminReject/(?P<id>\d+)/$', rejectAppearance)
 ]
