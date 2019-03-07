@@ -11,6 +11,9 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="nav navbar-nav ml-auto">
                 <li><a id = "a-nav" href="/superfrog-calendar" routerLinkActive = "active">CALENDAR</a></li>
+                <li><a id = "a-nav" href="#about">CALENDAR</a></li>
+                <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active">AVAILABLE APPEARANCES</a></li>
+                <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active">MY APPEARANCES</a></li>
                 <li><a id = "a-nav" href="/admin-landing" routerLinkActive = "active">SETTINGS</a></li>
                 <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
               </ul>
@@ -23,7 +26,7 @@
     <div class = "container-fluid">
     <div style="text-align:center; padding-top:100px;">
         <div style = "padding-bottom: 20px;">
-          <h1>Hi, John</h1>
+          <h1>Hi, {{superfrog.first_name}}</h1>
           <h3>New Appearances Requested</h3>
           <p>You have completed 2 appearances this month.</p>
         </div>

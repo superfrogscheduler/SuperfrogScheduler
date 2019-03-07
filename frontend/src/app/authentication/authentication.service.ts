@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { SessionStorage, SessionStorageService} from 'angular-web-storage';
+import { Superfrog } from '../shared/superfrog';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +14,9 @@ export class AuthenticationService {
 
   errormessage = "";
 
-  constructor(private http: HttpClient) {
+  superfrog: Superfrog;
+
+  constructor(private http: HttpClient, private storage: SessionStorageService) {
     this.errormessage = '';
   }
 
@@ -39,6 +44,16 @@ export class AuthenticationService {
 
   setErrorMessage(msg : string){
     this.errormessage = msg;
+  }
+
+  getUser(key) {
+    this.superfrog = JSON.parse(this.storage.get(key))
+    return this.superfrog
+  }
+
+  setUser(user) {
+    this.storage.set('logged', JSON.stringify(user))
+    console.log(user)
   }
 
   registerSuperfrog(userData): Observable<any> {
