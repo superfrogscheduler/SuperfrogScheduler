@@ -25,6 +25,7 @@ import { ListAcceptRejectComponent } from './list-accept-reject/list-accept-reje
 import * as $ from 'jquery';
 import { GooglePlacesDirective } from './shared/google-places.directive';
 import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-reject-details.component';
+import { AngularWebStorageModule } from 'angular-web-storage';
 
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
@@ -75,7 +76,8 @@ const appRoutes: Routes = [
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    AngularWebStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]
