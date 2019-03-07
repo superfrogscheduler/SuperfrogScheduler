@@ -25,9 +25,11 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 
 import * as $ from 'jquery';
 import { GooglePlacesDirective } from './shared/google-places.directive';
+import { SuperfrogCalendarComponent } from './superfrog-calendar/superfrog-calendar.component';
+import { EventCodeComponent } from './event-code/event-code.component';
 const appRoutes: Routes = [
-  { path: '', component: LandingComponent},
-  { path: 'request-form', component: RequestFormComponent},
+  {path: '', component: LandingComponent},
+  {path: 'request-form', component: RequestFormComponent},
   {path: 'event-detail', component: EventDetailComponent},
   {path: 'accept-form', component: AcceptFormComponent},
   {path: 'customer-confirmation', component: CustomerConfirmationComponent },
@@ -35,9 +37,11 @@ const appRoutes: Routes = [
   {path: 'superfrog-landing', component: SuperfrogLandingComponent},
   {path: 'admin-landing', component: AdminLandingComponent},
   {path: 'sign-up/:id', component: SuperFrogSignupComponent},
-  { path: 'list-appearances', component: ListAppearancesComponent},
-  { path: 'view-appearance', component: ViewAppearancesComponent},
-  { path: 'appearance-details/:id', component: AppearanceDetailComponent},
+  {path: 'list-appearances', component: ListAppearancesComponent},
+  {path: 'view-appearance', component: ViewAppearancesComponent},
+  {path: 'superfrog-calendar', component: SuperfrogCalendarComponent},
+  {path: 'event-code', component: EventCodeComponent},
+  {path: 'appearance-details/:id', component: AppearanceDetailComponent},
   {path: 'auth', component: AuthenticationComponent},
 ];
 
@@ -59,6 +63,8 @@ const appRoutes: Routes = [
     ViewAppearancesComponent,
     AppearanceDetailComponent,
     AuthenticationComponent,
+    SuperfrogCalendarComponent,
+    EventCodeComponent,
   ],
   imports: [
     RouterModule.forRoot(
