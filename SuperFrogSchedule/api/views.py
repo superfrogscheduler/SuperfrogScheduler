@@ -82,7 +82,7 @@ def appearances(request):
             print(customer_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
         appearance_serializer = AppearanceSerializer(appearance)
-        return HttpResponse(appearance_serializer.data, status = 200)
+        return HttpResponse(status = 200)
     else:
         return HttpResponseBadRequest()
 
