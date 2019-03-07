@@ -65,7 +65,7 @@ export class AuthenticationComponent implements OnInit {
         this.alert = 'Welcome ' + this.superfrog.first_name
         this.edited = true
         //navigate to homepage
-        //this.router.navigate([''])
+        this.router.navigate(['/list-appearances'])
       }, 
       error => {
         this.alert = 'Email/Password combination is invalid'
