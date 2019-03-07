@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule, Routes } from '@angular/router';
 import { FullCalendarModule } from 'ng-fullcalendar';
@@ -21,12 +21,13 @@ import { ListAppearancesComponent } from './list-appearances/list-appearances.co
 import { ViewAppearancesComponent } from './view-appearances/view-appearances.component';
 import { AppearanceDetailComponent } from './appearance-detail/appearance-detail.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-
-
+import { ListAcceptRejectComponent } from './list-accept-reject/list-accept-reject.component';
 import * as $ from 'jquery';
 import { GooglePlacesDirective } from './shared/google-places.directive';
 import { SuperfrogCalendarComponent } from './superfrog-calendar/superfrog-calendar.component';
 import { EventCodeComponent } from './event-code/event-code.component';
+import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-reject-details.component';
+
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
   {path: 'request-form', component: RequestFormComponent},
@@ -43,6 +44,8 @@ const appRoutes: Routes = [
   {path: 'event-code', component: EventCodeComponent},
   {path: 'appearance-details/:id', component: AppearanceDetailComponent},
   {path: 'auth', component: AuthenticationComponent},
+  { path: 'list-accept-reject',  component: ListAcceptRejectComponent },
+  { path: 'accept-reject-details/:id',component: AcceptRejectDetailsComponent},
 ];
 
 @NgModule({
@@ -65,6 +68,8 @@ const appRoutes: Routes = [
     AuthenticationComponent,
     SuperfrogCalendarComponent,
     EventCodeComponent,
+    ListAcceptRejectComponent,
+    AcceptRejectDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(
@@ -76,7 +81,8 @@ const appRoutes: Routes = [
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

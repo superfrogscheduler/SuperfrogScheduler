@@ -14,7 +14,7 @@ export interface Appearance{
     cheerleaders?: string,
     showgirls?: string,
     performance_required?: boolean,
-    special_instruction?: string,
+    special_instructions?: string,
     expenses?: string,
     outside_orgs?: boolean,
     description?: string,
