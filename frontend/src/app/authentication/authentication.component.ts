@@ -2,6 +2,8 @@ import { Component, OnInit, forwardRef } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Superfrog } from '../shared/superfrog';
+import { User } from '../shared/user';
 
 @Component({
   selector: 'app-authentication',
@@ -12,17 +14,8 @@ import { Router } from '@angular/router';
 
 export class AuthenticationComponent implements OnInit {
 
-  superfrog = {
-    id: "",
-    email: "",
-    created_at: "",
-    updated_at: "",
-    first_name: "",
-    last_name: "",
-    password : "",
-    confirm_password: "",
-  };
-
+  superfrog: Superfrog;
+  user: User;
   data;
 
   edited: Boolean;
@@ -32,16 +25,8 @@ export class AuthenticationComponent implements OnInit {
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   ngOnInit() {
-    this.superfrog = {
-      id: '',
-      email: '',
-      created_at: '',
-      updated_at: '',
-      first_name: '',
-      last_name: '',
-      password : '',
-      confirm_password: '',
-    };
+    this.superfrog = {};
+    this.user = {}
     this.baseurl = "http://127.0.0.1:8000/";
     this.edited =  false;
   }
@@ -62,10 +47,20 @@ export class AuthenticationComponent implements OnInit {
     this.authService.loginSuperfrog(this.superfrog).subscribe(
       response =>{
         this.superfrog = response
-        this.alert = 'Welcome ' + this.superfrog.first_name
-        this.edited = true
+        this.user = response 
+        console.log(this.user)
+        this.authService.setUser(this.superfrog)
         //navigate to homepage
-        this.router.navigate(['/list-appearances'])
+
+        /*
+        if ((this.user.is_admin) || (this.user.is_staff))
+          this.router.navigate(['/admin-landing'])
+        else  
+          this.router.navigate(['/superfrog-landing'])
+        */
+       this.router.navigate(['/superfrog-landing'])
+
+
       }, 
       error => {
         this.alert = 'Email/Password combination is invalid'
