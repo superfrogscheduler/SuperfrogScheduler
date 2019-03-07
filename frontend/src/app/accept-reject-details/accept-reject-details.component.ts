@@ -25,6 +25,7 @@ export class AcceptRejectDetailsComponent implements OnInit {
       this.getData = data;
     });
   }
+
   acceptAppear() {
     this.adminService.acceptAppear(this.id, this.data).subscribe(data => {
       this.getData = data;
