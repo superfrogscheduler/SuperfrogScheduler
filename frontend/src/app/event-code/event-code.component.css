@@ -47,21 +47,8 @@ p {
 
 .btn-primary, .btn-primary:visited{
     color:#ffffff;
-    background-color: #ffffff;
-    border-color: #4d1979;
-    border-radius: 0px;
-    border-width: 1px;
-    -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-}
-
-.btn-primary:hover{
-    background-color:  #4d1979 !important;
-    border-radius: 0px;
-    border-color: #4d1979 !important;
-    color: white;
-
+    background-color: #4d1979;
+    
 }
 
 .card-img-top{
