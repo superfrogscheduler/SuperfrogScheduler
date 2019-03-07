@@ -32,7 +32,7 @@ export class ViewAppearancesComponent implements OnInit {
       events: this.appearances,
       defaultView: 'listMonth'
     };
-    getAssignedAppearance();
+    this.getAssignedAppearance();
   }
   getPastAppearance() {
     this.listService.getPastAppearances().subscribe(data => {
