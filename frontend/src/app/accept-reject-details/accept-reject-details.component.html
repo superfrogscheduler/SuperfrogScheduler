@@ -1,0 +1,38 @@
+<div style="text-align: center">
+  <div class = "container align-center" id = "pad-container">
+    <div class = "row top-buffer">
+      <h1>Appearance Title: {{getData.name}}</h1> 
+    </div>
+    <div class = "row">
+      <div class = "col-md-4">
+        <h3>Status : {{getData.status}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Location : {{getData.location}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Date: {{getData.date}}</h3>
+        <h3>Time: {{getData.start_time}}, {{getData.end_time}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Customer Information: 
+          {{getData.customer.first_name}} {{getData.customer.last_name}}
+          {{getData.customer.email}}
+          {{getData.customer.phone}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Details: {{getData.description}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Parking Details: {{getData.parking_info}}</h3>
+      </div>
+      <div class = "col-md-4">
+        <h3>Other Spirit Members Requested: {{getData.cheerleaders}}
+          {{getData.showgirls}}
+        </h3>
+      </div>
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="acceptAppear()">Accept</button></div>
+      <div class = "col-md-12"><button type="submit" class="btn btn-primary btn-large" (click)="rejectAppear()">Reject</button></div>
+    </div>
+  </div>
+</div>

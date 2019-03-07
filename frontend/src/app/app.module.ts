@@ -21,10 +21,11 @@ import { ListAppearancesComponent } from './list-appearances/list-appearances.co
 import { ViewAppearancesComponent } from './view-appearances/view-appearances.component';
 import { AppearanceDetailComponent } from './appearance-detail/appearance-detail.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-
-
+import { ListAcceptRejectComponent } from './list-accept-reject/list-accept-reject.component';
 import * as $ from 'jquery';
 import { GooglePlacesDirective } from './shared/google-places.directive';
+import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-reject-details.component';
+
 const appRoutes: Routes = [
   { path: '', component: LandingComponent},
   { path: 'request-form', component: RequestFormComponent},
@@ -39,6 +40,8 @@ const appRoutes: Routes = [
   { path: 'view-appearance', component: ViewAppearancesComponent},
   { path: 'appearance-details/:id', component: AppearanceDetailComponent},
   {path: 'auth', component: AuthenticationComponent},
+  { path: 'list-accept-reject',  component: ListAcceptRejectComponent },
+  { path: 'accept-reject-details/:id',component: AcceptRejectDetailsComponent},
 ];
 
 @NgModule({
@@ -59,6 +62,8 @@ const appRoutes: Routes = [
     ViewAppearancesComponent,
     AppearanceDetailComponent,
     AuthenticationComponent,
+    ListAcceptRejectComponent,
+    AcceptRejectDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(

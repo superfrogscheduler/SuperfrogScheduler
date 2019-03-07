@@ -116,6 +116,20 @@ def signUp(request, id=None):
         appearance_id.save()
         return HttpResponse(superfrog_appearance, status= 201)
 
+@csrf_exempt
+def acceptAppearance(request, id=None):
+    if request.method=='PATCH':
+        appearance_id = Appearance.objects.get(pk=id)
+        appearance_id.status = "Accepted"
+        appearance_id.save()
+        return HttpResponse( status=201)
+
+@csrf_exempt
+def rejectAppearance(request, id = None):
+    if request.method=='DELETE':
+        appearance_id = Appearance.objects.get(pk=id)
+        appearance_id.delete()
+        return HttpResponse(status = 201)
 def events(request):
     if request.method == 'GET':
         queryset = Event.objects.all()
