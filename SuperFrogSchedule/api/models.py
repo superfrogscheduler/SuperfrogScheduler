@@ -15,8 +15,8 @@ class Superfrog(models.Model):
         return self.first_name + " " + self.last_name
 
 class SuperfrogAppearance(models.Model):
-    superfrog = models.ForeignKey(Superfrog, on_delete="NULL", null = True)
-    appearance = models.ForeignKey("Appearance", on_delete="CASCADE", null = True)
+    superfrog = models.ForeignKey(Superfrog, on_delete=models.SET_NULL, null = True)
+    appearance = models.ForeignKey("Appearance", on_delete=models.CASCADE, null = True)
     date_assigned = models.DateTimeField(default=datetime.date.today)
 
 class Admin(models.Model):
@@ -29,7 +29,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.CharField(max_length=200 )
-    phone = models.IntegerField(default=0)
+    phone = models.CharField(max_length=30)
 
 
 class Event(models.Model):
@@ -53,12 +53,12 @@ class Appearance(Event):
     cheerleaders = models.CharField(max_length=255, default = "None")
     showgirls = models.CharField(max_length=255, default = "None")
     performance_required = models.BooleanField(default=False)
-    location_for_belongings = models.CharField(max_length=255, blank=True)
+    special_instructions = models.CharField(max_length=255, blank=True)
     expenses_and_benefits = models.CharField(max_length=255, blank=True)
     outside_orgs = models.CharField(max_length = 255, blank = True)
     description = models.CharField(max_length = 1000, blank = True)
     status = models.CharField(max_length = 255, default = "Pending")
-    customer = models.ForeignKey(Customer, on_delete = "NULL", null=True)
+    customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True, blank=True)
     mileage = models.IntegerField(default = 0)
     cost = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
     receipt_number = models.CharField(max_length = 255, blank = True, null=True)
