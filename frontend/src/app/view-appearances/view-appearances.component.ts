@@ -44,7 +44,6 @@ export class ViewAppearancesComponent implements OnInit {
           end: ""+ element.date + " " + element.end_time
         });   
       });
-      console.log(this.appearances);
       this.ucCalendar.fullCalendar('removeEvents');
       this.ucCalendar.fullCalendar('removeEventSources');
       this.ucCalendar.fullCalendar('addEventSource', this.appearances);
@@ -74,7 +73,6 @@ export class ViewAppearancesComponent implements OnInit {
     this.ucCalendar.fullCalendar('prev');
   }
   eventClick(event: any) {
-      alert(event.event.id);
       window.open("http://localhost:4200/appearance-details/"+ event.event.id);
   }
 }

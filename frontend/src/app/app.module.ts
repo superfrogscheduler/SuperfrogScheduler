@@ -28,6 +28,8 @@ import { SuperfrogCalendarComponent } from './superfrog-calendar/superfrog-calen
 import { EventCodeComponent } from './event-code/event-code.component';
 import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-reject-details.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
+import { ListPayrollAppearancesComponent } from './list-payroll-appearances/list-payroll-appearances.component';
+import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-generate-payroll.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -46,7 +48,9 @@ const appRoutes: Routes = [
   {path: 'appearance-details/:id', component: AppearanceDetailComponent},
   {path: 'auth', component: AuthenticationComponent},
   { path: 'list-accept-reject',  component: ListAcceptRejectComponent },
-  { path: 'accept-reject-details/:id',component: AcceptRejectDetailsComponent},
+  { path: 'accept-reject-details/:id', component: AcceptRejectDetailsComponent},
+  { path: 'list-payroll-appearances', component: ListPayrollAppearancesComponent},
+  { path: 'admin-generate-payroll/:id', component: AdminGeneratePayrollComponent},
 ];
 
 @NgModule({
@@ -71,6 +75,8 @@ const appRoutes: Routes = [
     EventCodeComponent,
     ListAcceptRejectComponent,
     AcceptRejectDetailsComponent,
+    ListPayrollAppearancesComponent,
+    AdminGeneratePayrollComponent,
   ],
   imports: [
     RouterModule.forRoot(

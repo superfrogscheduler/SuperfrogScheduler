@@ -50,7 +50,11 @@ class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
         model = SuperfrogAppearance
         fields = ('superfrog','appearance', 'date_assigned')
 
-
+class PayrollSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SuperfrogAppearance
+        fields = ('superfrog', 'appearance')
+        
 #Serializer for custom user model
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers

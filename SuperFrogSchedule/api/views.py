@@ -4,7 +4,7 @@ from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, Su
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
 from rest_framework import viewsets, views, generics, status
 from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, PayrollSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -93,7 +93,23 @@ def detail(request, id=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+def payroll_appearance(request,status=None):
+    if request.method == 'GET':
+        appear = Appearance.objects.filter(status=status)
+        queryset = SuperfrogAppearance.objects.filter( appearance=appear)
+        serializer = PayrollSerializer(queryset, many = False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 
+def payroll_detail(request, id=None):
+    if request.method == 'GET':
+        apperarnce_id = Appearance.objects.get(pk=id)
+        queryset = SuperfrogAppearance(appearance=apperarnce_id)
+        serializer = PayrollSerializer(queryset, many=False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 def create(request):
     if request.method=='POST':
         data = JSONParser().parse(request.body)
@@ -172,7 +188,7 @@ def events_customer_monthly(request, year, month):
 def list_by_status_list(request, status=None):
     if request.method == 'GET':
         queryset = Appearance.objects.filter(status=status)
-        serializer = AppearanceShortSerializer(queryset, many=True)
+        serializer = AppearanceShortSerializer(queryset, many=False)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
