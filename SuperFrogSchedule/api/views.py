@@ -13,6 +13,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
 from django.contrib.auth import authenticate, login
@@ -177,7 +178,13 @@ def list_by_status_list(request, status=None):
     else:
         return HttpResponseBadRequest()
 
-
+def email(request):
+    subject = 'You have submitted an appearance request'
+    message = 'We will review your request for a superfrog appearance and get back to you within the next 2 weeks.'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['allensarahanne@gmail.com',]
+    send_mail( subject, message, email_from, recipient_list )
+    return redirect('/customer-confirmation')
 
 #Login View
 class LoginView(views.APIView):

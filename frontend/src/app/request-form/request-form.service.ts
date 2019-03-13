@@ -17,4 +17,7 @@ export class RequestFormService {
   getEvents(year: number, month: number): Observable<any>{
     return this.http.get(this.baseurl + "events/customer-monthly/"+year+"/"+month);
   }
+  sendEmail(){
+    return this.http.post(this.baseurl + "email/");
+  }
 }

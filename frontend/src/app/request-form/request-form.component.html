@@ -224,7 +224,7 @@
             <p>By requesting this event, you are agreeing to the terms &amp; conditions of a TCU Spirit Appearance.</p>
           </div>
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary btn-large" [disabled]="!form.valid || invalidAddr" (click)="saveRequest()">Submit</button>
+            <button type="button" class="btn btn-primary btn-large" [disabled]="!form.valid || invalidAddr" (click)="saveRequest(); sendEmail();">Submit</button>
           </div>
         </div>
       </form>
