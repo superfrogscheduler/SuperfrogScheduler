@@ -78,7 +78,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FullCalendarModule,
 
-    AngularWebStorageModule
+    AngularWebStorageModule,
 
     ReactiveFormsModule,
 

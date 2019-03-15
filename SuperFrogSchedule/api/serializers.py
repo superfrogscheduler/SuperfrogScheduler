@@ -62,9 +62,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'created_at', 'updated_at',
-                  'first_name', 'last_name', 'password',
-                  'confirm_password',)
+        fields = ('id', 'email','first_name', 'last_name',
+                    'created_at', 'updated_at',
+                    'password','confirm_password',
+                    'is_active','is_admin','is_staff',)
         read_only_fields = ('created_at', 'updated_at',)
 
         def create(self, validated_data):
