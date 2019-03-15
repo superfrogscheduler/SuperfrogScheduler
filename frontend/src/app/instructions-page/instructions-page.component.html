@@ -9,7 +9,7 @@
           <ul class="nav navbar-nav ml-auto">
               <li><a id = "a-nav" href="#about">ABOUT</a></li>
               <li><a id = "a-nav" href="#contact">CONTACT</a></li>
-              <li><a id = "a-nav" routerLink="/superfrog-landing" routerLinkActive="active">SUPERFROG LOGIN</a></li>
+              <li><a id = "a-nav" routerLink="/auth" routerLinkActive="active">SUPERFROG LOGIN</a></li>
               <li><a id = "a-nav" href="/admin-landing" routerLinkActive = "active">ADMIN LOGIN</a></li>
             </ul>
       </div>
@@ -18,13 +18,14 @@
 
 <!--page content-->
 
-<div class = "container" style="text-align:center; padding-top: 120px; ">
+<div class = "container" style = "padding-top: 125px;">
   <div id = "form-container">
-    <div class = "col-md-6">
-      <h1>Thank you!</h1>
-      <p>We have recieved your request. You will soon recieve an email confirming your request details and an event code. We will review your request and let you know if Superfrog will be available as soon as possible. Go Frogs!</p>
-      <button type="button" routerLink="">Home</button>
-    </div>
-      <img class = "thankyou-img" src = "/assets/images/superfrogFountain.jpg" style = "max-width: 300px; max-height: 300px;">
+    <h1>You're on your way to an awesome event!</h1>
+    <p>Here's some info you might need to know before making a request.</p>
+    <h2>Requesting</h2>
+    <p>You'll choose your event date from our calendar of available dates. Any event must be requested at least 2 weeks in advance.</p>
+    <h2>Pricing</h2>
+    <p>Superfrogs cost $100 an hour for private events, and $75 an hour for TCU events. Showgirls and Cheerleaders are an added cost, that changes on a case by case basis.</p>
+    <button class = "btn-primary btn-xlarge"><a id = "btn-text" routerLink="/request-form" routerLinkActive="active">Got it!</a></button>
   </div>
 </div>

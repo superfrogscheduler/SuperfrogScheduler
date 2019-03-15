@@ -177,7 +177,8 @@ def list_by_status_list(request, status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
-
+        
+@csrf_exempt
 def email(request):
     subject = 'You have submitted an appearance request'
     message = 'We will review your request for a superfrog appearance and get back to you within the next 2 weeks.'

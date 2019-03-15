@@ -22,13 +22,10 @@
 <div style="text-align:center">
   <div class = "container align-center" style="padding-top: 50px;" >
   <div class = "row top-buffer align-center">
-  <div class = "col-md-6">
-    <h1 style = "text-align:center;">Request a TCU Spirit Appearance</h1>
-  </div>
-  <div class = "col-md-12">
-    <p>Select your event date from the calendar. Events must be scheduled at least 2 weeks in advance.</p>
-  </div>
+    
 <div class="container" [hidden]="!showCalendar">
+  <h1 style = "text-align:center;">Request a TCU Spirit Appearance</h1>
+  <p>Select your event date from the calendar. Events must be scheduled at least 2 weeks in advance.</p>
   <div class="row justify-content-center" style = "padding-bottom: 25px;">
     <div class="col-md-10">
       <div *ngIf="calendarOptions">
@@ -46,20 +43,11 @@
   </div>
 </div>
 <div [hidden]="showCalendar">
-  <div class="row">
-    <div class="col">
-      <button class="btn btn-secondary" (click)="backToCalendar()"> Back to Calendar </button>
-    </div>
-  </div>
   <div style="text-align:center">
     <div class="container align-center" id="pad-container">
-      <div class="row top-buffer">
-        <h1>Request a TCU Spirit Appearance</h1>
-      </div>
-      <div class="row top-buffer">
-        <p>Fill out and submit the form below. We will review your request within a week and let you know if Superfrog can be
-          there!</p>
-      </div>
+    <h1>Request a TCU Spirit Appearance</h1>
+    <p>Fill out and submit the form below. We will review your request within a week and let you know if Superfrog can be there!</p>
+      <button class="btn btn-secondary" (click)="backToCalendar()"> Back to Calendar </button>
       <form name='form' [formGroup]='form'>
         <div class="container top-buffer" id="form-container">
           <div class="form-group col-md-6">
@@ -115,7 +103,7 @@
           </div>
 
           <div class="form-group col-md-6">
-            <label class="col-form-label">Phone Number*:</label>
+            <label class="col-form-label">Phone Number (Include dashes)*:</label>
             <input type="" class="form-control" id="phone" placeholder="###-###-####"  formControlName="phoneNumber" [ngClass]="{'is-invalid':form.get('phoneNumber').touched && form.get('phoneNumber').invalid}"  name="phone">
             <div *ngIf="form.get('phoneNumber').touched && form.get('phoneNumber').invalid" class='invalid-feedback'>
               <div *ngIf="form.get('phoneNumber').errors.required">This field is required.</div>
@@ -205,7 +193,7 @@
 
           <div class="form-group col-md-12">
             <label class="col-form-label">
-              What expenses/benefits, if any, will the spirit member(s) receive while participating?
+              Will there be any expenses or benefits to the spirit team members?
             </label>
             <input type="text" class="form-control" id="expenses" [(ngModel)]="data.appearance.expenses" [ngModelOptions]="{standalone: true}"   name="expenses">
           </div>
@@ -216,7 +204,7 @@
           </div>
 
           <div class="form-group col-md-12">
-            <label class="col-form-label">Description of Event* (What is the event, what will Superfrog be doing, exact number of additional spirit team members, what will Superfrog be doing, etc.):</label>
+            <label class="col-form-label">Description of Event* (What is the event, what will Superfrog be doing, exact number of additional spirit team members, etc.):</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="description" formControlName="description"  [ngClass]="{'is-invalid':form.get('description').touched && form.get('description').invalid}" name="description"></textarea>
             <div class='invalid-feedback'>This field is required.</div>
           </div>
@@ -224,7 +212,7 @@
             <p>By requesting this event, you are agreeing to the terms &amp; conditions of a TCU Spirit Appearance.</p>
           </div>
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary btn-large" [disabled]="!form.valid || invalidAddr" (click)="saveRequest(); sendEmail();">Submit</button>
+            <button type="button" [disabled]="!form.valid || invalidAddr" (click)="saveRequest(); sendEmail();">Submit</button>
           </div>
         </div>
       </form>

@@ -159,6 +159,8 @@ export class RequestFormComponent implements OnInit {
         console.log(error);
       });
   }
+
+
   //This function is called when a day is clicked on the calendar
   dayClick(event: any) {
     this.errorMsg = "";
