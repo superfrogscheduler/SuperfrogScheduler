@@ -50,6 +50,7 @@ def getEmployee(request):
         queryset = Superfrog.objects.all()
         serializer = SuperfrogSerializer(queryset, many= True)
         return HttpResponse(JSONRenderer().render(serializer.data))
+        
 @csrf_exempt
 def appearances(request):
     print('hi')

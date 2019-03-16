@@ -48,7 +48,7 @@ export class AuthenticationComponent implements OnInit {
       response =>{
         this.superfrog = response
         this.user = response 
-        this.authService.setUser(this.superfrog)
+        this.authService.setUser(this.user)
         //navigate to homepage
         
         if ((this.user.is_admin) || (this.user.is_staff))

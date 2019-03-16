@@ -1,89 +1,10 @@
 import uuid
 from django.db import models
 import datetime
-
-#To add: customer foreign key on appearance
-
-class Superfrog(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=200)
-    phone = models.IntegerField(default=0)
-    appearances = models.ManyToManyField("Appearance", through="SuperfrogAppearance")
-
-    def __str__(self):
-        return self.first_name + " " + self.last_name
-
-class SuperfrogAppearance(models.Model):
-    superfrog = models.ForeignKey(Superfrog, on_delete=models.SET_NULL, null = True)
-    appearance = models.ForeignKey("Appearance", on_delete=models.CASCADE, null = True)
-    date_assigned = models.DateTimeField(default=datetime.date.today)
-
-class Admin(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=200)
-    phone = models.IntegerField(default=0)
-
-class Customer(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=200 )
-    phone = models.CharField(max_length=30)
-
-
-class Event(models.Model):
-    name = models.CharField(max_length=255, blank=True)
-    date = models.DateField( default = datetime.date.today, blank = True)
-    start_time = models.TimeField(blank = True)
-    end_time = models.TimeField(blank = True)
-    objects = models.Manager()
-
-    def __str__(self):
-        return ""+str(self.pk)+": "+self.name+" "+str(self.date)+" "+str(self.start_time)+"-"+str(self.end_time)
-
-
-class Appearance(Event):
-    #event = models.ForeignKey(Event, on_delete = "CASCADE")
-    event_key = models.UUIDField(default=uuid.uuid4, editable=False)
-    organization = models.CharField(max_length = 255, blank = True)
-    location = models.CharField(max_length=255, blank=True)
-    parking_info = models.CharField(max_length=255, blank=True)
-    org_type = models.CharField(max_length=255, blank = True)
-    cheerleaders = models.CharField(max_length=255, default = "None")
-    showgirls = models.CharField(max_length=255, default = "None")
-    performance_required = models.BooleanField(default=False)
-    special_instructions = models.CharField(max_length=255, blank=True)
-    expenses_and_benefits = models.CharField(max_length=255, blank=True)
-    outside_orgs = models.CharField(max_length = 255, blank = True)
-    description = models.CharField(max_length = 1000, blank = True)
-    status = models.CharField(max_length = 255, default = "Pending")
-    customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True, blank=True)
-    mileage = models.IntegerField(default = 0)
-    cost = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
-    receipt_number = models.CharField(max_length = 255, blank = True, null=True)
-    compensation_date = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self):
-        return super().__str__()
-
-# class OrgType(models.Model):
-#     org_type=models.CharField(max_length = 255)
-
-#     def  __str__(self):
-#        return ""+str(self.pk)+": "+self.org_type
-
-# class TeamType(models.Model):
-#     team_type = models.CharField(max_length = 255)
-
-#     def  __str__(self):
-#        return ""+str(self.pk)+": "+self.team_type
-    
-
-
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name, password):
@@ -102,6 +23,7 @@ class UserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
+        
         return user
 
     def create_staffuser(self, email, first_name, password):
@@ -177,3 +99,84 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
+
+
+#To add: customer foreign key on appearance
+
+class Superfrog(User):
+    #first_name = models.CharField(max_length=30)
+    #last_name = models.CharField(max_length=30)
+    #email = models.CharField(max_length=200)
+    phone = models.IntegerField(default=0)
+    appearances = models.ManyToManyField("Appearance", through="SuperfrogAppearance")
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name
+
+class SuperfrogAppearance(models.Model):
+    superfrog = models.ForeignKey(Superfrog, on_delete=models.SET_NULL, null = True)
+    appearance = models.ForeignKey("Appearance", on_delete=models.CASCADE, null = True)
+    date_assigned = models.DateTimeField(default=datetime.date.today)
+
+class Admin(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.CharField(max_length=200)
+    phone = models.IntegerField(default=0)
+
+class Customer(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.CharField(max_length=200 )
+    phone = models.CharField(max_length=30)
+
+
+class Event(models.Model):
+    name = models.CharField(max_length=255, blank=True)
+    date = models.DateField( default = datetime.date.today, blank = True)
+    start_time = models.TimeField(blank = True)
+    end_time = models.TimeField(blank = True)
+    objects = models.Manager()
+
+    def __str__(self):
+        return ""+str(self.pk)+": "+self.name+" "+str(self.date)+" "+str(self.start_time)+"-"+str(self.end_time)
+
+
+class Appearance(Event):
+    #event = models.ForeignKey(Event, on_delete = "CASCADE")
+    event_key = models.UUIDField(default=uuid.uuid4, editable=False)
+    organization = models.CharField(max_length = 255, blank = True)
+    location = models.CharField(max_length=255, blank=True)
+    parking_info = models.CharField(max_length=255, blank=True)
+    org_type = models.CharField(max_length=255, blank = True)
+    cheerleaders = models.CharField(max_length=255, default = "None")
+    showgirls = models.CharField(max_length=255, default = "None")
+    performance_required = models.BooleanField(default=False)
+    special_instructions = models.CharField(max_length=255, blank=True)
+    expenses_and_benefits = models.CharField(max_length=255, blank=True)
+    outside_orgs = models.CharField(max_length = 255, blank = True)
+    description = models.CharField(max_length = 1000, blank = True)
+    status = models.CharField(max_length = 255, default = "Pending")
+    customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True, blank=True)
+    mileage = models.IntegerField(default = 0)
+    cost = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
+    receipt_number = models.CharField(max_length = 255, blank = True, null=True)
+    compensation_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return super().__str__()
+
+# class OrgType(models.Model):
+#     org_type=models.CharField(max_length = 255)
+
+#     def  __str__(self):
+#        return ""+str(self.pk)+": "+self.org_type
+
+# class TeamType(models.Model):
+#     team_type = models.CharField(max_length = 255)
+
+#     def  __str__(self):
+#        return ""+str(self.pk)+": "+self.team_type
+    
+
+
