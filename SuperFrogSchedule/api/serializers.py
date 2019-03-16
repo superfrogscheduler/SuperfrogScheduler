@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Superfrog, Admin, Customer, Appearance, Event, SuperfrogAppearance
+from .models import Superfrog, Admin, Customer, Appearance, Event, SuperfrogAppearance, Class
+
 
 class SuperfrogSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,6 +50,14 @@ class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = SuperfrogAppearance
         fields = ('superfrog','appearance', 'date_assigned')
+
+class ClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Class
+        fields = "__all__"
+
+    def create(self, validated_data):
+        return Class(**validated_data)
 
 
 #Serializer for custom user model

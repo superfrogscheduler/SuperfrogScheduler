@@ -114,7 +114,6 @@ export class RequestFormComponent implements OnInit {
   }
 
   getEvents(year, month){
-    console.log('Hi!');
     this.ucCalendar.fullCalendar('removeEventSource', this.events);
     this.events.events = [];
     this.requestService.getEvents(year, month).subscribe(data => {

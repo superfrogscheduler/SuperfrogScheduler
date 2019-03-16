@@ -38,7 +38,6 @@ import json
 
 def list_by_status(request, status=None):
     if request.method == 'GET':
-        print('we did it')
         queryset = Appearance.objects.filter(status=status)
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
@@ -60,7 +59,6 @@ def appearances(request):
     #save information from form into appearance request
     elif request.method=='POST':
         data = json.loads(request.body)
-        print(data)
         appearance_serializer = AppearanceSerializer(data=data['appearance'])
         if appearance_serializer.is_valid():
             appearance = appearance_serializer.save()
