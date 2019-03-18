@@ -115,6 +115,11 @@ def signUp(request, id=None):
         superfrog_appearance.save()
         appearance_id.status = "Assigned"
         appearance_id.save()
+        #superfrog email
+        #customer email 
+        #admin email
+        send_mail('Appearance Confirmation','You are scheduled to appear at an event! Here is the appearance info: \n' + '\n' + 'Customer Contact Information \n' + 'Customer Name: ' + appearance_id.customer.first_name + ' ' + appearance_id.customer.last_name + '\n' + 'Phone Number: ' + str(appearance_id.customer.phone) + '\n' + 'Customer email: ' + appearance_id.customer.email + '\n' + ' \n' + 'Appearance Information \n' + 'Organization requesting event: ' + appearance_id.organization + '\n' + 'Location: ' + appearance_id.location + '\n' + 'Description: ' + appearance_id.description + '\n' + 'Status: ' + appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,'superfrog@scheduler.com',[Superfrog.objects.get(superfrog_id).email],fail_silently = False)
+        send_mail('Superfrog Appearance Confirmation','Your event has been accepted- and Superfrog will be there! Here is the appearance info confirmation: \n' + '\n' + 'Customer Contact Information \n' + 'Customer Name: ' + appearance_id.customer.first_name + ' ' + appearance_id.customer.last_name + '\n' + 'Phone Number: ' + str(appearance_id.customer.phone) + '\n' + 'Customer email: ' + appearance_id.customer.email + '\n' + ' \n' + 'Appearance Information \n' + 'Organization requesting event: ' + appearance_id.organization + '\n' + 'Location: ' + appearance_id.location + '\n' + 'Description: ' + appearance_id.description + '\n' + 'Status: ' + appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,'superfrog@scheduler.com',[appearance_id.customer.email],fail_silently = False)
         return HttpResponse(superfrog_appearance, status= 201)
 
 @csrf_exempt
@@ -123,6 +128,7 @@ def acceptAppearance(request, id=None):
         appearance_id = Appearance.objects.get(pk=id)
         appearance_id.status = "Accepted"
         appearance_id.save()
+        #superfrog email
         return HttpResponse( status=201)
 
 @csrf_exempt
@@ -130,6 +136,7 @@ def rejectAppearance(request, id = None):
     if request.method=='DELETE':
         appearance_id = Appearance.objects.get(pk=id)
         appearance_id.delete()
+        #customer email
         return HttpResponse(status = 201)
 def events(request):
     if request.method == 'GET':
