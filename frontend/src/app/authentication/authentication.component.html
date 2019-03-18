@@ -3,6 +3,10 @@
 
   <h1> Login for Superfrog </h1> <br>
 
+  <h4 *ngIf="edited" >
+    {{alert}}
+ </h4>
+
   <input [(ngModel)] = "superfrog.email" placeholder="Email address" > <br>
   <input [(ngModel)] = "superfrog.password" type="Password" placeholder="Password"> <br>
   

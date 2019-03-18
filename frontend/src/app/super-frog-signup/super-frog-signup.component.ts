@@ -7,6 +7,7 @@ import { SignUpService} from './super-frog-signup.service';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Superfrog } from '../shared/superfrog';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-super-frog-signup',
@@ -22,11 +23,13 @@ export class SuperFrogSignupComponent implements OnInit {
   model: SignUp = {};
   members = [1, 2, 3];
   signedUp = false;
-  data: {"customer": Customer, "appearance": Appearance, "superfrog": Superfrog} = {"customer":{}, "appearance":{}, "superfrog": {}};
-  putdata: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance":{}, "superfrog": {}};
+  superfrog: Superfrog;
+  data: any = {};
   getData: any = {};
-  id: number;
-  constructor(private signUpService: SignUpService, private route: ActivatedRoute) { }
+  id: number; //appearance id
+  superfrogId: number;
+
+  constructor(private signUpService: SignUpService, private route: ActivatedRoute, private authService: AuthenticationService) { }
 
   onSignedUp() {this.signedUp = true; }
 
@@ -34,24 +37,33 @@ export class SuperFrogSignupComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.getSuperfrog();
+    this.superfrog = {};
+    this.getSuperFrogId()
+    //this.getSuperfrog();
     this.getID();
   }
-  getSuperfrog() {
-    this.signUpService.getSuperFrog(this.data).subscribe(data => {
-      this.getData = data;
-    });
-  }
+  // getSuperfrog() {
+  //   this.signUpService.getSuperFrog(this.data).subscribe(data => {
+  //     this.getData = data;
+  //   });
+  // }
   getID() {
     this.signUpService.getID(this.id).subscribe(data => {
       console.log(data);
       this.getData = data;
     });
   }
+
+  getAppearance(){
+    
+  }
+  getSuperFrogId(){
+    this.superfrogId = this.authService.getUser('logged').id
+  }
+  
   signUp() {
-    this.signUpService.signUp(this.id, this.data).subscribe(data => {
-      console.log(data);
-      this.getData = data;
+    this.signUpService.signUp(this.id, this.superfrogId, this.data).subscribe(data => {
+      this.data = data
     });
   }
 }
