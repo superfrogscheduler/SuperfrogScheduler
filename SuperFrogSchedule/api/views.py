@@ -45,12 +45,16 @@ def list_by_status(request, status=None):
     else:
         return HttpResponseBadRequest()
 
+#def addEmployee(request):
+#    if request.method == 'POST:
+#        user = User.objects.create_user('') 
+
 def getEmployee(request):
     if request.method == 'GET':
         queryset = Superfrog.objects.all()
         serializer = SuperfrogSerializer(queryset, many= True)
         return HttpResponse(JSONRenderer().render(serializer.data))
-        
+
 @csrf_exempt
 def appearances(request):
     print('hi')
@@ -107,10 +111,10 @@ def create(request):
         return HttpResponseBadRequest()
         
 @csrf_exempt
-def signUp(request, id=None):
+def signUp(request, id=None, sId = None):
     if request.method=='PATCH':
         appearance_id = Appearance.objects.get(pk=id)
-        superfrog_id = Superfrog.objects.get(id = 1)
+        superfrog_id = Superfrog.objects.get(user_id = sId)
         superfrog_appearance = SuperfrogAppearance(superfrog=superfrog_id, appearance=appearance_id)
         superfrog_appearance.save()
         appearance_id.status = "Assigned"

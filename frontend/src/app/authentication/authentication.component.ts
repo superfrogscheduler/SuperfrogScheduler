@@ -46,7 +46,6 @@ export class AuthenticationComponent implements OnInit {
   onLogin() {
     this.authService.loginSuperfrog(this.superfrog).subscribe(
       response =>{
-        this.superfrog = response
         this.user = response 
         this.authService.setUser(this.user)
         //navigate to homepage
@@ -56,7 +55,6 @@ export class AuthenticationComponent implements OnInit {
         else  
           this.router.navigate(['/superfrog-landing'])
         
-       //this.router.navigate(['/superfrog-landing'])
       }, 
       error => {
         this.alert = 'Email/Password combination is invalid'

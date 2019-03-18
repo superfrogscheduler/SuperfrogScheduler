@@ -103,26 +103,28 @@ class User(AbstractBaseUser):
 
 #To add: customer foreign key on appearance
 
-class Superfrog(User):
-    #first_name = models.CharField(max_length=30)
-    #last_name = models.CharField(max_length=30)
-    #email = models.CharField(max_length=200)
+class Superfrog(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,)
     phone = models.IntegerField(default=0)
+    #what is this for? 
     appearances = models.ManyToManyField("Appearance", through="SuperfrogAppearance")
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.user.__str__()
 
 class SuperfrogAppearance(models.Model):
     superfrog = models.ForeignKey(Superfrog, on_delete=models.SET_NULL, null = True)
     appearance = models.ForeignKey("Appearance", on_delete=models.CASCADE, null = True)
-    date_assigned = models.DateTimeField(default=datetime.date.today)
+    date_assigned = models.DateTimeField(default=datetime.datetime.today)
+
 
 class Admin(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=200)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,)
     phone = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.__str__()
+
 
 class Customer(models.Model):
     first_name = models.CharField(max_length=30)
