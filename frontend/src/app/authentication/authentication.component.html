@@ -16,7 +16,19 @@
       </nav>
   </div>
 
+<<<<<<< HEAD
 <div style="text-align:center; padding-top: 75px;">
+=======
+  <h4 *ngIf="edited" >
+    {{alert}}
+ </h4>
+
+  <input [(ngModel)] = "superfrog.email" placeholder="Email address" > <br>
+  <input [(ngModel)] = "superfrog.password" type="Password" placeholder="Password"> <br>
+  
+  <button (click) = "onRegister()" hidden> Register</button>
+  <button (click) = "onLogin()">Login</button> <br>
+>>>>>>> 66a6957f6d8d7ad01a6290c0a39f820042afded6
 
   <form>
     <h1>Login</h1> <br>

@@ -46,21 +46,15 @@ export class AuthenticationComponent implements OnInit {
   onLogin() {
     this.authService.loginSuperfrog(this.superfrog).subscribe(
       response =>{
-        this.superfrog = response
         this.user = response 
-        console.log(this.user)
-        this.authService.setUser(this.superfrog)
+        this.authService.setUser(this.user)
         //navigate to homepage
-
-        /*
+        
         if ((this.user.is_admin) || (this.user.is_staff))
           this.router.navigate(['/admin-landing'])
         else  
           this.router.navigate(['/superfrog-landing'])
-        */
-       this.router.navigate(['/superfrog-landing'])
-
-
+        
       }, 
       error => {
         this.alert = 'Email/Password combination is invalid'
