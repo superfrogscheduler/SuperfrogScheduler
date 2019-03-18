@@ -106,7 +106,7 @@ class User(AbstractBaseUser):
 class Superfrog(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,)
     phone = models.IntegerField(default=0)
-    #what is this for? 
+    #list of appearances id
     appearances = models.ManyToManyField("Appearance", through="SuperfrogAppearance")
 
     def __str__(self):
