@@ -152,12 +152,15 @@ export class RequestFormComponent implements OnInit {
     this.data.appearance.start_time = this.newEvent[0].start.format('kk:mm');
     this.data.appearance.end_time = this.newEvent[0].end.format('kk:mm');
     this.requestService.saveRequest(this.data).subscribe(response => {
-      this.router.navigate(['/customer-confirmation']);
+    this.router.navigate(['/customer-confirmation']); //how do i route this to a django view url instead???
+    
       },
       error => {
         console.log(error);
       });
   }
+
+
   //This function is called when a day is clicked on the calendar
   dayClick(event: any) {
     this.errorMsg = "";

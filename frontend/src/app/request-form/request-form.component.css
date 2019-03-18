@@ -30,6 +30,15 @@ a {
     color: #4d1979;
 }
 
+button {
+    background-color: #4d1979 !important;
+    border-color: #4d1979 !important;
+    color: white !important;
+    width: 150px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
 .lead {
     color: white;
 }
@@ -48,12 +57,8 @@ navbar, .navbar-expand-lg {
     margin-top: 0;
 }
 
-.btn-primary, .btn-primary:visited{
-    color:#4d1979;
-    background-color: transparent;
-    border-color: #4d1979;
+.btn-secondary {
     border-radius: 0px;
-    border-width: 4px;
 }
 
 a, a:visited{
@@ -65,12 +70,6 @@ a:hover{
     color: #ffffff;
 }
 
-.btn-primary:hover{
-    background-color:  #4d1979 !important;
-    border-color: white;
-    color: white;
-
-}
 .top-buffer { margin-top:20px; }
 
 .btn-xlarge {
@@ -104,17 +103,6 @@ a:hover{
 #a-nav:hover {
     background-color: transparent;
     color: black;
-}
-
-#jumbo-button {
-    background-color: transparent !important;
-    border-color: white;
-    border-radius:0;
-}
-
-#jumbo-button:hover {
-
-    background-color: #4d1979 !important;
 }
 
 #form-container {
