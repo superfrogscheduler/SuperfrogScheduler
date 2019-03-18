@@ -44,6 +44,7 @@ export class AuthenticationComponent implements OnInit {
   }
   
   onLogin() {
+    console.log(this.superfrog)
     this.authService.loginSuperfrog(this.superfrog).subscribe(
       response =>{
         this.user = response 
