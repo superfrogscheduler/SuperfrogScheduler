@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User,Superfrog, Admin, Customer, Appearance, Event, SuperfrogAppearance, Class
+from .models import User,Superfrog, Admin, Customer, Appearance, Event, SuperfrogAppearance
 
 #Serializer for custom user model
 from django.contrib.auth import update_session_auth_hash
@@ -53,13 +53,13 @@ class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
         model = SuperfrogAppearance
         fields = ('superfrog','appearance', 'date_assigned')
 
-class ClassSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Class
-        fields = "__all__"
+# class ClassSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Class
+#         fields = "__all__"
 
-    def create(self, validated_data):
-        return Class(**validated_data)
+#     def create(self, validated_data):
+#         return Class(**validated_data)
 
 
 class UserSerializer(serializers.ModelSerializer):
