@@ -14,17 +14,20 @@ from .views import (
     list_by_status_list,
     LoginView,
     acceptAppearance,
-    rejectAppearance
+    rejectAppearance,
+    email
     )
+
 urlpatterns = [
     url(r'^appearances/$', appearances),
     url(r'^appearances/status/(?P<status>\w+)/$', list_by_status),
     url(r'^appearances/(?P<id>\d+)/$', detail),
     url(r'^events/customer-monthly/(?P<year>\d+)/(?P<month>\d+)/$', events_customer_monthly),   
     url(r'^employees/$', getEmployee),
-    url(r'^employeeAppearance/(?P<id>\d+)/$', signUp),
+    url(r'^employeeAppearance/(?P<id>\d+)/(?P<sId>\d+)/$', signUp),
     url(r'^listAppearances/status/(?P<status>\w+)/$', list_by_status_list),
     url(r'^auth/login/$', LoginView.as_view(), name='Login'),
     url(r'adminAccept/(?P<id>\d+)/$',acceptAppearance),
-    url(r'adminReject/(?P<id>\d+)/$', rejectAppearance)
+    url(r'adminReject/(?P<id>\d+)/$', rejectAppearance),
+    url(r'^email/', email)
 ]
