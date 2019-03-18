@@ -9,6 +9,12 @@ import * as moment from 'moment';
 })
 export class SuperfrogClassScheduleComponent implements OnInit {
   calendarOptions: Options;
+  data = [];
+  toDisplay = {eventColor: '#4d1979', events: []};
+  toAdd = [];
+  toDelete = [];
+  toUpdate = [];
+  selectedEvent: any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent
   constructor() { }
 
@@ -17,10 +23,16 @@ export class SuperfrogClassScheduleComponent implements OnInit {
       editable: false,
       eventLimit: false,
       eventOverlap: false,
+      selectable: false,
+      selectOverlap: false,
       defaultView: 'agendaWeek',
       columnFormat: 'dddd',
       allDaySlot: false,
       defaultDate: moment('2018-12-30'),
+      eventSources: [
+        this.data,
+        this.toAdd
+      ],
       customButtons: {
         edit: {
           text: 'edit',
@@ -29,9 +41,10 @@ export class SuperfrogClassScheduleComponent implements OnInit {
               header: {
                 left: '',
                 center: 'title',
-                right: 'save cancel'
+                right: 'save,cancel delete'
               },
-              editable: true
+              editable: true,
+              selectable: true
             });
           }
         },
@@ -43,7 +56,9 @@ export class SuperfrogClassScheduleComponent implements OnInit {
                 left: '',
                 center: 'title',
                 right: 'edit'
-              }
+              },
+              editable: false,
+              selectable: false
             });
           }
         },
@@ -58,6 +73,24 @@ export class SuperfrogClassScheduleComponent implements OnInit {
               }
             });
           }
+        },
+        delete: {
+          text: 'delete',
+          click: () => {
+            this.ucCalendar.fullCalendar('removeEvents', (event)=>{Object.is(event, this.selectedEvent);});
+            if(!this.selectedEvent.action){
+              this.toDelete.push(this.selectedEvent.id);
+            }
+            else if(this.selectedEvent.action == 'add'){
+              let index = this.toAdd.find((element)=>{return element == this.selectedEvent.id;});
+              this.toAdd = this.toAdd.splice(index,1);
+            }
+            else {
+              let index = this.toUpdate.find((element)=>{return element == this.selectedEvent.id;});
+              this.toUpdate = this.toUpdate.splice(index,1);
+            }
+            this.ucCalendar.fullCalendar('rerenderEvents');
+          }
         }
       }, 
       header: {
@@ -68,6 +101,33 @@ export class SuperfrogClassScheduleComponent implements OnInit {
       titleFormat: '[Class Schedule]',
 
     }
+  }
+
+  select(event: any){
+    var title = prompt("Enter event name:");
+    if(title){
+      this.toAdd.push({
+        title: title,
+        start: event.start,
+        end: event.end,
+        action: 'add'
+      });
+      this.ucCalendar.fullCalendar('removeEventSource', this.toAdd);
+      this.ucCalendar.fullCalendar('refetchEvents');
+      this.ucCalendar.fullCalendar('addEventSource', this.toAdd);
+      this.ucCalendar.fullCalendar('refetchEvents');
+    }
+  }
+
+  eventClick(event: any){
+    if(this.selectedEvent){
+      this.selectedEvent.borderColor = 'initial';
+      this.ucCalendar.fullCalendar('updateEvent', this.selectedEvent);
+    }
+
+    this.selectedEvent = event.event;
+    this.selectedEvent.borderColor = 'gold';
+    this.ucCalendar.fullCalendar('updateEvent', event.event);
   }
 
 }

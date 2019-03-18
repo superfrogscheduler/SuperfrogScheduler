@@ -39,6 +39,7 @@ export class RequestFormComponent implements OnInit {
   invalidAddr: boolean = false;
   events = { id: "events", events: [], editable: false, overlap: false, eventColor: '#4d1979' };
   newEvent = [];
+  
   constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
 
   onSubmit() { this.submitted = true; }
@@ -234,7 +235,6 @@ export class RequestFormComponent implements OnInit {
     this.zone.run(() => {
       console.log(place);
       if (!place.geometry) {
-        console.log("INVALID ADDRESS");
         this.invalidAddr = true;
       }
       else{
@@ -242,6 +242,7 @@ export class RequestFormComponent implements OnInit {
         this.locationAddr = place.formatted_address;
         //This is working around a weird google
         this.form.get('locationAddr').setValue(this.locationAddr);
+
       }
     });
   }
