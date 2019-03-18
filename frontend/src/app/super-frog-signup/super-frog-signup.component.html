@@ -19,39 +19,9 @@
 
 <div style="text-align:center; padding-top:125px;">
     <div class = "container align-center" id="request-container">
-      <div class = "row top-buffer">
-        <h1>{{getData.name}}</h1>
+        <h1 style = "padding-bottom: 10px;">{{getData.name}}</h1>
+        <p style = "padding-bottom: 10px;"><a href = "#" id = "edit">Edit event details</a></p>
 <div style="text-align: center">
-  <div class = "container align-center" id = "pad-container">
-    <div class = "row top-buffer">
-      <h1>Appearance Title: {{getData.name}}</h1> 
-      <div class = "col-md-12"><button type="button" class="btn btn-primary btn-large" (click)="signUp()" routerLink="/list-appearances">Sign Up</button></div>
-      <h3>Be aware that you will not be able to cancel your appearance once you sign up. You will have to contact admin to cancel.</h3>
-      <div class = "col-md-12"><button type="button" class="btn btn-primary btn-large" routerLink="/list-appearances">Cancel</button></div>
-    </div>
-    <div class = "row">
-      <div class = "col-md-4">
-        <h3>Status : {{getData.status}}</h3>
-      </div>
-      <div class = "col-md-4">
-        <h3>Location : {{getData.location}}</h3>
-      </div>
-      <div class = "col-md-4">
-        <h3>Date: {{getData.date}}</h3>
-        <h3>Time: {{getData.start_time}}, {{getData.end_time}}</h3>
-      </div>
-      <div class = "col-md-4">
-        <h3>Customer Information: 
-          {{getData.customer.first_name}} {{getData.customer.last_name}}
-          {{getData.customer.email}}
-          {{getData.customer.phone}}</h3>
-      </div>
-      <div class = "col-md-4">
-        <h3>Details: {{getData.description}}</h3>
-      </div>
-      <div class = "row top-buffer">
-        <p>Event code will show here.</p>
-      </div>
       <div class = "row">
         <div class = "col-md-4">
           <h3>Contact Name</h3> <p>{{getData.customer.first_name}} {{getData.customer.last_name}}</p>
@@ -72,6 +42,12 @@
         </div>
 
       </div>
-        <p><a href = "#" id = "edit">Edit event details</a></p>
+
     </div>
-  </div>
+    <div>
+      <div>
+        <button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="signUp()" routerLink="/list-appearances">Sign Up</button>
+        <button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" routerLink="/list-appearances">Cancel</button>    
+      </div>
+      <p class= "text-muted">Be aware that you will not be able to cancel your appearance once you sign up. You will have to contact admin to cancel.</p>
+    </div>

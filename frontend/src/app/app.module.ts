@@ -29,6 +29,7 @@ import { EventCodeComponent } from './event-code/event-code.component';
 import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-reject-details.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
+import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
   { path: 'list-accept-reject',  component: ListAcceptRejectComponent },
   { path: 'accept-reject-details/:id',component: AcceptRejectDetailsComponent},
   { path: 'superfrog-class-schedule', component: SuperfrogClassScheduleComponent},
+  {path: 'instructions-page', component: InstructionsPageComponent}
 ];
 
 @NgModule({
@@ -74,6 +76,7 @@ const appRoutes: Routes = [
     ListAcceptRejectComponent,
     AcceptRejectDetailsComponent,
     SuperfrogClassScheduleComponent,
+    InstructionsPageComponent,
   ],
   imports: [
     RouterModule.forRoot(

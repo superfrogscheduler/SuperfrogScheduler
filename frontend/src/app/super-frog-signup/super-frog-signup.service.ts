@@ -10,14 +10,16 @@ import { Observable } from 'rxjs';
     id: string;
     httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
     constructor(private http: HttpClient) { }
-    getSuperFrog(req: {}): Observable<any> {
-      console.log(req);
-      return this.http.get(this.baseurl + "employees/", req);
+
+    getSuperFrog(): Observable<any> {
+      
+      return this.http.get(this.baseurl + "employees/");
     }
+    
     getID(id: number): Observable<any> {
       return this.http.get(this.baseurl + "appearances/" + id);
     }
-    signUp(id: number, req: {}): Observable<any> {
-      return this.http.patch(this.baseurl + "employeeAppearance/" + id + "/", req);
+    signUp(id: number, sID: number, req: {}): Observable<any> {
+      return this.http.patch(this.baseurl + "employeeAppearance/" + id + "/" + sID + "/", req);
     }
   }

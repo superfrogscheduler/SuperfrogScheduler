@@ -13,6 +13,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
 from django.contrib.auth import authenticate, login
@@ -44,11 +45,16 @@ def list_by_status(request, status=None):
     else:
         return HttpResponseBadRequest()
 
+#def addEmployee(request):
+#    if request.method == 'POST:
+#        user = User.objects.create_user('') 
+
 def getEmployee(request):
     if request.method == 'GET':
         queryset = Superfrog.objects.all()
         serializer = SuperfrogSerializer(queryset, many= True)
         return HttpResponse(JSONRenderer().render(serializer.data))
+
 @csrf_exempt
 def appearances(request):
     print('hi')
@@ -106,14 +112,19 @@ def create(request):
         return HttpResponseBadRequest()
         
 @csrf_exempt
-def signUp(request, id=None):
+def signUp(request, id=None, sId = None):
     if request.method=='PATCH':
         appearance_id = Appearance.objects.get(pk=id)
-        superfrog_id = Superfrog.objects.get(id = 1)
+        superfrog_id = Superfrog.objects.get(user_id = sId)
         superfrog_appearance = SuperfrogAppearance(superfrog=superfrog_id, appearance=appearance_id)
         superfrog_appearance.save()
         appearance_id.status = "Assigned"
         appearance_id.save()
+        #superfrog email
+        #customer email 
+        #admin email
+        send_mail('Appearance Confirmation','You are scheduled to appear at an event! Here is the appearance info: \n' + '\n' + 'Customer Contact Information \n' + 'Customer Name: ' + appearance_id.customer.first_name + ' ' + appearance_id.customer.last_name + '\n' + 'Phone Number: ' + str(appearance_id.customer.phone) + '\n' + 'Customer email: ' + appearance_id.customer.email + '\n' + ' \n' + 'Appearance Information \n' + 'Organization requesting event: ' + appearance_id.organization + '\n' + 'Location: ' + appearance_id.location + '\n' + 'Description: ' + appearance_id.description + '\n' + 'Status: ' + appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,'superfrog@scheduler.com',[Superfrog.objects.get(superfrog_id).email],fail_silently = False)
+        send_mail('Superfrog Appearance Confirmation','Your event has been accepted- and Superfrog will be there! Here is the appearance info confirmation: \n' + '\n' + 'Customer Contact Information \n' + 'Customer Name: ' + appearance_id.customer.first_name + ' ' + appearance_id.customer.last_name + '\n' + 'Phone Number: ' + str(appearance_id.customer.phone) + '\n' + 'Customer email: ' + appearance_id.customer.email + '\n' + ' \n' + 'Appearance Information \n' + 'Organization requesting event: ' + appearance_id.organization + '\n' + 'Location: ' + appearance_id.location + '\n' + 'Description: ' + appearance_id.description + '\n' + 'Status: ' + appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,'superfrog@scheduler.com',[appearance_id.customer.email],fail_silently = False)
         return HttpResponse(superfrog_appearance, status= 201)
 
 @csrf_exempt
@@ -122,6 +133,7 @@ def acceptAppearance(request, id=None):
         appearance_id = Appearance.objects.get(pk=id)
         appearance_id.status = "Accepted"
         appearance_id.save()
+        #superfrog email
         return HttpResponse( status=201)
 
 @csrf_exempt
@@ -129,6 +141,7 @@ def rejectAppearance(request, id = None):
     if request.method=='DELETE':
         appearance_id = Appearance.objects.get(pk=id)
         appearance_id.delete()
+        #customer email
         return HttpResponse(status = 201)
 def events(request):
     if request.method == 'GET':
@@ -176,8 +189,15 @@ def list_by_status_list(request, status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
-
-
+        
+@csrf_exempt
+def email(request):
+    subject = 'You have submitted an appearance request'
+    message = 'We will review your request for a superfrog appearance and get back to you within the next 2 weeks.'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['allensarahanne@gmail.com',]
+    send_mail( subject, message, email_from, recipient_list )
+    return redirect('/customer-confirmation')
 
 #Login View
 class LoginView(views.APIView):

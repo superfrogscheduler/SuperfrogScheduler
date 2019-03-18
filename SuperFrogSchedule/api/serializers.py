@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from .models import Superfrog, Admin, Customer, Appearance, Event, SuperfrogAppearance, Class
+from .models import User,Superfrog, Admin, Customer, Appearance, Event, SuperfrogAppearance, Class
 
+#Serializer for custom user model
+from django.contrib.auth import update_session_auth_hash
 
 class SuperfrogSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,23 +62,19 @@ class ClassSerializer(serializers.ModelSerializer):
         return Class(**validated_data)
 
 
-#Serializer for custom user model
-from django.contrib.auth import update_session_auth_hash
-from rest_framework import serializers
-from .models import User
-
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     confirm_password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'created_at', 'updated_at',
-                  'first_name', 'last_name', 'password',
-                  'confirm_password',)
+        fields = ('id', 'email','first_name', 'last_name',
+                    'created_at', 'updated_at',
+                    'password','confirm_password',
+                    'is_active','is_admin','is_staff',)
         read_only_fields = ('created_at', 'updated_at',)
 
-        def create(self, validated_data):
+    """ def create(self, validated_data):
             return User.objects.create(**validated_data)
 
         def update(self, instance, validated_data):
@@ -92,4 +90,4 @@ class UserSerializer(serializers.ModelSerializer):
             #prevent logging user out after changing password
             #update_session_auth_hash(self.context.get('request'), instance)
 
-            return instance
+            return instance """
