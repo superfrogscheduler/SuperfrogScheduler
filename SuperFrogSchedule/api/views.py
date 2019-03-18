@@ -39,7 +39,6 @@ import json
 
 def list_by_status(request, status=None):
     if request.method == 'GET':
-        print('we did it')
         queryset = Appearance.objects.filter(status=status)
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
@@ -66,13 +65,12 @@ def appearances(request):
     #save information from form into appearance request
     elif request.method=='POST':
         data = json.loads(request.body)
-        print(data)
         appearance_serializer = AppearanceSerializer(data=data['appearance'])
         if appearance_serializer.is_valid():
             appearance = appearance_serializer.save()
             appearance_serializer = AppearanceSerializer(appearance)
             print(appearance_serializer.data)
-            appearance.save()
+
             
         else:
             print(appearance_serializer.errors)
@@ -83,6 +81,8 @@ def appearances(request):
         if customer_serializer.is_valid():
             customer = customer_serializer.save()
             customer.save()
+            appearance.customer=customer
+            appearance.save()
             send_mail('Event request confirmation','Thanks for requesting a Superfrog appearance! Here is a confirmation message for the event request: \n' + '\n' + 'Customer Contact Information \n' + 'Customer Name: ' + customer.first_name + ' ' + customer.last_name + '\n' + 'Phone Number: ' + str(customer.phone) + '\n' + 'Customer email: ' + customer.email + '\n' + ' \n' + 'Appearance Information \n' + 'Organization requesting event: ' + appearance.organization + '\n' + 'Location: ' + appearance.location + '\n' + 'Description: ' + appearance.description + '\n' + 'Status: ' + appearance.status + '\n' + '\n' + 'Our team will review your request within the next two weeks. You will receive an email updating you on our decision when it is made. Thanks and Go Frogs!' ,'superfrog@scheduler.com',[customer.email],fail_silently = False)
         else:
             print(customer_serializer.errors)
