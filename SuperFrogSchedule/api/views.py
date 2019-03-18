@@ -16,6 +16,8 @@ from django.core.mail import send_mail
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
 from django.contrib.auth import authenticate, login
+import pdfrw
+import os
 
 import json
 
@@ -35,6 +37,37 @@ import json
 #         return Response(serializer.data)
 
 #     serializer = AppearanceShortSerializer
+
+INVOICE_TEMPLATE_PATH = 'Honorarium_Request_Final.pdf'
+INVOICE_OUTPUT_PATH = 'fillform.pdf'
+
+ANNOT_KEY = '/Annots'
+ANNOT_FIELD_KEY = '/T'
+ANNOT_VAL_KEY='/V'
+ANNOT_RECT_KEY = '/Rect'
+SUBTYPE_KEY = '/Subtype'
+WIDGET_SUBTYPE_kEY='/Widget
+
+def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
+    template_pdf=pdfrw.PdfReader(input_pdf_path)
+    annotations=template_pdf.pages[0][ANNOT_KEY]
+    for annotation in annotations:
+        if annotation[SUBTYPE_KEY]==WIDGET_SUBTYPE_kEY:
+            key=annotation[ANNOT_FIELD_KEY][1:-1]
+            if key in data_dict.keys():
+                annotation.update(
+                    pdfrw.PdfDict(V='{}'.format(data_dict[key]))
+                )
+
+    pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
+        
+def generatePayroll(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        superfrog_serializer = SuperfrogSerializer(data=data['superfrog'])
+        if superfrog_serializer.is_valid():
+            
 
 def list_by_status(request, status=None):
     if request.method == 'GET':
@@ -94,22 +127,26 @@ def detail(request, id=None):
     else:
         return HttpResponseBadRequest()
 def payroll_appearance(request,status=None):
-    if request.method == 'GET':
-        appear = Appearance.objects.filter(status=status)
-        queryset = SuperfrogAppearance.objects.filter( appearance=appear)
-        serializer = PayrollSerializer(queryset, many = False)
+    if request.method == 'GET': # Go Over this with Duncan!!!!!
+        # queryset = SuperfrogAppearance.objects.get( appearance__status=status)
+        # appear_stat = Appearance.objects.get(status=status)
+        # Super_id = Superfrog.objects.get(pk=1)
+        # queryset= SuperfrogAppearance.objects.get(superfrog=Super_id, appearance__status= appear_stat)
+        queryset = SuperfrogAppearance.objects.all()
+        serializer = PayrollSerializer(queryset, many = True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
 
 def payroll_detail(request, id=None):
     if request.method == 'GET':
-        apperarnce_id = Appearance.objects.get(pk=id)
-        queryset = SuperfrogAppearance(appearance=apperarnce_id)
+        queryset = SuperfrogAppearance.objects.get(pk=id)
         serializer = PayrollSerializer(queryset, many=False)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
+
 def create(request):
     if request.method=='POST':
         data = JSONParser().parse(request.body)

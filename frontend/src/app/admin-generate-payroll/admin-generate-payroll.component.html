@@ -1,3 +1,28 @@
-<p>
-  admin-generate-payroll works!
-</p>
+<div style="text-align:center; padding-top:125px;">
+  <div class = "container align-center" id="request-container">
+    <div>
+      <h1>{{payrollData.appearance.name}}</h1>
+    </div>
+    <div>
+      <p>SuperFrog: {{payrollData.superfrog.first_name}} {{payrollData.superfrog.last_name}}</p>
+      <p><a href = "#" id = "edit">Edit event details</a></p>
+    </div>
+    <div class = "row" style = "padding-top: 25px;">
+      <div class = "col-md-4">
+        <h3>Mileage</h3> <p>{{payrollData.appearance.mileage}}</p>
+      </div>
+      <div class = "col-md-4">
+        <h3>Cost</h3> <p>{{payrollData.appearance.cost}}</p>
+      </div>
+      <div class = "col-md-4">
+          <h3>Event Date</h3> <p>{{payrollData.appearance.date}}</p>
+          <h3>Time</h3> <p>{{payrollData.appearance.start_time}} - {{payrollData.appearance.end_time}}</p>
+          <h3>Location</h3> <p>{{payrollData.appearance.location}}</p>
+      </div>
+      <div class = "col-md-4">
+          <h3>Description</h3> <p>{{payrollData.appearance.description}}</p>
+      </div>
+
+    </div>
+  </div>
+</div>

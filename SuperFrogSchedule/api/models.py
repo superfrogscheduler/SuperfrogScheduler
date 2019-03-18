@@ -18,7 +18,9 @@ class SuperfrogAppearance(models.Model):
     superfrog = models.ForeignKey(Superfrog, on_delete=models.SET_NULL, null = True)
     appearance = models.ForeignKey("Appearance", on_delete=models.CASCADE, null = True)
     date_assigned = models.DateTimeField(default=datetime.datetime.today)
-
+    
+    def __str__(self):
+        return super().__str__()
 
 class Admin(models.Model):
     first_name = models.CharField(max_length=30)
