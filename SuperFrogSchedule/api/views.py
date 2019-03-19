@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets, views, generics
-from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance
+from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance, User
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
 from rest_framework import viewsets, views, generics, status
 from .models import Superfrog, Admin, Customer, Event, Appearance
@@ -17,6 +17,7 @@ from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
 from django.contrib.auth import authenticate, login
+from django.template.loader import render_to_string, get_template
 
 import json
 
@@ -67,7 +68,7 @@ def appearances(request):
             appearance = appearance_serializer.save()
             appearance_serializer = AppearanceSerializer(appearance)
             print(appearance_serializer.data)
-            appearance.save()
+            
             
         else:
             print(appearance_serializer.errors)
@@ -78,7 +79,45 @@ def appearances(request):
         if customer_serializer.is_valid():
             customer = customer_serializer.save()
             customer.save()
-            send_mail('Event request confirmation','Thanks for requesting a Superfrog appearance! Here is a confirmation message for the event request: \n' + '\n' + 'Customer Contact Information \n' + 'Customer Name: ' + customer.first_name + ' ' + customer.last_name + '\n' + 'Phone Number: ' + str(customer.phone) + '\n' + 'Customer email: ' + customer.email + '\n' + ' \n' + 'Appearance Information \n' + 'Organization requesting event: ' + appearance.organization + '\n' + 'Location: ' + appearance.location + '\n' + 'Description: ' + appearance.description + '\n' + 'Status: ' + appearance.status + '\n' + '\n' + 'Our team will review your request within the next two weeks. You will receive an email updating you on our decision when it is made. Thanks and Go Frogs!' ,'superfrog@scheduler.com',[customer.email],fail_silently = False)
+            appearance.customer = customer
+            appearance.save()
+            html_message = render_to_string(
+                'customer_confirmation.html',
+                {
+                    'first_name': customer.first_name,
+                    'last_name':  customer.last_name,
+                    'phone': customer.phone,
+                    'email': customer.email,
+                    'organization': appearance.organization,
+                    'location': appearance.location,
+                    'description': appearance.description,
+                    'status': appearance.status,
+                    'special_instructions': appearance.special_instructions,
+                    'expenses_and_benefits': appearance.expenses_and_benefits,
+                    'cheerleaders': appearance.cheerleaders,
+                    'showgirls': appearance.showgirls, 
+                }
+            )
+            send_mail('Event request confirmation',
+            'Thanks for requesting a Superfrog appearance! Here is a confirmation message for the event request: \n' +
+             '\n' + 'Customer Contact Information \n' + 
+             'Customer Name: ' + customer.first_name + 
+             ' ' + customer.last_name + '\n' + 
+             'Phone Number: ' + str(customer.phone) + 
+             '\n' + 'Customer email: ' + customer.email + 
+             '\n' + ' \n' + 'Appearance Information \n' + 
+             'Organization requesting event: ' + appearance.organization + '\n' + 
+             'Location: ' + appearance.location + '\n' + 
+             'Description: ' + appearance.description + '\n' + 
+             'Status: ' + appearance.status + '\n' +
+             'Special Instructions: ' + appearance.special_instructions +  '\n' + 
+             'Expenses and Benefits: ' + appearance.expenses_and_benefits + '\n' +
+             'Cheerleaders: ' + appearance.cheerleaders + ' Showgirls: ' + appearance.showgirls + '\n' + '\n' +
+             'Our team will review your request within the next two weeks. You will receive an email updating you on our decision when it is made. Thanks and Go Frogs!' ,
+             'superfrog@scheduler.com',
+             [customer.email],
+             fail_silently = False,
+             html_message = html_message)
         else:
             print(customer_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
@@ -115,38 +154,78 @@ def signUp(request, id=None, sId = None):
         superfrog_appearance.save()
         appearance_id.status = "Assigned"
         appearance_id.save()
-        #superfrog email
-        #customer email 
+        #superfrog email confirming sign up
+        superfrog_message = render_to_string(
+                'superfrog_confirmation.html',
+                {
+                    'first_name': appearance_id.customer.first_name,
+                    'last_name':  appearance_id.customer.last_name,
+                    'phone': appearance_id.customer.phone,
+                    'email': appearance_id.customer.email,
+                    'organization': appearance_id.organization,
+                    'location': appearance_id.location,
+                    'description': appearance_id.description,
+                    'status': appearance_id.status,
+                    'special_instructions': appearance_id.special_instructions,
+                    'expenses_and_benefits': appearance_id.expenses_and_benefits,
+                    'cheerleaders': appearance_id.cheerleaders,
+                    'showgirls': appearance_id.showgirls, 
+                }
+            )
+        #customer email confirming appearance
+        customer_message = render_to_string(
+                'appearance_confirmation.html',
+                {
+                    'first_name': appearance_id.customer.first_name,
+                    'last_name':  appearance_id.customer.last_name,
+                    'phone': appearance_id.customer.phone,
+                    'email': appearance_id.customer.email,
+                    'organization': appearance_id.organization,
+                    'location': appearance_id.location,
+                    'description': appearance_id.description,
+                    'status': appearance_id.status,
+                    'special_instructions': appearance_id.special_instructions,
+                    'expenses_and_benefits': appearance_id.expenses_and_benefits,
+                    'cheerleaders': appearance_id.cheerleaders,
+                    'showgirls': appearance_id.showgirls, 
+                }
+            )
         #admin email
-        #send_mail('Appearance Confirmation','You are scheduled to appear at an event! Here is the appearance info: \n' + 
-        # '\n' + 'Customer Contact Information \n' 
-        # + 'Customer Name: ' 
-        # + appearance_id.customer.first_name 
-        # + ' ' + appearance_id.customer.last_name 
-        # + '\n' + 'Phone Number: ' 
-        # + str(appearance_id.customer.phone) 
-        # + '\n' + 'Customer email: ' 
-        # + appearance_id.customer.email 
-        # + '\n' + ' \n' + 'Appearance Information \n' 
-        # + 'Organization requesting event: ' + appearance_id.organization 
-        # + '\n' + 'Location: ' + appearance_id.location +
-        #  '\n' + 'Description: ' + appearance_id.description 
-        # + '\n' + 'Status: ' + appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' 
-        # ,'superfrog@scheduler.com',[superfrog_id.email],fail_silently = False)
+        send_mail('Appearance Confirmation','You are scheduled to appear at an event! Here is the appearance info: \n' + 
+         '\n' + 'Customer Contact Information \n' 
+        + 'Customer Name: ' 
+        + appearance_id.customer.first_name 
+        + ' ' + appearance_id.customer.last_name 
+        + '\n' + 'Phone Number: ' 
+        + str(appearance_id.customer.phone) 
+        + '\n' + 'Customer email: ' 
+        + appearance_id.customer.email 
+        + '\n' + ' \n' + 'Appearance Information \n' 
+        + 'Organization requesting event: ' + appearance_id.organization 
+        + '\n' + 'Location: ' + appearance_id.location +
+        '\n' + 'Description: ' + appearance_id.description 
+        + '\n' + 'Status: ' + appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' 
+        ,'superfrog@scheduler.com',
+        [User.objects.get(pk=sId).email],
+        fail_silently = False,
+        html_message = superfrog_message)
         #
-        # send_mail('Superfrog Appearance Confirmation',
-        # 'Your event has been accepted- and Superfrog will be there! Here is the appearance info confirmation: \n' +
-        #  '\n' + 'Customer Contact Information \n' +
-        #  'Customer Name: ' + appearance_id.customer.first_name +
-        #  ' ' + appearance_id.customer.last_name + '\n' +
-        #  'Phone Number: ' + str(appearance_id.customer.phone) +
-        #  '\n' + 'Customer email: ' + appearance_id.customer.email +
-        #  '\n' + ' \n' + 'Appearance Information \n' +
-        #  'Organization requesting event: ' + appearance_id.organization +
-        #  '\n' + 'Location: ' + appearance_id.location + '\n' +
-        #  'Description: ' + appearance_id.description + '\n' + 'Status: ' +
-        #  appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
-        # 'superfrog@scheduler.com',[appearance_id.customer.email],fail_silently = False)
+        send_mail('Superfrog Appearance Confirmation',
+        'Your event has been accepted- and Superfrog will be there! Here is the appearance info confirmation: \n' +
+        '\n' + 'Customer Contact Information \n' +
+        'Customer Name: ' + appearance_id.customer.first_name +
+        ' ' + appearance_id.customer.last_name + '\n' +
+        'Phone Number: ' + str(appearance_id.customer.phone) +
+        '\n' + 'Customer email: ' + appearance_id.customer.email +
+        '\n' + ' \n' + 'Appearance Information \n' +
+        'Organization requesting event: ' + appearance_id.organization +
+        '\n' + 'Location: ' + appearance_id.location + '\n' +
+        'Description: ' + appearance_id.description + '\n' + 'Status: ' +
+        appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+        'superfrog@scheduler.com',
+        [appearance_id.customer.email],
+        fail_silently = False,
+        html_message = customer_message)
         return HttpResponse(superfrog_appearance, status= 201)
 
 @csrf_exempt
