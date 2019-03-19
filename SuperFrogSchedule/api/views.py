@@ -106,6 +106,9 @@ def appearances(request):
                     'expenses_and_benefits': appearance.expenses_and_benefits,
                     'cheerleaders': appearance.cheerleaders,
                     'showgirls': appearance.showgirls, 
+                    'parking_info': appearance.parking_info,
+                    'outside_orgs': appearance.outside_orgs,
+                    'performance_required': appearance.performance_required,
                 }
             )
             send_mail('Event request confirmation',
@@ -180,6 +183,9 @@ def signUp(request, id=None, sId = None):
                     'expenses_and_benefits': appearance_id.expenses_and_benefits,
                     'cheerleaders': appearance_id.cheerleaders,
                     'showgirls': appearance_id.showgirls, 
+                    'parking_info': appearance_id.parking_info,
+                    'outside_orgs': appearance_id.outside_orgs,
+                    'performance_required': appearance_id.performance_required,
                 }
             )
         #customer email confirming appearance
@@ -198,6 +204,9 @@ def signUp(request, id=None, sId = None):
                     'expenses_and_benefits': appearance_id.expenses_and_benefits,
                     'cheerleaders': appearance_id.cheerleaders,
                     'showgirls': appearance_id.showgirls, 
+                    'parking_info': appearance_id.parking_info,
+                    'outside_orgs': appearance_id.outside_orgs,
+                    'performance_required': appearance_id.performance_required,
                 }
             )
         #admin email

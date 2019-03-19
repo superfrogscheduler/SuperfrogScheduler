@@ -21,33 +21,36 @@
       </nav>
   </div>
 
-<!--page content --> 
-  <div id="main">
-    <div class = "container-fluid">
-    <div style="text-align:center; padding-top:100px;">
-        <div style = "padding-bottom: 20px;">
-          <h1>Hi, {{superfrog.first_name}}</h1>
-      <div style="text-align:center; padding-top:50px; padding-bottom: 50px;">
-          <div style = "padding-bottom: 20px;">
-            <h3>Your Upcoming Appearances</h3>
-            <p>These are appearances that you have signed up to attend.</p>
-          </div>
-          <div *ngFor="let names of landingData">
-            <div class = "container" id = "request-container" >
-              <h3><a href="#">{{names.appearance.name}}</a></h3>
-              <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/superfrog-landing-details/{{names.appearance.id}}" routerLinkActive="active">View Details</a></button>
-              <div class= "col-md-6">
-                <p>Date: {{names.appearance.date}}</p>
-              </div>
-              <div class= "col-md-6">
-                <p>Time: {{names.appearance.start_time}} {{names.appearance.end_time}}</p>
-              </div>
-              <div class= "col-md-6">
-                <p>Location: {{names.appearance.location}}</p>
-              </div>
-            </div>
-          </div>
-          </div>
+<!--page content-->
+<div style="text-align:center; padding-top:125px;">
+    <div style = "padding-bottom: 50px;">
+      <h1>New Appearances Requested</h1>
+    </div>
+    <div *ngFor="let names of landingData">
+    <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
+      <h3><a href="#">{{names.appearance.name}}</a></h3>
+      <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
+      <div class= "col-md-6">
+        <p class = "label">Start Time</p>
+        <p>{{names.appearance.start_time}}</p>
+        <p class = "label">End Time</p>
+        <p>{{names.appearance.end_time}}</p>
       </div>
+      <div class= "col-md-6">
+        <p class = "label">Date</p>
+        <p>{{names.appearance.date}}</p>
+        <p class = "label">Location</p>
+        <p>{{names.appearance.location}}</p>
+      </div>
+      <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+          <p class = "label">Description</p>
+          <p>{{names.appearance.description}}</p>
+      </div>
+      </div>
+      <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
+        <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/superfrog-landing-details/{{names.appearance.id}}" routerLinkActive="active">View Details</a></button>
+        <button class="btn btn-secondary btn-space btn-lg" type="reject">View on Calendar</button>
+      </div>
+    </div>
+    </div>
   </div>
-</div>
