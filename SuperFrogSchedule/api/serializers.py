@@ -59,9 +59,15 @@ class SuperfrogLandingSerializer(serializers.ModelSerializer):
     class Meta:
         model = SuperfrogAppearance
         fields = ('superfrog','appearance')
-    class Meta:
-        model = SuperfrogAppearance
-        fields = ('superfrog','appearance', 'date_assigned')
+    
+# class ClassSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Class
+#         fields = "__all__"
+
+#     def create(self, validated_data):
+#         return Class(**validated_data)
+
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
