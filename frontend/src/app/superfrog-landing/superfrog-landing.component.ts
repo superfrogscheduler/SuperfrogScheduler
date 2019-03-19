@@ -14,18 +14,24 @@ export class SuperfrogLandingComponent implements OnInit {
 
   superfrog: Superfrog;
   landingData: any = {};
+  superfrogID: number;
   constructor(private authService: AuthenticationService, private landService: SuperfrogLandingService) { }
 
   ngOnInit() {
     this.superfrog = {};
     this.getUser();
+    this.getSuperFrogId();
+    this.getAppearances();
   }
 
   getUser() {
     this.superfrog = this.authService.getUser('logged');
   }
+  getSuperFrogId() {
+    this.superfrogID = this.authService.getUser('logged').id;
+  }
   getAppearances() {
-    this.landService.getAppearances().subscribe(data => {
+    this.landService.getAppearances('Assigned', this.superfrogID).subscribe(data => {
       this.landingData = data;
     });
   }

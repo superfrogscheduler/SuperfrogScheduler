@@ -6,12 +6,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SuperfrogLandingService {
+export class SuperfrogLandingDetailsService {
   baseurl = "http://127.0.0.1:8000/";
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
-  getAppearances( status: string, sID: number): Observable<any> {
-    console.log();
-    return this.http.get(this.baseurl + "landingAppearance/status/"+ status + "/" + sID + "/");
+  getID(id: number): Observable<any> {
+    return this.http.get(this.baseurl + "appearances/" + id);
   }
 }

@@ -38,7 +38,7 @@ export class SuperFrogSignupComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.superfrog = {};
-    this.getSuperFrogId()
+    this.getSuperFrogId();
     //this.getSuperfrog();
     this.getID();
   }
@@ -54,16 +54,13 @@ export class SuperFrogSignupComponent implements OnInit {
     });
   }
 
-  getAppearance(){
-    
-  }
-  getSuperFrogId(){
-    this.superfrogId = this.authService.getUser('logged').id
+  getSuperFrogId() {
+    this.superfrogId = this.authService.getUser('logged').id;
   }
   
   signUp() {
     this.signUpService.signUp(this.id, this.superfrogId, this.data).subscribe(data => {
-      this.data = data
+      this.data = data;
     });
   }
 }
