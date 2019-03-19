@@ -27,47 +27,27 @@
     <div style="text-align:center; padding-top:100px;">
         <div style = "padding-bottom: 20px;">
           <h1>Hi, {{superfrog.first_name}}</h1>
-          <h3>New Appearances Requested</h3>
-          <p>You have completed 2 appearances this month.</p>
-        </div>
-        <div class = "container" id = "request-container" >
-          <h3><a href="#">Requested Event Title Here</a></h3>
-          <p><a href="#">View on calendar</a></p>
-          <div class= "col-md-6">
-            <p>Contact Name: Sarah Allen</p>
-            <p>Contact Number: 214-704-8877</p>
-            <p>Contact Email: allensarahanne@gmail.com </p>
-          </div>
-          <div class= "col-md-6">
-            <p>Event Date</p>
-            <p>Event Address</p>
-            <p>Event description preview</p>
-          </div>
-          <button class="btn btn-primary btn-space btn-lg" type="accept">Can Attend</button>
-          <button class="btn btn-secondary btn-space btn-lg" type="reject">Unable to Attend</button>
-        </div>
-      </div>
-
       <div style="text-align:center; padding-top:50px; padding-bottom: 50px;">
           <div style = "padding-bottom: 20px;">
             <h3>Your Upcoming Appearances</h3>
             <p>These are appearances that you have signed up to attend.</p>
           </div>
-          <div class = "container" id = "request-container" >
-            <h3><a href="#">Requested Event Title Here</a></h3>
-            <p><a href="#">View on calendar</a></p>
-            <div class= "col-md-6">
-              <p>Contact Name: Sarah Allen</p>
-              <p>Contact Number: 214-704-8877</p>
-              <p>Contact Email: allensarahanne@gmail.com </p>
-            </div>
-            <div class= "col-md-6">
-              <p>Event Date</p>
-              <p>Event Address</p>
-              <p>Event description preview</p>
+          <div *ngFor="let names of landingData">
+            <div class = "container" id = "request-container" >
+              <h3><a href="#">{{names.appearance.name}}</a></h3>
+              <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/superfrog-landing-details/{{names.appearance.id}}" routerLinkActive="active">View Details</a></button>
+              <div class= "col-md-6">
+                <p>Date: {{names.appearance.date}}</p>
+              </div>
+              <div class= "col-md-6">
+                <p>Time: {{names.appearance.start_time}} {{names.appearance.end_time}}</p>
+              </div>
+              <div class= "col-md-6">
+                <p>Location: {{names.appearance.location}}</p>
+              </div>
             </div>
           </div>
-        </div>
+          </div>
       </div>
   </div>
 </div>

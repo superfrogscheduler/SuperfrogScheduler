@@ -4,7 +4,7 @@ from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, Su
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
 from rest_framework import viewsets, views, generics, status
 from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, SuperfrogLandingSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -46,6 +46,16 @@ def list_by_status(request, status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+def list_by_status_superfrog(request, status=None, sId= None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter(superfrog = sId , appearance__status = status)
+        serializer = SuperfrogLandingSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+#def addEmployee(request):
+#    if request.method == 'POST:
+#        user = User.objects.create_user('') 
 
 def getEmployee(request):
     if request.method == 'GET':

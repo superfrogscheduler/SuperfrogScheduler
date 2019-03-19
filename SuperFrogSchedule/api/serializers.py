@@ -53,6 +53,13 @@ class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
         model = SuperfrogAppearance
         fields = ('superfrog','appearance', 'date_assigned')
 
+class SuperfrogLandingSerializer(serializers.ModelSerializer):
+    superfrog = SuperfrogSerializer()
+    appearance = AppearanceSerializer()
+    class Meta:
+        model = SuperfrogAppearance
+        fields = ('superfrog','appearance')
+    
 # class ClassSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Class

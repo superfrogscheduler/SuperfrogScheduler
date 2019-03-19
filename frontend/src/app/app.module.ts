@@ -30,6 +30,7 @@ import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-rej
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
 import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
+import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -47,8 +48,10 @@ const appRoutes: Routes = [
   {path: 'event-code', component: EventCodeComponent},
   {path: 'appearance-details/:id', component: AppearanceDetailComponent},
   {path: 'auth', component: AuthenticationComponent},
-  { path: 'list-accept-reject',  component: ListAcceptRejectComponent },
-  { path: 'accept-reject-details/:id',component: AcceptRejectDetailsComponent},
+  {path: 'list-accept-reject',  component: ListAcceptRejectComponent },
+  {path: 'accept-reject-details/:id', component: AcceptRejectDetailsComponent},
+  {path: 'instructions-page', component: InstructionsPageComponent},
+  {path: 'superfrog-landing-details/:id', component: SuperfrogLandingDetailsComponent},
   { path: 'superfrog-class-schedule', component: SuperfrogClassScheduleComponent},
   {path: 'instructions-page', component: InstructionsPageComponent}
 ];
@@ -77,6 +80,7 @@ const appRoutes: Routes = [
     AcceptRejectDetailsComponent,
     SuperfrogClassScheduleComponent,
     InstructionsPageComponent,
+    SuperfrogLandingDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(

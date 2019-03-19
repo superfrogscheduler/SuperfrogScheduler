@@ -15,7 +15,8 @@ from .views import (
     LoginView,
     acceptAppearance,
     rejectAppearance,
-    email
+    email, 
+    list_by_status_superfrog,
     )
 
 urlpatterns = [
@@ -29,5 +30,6 @@ urlpatterns = [
     url(r'^auth/login/$', LoginView.as_view(), name='Login'),
     url(r'adminAccept/(?P<id>\d+)/$',acceptAppearance),
     url(r'adminReject/(?P<id>\d+)/$', rejectAppearance),
-    url(r'^email/', email)
+    url(r'^email/', email),
+    url(r'^landingAppearance/status/(?P<status>\w+)/(?P<sId>\d+)/$', list_by_status_superfrog)
 ]
