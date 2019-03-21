@@ -1,9 +1,7 @@
 @import "~bootstrap/dist/css/bootstrap.css";
-@import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
 h1 {
     color: #4d1979;
-    margin-bottom: 25px;
 }
 
 h2 {
@@ -13,16 +11,13 @@ h2 {
 
 h3 {
     font-size: 16px !important;
-    font-weight: bold;
     margin: 10px;
 }
 
 p {
     color: #a3a9ac;
-    font-size: 16px;
-    margin: 25px;
+    font-size: 14px;
 }
-
 
 button {
     background-color: #4d1979 !important;
@@ -32,13 +27,6 @@ button {
     padding-top: 9px;
     padding-bottom: 9px;
 }
-
-#thankyou-img {
-    -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-}
-
 
 .subtle {
     font-size: 14px;
@@ -55,16 +43,16 @@ button {
 
 }
 
-.jumbotron{
-    background-image: url(/assets/images/superfrogFountain.jpg);
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    margin-top: 0;
+.btn-primary, .btn-primary:visited{
+    color: #4d1979;
 }
 
+.btn-primary:hover{
+    background-color:  #a3a9ac !important;
+    border-color: #a3a9ac !important;
+    color: #4d1979;
+
+}
 
 .card-img-top{
     max-width: 300px;
@@ -72,26 +60,9 @@ button {
 }
 .top-buffer { margin-top:20px; }
 
-.btn-xlarge {
-    padding: 18px 28px;
-    font-size: 22px; 
-    line-height: normal;
-    -webkit-border-radius: 0px;
-       -moz-border-radius: 0px;
-            border-radius: 0px;
-}
-
 .responsive{
     max-height: 50%;
     max-width: 100%;
-}
-
-#btn-text {
-    color:white;
-    text-decoration: none;
-    letter-spacing: 1px;
-    font-weight: lighter;
-    font-size: 14px;
 }
 
 #form-container {
@@ -103,16 +74,6 @@ button {
 
 #pad-container {
     padding: 50px;
-}
-
-#info-jumbotron{
-    background-image: url(/assets/images/superfrogInfo.png);
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    margin-top: 0;
 }
 
 .navbar {
@@ -132,4 +93,8 @@ button {
     font-family: "Helvetica Neue", sans-serif;
     font-weight: normal;
     color: #4d1979;
+}
+
+#btn-text {
+    color: white !important;
 }

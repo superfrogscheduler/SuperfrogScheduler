@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets, views, generics
-from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance
+from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance, User
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
 from rest_framework import viewsets, views, generics, status
 from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, PayrollSerializer
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, SuperfrogLandingSerializer,PayrollSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -13,11 +13,13 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
 from django.contrib.auth import authenticate, login
 import pdfrw
 import os
+from django.template.loader import render_to_string, get_template
 
 import json
 
@@ -77,6 +79,16 @@ def list_by_status(request, status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+def list_by_status_superfrog(request, status=None, sId= None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter(superfrog = sId , appearance__status = status)
+        serializer = SuperfrogLandingSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+#def addEmployee(request):
+#    if request.method == 'POST:
+#        user = User.objects.create_user('') 
 
 def getEmployee(request):
     if request.method == 'GET':
@@ -99,7 +111,7 @@ def appearances(request):
             appearance = appearance_serializer.save()
             appearance_serializer = AppearanceSerializer(appearance)
             print(appearance_serializer.data)
-            appearance.save()
+            
             
         else:
             print(appearance_serializer.errors)
@@ -110,7 +122,48 @@ def appearances(request):
         if customer_serializer.is_valid():
             customer = customer_serializer.save()
             customer.save()
-            send_mail('Event request confirmation','Thanks for requesting a Superfrog appearance! Here is a confirmation message for the event request: \n' + '\n' + 'Customer Contact Information \n' + 'Customer Name: ' + customer.first_name + ' ' + customer.last_name + '\n' + 'Phone Number: ' + str(customer.phone) + '\n' + 'Customer email: ' + customer.email + '\n' + ' \n' + 'Appearance Information \n' + 'Organization requesting event: ' + appearance.organization + '\n' + 'Location: ' + appearance.location + '\n' + 'Description: ' + appearance.description + '\n' + 'Status: ' + appearance.status + '\n' + '\n' + 'Our team will review your request within the next two weeks. You will receive an email updating you on our decision when it is made. Thanks and Go Frogs!' ,'superfrog@scheduler.com',[customer.email],fail_silently = False)
+            appearance.customer = customer
+            appearance.save()
+            html_message = render_to_string(
+                'customer_confirmation.html',
+                {
+                    'first_name': customer.first_name,
+                    'last_name':  customer.last_name,
+                    'phone': customer.phone,
+                    'email': customer.email,
+                    'organization': appearance.organization,
+                    'location': appearance.location,
+                    'description': appearance.description,
+                    'status': appearance.status,
+                    'special_instructions': appearance.special_instructions,
+                    'expenses_and_benefits': appearance.expenses_and_benefits,
+                    'cheerleaders': appearance.cheerleaders,
+                    'showgirls': appearance.showgirls, 
+                    'parking_info': appearance.parking_info,
+                    'outside_orgs': appearance.outside_orgs,
+                    'performance_required': appearance.performance_required,
+                }
+            )
+            send_mail('Event request confirmation',
+            'Thanks for requesting a Superfrog appearance! Here is a confirmation message for the event request: \n' +
+             '\n' + 'Customer Contact Information \n' + 
+             'Customer Name: ' + customer.first_name + 
+             ' ' + customer.last_name + '\n' + 
+             'Phone Number: ' + str(customer.phone) + 
+             '\n' + 'Customer email: ' + customer.email + 
+             '\n' + ' \n' + 'Appearance Information \n' + 
+             'Organization requesting event: ' + appearance.organization + '\n' + 
+             'Location: ' + appearance.location + '\n' + 
+             'Description: ' + appearance.description + '\n' + 
+             'Status: ' + appearance.status + '\n' +
+             'Special Instructions: ' + appearance.special_instructions +  '\n' + 
+             'Expenses and Benefits: ' + appearance.expenses_and_benefits + '\n' +
+             'Cheerleaders: ' + appearance.cheerleaders + ' Showgirls: ' + appearance.showgirls + '\n' + '\n' +
+             'Our team will review your request within the next two weeks. You will receive an email updating you on our decision when it is made. Thanks and Go Frogs!' ,
+             'superfrog@scheduler.com',
+             [customer.email],
+             fail_silently = False,
+             html_message = html_message)
         else:
             print(customer_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
@@ -159,14 +212,92 @@ def create(request):
         return HttpResponseBadRequest()
         
 @csrf_exempt
-def signUp(request, id=None):
+def signUp(request, id=None, sId = None):
     if request.method=='PATCH':
         appearance_id = Appearance.objects.get(pk=id)
-        superfrog_id = Superfrog.objects.get(id = 1)
+        superfrog_id = Superfrog.objects.get(user_id = sId)
         superfrog_appearance = SuperfrogAppearance(superfrog=superfrog_id, appearance=appearance_id)
         superfrog_appearance.save()
         appearance_id.status = "Assigned"
         appearance_id.save()
+        #superfrog email confirming sign up
+        superfrog_message = render_to_string(
+                'superfrog_confirmation.html',
+                {
+                    'first_name': appearance_id.customer.first_name,
+                    'last_name':  appearance_id.customer.last_name,
+                    'phone': appearance_id.customer.phone,
+                    'email': appearance_id.customer.email,
+                    'organization': appearance_id.organization,
+                    'location': appearance_id.location,
+                    'description': appearance_id.description,
+                    'status': appearance_id.status,
+                    'special_instructions': appearance_id.special_instructions,
+                    'expenses_and_benefits': appearance_id.expenses_and_benefits,
+                    'cheerleaders': appearance_id.cheerleaders,
+                    'showgirls': appearance_id.showgirls, 
+                    'parking_info': appearance_id.parking_info,
+                    'outside_orgs': appearance_id.outside_orgs,
+                    'performance_required': appearance_id.performance_required,
+                }
+            )
+        #customer email confirming appearance
+        customer_message = render_to_string(
+                'appearance_confirmation.html',
+                {
+                    'first_name': appearance_id.customer.first_name,
+                    'last_name':  appearance_id.customer.last_name,
+                    'phone': appearance_id.customer.phone,
+                    'email': appearance_id.customer.email,
+                    'organization': appearance_id.organization,
+                    'location': appearance_id.location,
+                    'description': appearance_id.description,
+                    'status': appearance_id.status,
+                    'special_instructions': appearance_id.special_instructions,
+                    'expenses_and_benefits': appearance_id.expenses_and_benefits,
+                    'cheerleaders': appearance_id.cheerleaders,
+                    'showgirls': appearance_id.showgirls, 
+                    'parking_info': appearance_id.parking_info,
+                    'outside_orgs': appearance_id.outside_orgs,
+                    'performance_required': appearance_id.performance_required,
+                }
+            )
+        #admin email
+        send_mail('Appearance Confirmation','You are scheduled to appear at an event! Here is the appearance info: \n' + 
+         '\n' + 'Customer Contact Information \n' 
+        + 'Customer Name: ' 
+        + appearance_id.customer.first_name 
+        + ' ' + appearance_id.customer.last_name 
+        + '\n' + 'Phone Number: ' 
+        + str(appearance_id.customer.phone) 
+        + '\n' + 'Customer email: ' 
+        + appearance_id.customer.email 
+        + '\n' + ' \n' + 'Appearance Information \n' 
+        + 'Organization requesting event: ' + appearance_id.organization 
+        + '\n' + 'Location: ' + appearance_id.location +
+        '\n' + 'Description: ' + appearance_id.description 
+        + '\n' + 'Status: ' + appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' 
+        ,'superfrog@scheduler.com',
+        [User.objects.get(pk=sId).email],
+        fail_silently = False,
+        html_message = superfrog_message)
+        #
+        send_mail('Superfrog Appearance Confirmation',
+        'Your event has been accepted- and Superfrog will be there! Here is the appearance info confirmation: \n' +
+        '\n' + 'Customer Contact Information \n' +
+        'Customer Name: ' + appearance_id.customer.first_name +
+        ' ' + appearance_id.customer.last_name + '\n' +
+        'Phone Number: ' + str(appearance_id.customer.phone) +
+        '\n' + 'Customer email: ' + appearance_id.customer.email +
+        '\n' + ' \n' + 'Appearance Information \n' +
+        'Organization requesting event: ' + appearance_id.organization +
+        '\n' + 'Location: ' + appearance_id.location + '\n' +
+        'Description: ' + appearance_id.description + '\n' + 'Status: ' +
+        appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+        'superfrog@scheduler.com',
+        [appearance_id.customer.email],
+        fail_silently = False,
+        html_message = customer_message)
         return HttpResponse(superfrog_appearance, status= 201)
 
 @csrf_exempt
@@ -175,6 +306,7 @@ def acceptAppearance(request, id=None):
         appearance_id = Appearance.objects.get(pk=id)
         appearance_id.status = "Accepted"
         appearance_id.save()
+        #superfrog email
         return HttpResponse( status=201)
 
 @csrf_exempt
@@ -182,6 +314,7 @@ def rejectAppearance(request, id = None):
     if request.method=='DELETE':
         appearance_id = Appearance.objects.get(pk=id)
         appearance_id.delete()
+        #customer email
         return HttpResponse(status = 201)
 def events(request):
     if request.method == 'GET':
@@ -229,8 +362,15 @@ def list_by_status_list(request, status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
-
-
+        
+@csrf_exempt
+def email(request):
+    subject = 'You have submitted an appearance request'
+    message = 'We will review your request for a superfrog appearance and get back to you within the next 2 weeks.'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['allensarahanne@gmail.com',]
+    send_mail( subject, message, email_from, recipient_list )
+    return redirect('/customer-confirmation')
 
 #Login View
 class LoginView(views.APIView):

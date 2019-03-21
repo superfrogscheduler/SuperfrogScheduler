@@ -9,8 +9,7 @@
           <ul class="nav navbar-nav ml-auto">
               <li><a id = "a-nav" href="#about">ABOUT</a></li>
               <li><a id = "a-nav" href="#contact">CONTACT</a></li>
-              <li><a id = "a-nav" routerLink="/superfrog-landing" routerLinkActive="active">SUPERFROG LOGIN</a></li>
-              <li><a id = "a-nav" href="/admin-landing" routerLinkActive = "active">ADMIN LOGIN</a></li>
+              <li><a id = "a-nav" routerLink="/auth" routerLinkActive="active">LOGIN</a></li>
             </ul>
       </div>
     </nav>
@@ -18,9 +17,17 @@
 
 <!--page content-->
 
-<div style="text-align:center; padding-top: 120px; ">
-  <h1 style= "color: #4d1979;">Thank you!</h1>
-  <p style="padding-top: 20px;">We have recieved your request. You will soon recieve an email confirming your request details and an event code.</p>
-  <p>We will review your request and let you know if Superfrog will be available as soon as possible. Go Frogs!</p>
-  <button type="button" class="btn btn-primary btn-large" routerLink="">Home</button>
+<div class = "container" style="text-align:center; padding-top: 120px; height: 500px; ">
+  <div id = "form-container">
+
+      <img class = "thankyou-img" src = "/assets/images/superfrogFountain.jpg" style = "max-width: 250px; max-height: 250px; border-top-left-radius: 50% 50%;
+      border-top-right-radius: 50% 50%;
+      border-bottom-right-radius: 50% 50%;
+      border-bottom-left-radius: 50% 50%;">
+      <div class = "col-md-8">
+      <h1>Thank you!</h1>
+      <p>We have recieved your request. You will soon recieve an email confirming your request details and an event code. We will review your request and let you know if Superfrog will be available as soon as possible. Go Frogs!</p>
+      <button type="button" routerLink="">Home</button>
+    </div>
   </div>
+</div>

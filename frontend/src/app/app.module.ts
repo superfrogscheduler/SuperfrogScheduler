@@ -30,6 +30,9 @@ import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-rej
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { ListPayrollAppearancesComponent } from './list-payroll-appearances/list-payroll-appearances.component';
 import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-generate-payroll.component';
+import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
+import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
+import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -51,6 +54,10 @@ const appRoutes: Routes = [
   { path: 'accept-reject-details/:id', component: AcceptRejectDetailsComponent},
   { path: 'list-payroll-appearances', component: ListPayrollAppearancesComponent},
   { path: 'admin-generate-payroll/:id', component: AdminGeneratePayrollComponent},
+  {path: 'instructions-page', component: InstructionsPageComponent},
+  {path: 'superfrog-landing-details/:id', component: SuperfrogLandingDetailsComponent},
+  { path: 'superfrog-class-schedule', component: SuperfrogClassScheduleComponent},
+  {path: 'instructions-page', component: InstructionsPageComponent}
 ];
 
 @NgModule({
@@ -77,6 +84,9 @@ const appRoutes: Routes = [
     AcceptRejectDetailsComponent,
     ListPayrollAppearancesComponent,
     AdminGeneratePayrollComponent,
+    SuperfrogClassScheduleComponent,
+    InstructionsPageComponent,
+    SuperfrogLandingDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(
