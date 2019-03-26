@@ -24,7 +24,9 @@
 <!--page content-->
 <div style="text-align:center; padding-top:125px;">
     <div style = "padding-bottom: 50px;">
-      <h1>New Appearances Requested</h1>
+      <h1>Hi, {{superfrog.first_name}}!</h1>
+      <h2 *ngIf="landingData.length == 0">You have no upcoming appearances.</h2>
+      <h2 *ngIf="landingData.length!=0"> Here are your upcoming appearances:</h2>
     </div>
     <div *ngFor="let names of landingData">
     <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">

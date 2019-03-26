@@ -31,6 +31,9 @@ import { AngularWebStorageModule } from 'angular-web-storage';
 import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
 import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
 import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
+import { ConfirmSignupComponent } from './confirm-signup/confirm-signup.component';
+import { ConfirmRejectComponent } from './confirm-reject/confirm-reject.component';
+import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -81,6 +84,9 @@ const appRoutes: Routes = [
     SuperfrogClassScheduleComponent,
     InstructionsPageComponent,
     SuperfrogLandingDetailsComponent,
+    ConfirmSignupComponent,
+    ConfirmRejectComponent,
+    ConfirmAcceptComponent,
   ],
   imports: [
     RouterModule.forRoot(
