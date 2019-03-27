@@ -9,16 +9,26 @@ import * as moment from 'moment';
 })
 export class SuperfrogClassScheduleComponent implements OnInit {
   calendarOptions: Options;
-  data = [];
+  defaultDate = moment('2018-12-30T00:00:00');
+  data = [{
+    id: 1,
+    title: 'Test',
+    start: this.defaultDate.clone().add(1, 'days').hour(8),
+    end: this.defaultDate.clone().add(1, 'days').hour(9)
+    }];
   toDisplay = {eventColor: '#4d1979', events: []};
   toAdd = [];
   toDelete = [];
   toUpdate = [];
+  addIdCount = 0;
+
   selectedEvent: any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent
   constructor() { }
 
   ngOnInit() {
+    this.toDisplay.events = JSON.parse(JSON.stringify(this.data));
+    console.log(this.toDisplay.events);
     this.calendarOptions = {
       editable: false,
       eventLimit: false,
@@ -28,9 +38,9 @@ export class SuperfrogClassScheduleComponent implements OnInit {
       defaultView: 'agendaWeek',
       columnFormat: 'dddd',
       allDaySlot: false,
-      defaultDate: moment('2018-12-30'),
+      defaultDate: this.defaultDate,
       eventSources: [
-        this.data,
+        this.toDisplay.events,
         this.toAdd
       ],
       customButtons: {
@@ -65,31 +75,50 @@ export class SuperfrogClassScheduleComponent implements OnInit {
         cancel: {
           text: 'cancel',
           click: () => {
+            this.toDisplay.events = JSON.parse(JSON.stringify(this.data));
+            this.toUpdate = [];
+            this.toAdd = [];
+            this.toDelete = [];
             this.ucCalendar.fullCalendar('option', {
               header:{
                 left: '',
                 center: 'title',
                 right: 'edit'
-              }
+              },
+              editable: false,
+              selectable: false
             });
+            this.ucCalendar.fullCalendar('removeEventSource', this.toDisplay);
+            this.ucCalendar.fullCalendar('refetchEvents');
+            this.ucCalendar.fullCalendar('addEventSource', this.toDisplay);
+            this.ucCalendar.fullCalendar('refetchEvents');
           }
         },
         delete: {
           text: 'delete',
           click: () => {
-            this.ucCalendar.fullCalendar('removeEvents', (event)=>{Object.is(event, this.selectedEvent);});
-            if(!this.selectedEvent.action){
+            this.ucCalendar.fullCalendar('removeEvents', (event)=>{return event.start.isSame(this.selectedEvent.start) && event.end.isSame(this.selectedEvent.end); });
+            if(this.selectedEvent.id){
               this.toDelete.push(this.selectedEvent.id);
+              let index= this.toDisplay.events.findIndex((element)=>{return element.id = this.selectedEvent.id});
+              if(index > -1){
+                this.toDisplay.events.splice(index,1);
+              }
+              else{
+                index = this.toUpdate.findIndex((element)=>{return element.id == this.selectedEvent.id;});
+                this.toUpdate.splice(index,1);
+              }
+              console.log('1');
             }
-            else if(this.selectedEvent.action == 'add'){
-              let index = this.toAdd.find((element)=>{return element == this.selectedEvent.id;});
-              this.toAdd = this.toAdd.splice(index,1);
-            }
-            else {
-              let index = this.toUpdate.find((element)=>{return element == this.selectedEvent.id;});
-              this.toUpdate = this.toUpdate.splice(index,1);
+            else{
+              let index = this.toAdd.findIndex((element)=>{return element.addId == this.selectedEvent.addId;});
+              this.toAdd.splice(index,1);
+              console.log(index);
             }
             this.ucCalendar.fullCalendar('rerenderEvents');
+            console.log(this.toDisplay);
+            console.log(this.toUpdate);
+            console.log(this.toAdd);
           }
         }
       }, 
@@ -107,6 +136,7 @@ export class SuperfrogClassScheduleComponent implements OnInit {
     var title = prompt("Enter event name:");
     if(title){
       this.toAdd.push({
+        addId: 'a'+this.addIdCount,
         title: title,
         start: event.start,
         end: event.end,
@@ -129,5 +159,33 @@ export class SuperfrogClassScheduleComponent implements OnInit {
     this.selectedEvent.borderColor = 'gold';
     this.ucCalendar.fullCalendar('updateEvent', event.event);
   }
+
+  updateEvent(event: any){
+    if(event.event.id){
+      let index = this.toDisplay.events.findIndex((element)=>{return element.id == event.event.id;});
+      if(index > -1){
+        console.log('a');
+        let updated = this.toDisplay.events.splice(index, 1);
+        updated = event.event;
+        this.toUpdate.push(updated);
+      }
+      else{
+        console.log('b');
+        index = this.toUpdate.findIndex((element)=>{return element.id == event.event.id;});
+        this.toUpdate[index] = event.event;
+      }
+    }
+    else{
+      let index = this.toAdd.findIndex((element)=>{return element.addId == event.event.addId;});
+      console.log(index);
+      this.toAdd[index] = event.event;
+    }
+    this.ucCalendar.fullCalendar('updateEvent', event.event);
+    console.log(this.toDisplay);
+    console.log(this.toUpdate);
+    console.log(this.toAdd);
+  }
+
+  
 
 }
