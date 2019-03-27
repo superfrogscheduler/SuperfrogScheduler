@@ -1,0 +1,100 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+/* You can add global styles to this file, and also import other style files */
+h1 {
+    color: #4d1979;
+}
+
+h2 {
+    color: #4d1979;
+    font-size: 18px;
+}
+
+h3 {
+    font-size: 16px !important;
+    margin: 10px;
+}
+
+p {
+    color: #a3a9ac;
+    font-size: 14px;
+}
+
+button {
+    background-color: #4d1979 !important;
+    border-color: #4d1979 !important;
+    color: white !important;
+    width: 150px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+.subtle {
+    font-size: 14px;
+    color: white;
+    opacity: .5;
+}
+
+.lead {
+    color: WHITE;
+}
+
+.card{
+    border: 2px;
+
+}
+
+.btn-primary, .btn-primary:visited{
+    color: #4d1979;
+}
+
+.btn-primary:hover{
+    background-color:  #a3a9ac !important;
+    border-color: #a3a9ac !important;
+    color: #4d1979;
+
+}
+
+.card-img-top{
+    max-width: 300px;
+    max-height: 600px;
+}
+.top-buffer { margin-top:20px; }
+
+.responsive{
+    max-height: 50%;
+    max-width: 100%;
+}
+
+#form-container {
+    padding: 50px;
+    -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+}
+
+#pad-container {
+    padding: 50px;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    min-height:50px;
+    padding-bottom: 10px; 
+
+}
+
+#a-nav {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#a-nav:visited {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#btn-text {
+    color: white !important;
+}

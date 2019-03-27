@@ -1,3 +1,4 @@
+@import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
 body {
     padding: 70px;
@@ -21,6 +22,24 @@ p {
     color: #a3a9ac;
 }
 
+body { 
+    padding-top: 70px; 
+}
+
+a {
+    color: #4d1979;
+}
+
+button {
+    background-color: #4d1979 !important;
+    border-color: #4d1979 !important;
+    color: white !important;
+    width: 150px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border-radius: .25vh;
+}
+
 .lead {
     color: white;
 }
@@ -39,20 +58,19 @@ navbar, .navbar-expand-lg {
     margin-top: 0;
 }
 
-.btn-primary, .btn-primary:visited{
-    color:#4d1979;
-    background-color: transparent;
-    border-color: #4d1979;
+.btn-secondary {
     border-radius: 0px;
-    border-width: 4px;
 }
 
-.btn-primary:hover{
-    background-color:  #4d1979 !important;
-    border-color: white;
-    color: white;
-
+a, a:visited{
+    color: #4d1979;
+    font-weight: bold;
 }
+
+a:hover{
+    color: #ffffff;
+}
+
 .top-buffer { margin-top:20px; }
 
 .btn-xlarge {
@@ -79,24 +97,13 @@ navbar, .navbar-expand-lg {
     color: #a3a9ac;
     font-size: 14px;
     font-weight: lighter;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
     font-family: Helvetica, Arial, sans-serif;
 }
 
 #a-nav:hover {
     background-color: transparent;
     color: black;
-}
-
-#jumbo-button {
-    background-color: transparent !important;
-    border-color: white;
-    border-radius:0;
-}
-
-#jumbo-button:hover {
-
-    background-color: #4d1979 !important;
 }
 
 #form-container {
@@ -108,4 +115,23 @@ navbar, .navbar-expand-lg {
 
 #pad-container {
     padding: 50px;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    min-height:50px;
+    padding-bottom: 10px; 
+
+}
+
+#a-nav {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#a-nav:visited {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
 }

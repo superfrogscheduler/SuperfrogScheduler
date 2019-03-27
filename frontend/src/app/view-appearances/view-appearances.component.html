@@ -1,0 +1,27 @@
+<div style="text-align:center">
+    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="nav navbar-nav ml-auto">
+                <li><a id = "a-nav" href="/superfrog-calendar" routerLinkActive = "active">CALENDAR</a></li>
+                <li><a id = "a-nav" href="/superfrog-landing" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
+              </ul>
+        </div>
+      </nav>
+  </div>
+
+  <!-- page content -->
+
+<div class = "container" style = "text-align: center; padding-top: 120px;">
+    <div class = "row top-buffer" style = "padding: 20px;">
+        <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getPastAppearance()">Past</button>
+        <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getAssignedAppearance()">Assigned</button>
+      </div>
+  <div *ngIf="calendarOptions">
+    <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+@import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
 h1 {
     color: #4d1979;
@@ -9,21 +10,29 @@ h2 {
 }
 
 h3 {
-    font-size: 24px !important;
-    font-weight: lighter;
-    color: #a3a9ac !important;
+    font-size: 16px !important;
+    font-weight: bold;
+    margin: 10px;
 }
 
 p {
     color: #a3a9ac;
+    font-size: 18px;
+}
+
+.subtle {
+    font-size: 14px;
+    color: white;
+    opacity: .5;
 }
 
 .lead {
-    color: white;
+    color: WHITE;
 }
-navbar, .navbar-expand-lg {
-    margin-bottom: 0;
-    background-color: rgba(f,f,f,0.56);
+
+.card{
+    border: 2px;
+
 }
 
 .jumbotron{
@@ -37,18 +46,27 @@ navbar, .navbar-expand-lg {
 }
 
 .btn-primary, .btn-primary:visited{
-    color:#4d1979;
-    background-color: transparent;
+    color:#ffffff;
+    background-color: #ffffff;
     border-color: #4d1979;
     border-radius: 0px;
-    border-width: 4px;
+    border-width: 1px;
+    -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
 }
 
 .btn-primary:hover{
     background-color:  #4d1979 !important;
-    border-color: white;
+    border-radius: 0px;
+    border-color: #4d1979 !important;
     color: white;
 
+}
+
+.card-img-top{
+    max-width: 300px;
+    max-height: 600px;
 }
 .top-buffer { margin-top:20px; }
 
@@ -61,28 +79,23 @@ navbar, .navbar-expand-lg {
             border-radius: 0px;
 }
 
+.responsive{
+    max-height: 50%;
+    max-width: 100%;
+}
+
 #btn-text {
     color:white;
     text-decoration: none;
+    letter-spacing: 1px;
+    font-weight: lighter;
+    font-size: 14px;
 }
 
 #jumbo-header {
     margin-top: 20%;
     color:white;
     font-size: 42px;
-}
-
-#a-nav, #a-nav:visited {
-    color: #a3a9ac;
-    font-size: 14px;
-    font-weight: lighter;
-    letter-spacing: 1px;
-    font-family: Helvetica, Arial, sans-serif;
-}
-
-#a-nav:hover {
-    background-color: transparent;
-    color: black;
 }
 
 #jumbo-button {
@@ -105,4 +118,33 @@ navbar, .navbar-expand-lg {
 
 #pad-container {
     padding: 50px;
+}
+
+#info-jumbotron{
+    background-image: url(/assets/images/superfrogInfo.png);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    margin-top: 0;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    min-height:50px;
+    padding-bottom: 10px; 
+
+}
+
+#a-nav {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#a-nav:visited {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
 }
