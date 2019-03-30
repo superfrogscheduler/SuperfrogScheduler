@@ -303,8 +303,15 @@ def acceptAppearance(request, id=None):
 def rejectAppearance(request, id = None):
     if request.method=='DELETE':
         appearance_id = Appearance.objects.get(pk=id)
-        appearance_id.delete()
         #customer email
+        send_mail('Event Request Rejected',
+        'We thank you for your event request but Superfrog will not be able to attend.' ,
+        'superfrog@scheduler.com',
+        [appearance_id.customer.email],
+        fail_silently = False)
+
+        appearance_id.delete()
+        
         return HttpResponse(status = 201)
 def events(request):
     if request.method == 'GET':
