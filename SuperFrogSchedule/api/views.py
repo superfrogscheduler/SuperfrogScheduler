@@ -253,7 +253,50 @@ def acceptAppearance(request, id=None):
         appearance_id = Appearance.objects.get(pk=id)
         appearance_id.status = "Accepted"
         appearance_id.save()
-        #superfrog email
+        #superfrog email notification
+        superfrog = User.objects.all()
+        slist = []
+        for s in superfrog:
+            slist.append(s.email)
+        
+        superfrog_notification = render_to_string(
+                'superfrog_notification.html',
+                {
+                    'first_name': appearance_id.customer.first_name,
+                    'last_name':  appearance_id.customer.last_name,
+                    'phone': appearance_id.customer.phone,
+                    'email': appearance_id.customer.email,
+                    'organization': appearance_id.organization,
+                    'location': appearance_id.location,
+                    'description': appearance_id.description,
+                    'status': appearance_id.status,
+                    'special_instructions': appearance_id.special_instructions,
+                    'expenses_and_benefits': appearance_id.expenses_and_benefits,
+                    'cheerleaders': appearance_id.cheerleaders,
+                    'showgirls': appearance_id.showgirls, 
+                    'parking_info': appearance_id.parking_info,
+                    'outside_orgs': appearance_id.outside_orgs,
+                    'performance_required': appearance_id.performance_required,
+                }
+            )
+
+        send_mail('Superfrog Available Appearance Notification',
+        'A new event request has been approved by the admin- we need you to sign up! Below is the appearance info confirmation: \n' +
+        '\n' + 'Customer Contact Information \n' +
+        'Customer Name: ' + appearance_id.customer.first_name +
+        ' ' + appearance_id.customer.last_name + '\n' +
+        'Phone Number: ' + str(appearance_id.customer.phone) +
+        '\n' + 'Customer email: ' + appearance_id.customer.email +
+        '\n' + ' \n' + 'Appearance Information \n' +
+        'Organization requesting event: ' + appearance_id.organization +
+        '\n' + 'Location: ' + appearance_id.location + '\n' +
+        'Description: ' + appearance_id.description + '\n' + 'Status: ' +
+        appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+        'superfrog@scheduler.com',
+        slist,
+        fail_silently = False,
+        html_message = superfrog_notification)
+        
         return HttpResponse( status=201)
 
 @csrf_exempt
