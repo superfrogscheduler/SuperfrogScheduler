@@ -56,7 +56,11 @@ const appRoutes: Routes = [
   {path: 'instructions-page', component: InstructionsPageComponent},
   {path: 'superfrog-landing-details/:id', component: SuperfrogLandingDetailsComponent},
   { path: 'superfrog-class-schedule', component: SuperfrogClassScheduleComponent},
-  {path: 'instructions-page', component: InstructionsPageComponent}
+  {path: 'instructions-page', component: InstructionsPageComponent},
+  {path: 'confirm-accept', component: ConfirmAcceptComponent},
+  {path: 'confirm-reject', component: ConfirmRejectComponent},
+  {path: 'confirm-signup', component: ConfirmSignupComponent},
+
 ];
 
 @NgModule({

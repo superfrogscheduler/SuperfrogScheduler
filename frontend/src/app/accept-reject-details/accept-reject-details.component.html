@@ -67,7 +67,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary btn-lg" (click)="acceptAppear()" data-dismiss="modal" routerlink = "/confirm-accept">Accept</button>
+              <button type="button" class="btn btn-primary btn-lg" (click)="acceptAppear()" data-dismiss="modal" routerlink = "/confirm-accept" routerLinkActive = "active">Accept</button>
             </div>
           </div>
         </div>
@@ -85,10 +85,13 @@
             </div>
             <div class="modal-body">
               You are rejecting this event request. The customer will be notified that their event has been rejected. You cannot undo this action. 
+              <hr>
+              You must also include a reason. This will be listed in the rejection email sent to the customer:
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="reason" formControlName="reason" name="reason"></textarea>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary btn-lg" (click)="rejectAppear()" data-dismiss="modal" routerlink = "/confirm-reject">Reject</button>
+              <button type="button" class="btn btn-primary btn-lg" (click)="rejectAppear()" data-dismiss="modal" routerlink = "/confirm-reject" routerLinkActive = "active">Reject</button>
             </div>
           </div>
         </div>

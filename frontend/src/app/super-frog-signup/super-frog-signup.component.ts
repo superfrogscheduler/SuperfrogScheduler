@@ -29,7 +29,7 @@ export class SuperFrogSignupComponent implements OnInit {
   id: number; //appearance id
   superfrogId: number;
 
-  constructor(private signUpService: SignUpService, private route: ActivatedRoute, private authService: AuthenticationService) { }
+  constructor(private signUpService: SignUpService, private route: ActivatedRoute, private router: Router, private authService: AuthenticationService) { }
 
   onSignedUp() {this.signedUp = true; }
 
@@ -62,5 +62,6 @@ export class SuperFrogSignupComponent implements OnInit {
     this.signUpService.signUp(this.id, this.superfrogId, this.data).subscribe(data => {
       this.data = data;
     });
+    this.router.navigate(['/confirm-accept']);
   }
 }

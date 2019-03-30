@@ -54,3 +54,11 @@ a {
     font-weight: normal;
     color: #4d1979;
 }
+
+#about-header {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 36px;
+    color: #4d1979;
+}
