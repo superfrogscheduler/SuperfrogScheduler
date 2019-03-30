@@ -11,18 +11,24 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="nav navbar-nav ml-auto">
                 <li><a id = "a-nav" href="/superfrog-calendar" routerLinkActive = "active">CALENDAR</a></li>
-                <li><a id = "a-nav" href="#about">CALENDAR</a></li>
                 <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active">AVAILABLE APPEARANCES</a></li>
                 <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active">MY APPEARANCES</a></li>
-                <li><a id = "a-nav" href="/admin-landing" routerLinkActive = "active">SETTINGS</a></li>
-                <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
+                <li><a id = "a-nav" href="/superfrog-landing" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>   
               </ul>
         </div>
       </nav>
   </div>
 
 <!--page content-->
-<div style="text-align:center; padding-top:125px;">
+<div style = "padding-top: 75px;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">My Upcoming Appearances</li>
+        </ol>
+      </nav>
+</div>
+<div style="text-align:center; padding-top:40px;">
     <div style = "padding-bottom: 50px;">
       <h1>Hi, {{superfrog.first_name}}!</h1>
       <h2 *ngIf="landingData.length == 0">You have no upcoming appearances.</h2>
@@ -51,7 +57,6 @@
       </div>
       <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
         <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/superfrog-landing-details/{{names.appearance.id}}" routerLinkActive="active">View Details</a></button>
-        <button class="btn btn-secondary btn-space btn-lg" type="reject">View on Calendar</button>
       </div>
     </div>
     </div>

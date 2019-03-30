@@ -8,18 +8,25 @@
           <ul class="nav navbar-nav ml-auto">
               <li><a id = "a-nav" href="#about">ABOUT</a></li>
               <li><a id = "a-nav" href="#contact">CONTACT</a></li>
-              <li><a id = "a-nav" routerLink="/list-appearances" routerLinkActive="active">SUPERFROG LOGIN</a></li>
-              <li><a id = "a-nav" href="/admin-landing" routerLinkActive = "active">ADMIN LOGIN</a></li>
+              <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active">AVAILABLE APPEARANCES</a></li>
+              <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active">MY APPEARANCES</a></li>
             </ul>
       </div>
     </nav>
 </div>
 
-
-<div style="text-align:center; padding-top:125px;">
+<!--body-->
+<div style = "padding-top: 75px;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/superfrog-landing">My Upcoming Appearances</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Details</li>
+        </ol>
+      </nav>
+</div>
+<div style="text-align:center; padding-top:40px;">
   <div class = "container align-center" id="request-container">
       <h1 style = "padding-bottom: 10px;">{{landingData.name}}</h1>
-      <p style = "padding-bottom: 10px;"><a href = "#" id = "edit">Edit event details</a></p>
 <div style="text-align: center">
     <div class = "row">
       <div class = "col-md-4">

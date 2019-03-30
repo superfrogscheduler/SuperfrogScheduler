@@ -31,12 +31,12 @@ export class AcceptRejectDetailsComponent implements OnInit {
     this.adminService.acceptAppear(this.id, this.data).subscribe(data => {
       this.getData = data;
     });
-    this.router.navigate(['/list-accept-reject']);
+    this.router.navigate(['/confirm-accept']);
   }
   rejectAppear() {
     this.adminService.rejectAppear(this.id, this.data).subscribe(data => {
       this.getData = data;
     });
-    this.router.navigate(['/list-accept-reject']);
+    this.router.navigate(['/confirm-reject']);
   }
 }

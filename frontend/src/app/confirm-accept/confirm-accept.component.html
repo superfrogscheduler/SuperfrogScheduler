@@ -1,4 +1,4 @@
-<!--nav-->
+<!--admin nav-->
 <div style="text-align:center">
     <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
         <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
@@ -7,17 +7,27 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="nav navbar-nav ml-auto">
-                <li><a id = "a-nav" href="#about">ABOUT</a></li>
-                <li><a id = "a-nav" href="#contact">CONTACT</a></li>
-                <li><a id = "a-nav" routerLink="/auth" routerLinkActive="active">LOGIN</a></li>
+                <li><a id = "a-nav disabled" routerLink="#">CALENDAR</a></li>
+                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">PENDING APPEARANCES</a></li>
+                <li><a id = "a-nav disabled" routerLink="#" routerLinkActive="active">PAYROLL</a></li>
+                <li><a id = "a-nav disabled" routerLink="#" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
               </ul>
         </div>
       </nav>
   </div>
   
   <!--page content-->
-  
-  <div class = "container" style="text-align:center; padding-top: 120px; height: 500px; ">
+  <div style = "padding-top: 75px;">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/list-accept-reject">Pending Appearance Requests</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Details</li>
+            <li class="breadcrumb-item active" aria-current="page">Accept</li>
+          </ol>
+        </nav>
+  </div>
+  <div class = "container" style="text-align:center; padding-top: 40px; height: 500px; ">
     <div id = "form-container">
   
         <img class = "thankyou-img" src = "/assets/images/superfrogFountain.jpg" style = "max-width: 250px; max-height: 250px; border-top-left-radius: 50% 50%;
@@ -27,7 +37,7 @@
         <div class = "col-md-8">
         <h1>Event Accepted</h1>
         <p>You have accepted this event request. The Superfrogs have been notified of the available appearance.</p>
-        <button type="button" routerLink="/admin-landing">Home</button>
+        <button type="button" routerLink="/list-accept-reject">Home</button>
       </div>
     </div>
   </div>

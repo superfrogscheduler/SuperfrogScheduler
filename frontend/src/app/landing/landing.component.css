@@ -16,8 +16,9 @@ h3 {
 }
 
 p {
-    color: #a3a9ac;
+    color: #4d1979;
     font-size: 18px;
+    font-weight: 300;
 }
 
 .subtle {
@@ -146,5 +147,13 @@ p {
 #a-nav:visited {
     font-family: "Helvetica Neue", sans-serif;
     font-weight: normal;
+    color: #4d1979;
+}
+
+
+#about-header {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 42px;
+    font-weight: 300;
     color: #4d1979;
 }
