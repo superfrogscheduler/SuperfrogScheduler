@@ -62,6 +62,6 @@ export class SuperFrogSignupComponent implements OnInit {
     this.signUpService.signUp(this.id, this.superfrogId, this.data).subscribe(data => {
       this.data = data;
     });
-    this.router.navigate(['/confirm-accept']);
+    this.router.navigate(['/confirm-signup']);
   }
 }
