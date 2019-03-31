@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AdminGeneratePayrollComponent implements OnInit {
   payrollData: any = {};
   id: number;
+  SFAid: number;
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   constructor(private pService: PayrollService, private route: ActivatedRoute) { }
 
@@ -21,6 +22,12 @@ export class AdminGeneratePayrollComponent implements OnInit {
   }
   getID() {
     this.pService.getID(this.id).subscribe(data => {
+      this.payrollData = data;
+      this.SFAid = data.appearance.id;
+    });
+  }
+  genPayroll() {
+    this.pService.genPayroll( this.SFAid, this.data).subscribe(data => {
       this.payrollData = data;
     });
   }

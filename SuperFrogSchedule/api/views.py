@@ -20,7 +20,8 @@ from django.contrib.auth import authenticate, login
 import pdfrw
 import os
 from django.template.loader import render_to_string, get_template
-
+import datetime
+from time import strftime
 import json
 
 # class AppearanceViewSet(viewsets.ViewSet):
@@ -41,35 +42,72 @@ import json
 #     serializer = AppearanceShortSerializer
 
 INVOICE_TEMPLATE_PATH = 'Honorarium_Request_Final.pdf'
-INVOICE_OUTPUT_PATH = 'fillform.pdf'
+#INVOICE_OUTPUT_PATH = 'fillform.pdf'
 
 ANNOT_KEY = '/Annots'
 ANNOT_FIELD_KEY = '/T'
 ANNOT_VAL_KEY='/V'
 ANNOT_RECT_KEY = '/Rect'
 SUBTYPE_KEY = '/Subtype'
-WIDGET_SUBTYPE_kEY='/Widget
+WIDGET_SUBTYPE_kEY='/Widget'
 
 def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
     template_pdf=pdfrw.PdfReader(input_pdf_path)
     annotations=template_pdf.pages[0][ANNOT_KEY]
     for annotation in annotations:
         if annotation[SUBTYPE_KEY]==WIDGET_SUBTYPE_kEY:
-            key=annotation[ANNOT_FIELD_KEY][1:-1]
-            if key in data_dict.keys():
-                annotation.update(
-                    pdfrw.PdfDict(V='{}'.format(data_dict[key]))
-                )
+            if(annotation[ANNOT_FIELD_KEY]):
+                print(annotation[ANNOT_FIELD_KEY])
+                key=annotation[ANNOT_FIELD_KEY][1:-1]
+                if key in data_dict.keys():
+                    annotation.update(
+                        pdfrw.PdfDict(V='{}'.format(data_dict[key]))
+                    )
 
     pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
+@csrf_exempt 
+def generatePayroll(request, SFAid = None):
+    if request.method == 'PATCH':
+        superfrog_appearance = SuperfrogAppearance.objects.get(pk = SFAid)
+        INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
+        a = superfrog_appearance.appearance.start_time
+        b = superfrog_appearance.appearance.end_time
+        dates = superfrog_appearance.appearance.date
+        datesS = dates.strftime('%Y/%m/%d')
+        aT = a.strftime('%I:%M')
+        bT = b.strftime('%I:%M')
+        deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
+        deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
+        dA = deltaA
+        dB = deltaB
+        delta = dB - dA
+        deltaSec = delta.total_seconds()
+        deltaHour = deltaSec / 3600
+        mile = superfrog_appearance.appearance.mileage
+        amount = deltaHour* 25 + mile * .5
+        data_dict = {
+            'Name' : superfrog_appearance.superfrog.user.first_name + superfrog_appearance.superfrog.user.last_name,
+            'Permanentaddress 2' : superfrog_appearance.superfrog.street+ ' ' + superfrog_appearance.superfrog.city+ ' ' + superfrog_appearance.superfrog.state+ ' ' + superfrog_appearance.superfrog.zipCode,
+            '1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1' : 'Appearance Name: '+superfrog_appearance.appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Location '+superfrog_appearance.appearance.location+ ', ' + 'Appearance Time: '+aT + '-' + bT,
+            'Amount' : amount
+        }
+        print(data_dict)
+        write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
         
-def generatePayroll(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        print(data)
-        superfrog_serializer = SuperfrogSerializer(data=data['superfrog'])
-        if superfrog_serializer.is_valid():
-            
+        superfrog_appearance.appearance.status = "Completed"
+        superfrog_appearance.appearance.save()
+        return HttpResponse(superfrog_appearance, status= 201)
+
+# def pdf_view(request):
+#     with open('/path/to/my/file.pdf', 'r') as pdf:
+#         response = HttpResponse(pdf.read(), mimetype='application/pdf')
+#         response['Content-Disposition'] = 'inline;filename=some_file.pdf'
+#         return response
+#     pdf.closed
+
+# def home(request):
+# image_data = open(“/path/to/my/image.pdf”, “rb”).read()
+# return HttpResponse(image_data, mimetype=”application/pdf”)
 
 def list_by_status(request, status=None):
     if request.method == 'GET':
@@ -180,12 +218,8 @@ def detail(request, id=None):
     else:
         return HttpResponseBadRequest()
 def payroll_appearance(request,status=None):
-    if request.method == 'GET': # Go Over this with Duncan!!!!!
-        # queryset = SuperfrogAppearance.objects.get( appearance__status=status)
-        # appear_stat = Appearance.objects.get(status=status)
-        # Super_id = Superfrog.objects.get(pk=1)
-        # queryset= SuperfrogAppearance.objects.get(superfrog=Super_id, appearance__status= appear_stat)
-        queryset = SuperfrogAppearance.objects.all()
+    if request.method == 'GET': 
+        queryset = SuperfrogAppearance.objects.filter( appearance__status=status)
         serializer = PayrollSerializer(queryset, many = True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
@@ -316,6 +350,7 @@ def rejectAppearance(request, id = None):
         appearance_id.delete()
         #customer email
         return HttpResponse(status = 201)
+
 def events(request):
     if request.method == 'GET':
         queryset = Event.objects.all()
@@ -355,10 +390,10 @@ def events_customer_monthly(request, year, month):
     return HttpResponse(JSONRenderer().render(response))
 
 
-def list_by_status_list(request, status=None):
+def list_by_status_list(request, status=None, sID=None):
     if request.method == 'GET':
-        queryset = Appearance.objects.filter(status=status)
-        serializer = AppearanceShortSerializer(queryset, many=False)
+        queryset = SuperfrogAppearance.objects.filter(appearance__status=status, superfrog=sID)
+        serializer = SuperfrogAppearanceSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()

@@ -7,6 +7,8 @@ import { ListAppearancesService } from './view-appearances.service';
 import { from } from 'rxjs';
 import * as moment from 'moment/moment.js';
 import { element } from '@angular/core/src/render3';
+import { Superfrog } from '../shared/superfrog';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-view-appearances',
@@ -16,10 +18,15 @@ import { element } from '@angular/core/src/render3';
 export class ViewAppearancesComponent implements OnInit {
   appearances = [];
   calendarOptions: Options;
+  superfrog: Superfrog;
+  superfrogID: number;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
-  constructor(private listService: ListAppearancesService) { }
+  constructor(private listService: ListAppearancesService, private authService: AuthenticationService) { }
 
   ngOnInit() {
+    this.superfrog = {};
+    this.getUser();
+    this.getSuperFrogId();
     this.calendarOptions = {
       editable: false,
       eventLimit: false,
@@ -34,14 +41,21 @@ export class ViewAppearancesComponent implements OnInit {
     };
     this.getAssignedAppearance();
   }
+  getUser() {
+    this.superfrog = this.authService.getUser('logged');
+  }
+  getSuperFrogId() {
+    this.superfrogID = this.authService.getUser('logged').id;
+    console.log(this.superfrogID);
+  }
   getPastAppearance() {
-    this.listService.getPastAppearances().subscribe(data => {
+    this.listService.getPastAppearances(this.superfrogID).subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
-          id: element.id,
-          title: element.name,
-          start: "" + element.date + " " + element.start_time,
-          end: ""+ element.date + " " + element.end_time
+          id: element.appearance.id,
+          title: element.appearance.name,
+          start: "" + element.appearance.date + " " + element.appearance.start_time,
+          end: ""+ element.appearance.date + " " + element.appearance.end_time
         });   
       });
       this.ucCalendar.fullCalendar('removeEvents');
@@ -51,13 +65,13 @@ export class ViewAppearancesComponent implements OnInit {
     });
   }
   getAssignedAppearance() {
-    this.listService.getAssignedAppearances().subscribe(data => {
+    this.listService.getAssignedAppearances(this.superfrogID).subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
-          id: element.id,
-          title: element.name,
-          start: "" + element.date + " " + element.start_time,
-          end: "" + element.date + " " + element.end
+          id: element.appearance.id,
+          title: element.appearance.name,
+          start: "" + element.appearance.date + " " + element.appearance.start_time,
+          end: "" + element.appearance.date + " " + element.appearance.end_time
         });
       });
       this.ucCalendar.fullCalendar('removeEvents');

@@ -13,4 +13,7 @@ export class PayrollService {
   getID(id: number): Observable<any> {
     return this.http.get(this.baseurl + "appearance/" + id);
   }
+  genPayroll(  SFAid: number, req: {}) {
+    return this.http.patch(this.baseurl + "payrollAppearances/" + SFAid + "/", req);
+  }
 }
