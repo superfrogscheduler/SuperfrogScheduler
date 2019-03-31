@@ -34,6 +34,7 @@ import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/su
 import { ConfirmSignupComponent } from './confirm-signup/confirm-signup.component';
 import { ConfirmRejectComponent } from './confirm-reject/confirm-reject.component';
 import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.component';
+import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -60,6 +61,8 @@ const appRoutes: Routes = [
   {path: 'confirm-accept', component: ConfirmAcceptComponent},
   {path: 'confirm-reject', component: ConfirmRejectComponent},
   {path: 'confirm-signup', component: ConfirmSignupComponent},
+  {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
+
 
 ];
 
@@ -91,6 +94,7 @@ const appRoutes: Routes = [
     ConfirmSignupComponent,
     ConfirmRejectComponent,
     ConfirmAcceptComponent,
+    AdminCreateAppearanceComponent,
   ],
   imports: [
     RouterModule.forRoot(
