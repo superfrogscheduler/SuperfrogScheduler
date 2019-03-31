@@ -7,8 +7,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="nav navbar-nav ml-auto">
-                <li><a id = "a-nav disabled" routerLink="#">CALENDAR</a></li>
-                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">PENDING APPEARANCES</a></li>
+                <li><a id = "a-nav disabled" routerLink="#">APPEARANCES</a></li>
+                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">REQUESTS</a></li>
                 <li><a id = "a-nav disabled" routerLink="#" routerLinkActive="active">PAYROLL</a></li>
                 <li><a id = "a-nav disabled" routerLink="#" routerLinkActive = "active">SETTINGS</a></li>
                 <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
@@ -93,7 +93,7 @@
               You are rejecting this event request. The customer will be notified that their event has been rejected. You cannot undo this action. 
               <hr>
               You must also include a reason. This will be listed in the rejection email sent to the customer:
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="reason" formControlName="reason" name="reason"></textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="reason" [(ngModel)]="rejectReason"></textarea>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>

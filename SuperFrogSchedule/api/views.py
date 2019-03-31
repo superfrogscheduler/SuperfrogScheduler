@@ -301,14 +301,25 @@ def acceptAppearance(request, id=None):
 
 @csrf_exempt
 def rejectAppearance(request, id = None):
-    if request.method=='DELETE':
+    if request.method=='PATCH':
         appearance_id = Appearance.objects.get(pk=id)
+        reason = request.body.decode('utf-8')
         #customer email
+
+        customer_reject = render_to_string(
+            'customer_reject.html',
+            {
+                'reason': reason
+            }
+        )
+
         send_mail('Event Request Rejected',
-        'We thank you for your event request but Superfrog will not be able to attend.' ,
+        'We thank you for your event request but Superfrog will not be able to attend due to the reason below:'
+        + reason,
         'superfrog@scheduler.com',
         [appearance_id.customer.email],
-        fail_silently = False)
+        fail_silently = False,
+        html_message = customer_reject)
 
         appearance_id.delete()
         

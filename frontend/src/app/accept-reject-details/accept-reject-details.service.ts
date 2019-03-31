@@ -16,7 +16,7 @@ export class AdminDetailsService {
   acceptAppear(id: number, req: {}): Observable<any> {
     return this.http.patch(this.baseurl + "adminAccept/" + id + "/", req);
   }
-  rejectAppear(id: number, req: {}): Observable<any> {
-    return this.http.delete(this.baseurl + "adminReject/" + id + "/", req);
+  rejectAppear(id: number, reason: String): Observable<any> {
+    return this.http.patch(this.baseurl + "adminReject/" + id + "/", reason);
   }
 }
