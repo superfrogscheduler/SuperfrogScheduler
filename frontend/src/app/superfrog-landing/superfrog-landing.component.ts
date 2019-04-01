@@ -13,7 +13,7 @@ import { SignUpService } from '../super-frog-signup/super-frog-signup.service';
 export class SuperfrogLandingComponent implements OnInit {
 
   superfrog: Superfrog;
-  landingData: any = {};
+  landingData = [];
   superfrogID: number;
   constructor(private authService: AuthenticationService, private landService: SuperfrogLandingService) { }
 

@@ -33,6 +33,10 @@ import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-ge
 import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
 import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
 import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
+import { ConfirmSignupComponent } from './confirm-signup/confirm-signup.component';
+import { ConfirmRejectComponent } from './confirm-reject/confirm-reject.component';
+import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.component';
+import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -57,7 +61,13 @@ const appRoutes: Routes = [
   {path: 'instructions-page', component: InstructionsPageComponent},
   {path: 'superfrog-landing-details/:id', component: SuperfrogLandingDetailsComponent},
   { path: 'superfrog-class-schedule', component: SuperfrogClassScheduleComponent},
-  {path: 'instructions-page', component: InstructionsPageComponent}
+  {path: 'instructions-page', component: InstructionsPageComponent},
+  {path: 'confirm-accept', component: ConfirmAcceptComponent},
+  {path: 'confirm-reject', component: ConfirmRejectComponent},
+  {path: 'confirm-signup', component: ConfirmSignupComponent},
+  {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
+
+
 ];
 
 @NgModule({
@@ -87,6 +97,10 @@ const appRoutes: Routes = [
     SuperfrogClassScheduleComponent,
     InstructionsPageComponent,
     SuperfrogLandingDetailsComponent,
+    ConfirmSignupComponent,
+    ConfirmRejectComponent,
+    ConfirmAcceptComponent,
+    AdminCreateAppearanceComponent,
   ],
   imports: [
     RouterModule.forRoot(

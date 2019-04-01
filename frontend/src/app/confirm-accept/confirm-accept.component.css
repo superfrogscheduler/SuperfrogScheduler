@@ -1,7 +1,9 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
 h1 {
     color: #4d1979;
+    margin-bottom: 25px;
 }
 
 h2 {
@@ -16,10 +18,28 @@ h3 {
 }
 
 p {
-    color: #4d1979;
-    font-size: 18px;
-    font-weight: 300;
+    color: #a3a9ac;
+    font-size: 16px;
+    margin: 25px;
 }
+
+
+button {
+    background-color: #4d1979 !important;
+    border-color: #4d1979 !important;
+    color: white !important;
+    width: 150px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border-radius: .25vh;
+}
+
+#thankyou-img {
+    -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
+}
+
 
 .subtle {
     font-size: 14px;
@@ -37,7 +57,7 @@ p {
 }
 
 .jumbotron{
-    background-image: url(/assets/images/SuperfrogFog.png);
+    background-image: url(/assets/images/superfrogFountain.jpg);
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -46,24 +66,6 @@ p {
     margin-top: 0;
 }
 
-.btn-primary, .btn-primary:visited{
-    color:#ffffff;
-    background-color: #ffffff;
-    border-color: #4d1979;
-    border-radius: 0px;
-    border-width: 1px;
-    -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-}
-
-.btn-primary:hover{
-    background-color:  #4d1979 !important;
-    border-radius: 0px;
-    border-color: #4d1979 !important;
-    color: white;
-
-}
 
 .card-img-top{
     max-width: 300px;
@@ -91,23 +93,6 @@ p {
     letter-spacing: 1px;
     font-weight: lighter;
     font-size: 14px;
-}
-
-#jumbo-header {
-    margin-top: 20%;
-    color:white;
-    font-size: 42px;
-}
-
-#jumbo-button {
-    background-color: transparent !important;
-    border-color: white;
-    border-radius:0;
-}
-
-#jumbo-button:hover {
-
-    background-color: #4d1979 !important;
 }
 
 #form-container {
@@ -147,13 +132,5 @@ p {
 #a-nav:visited {
     font-family: "Helvetica Neue", sans-serif;
     font-weight: normal;
-    color: #4d1979;
-}
-
-
-#about-header {
-    font-family: "Helvetica Neue", sans-serif;
-    font-size: 42px;
-    font-weight: 300;
     color: #4d1979;
 }
