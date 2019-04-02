@@ -1,6 +1,3 @@
-<div *ngIf="calendarOptions">
-  <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
-</div>
 <!--admin nav-->
 <div style="text-align:center">
     <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
@@ -29,10 +26,17 @@
           </nav>
     </div>
 
+
 <div style="text-align:center; padding-top:40px;">
   <div style = "padding-bottom: 50px;">
     <h1>Appearances Awaiting Payroll</h1>
   </div>
+
+<div class = "container">
+  <div *ngIf="calendarOptions">
+      <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
+    </div>
+</div>
   <div *ngFor="let names of payrollData">
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.appearance.name}}</a></h3>
