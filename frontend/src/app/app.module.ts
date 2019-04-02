@@ -42,6 +42,7 @@ import { ConfirmRejectComponent } from './confirm-reject/confirm-reject.componen
 import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.component';
 import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
 import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
+import { AdminAppearancesDetailsComponent } from './admin-appearances-details/admin-appearances-details.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -116,6 +117,7 @@ const appRoutes: Routes = [
     ConfirmAcceptComponent,
     AdminCreateAppearanceComponent,
     AdminSettingsComponent,
+    AdminAppearancesDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(
