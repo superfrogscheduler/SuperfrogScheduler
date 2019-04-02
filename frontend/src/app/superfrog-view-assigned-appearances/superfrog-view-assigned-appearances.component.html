@@ -1,4 +1,4 @@
-<!--admin nav-->
+<!--superfrog nav-->
 <div style="text-align:center">
   <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
       <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
@@ -7,47 +7,52 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <ul class="nav navbar-nav ml-auto">
-              <li><a id = "a-nav" href="#about">CALENDAR</a></li>
-              <li><a id = "a-nav" href="#contact">MANAGE ROSTER</a></li>
-              <li><a id = "a-nav" href="/list-accept-reject" routerLinkActive = "active">NEW APPEARANCES</a></li>
-              <li><a id = "a-nav" routerLink="/superfrog-landing" routerLinkActive="active">PAYROLL</a></li>
-              <li><a id = "a-nav" href="/admin-landing" routerLinkActive = "active">SETTINGS</a></li>
+              <li><a id = "a-nav" routerLink="/superfrog-calendar" routerLinkActive="active">CALENDAR</a></li>
+              <li><a id = "a-nav" href="/superfrog-landing" routerLinkActive = "active">SETTINGS</a></li>
               <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
             </ul>
       </div>
     </nav>
 </div>
 
+<!--page content-->
 <div style="text-align:center; padding-top:125px;">
   <div style = "padding-bottom: 50px;">
-    <h1>New Appearances Requested</h1>
+    <h1>All Upcoming Appearances</h1>
   </div>
-  <div *ngFor="let names of getData">
+  <div *ngFor="let names of appearanceData">
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
-    <h3><a href="#">{{names.name}}</a></h3>
+    <h3><a href="#">{{names.appearance.name}}</a></h3>
     <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
     <div class= "col-md-6">
       <p class = "label">Start Time</p>
-      <p>{{names.start_time}}</p>
+      <p>{{names.appearance.start_time}}</p>
       <p class = "label">End Time</p>
-      <p>{{names.end_time}}</p>
+      <p>{{names.appearance.end_time}}</p>
     </div>
     <div class= "col-md-6">
       <p class = "label">Date</p>
-      <p>{{names.date}}</p>
+      <p>{{names.appearance.date}}</p>
       <p class = "label">Location</p>
-      <p>{{names.location}}</p>
+      <p>{{names.appearance.location}}</p>
     </div>
     <div class = "col-md-6" style = "float: none; margin: 0 auto;">
         <p class = "label">Description</p>
-        <p>{{names.description}}</p>
+        <p>{{names.appearance.description}}</p>
     </div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+      <p class = "label">Superfrog Assigned: </p>
+      <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
+  </div>
     </div>
     <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
-      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/accept-reject-details/{{names.id}}" routerLinkActive="active">View Details</a></button>
-      <button class="btn btn-secondary btn-space btn-lg" type="reject">View on Calendar</button>
+      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/superfrog-appearance-details/{{names.appearance.id}}" routerLinkActive="active">View Details</a></button>
     </div>
   </div>
   </div>
 </div>
-
+<!-- 
+<select ng-model="selectedSuperfrogAccount">
+  <option value="">Select Superfrog</option> 
+ <option ng-repeat="item in appearanceData" value="{{item.id}}">{{item.appearance.name}}    
+ </option></select> -->

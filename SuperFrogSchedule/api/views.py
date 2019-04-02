@@ -66,9 +66,12 @@ def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
 
     pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
 @csrf_exempt 
-def generatePayroll(request, SFAid = None):
+def generatePayroll(request, SFAid = None, adminID = None):
     if request.method == 'PATCH':
+        admin_id = Admin.objects.get(pk = adminID)
+        print(admin_id)
         superfrog_appearance = SuperfrogAppearance.objects.get(pk = SFAid)
+        print(superfrog_appearance)
         INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
         a = superfrog_appearance.appearance.start_time
         b = superfrog_appearance.appearance.end_time
@@ -89,7 +92,8 @@ def generatePayroll(request, SFAid = None):
             'Name' : superfrog_appearance.superfrog.user.first_name + superfrog_appearance.superfrog.user.last_name,
             'Permanentaddress 2' : superfrog_appearance.superfrog.street+ ' ' + superfrog_appearance.superfrog.city+ ' ' + superfrog_appearance.superfrog.state+ ' ' + superfrog_appearance.superfrog.zipCode,
             '1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1' : 'Appearance Name: '+superfrog_appearance.appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Location '+superfrog_appearance.appearance.location+ ', ' + 'Appearance Time: '+aT + '-' + bT,
-            'Amount' : amount
+            'Amount' : amount,
+            '3g' : admin_id.user.first_name + ' ' + admin_id.user.last_name
         }
         print(data_dict)
         write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
@@ -121,6 +125,23 @@ def list_by_status_superfrog(request, status=None, sId= None):
     if request.method == 'GET':
         queryset = SuperfrogAppearance.objects.filter(superfrog = sId , appearance__status = status)
         serializer = SuperfrogLandingSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+
+def list_SuperfrogAppearance_by_Status(request, status=None):
+    if request.method == 'GET':
+        print('we did it')
+        queryset = SuperfrogAppearance.objects.filter(appearance__status=status)
+        serializer = SuperfrogAppearanceSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+
+def Appearance_to_Change(request, AID):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.get(pk=AID )
+        serializer = SuperfrogAppearanceSerializer(queryset, many=False)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
@@ -233,7 +254,13 @@ def payroll_detail(request, id=None):
     else:
         return HttpResponseBadRequest()
 
-
+def superfrog_appearance_detail(request, id=None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.get(pk=id)
+        serializer = SuperfrogAppearanceSerializer(queryset, many=False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 def create(request):
     if request.method=='POST':
         data = JSONParser().parse(request.body)
@@ -244,7 +271,18 @@ def create(request):
         return HttpResponse(serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()
-        
+@csrf_exempt
+def update_appearance(request):
+    if request.method=='PATCH':
+        data = json.loads(request.body)
+        print(data)
+        appearance_serializer = AppearanceShortSerializer(data=data['appearance'])
+        if appearance_serializer.is_valid():
+            appearance_serializer.save()
+        return HttpResponse(status= 200)
+    else:
+        print(appearance_serializer.errors)
+        return HttpResponse(appearance_serializer.errors, status = 400)
 @csrf_exempt
 def signUp(request, id=None, sId = None):
     if request.method=='PATCH':

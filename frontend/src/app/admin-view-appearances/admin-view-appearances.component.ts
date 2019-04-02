@@ -1,34 +1,25 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
-import { Appearance } from '../shared/appearance';
-import { Customer } from '../shared/customer';
-import { ListAppearancesService } from './view-appearances.service';
-import { from } from 'rxjs';
-import * as moment from 'moment/moment.js';
-import { element } from '@angular/core/src/render3';
-import { Superfrog } from '../shared/superfrog';
-import { AuthenticationService } from '../authentication/authentication.service';
 import { Router } from '@angular/router';
+import { ViewAppearancesAdminService } from './admin-view-appearances.service';
+import { Appearance } from '../shared/appearance';
+import { Superfrog } from '../shared/superfrog';
 @Component({
-  selector: 'app-view-appearances',
-  templateUrl: './view-appearances.component.html',
-  styleUrls: ['./view-appearances.component.css']
+  selector: 'app-admin-view-appearances',
+  templateUrl: './admin-view-appearances.component.html',
+  styleUrls: ['./admin-view-appearances.component.css']
 })
-export class ViewAppearancesComponent implements OnInit {
+export class AdminViewAppearancesComponent implements OnInit {
   appearances = [];
   calendarOptions: Options;
-  superfrog: Superfrog;
-  superfrogID: number;
+  data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
-  constructor(private listService: ListAppearancesService, private authService: AuthenticationService, private router: Router) { }
+  constructor(private adminView: ViewAppearancesAdminService, private router: Router) { }
 
   ngOnInit() {
-    this.superfrog = {};
-    this.getUser();
-    this.getSuperFrogId();
     this.calendarOptions = {
-      editable: false,
+      editable: true,
       eventLimit: false,
       header: {
         left: '',
@@ -41,18 +32,11 @@ export class ViewAppearancesComponent implements OnInit {
     };
     this.getAssignedAppearance();
   }
-  getUser() {
-    this.superfrog = this.authService.getUser('logged');
-  }
-  getSuperFrogId() {
-    this.superfrogID = this.authService.getUser('logged').id;
-    console.log(this.superfrogID);
-  }
-  getPastAppearance() {
-    this.listService.getPastAppearances(this.superfrogID).subscribe(data => {
+  getPendingAppearance() {
+    this.adminView.getPendingAppearances().subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
-          id: element.appearance.id,
+          id: element.id,
           title: element.appearance.name,
           start: "" + element.appearance.date + " " + element.appearance.start_time,
           end: ""+ element.appearance.date + " " + element.appearance.end_time
@@ -65,14 +49,14 @@ export class ViewAppearancesComponent implements OnInit {
     });
   }
   getAssignedAppearance() {
-    this.listService.getAssignedAppearances(this.superfrogID).subscribe(data => {
+    this.adminView.getAssignedAppearances().subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
-          id: element.appearance.id,
+          id: element.id,
           title: element.appearance.name,
           start: "" + element.appearance.date + " " + element.appearance.start_time,
-          end: "" + element.appearance.date + " " + element.appearance.end_time
-        });
+          end: ""+ element.appearance.date + " " + element.appearance.end_time
+        });   
       });
       this.ucCalendar.fullCalendar('removeEvents');
       this.ucCalendar.fullCalendar('removeEventSources');
@@ -80,16 +64,7 @@ export class ViewAppearancesComponent implements OnInit {
       // this.ucCalendar.fullCalendar('rerenderEvents');
     });
   }
-  getAppearances() {
-    this.router.navigate(['/superfrog-view-assigned-appearances/']);
-  }
-  next() {
-    this.ucCalendar.fullCalendar('next');
-  }
-  prev() {
-    this.ucCalendar.fullCalendar('prev');
-  }
   eventClick(event: any) {
-      window.open("http://localhost:4200/appearance-details/"+ event.event.id);
+    this.router.navigate(['/admin-change-appearances/' + event.event.id ]);
   }
 }

@@ -1,0 +1,18 @@
+<form form="ngForm"(ngSubmit)="updateAppearance(form.value)">     
+  <input type = "text" name="name" [(ngModel)]="name" value="{{appearanceData.appearance.name}}">
+  <input type = "date" name="date" [(ngModel)]="date" value="{{appearanceData.appearance.date}}">
+  <input type = "time" name="start_time" [(ngModel)]="start_time" value="{{appearanceData.appearance.start_time}}">
+  <input type = "time" name="end_time" [(ngModel)]="end_time" value="{{appearanceData.appearance.end_time}}">
+  <input type = "text" name="org" [(ngModel)]="org" value="{{appearanceData.appearance.organization}}">
+  <input type = "text" name="Location" [(ngModel)]="Location" value="{{appearanceData.appearance.location}}">
+  <input type = "text" name="Parking" [(ngModel)]="Parking" value="{{appearanceData.appearance.parking_info}}">
+  <input type = "text" name="org_type" [(ngModel)]="org_type" value="{{appearanceData.appearance.org_type}}">
+  <input type = "text" name="Cheerleaders" [(ngModel)]="Cheerleaders" value="{{appearanceData.appearance.cheerleaders}}">
+  <input type = "text" name="Showgirls" [(ngModel)]="Showgirls" value="{{appearanceData.appearance.showgirls}}">
+  <input type = "text" name="Special_Instructions" [(ngModel)]="Special_Instructions" value="{{appearanceData.appearance.special_instructions}}">
+  <input type = "text" name="expenses" [(ngModel)]="expenses" value="{{appearanceData.appearance.expenses_and_benefits}}">
+  <input type = "text" name="Outside_Orgs" [(ngModel)]="Outside_Orgs" value="{{appearanceData.appearance.outside_orgs}}">
+  <input type = "text" name="Description" [(ngModel)]="Description" value="{{appearanceData.appearance.description}}">
+  <button type="submit">Save</button>
+ </form>
+

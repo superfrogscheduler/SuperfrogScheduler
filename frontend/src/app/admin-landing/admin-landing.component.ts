@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from './admin-landing.service';
 
 @Component({
   selector: 'app-admin-landing',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-landing.component.css']
 })
 export class AdminLandingComponent implements OnInit {
-
-  constructor() { }
+  getData: any = {};
+  constructor(private landingService: AdminService) { }
 
   ngOnInit() {
+    this.getAppearances();
   }
-
+  getAppearances() {
+    this.landingService.getAppearances().subscribe(data => {
+      this.getData = data;
+    });
+  }
 }

@@ -20,6 +20,10 @@ from .views import (
     email, 
     list_by_status_superfrog,
     generatePayroll,
+    list_SuperfrogAppearance_by_Status,
+    Appearance_to_Change, 
+    update_appearance,
+    superfrog_appearance_detail,
     )
 
 urlpatterns = [
@@ -31,11 +35,15 @@ urlpatterns = [
     url(r'^employeeAppearance/(?P<id>\d+)/(?P<sId>\d+)/$', signUp),
     url(r'^listAppearances/status/(?P<status>\w+)/(?P<sID>\d+)/$', list_by_status_list),
     url(r'^auth/login/$', LoginView.as_view(), name='Login'),
-    url(r'adminAccept/(?P<id>\d+)/$',acceptAppearance),
-    url(r'adminReject/(?P<id>\d+)/$', rejectAppearance),
-    url(r'appearance/(?P<id>\d+)/$', payroll_detail),
-    url(r'SuperFrogappearance/status/(?P<status>\w+)/$', payroll_appearance),
+    url(r'^adminAccept/(?P<id>\d+)/$',acceptAppearance),
+    url(r'^adminReject/(?P<id>\d+)/$', rejectAppearance),
+    url(r'^appearance/(?P<id>\d+)/$', payroll_detail),
+    url(r'^SuperFrogappearance/status/(?P<status>\w+)/$', payroll_appearance),
     url(r'^email/', email),
     url(r'^landingAppearance/status/(?P<status>\w+)/(?P<sId>\d+)/$', list_by_status_superfrog),
-    url(r'^payrollAppearances/(?P<SFAid>\d+)/$', generatePayroll),
+    url(r'^payrollAppearances/(?P<SFAid>\d+)/(?P<adminID>\d+)/$', generatePayroll),
+    url(r'^superfrogappearances/status/(?P<status>\w+)/$',list_SuperfrogAppearance_by_Status),
+    url(r'^SuperFrogappearance/(?P<AID>\d+)/$', Appearance_to_Change),
+    url(r'^updateAppearance/$', update_appearance),
+    url(r'^superfrogappearancedetails/(?P<id>\d+)/$', superfrog_appearance_detail)
 ]

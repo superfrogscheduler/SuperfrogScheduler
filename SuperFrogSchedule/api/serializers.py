@@ -46,19 +46,19 @@ class CustomerAppearanceSerializer(serializers.ModelSerializer):
         model = Appearance
         fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','cheerleaders','showgirls','customer')
 
-class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
-    superfrog = SuperfrogSerializer()
-    appearance = AppearanceSerializer()
-    class Meta:
-        model = SuperfrogAppearance
-        fields = ('id','superfrog','appearance', 'date_assigned')
+# class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
+#     superfrog = SuperfrogSerializer()
+#     appearance = AppearanceSerializer()
+#     class Meta:
+#         model = SuperfrogAppearance
+#         fields = ('id','superfrog','appearance', 'date_assigned')
 
-class PayrollSerializer(serializers.ModelSerializer):
-    superfrog = SuperfrogSerializer()
-    appearance = AppearanceSerializer()
-    class Meta:
-        model = SuperfrogAppearance
-        fields = ('id','superfrog','appearance')
+# class PayrollSerializer(serializers.ModelSerializer):
+#     superfrog = SuperfrogUserSerializer()
+#     appearance = AppearanceSerializer()
+#     class Meta:
+#         model = SuperfrogAppearance
+#         fields = ('id','superfrog','appearance')
 class SuperfrogLandingSerializer(serializers.ModelSerializer):
     superfrog = SuperfrogSerializer()
     appearance = AppearanceSerializer()
@@ -109,3 +109,25 @@ class UserSerializer(serializers.ModelSerializer):
             #update_session_auth_hash(self.context.get('request'), instance)
 
             return instance """
+
+
+class SuperfrogUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = Superfrog
+        fields = "__all__"
+
+class PayrollSerializer(serializers.ModelSerializer):
+    superfrog = SuperfrogUserSerializer()
+    appearance = AppearanceSerializer()
+    class Meta:
+        model = SuperfrogAppearance
+        fields = ('id','superfrog','appearance')
+
+
+class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
+    superfrog = SuperfrogUserSerializer()
+    appearance = AppearanceSerializer()
+    class Meta:
+        model = SuperfrogAppearance
+        fields = ('id','superfrog','appearance', 'date_assigned')

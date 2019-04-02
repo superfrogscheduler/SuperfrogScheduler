@@ -33,6 +33,10 @@ import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-ge
 import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
 import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
 import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
+import { SuperfrogViewAssignedAppearancesComponent } from './superfrog-view-assigned-appearances/superfrog-view-assigned-appearances.component';
+import { AdminViewAppearancesComponent } from './admin-view-appearances/admin-view-appearances.component';
+import { AdminChangeAppearanceComponent } from './admin-change-appearance/admin-change-appearance.component';
+import { SuperfrogAppearanceDetailsComponent } from './superfrog-appearance-details/superfrog-appearance-details.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -57,7 +61,10 @@ const appRoutes: Routes = [
   {path: 'instructions-page', component: InstructionsPageComponent},
   {path: 'superfrog-landing-details/:id', component: SuperfrogLandingDetailsComponent},
   { path: 'superfrog-class-schedule', component: SuperfrogClassScheduleComponent},
-  {path: 'instructions-page', component: InstructionsPageComponent}
+  { path: 'superfrog-view-assigned-appearances', component: SuperfrogViewAssignedAppearancesComponent},
+  { path: 'admin-view-appearances', component: AdminViewAppearancesComponent},
+  { path: 'admin-change-appearances/:id', component: AdminChangeAppearanceComponent},
+  { path: 'superfrog-appearance-details/:id', component: SuperfrogAppearanceDetailsComponent},
 ];
 
 @NgModule({
@@ -87,6 +94,10 @@ const appRoutes: Routes = [
     SuperfrogClassScheduleComponent,
     InstructionsPageComponent,
     SuperfrogLandingDetailsComponent,
+    SuperfrogViewAssignedAppearancesComponent,
+    AdminViewAppearancesComponent,
+    AdminChangeAppearanceComponent,
+    SuperfrogAppearanceDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(

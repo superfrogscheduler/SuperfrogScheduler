@@ -19,4 +19,7 @@ export class ListAppearancesService {
   getID(id: number): Observable<any> {
     return this.http.get(this.baseurl + "appearances/" + id);
   }
+  getAppearances(): Observable<any> {
+    return this.http.get(this.baseurl + "appearances/status/Assigned" );
+  }
 }
