@@ -23,6 +23,10 @@ p {
     margin: 25px;
 }
 
+a {
+    color: #4d1979;
+}
+
 
 button {
     background-color: #4d1979 !important;

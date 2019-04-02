@@ -10,13 +10,32 @@
                 <li><a id = "a-nav disabled" routerLink="#">APPEARANCES</a></li>
                 <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">REQUESTS</a></li>
                 <li><a id = "a-nav disabled" routerLink="/list-payroll-appearances" routerLinkActive="active">PAYROLL</a></li>
-                <li><a id = "a-nav disabled" routerLink="/admin-settings" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav disabled" routerLink="/admin-settings" routerLinkActive = "active" style = "font-weight: bold;">SETTINGS</a></li>
                 <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
               </ul>
         </div>
       </nav>
   </div>
+  
+  <!--Body-->
+  <div style = "padding-top: 75px;">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Admin Settings</li>
+          </ol>
+        </nav>
+  </div>
 
-<p>
-  admin-landing works!
-</p>
+  <!--Page Content -->
+  
+  <div class = "container align-center" style="padding-top: 10px;" >
+      <div style="text-align:center">
+        <div class="container align-center" id="pad-container">
+        <h1>Admin Settings</h1>
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action">Manage Roster</a>
+            <a href="/admin-create-appearance" class="list-group-item list-group-item-action">Create Appearance</a>
+          </div>
+        </div>
+      </div>
+    </div>

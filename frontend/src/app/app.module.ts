@@ -37,6 +37,7 @@ import { ConfirmSignupComponent } from './confirm-signup/confirm-signup.componen
 import { ConfirmRejectComponent } from './confirm-reject/confirm-reject.component';
 import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.component';
 import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -66,6 +67,7 @@ const appRoutes: Routes = [
   {path: 'confirm-reject', component: ConfirmRejectComponent},
   {path: 'confirm-signup', component: ConfirmSignupComponent},
   {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
+  {path: 'admin-settings', component: AdminSettingsComponent},
 
 
 ];
@@ -101,6 +103,7 @@ const appRoutes: Routes = [
     ConfirmRejectComponent,
     ConfirmAcceptComponent,
     AdminCreateAppearanceComponent,
+    AdminSettingsComponent,
   ],
   imports: [
     RouterModule.forRoot(

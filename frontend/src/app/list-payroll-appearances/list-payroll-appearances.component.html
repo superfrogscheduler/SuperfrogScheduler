@@ -7,18 +7,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="nav navbar-nav ml-auto">
-                <li><a id = "a-nav" routerLink="#about">CALENDAR</a></li>
-                <li><a id = "a-nav" routerLink="#contact">MANAGE ROSTER</a></li>
-                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">NEW APPEARANCES</a></li>
-                <li><a id = "a-nav" routerLink="/list-payroll-appearances" routerLinkActive="active">PAYROLL</a></li>
-                <li><a id = "a-nav" routerLink="/admin-landing" routerLinkActive = "active">SETTINGS</a></li>
-                <li><a id = "a-nav" routerLink="/landing" routerLinkActive = "active">LOGOUT</a></li>
+                <li><a id = "a-nav disabled" routerLink="#">APPEARANCES</a></li>
+                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">REQUESTS</a></li>
+                <li><a id = "a-nav disabled" routerLink="/list-payroll-appearances" routerLinkActive="active" style = "font-weight: bold;">PAYROLL</a></li>
+                <li><a id = "a-nav disabled" routerLink="/admin-settings" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
               </ul>
         </div>
       </nav>
   </div>
 
-<div style="text-align:center; padding-top:125px;">
+    <!--breadcrumbs-->
+    <div style = "padding-top: 75px;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page">Appearances Available for Payroll</li>
+            </ol>
+          </nav>
+    </div>
+
+<div style="text-align:center; padding-top:40px;">
   <div style = "padding-bottom: 50px;">
     <h1>Appearances Awaiting Payroll</h1>
   </div>
