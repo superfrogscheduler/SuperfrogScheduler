@@ -1,37 +1,76 @@
+<!--admin nav-->
+<div style="text-align:center">
+    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="nav navbar-nav ml-auto">
+                <li><a id = "a-nav disabled" routerLink="/admin-view-appearances" style = "font-weight:bold;">APPEARANCES</a></li>
+                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active" >REQUESTS</a></li>
+                <li><a id = "a-nav disabled" routerLink="/list-payroll-appearances" routerLinkActive="active">PAYROLL</a></li>
+                <li><a id = "a-nav disabled" routerLink="/admin-settings" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
+              </ul>
+        </div>
+      </nav>
+  </div>
 
+<!--page content-->
+<div style = "padding-top: 75px;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin-view-appearances">View All Appearances</a></li>
+          <li class="breadcrumb-item active" aria-current="page">List View</li>
+        </ol>
+      </nav>
+</div>
 
 <div style="text-align:center; padding-top:40px;">
-<div style = "padding-bottom: 50px;">
-<h1>Assigned Appearances</h1>
-</div>
-<div *ngFor="let names of appearanceData">
-<div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
-<h3><a href="#">{{names.appearance.name}}</a></h3>
-<div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
-<div class= "col-md-6">
-<p class = "label">Start Time</p>
-<p>{{names.appearance.start_time}}</p>
-<p class = "label">End Time</p>
-<p>{{names.appearance.end_time}}</p>
-</div>
-<div class= "col-md-6">
-<p class = "label">Date</p>
-<p>{{names.appearance.date}}</p>
-<p class = "label">Location</p>
-<p>{{names.appearance.location}}</p>
-</div>
-<div class = "col-md-6" style = "float: none; margin: 0 auto;">
-  <p class = "label">Description</p>
-  <p>{{names.appearance.description}}</p>
-</div>
-</div>
-<div>
-  <p class = "label">Superfrog Assigned</p>
-  <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
+  <div style = "padding-bottom: 10px;">
+    <h1>All Assigned Appearances</h1>
   </div>
-  <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
-    <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-change-appearances/{{names.id}}" routerLinkActive="active">View Details</a></button>
+  <div class = "container" style = "padding-bottom: 10px;">
+      <div class="form-group">
+          <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
+          <select class="form-control-lg" id="exampleFormControlSelect1">
+            <option>Example 1</option>
+            <option>Example 2</option>
+            <option>Example 3</option>
+            <option>Example 4</option>
+            <option>Example 5</option>
+          </select>
+        </div>
+  </div>
+    <div *ngFor="let names of appearanceData">
+    <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
+    <h3><a href="#">{{names.appearance.name}}</a></h3>
+      <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
+        <div class= "col-md-6">
+          <p class = "label">Start Time</p>
+          <p>{{names.appearance.start_time}}</p>
+          <p class = "label">End Time</p>
+          <p>{{names.appearance.end_time}}</p>
+        </div>
+        <div class= "col-md-6">
+          <p class = "label">Date</p>
+          <p>{{names.appearance.date}}</p>
+          <p class = "label">Location</p>
+          <p>{{names.appearance.location}}</p>
+        </div>
+        <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+          <p class = "label">Description</p>
+          <p>{{names.appearance.description}}</p>
+        </div>
+      </div>
+    <div>
+      <p class = "label">Superfrog Assigned</p>
+      <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
     </div>
-</div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
+      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-change-appearances/{{names.id}}" routerLinkActive="active">View Details</a></button>
+    </div>
+    </div>
 </div>
 
