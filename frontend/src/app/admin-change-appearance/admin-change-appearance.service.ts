@@ -6,14 +6,14 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PayrollService {
+export class AdminChangeService {
   baseurl = "http://127.0.0.1:8000/";
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
-  getID(id: number): Observable<any> {
-    return this.http.get(this.baseurl + "appearance/" + id);
+  get_Appearances_by_ID(AID: number): Observable<any> {
+    return this.http.get(this.baseurl + "SuperFrogappearance/" + AID + "/");
   }
-  genPayroll(  SFAid: number, adminID: number, req: {}) {
-    return this.http.patch(this.baseurl + "payrollAppearances/" + SFAid + "/" + adminID + "/", req);
+  updateAppearance(req: {}): Observable<any> {
+    return this.http.patch(this.baseurl + "updateAppearance/", req);
   }
 }

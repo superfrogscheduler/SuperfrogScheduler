@@ -1,4 +1,3 @@
-<!--admin nav-->
 <div style="text-align:center">
     <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
         <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
@@ -7,37 +6,32 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="nav navbar-nav ml-auto">
-                <li><a id = "a-nav disabled" routerLink="/admin-view-appearances">APPEARANCES</a></li>
-                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">REQUESTS</a></li>
-                <li><a id = "a-nav disabled" routerLink="/list-payroll-appearances" routerLinkActive="active" style = "font-weight: bold;">PAYROLL</a></li>
-                <li><a id = "a-nav disabled" routerLink="/admin-settings" routerLinkActive = "active">SETTINGS</a></li>
-                <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
+                <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active" >SIGN UP</a></li>
+                <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active" style = "font-weight:bold;">APPEARANCES</a></li>
+                <li><a id = "a-nav disabled" href="#" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
               </ul>
         </div>
       </nav>
   </div>
 
-    <!--breadcrumbs-->
-    <div style = "padding-top: 75px;">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item active" aria-current="page">Appearances Available for Payroll</li>
-            </ol>
-          </nav>
-    </div>
 
-
-<div style="text-align:center; padding-top:40px;">
-  <div style = "padding-bottom: 50px;">
-    <h1>Appearances Awaiting Payroll</h1>
+  <!--breadcrumb-->
+  <div style = "padding-top: 75px;">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/view-appearance">All My Appearances</a></li>
+            <li class="breadcrumb-item active" aria-current="page">All Superfrog Appearances</li>
+          </ol>
+        </nav>
   </div>
 
-<div class = "container">
-  <div *ngIf="calendarOptions">
-      <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
-    </div>
-</div>
-  <div *ngFor="let names of payrollData">
+<!--page content-->
+<div style="text-align:center; padding-top:10px;">
+  <div style = "padding-bottom: 50px;">
+    <h1>All Upcoming Superfrog Appearances</h1>
+  </div>
+  <div *ngFor="let names of appearanceData">
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.appearance.name}}</a></h3>
     <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
@@ -57,10 +51,19 @@
         <p class = "label">Description</p>
         <p>{{names.appearance.description}}</p>
     </div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+      <p class = "label">Superfrog Assigned: </p>
+      <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
+  </div>
     </div>
     <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
-      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-generate-payroll/{{names.id}}" routerLinkActive="active">View Details</a></button>
+      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/superfrog-appearance-details/{{names.appearance.id}}" routerLinkActive="active">View Details</a></button>
     </div>
   </div>
   </div>
 </div>
+<!-- 
+<select ng-model="selectedSuperfrogAccount">
+  <option value="">Select Superfrog</option> 
+ <option ng-repeat="item in appearanceData" value="{{item.id}}">{{item.appearance.name}}    
+ </option></select> -->

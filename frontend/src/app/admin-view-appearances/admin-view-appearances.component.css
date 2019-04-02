@@ -3,24 +3,8 @@ a {
     color: #4d1979;
 }
 
-h1 {
- color: #4d1979;
-}
-
-h3{
-    font-size: 21px;
-}
-
-p{
-    font-size: 14px;
-}
-
-.label{
-    font-size: 14px;
-    font-weight: bold;
-    color: grey;
-    letter-spacing: .25px;
-    opacity: .5;
+h1{
+    color: #4d1979;
 }
 
 .btn-primary{
@@ -45,6 +29,10 @@ p{
     box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
 }
 
+#edit {
+    color:  grey;
+}
+
 .navbar {
     background-color: #FFFFFF;
     min-height:50px;
@@ -62,8 +50,4 @@ p{
     font-family: "Helvetica Neue", sans-serif;
     font-weight: normal;
     color: #4d1979;
-}
-
-#btn-nav {
-    color: #ffffff;
 }

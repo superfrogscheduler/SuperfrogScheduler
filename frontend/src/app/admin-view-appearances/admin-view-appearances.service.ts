@@ -6,14 +6,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PayrollService {
+export class ViewAppearancesAdminService {
   baseurl = "http://127.0.0.1:8000/";
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
-  getID(id: number): Observable<any> {
-    return this.http.get(this.baseurl + "appearance/" + id);
+  getPendingAppearances(): Observable<any> {
+    return this.http.get(this.baseurl + "superfrogappearances/status/Pending/" );
   }
-  genPayroll(  SFAid: number, adminID: number, req: {}) {
-    return this.http.patch(this.baseurl + "payrollAppearances/" + SFAid + "/" + adminID + "/", req);
+  getAssignedAppearances(): Observable<any> {
+    return this.http.get(this.baseurl + "superfrogappearances/status/Assigned/" );
   }
+
 }

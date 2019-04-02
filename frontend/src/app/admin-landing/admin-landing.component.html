@@ -7,7 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="nav navbar-nav ml-auto">
-                <li><a id = "a-nav disabled" routerLink="#">APPEARANCES</a></li>
+                <li><a id = "a-nav disabled" routerLink="/admin-view-appearances">APPEARANCES</a></li>
                 <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">REQUESTS</a></li>
                 <li><a id = "a-nav disabled" routerLink="/list-payroll-appearances" routerLinkActive="active">PAYROLL</a></li>
                 <li><a id = "a-nav disabled" routerLink="/admin-settings" routerLinkActive = "active">SETTINGS</a></li>
@@ -17,6 +17,36 @@
       </nav>
   </div>
 
-<p>
-  admin-landing works!
-</p>
+<div style="text-align:center; padding-top:125px;">
+  <div style = "padding-bottom: 50px;">
+    <h1>New Appearances Requested</h1>
+  </div>
+  <div *ngFor="let names of getData">
+  <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
+    <h3><a href="#">{{names.name}}</a></h3>
+    <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
+    <div class= "col-md-6">
+      <p class = "label">Start Time</p>
+      <p>{{names.start_time}}</p>
+      <p class = "label">End Time</p>
+      <p>{{names.end_time}}</p>
+    </div>
+    <div class= "col-md-6">
+      <p class = "label">Date</p>
+      <p>{{names.date}}</p>
+      <p class = "label">Location</p>
+      <p>{{names.location}}</p>
+    </div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+        <p class = "label">Description</p>
+        <p>{{names.description}}</p>
+    </div>
+    </div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
+      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/accept-reject-details/{{names.id}}" routerLinkActive="active">View Details</a></button>
+      <button class="btn btn-secondary btn-space btn-lg" type="reject">View on Calendar</button>
+    </div>
+  </div>
+  </div>
+</div>
+
