@@ -47,18 +47,29 @@ class CustomerAppearanceSerializer(serializers.ModelSerializer):
         fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','cheerleaders','showgirls','customer')
 
 class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
-    # superfrog = SuperfrogSerializer()
-    # appearance = AppearanceSerializer()
+    superfrog = SuperfrogSerializer()
+    appearance = AppearanceSerializer()
     class Meta:
         model = SuperfrogAppearance
-        fields = ('superfrog','appearance', 'date_assigned')
+        fields = ('id','superfrog','appearance', 'date_assigned')
 
+class PayrollSerializer(serializers.ModelSerializer):
+    superfrog = SuperfrogSerializer()
+    appearance = AppearanceSerializer()
+    class Meta:
+        model = SuperfrogAppearance
+        fields = ('id','superfrog','appearance')
 class SuperfrogLandingSerializer(serializers.ModelSerializer):
     superfrog = SuperfrogSerializer()
     appearance = AppearanceSerializer()
     class Meta:
         model = SuperfrogAppearance
-        fields = ('superfrog','appearance')
+        fields = ('id','superfrog', 'appearance')
+        
+#Serializer for custom user model
+from django.contrib.auth import update_session_auth_hash
+from rest_framework import serializers
+from .models import User
     
 # class ClassSerializer(serializers.ModelSerializer):
 #     class Meta:

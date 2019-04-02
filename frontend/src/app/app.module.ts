@@ -28,6 +28,8 @@ import { SuperfrogCalendarComponent } from './superfrog-calendar/superfrog-calen
 import { EventCodeComponent } from './event-code/event-code.component';
 import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-reject-details.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
+import { ListPayrollAppearancesComponent } from './list-payroll-appearances/list-payroll-appearances.component';
+import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-generate-payroll.component';
 import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
 import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
 import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
@@ -35,6 +37,7 @@ import { ConfirmSignupComponent } from './confirm-signup/confirm-signup.componen
 import { ConfirmRejectComponent } from './confirm-reject/confirm-reject.component';
 import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.component';
 import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -52,8 +55,10 @@ const appRoutes: Routes = [
   {path: 'event-code', component: EventCodeComponent},
   {path: 'appearance-details/:id', component: AppearanceDetailComponent},
   {path: 'auth', component: AuthenticationComponent},
-  {path: 'list-accept-reject',  component: ListAcceptRejectComponent },
-  {path: 'accept-reject-details/:id', component: AcceptRejectDetailsComponent},
+  { path: 'list-accept-reject',  component: ListAcceptRejectComponent },
+  { path: 'accept-reject-details/:id', component: AcceptRejectDetailsComponent},
+  { path: 'list-payroll-appearances', component: ListPayrollAppearancesComponent},
+  { path: 'admin-generate-payroll/:id', component: AdminGeneratePayrollComponent},
   {path: 'instructions-page', component: InstructionsPageComponent},
   {path: 'superfrog-landing-details/:id', component: SuperfrogLandingDetailsComponent},
   { path: 'superfrog-class-schedule', component: SuperfrogClassScheduleComponent},
@@ -62,6 +67,7 @@ const appRoutes: Routes = [
   {path: 'confirm-reject', component: ConfirmRejectComponent},
   {path: 'confirm-signup', component: ConfirmSignupComponent},
   {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
+  {path: 'admin-settings', component: AdminSettingsComponent},
 
 
 ];
@@ -88,6 +94,8 @@ const appRoutes: Routes = [
     EventCodeComponent,
     ListAcceptRejectComponent,
     AcceptRejectDetailsComponent,
+    ListPayrollAppearancesComponent,
+    AdminGeneratePayrollComponent,
     SuperfrogClassScheduleComponent,
     InstructionsPageComponent,
     SuperfrogLandingDetailsComponent,
@@ -95,6 +103,7 @@ const appRoutes: Routes = [
     ConfirmRejectComponent,
     ConfirmAcceptComponent,
     AdminCreateAppearanceComponent,
+    AdminSettingsComponent,
   ],
   imports: [
     RouterModule.forRoot(
