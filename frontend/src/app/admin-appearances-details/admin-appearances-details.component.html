@@ -2,7 +2,7 @@
 
 <div style="text-align:center; padding-top:40px;">
 <div style = "padding-bottom: 50px;">
-<h1>Appearances Awaiting Payroll</h1>
+<h1>Assigned Appearances</h1>
 </div>
 <div *ngFor="let names of appearanceData">
 <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
@@ -25,10 +25,13 @@
   <p>{{names.appearance.description}}</p>
 </div>
 </div>
-<div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
-<button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-change-appearances/{{names.id}}" routerLinkActive="active">View Details</a></button>
-</div>
-</div>
+<div>
+  <p class = "label">Superfrog Assigned</p>
+  <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
+  </div>
+  <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
+    <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-change-appearances/{{names.id}}" routerLinkActive="active">View Details</a></button>
+    </div>
 </div>
 </div>
 
