@@ -10,7 +10,7 @@ export class AdminAppearancesDetailsService {
   baseurl = "http://127.0.0.1:8000/";
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
-  getAppearances(AID: number): Observable<any> {
-    return this.http.get(this.baseurl + "landingAppearance/status/Assigned/");
+  getAppearances(): Observable<any> {
+    return this.http.get(this.baseurl + "SuperFrogappearance/status/Assigned/");
   }
 }

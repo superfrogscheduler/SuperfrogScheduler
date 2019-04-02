@@ -77,7 +77,7 @@ const appRoutes: Routes = [
   {path: 'confirm-signup', component: ConfirmSignupComponent},
   {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
   {path: 'admin-settings', component: AdminSettingsComponent},
-
+  { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent}
 
 ];
 

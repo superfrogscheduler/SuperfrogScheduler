@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminAppearancesDetailsService } from './admin-appearances-details.service';
 
 @Component({
   selector: 'app-admin-appearances-details',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminAppearancesDetailsComponent implements OnInit {
   appearanceData: any = {};
-  constructor() { }
+  constructor(private adminDetails: AdminAppearancesDetailsService) { }
 
   ngOnInit() {
+    this.getAppearances();
   }
-
+  getAppearances() {
+    this.adminDetails.getAppearances().subscribe( data => {
+      this.appearanceData = data;
+    });
+  }
 }
