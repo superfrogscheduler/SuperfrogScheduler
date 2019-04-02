@@ -37,6 +37,11 @@ import { SuperfrogViewAssignedAppearancesComponent } from './superfrog-view-assi
 import { AdminViewAppearancesComponent } from './admin-view-appearances/admin-view-appearances.component';
 import { AdminChangeAppearanceComponent } from './admin-change-appearance/admin-change-appearance.component';
 import { SuperfrogAppearanceDetailsComponent } from './superfrog-appearance-details/superfrog-appearance-details.component';
+import { ConfirmSignupComponent } from './confirm-signup/confirm-signup.component';
+import { ConfirmRejectComponent } from './confirm-reject/confirm-reject.component';
+import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.component';
+import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -65,6 +70,14 @@ const appRoutes: Routes = [
   { path: 'admin-view-appearances', component: AdminViewAppearancesComponent},
   { path: 'admin-change-appearances/:id', component: AdminChangeAppearanceComponent},
   { path: 'superfrog-appearance-details/:id', component: SuperfrogAppearanceDetailsComponent},
+  {path: 'instructions-page', component: InstructionsPageComponent},
+  {path: 'confirm-accept', component: ConfirmAcceptComponent},
+  {path: 'confirm-reject', component: ConfirmRejectComponent},
+  {path: 'confirm-signup', component: ConfirmSignupComponent},
+  {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
+  {path: 'admin-settings', component: AdminSettingsComponent},
+
+
 ];
 
 @NgModule({
@@ -98,6 +111,11 @@ const appRoutes: Routes = [
     AdminViewAppearancesComponent,
     AdminChangeAppearanceComponent,
     SuperfrogAppearanceDetailsComponent,
+    ConfirmSignupComponent,
+    ConfirmRejectComponent,
+    ConfirmAcceptComponent,
+    AdminCreateAppearanceComponent,
+    AdminSettingsComponent,
   ],
   imports: [
     RouterModule.forRoot(

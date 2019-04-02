@@ -1,9 +1,10 @@
 @import "~bootstrap/dist/css/bootstrap.css";
-@import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
+body {
+    padding: 70px;
+}
 h1 {
     color: #4d1979;
-    margin-bottom: 25px;
 }
 
 h2 {
@@ -12,17 +13,22 @@ h2 {
 }
 
 h3 {
-    font-size: 16px !important;
-    font-weight: bold;
-    margin: 10px;
+    font-size: 24px !important;
+    font-weight: lighter;
+    color: #a3a9ac !important;
 }
 
 p {
     color: #a3a9ac;
-    font-size: 16px;
-    margin: 25px;
 }
 
+body { 
+    padding-top: 70px; 
+}
+
+a {
+    color: #4d1979;
+}
 
 button {
     background-color: #4d1979 !important;
@@ -34,30 +40,16 @@ button {
     border-radius: .25vh;
 }
 
-#thankyou-img {
-    -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
-}
-
-
-.subtle {
-    font-size: 14px;
-    color: white;
-    opacity: .5;
-}
-
 .lead {
-    color: WHITE;
+    color: white;
 }
-
-.card{
-    border: 2px;
-
+navbar, .navbar-expand-lg {
+    margin-bottom: 0;
+    background-color: rgba(f,f,f,0.56);
 }
 
 .jumbotron{
-    background-image: url(/assets/images/superfrogFountain.jpg);
+    background-image: url(/assets/images/SuperfrogFog.png);
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -66,11 +58,18 @@ button {
     margin-top: 0;
 }
 
-
-.card-img-top{
-    max-width: 300px;
-    max-height: 600px;
+.btn-secondary {
+    border-radius: 0px;
 }
+
+a, a:visited{
+    color: #4d1979;
+}
+
+a:hover{
+    color: #ffffff;
+}
+
 .top-buffer { margin-top:20px; }
 
 .btn-xlarge {
@@ -82,17 +81,28 @@ button {
             border-radius: 0px;
 }
 
-.responsive{
-    max-height: 50%;
-    max-width: 100%;
-}
-
 #btn-text {
     color:white;
     text-decoration: none;
-    letter-spacing: 1px;
-    font-weight: lighter;
+}
+
+#jumbo-header {
+    margin-top: 20%;
+    color:white;
+    font-size: 42px;
+}
+
+#a-nav, #a-nav:visited {
+    color: #a3a9ac;
     font-size: 14px;
+    font-weight: lighter;
+    letter-spacing: 0px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#a-nav:hover {
+    background-color: transparent;
+    color: black;
 }
 
 #form-container {
@@ -104,16 +114,6 @@ button {
 
 #pad-container {
     padding: 50px;
-}
-
-#info-jumbotron{
-    background-image: url(/assets/images/superfrogInfo.png);
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    margin-top: 0;
 }
 
 .navbar {

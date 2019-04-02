@@ -13,6 +13,7 @@ import { Superfrog } from '../shared/superfrog';
 export class AcceptRejectDetailsComponent implements OnInit {
   id: number;
   getData: any = {};
+  rejectReason: String = "";
   data: {"customer": Customer, "appearance": Appearance, "superfrog": Superfrog} = {"customer":{}, "appearance":{}, "superfrog": {}};
   constructor(private adminService: AdminDetailsService, private route: ActivatedRoute, private router: Router) { }
 
@@ -31,12 +32,12 @@ export class AcceptRejectDetailsComponent implements OnInit {
     this.adminService.acceptAppear(this.id, this.data).subscribe(data => {
       this.getData = data;
     });
-    this.router.navigate(['/list-accept-reject']);
+    this.router.navigate(['/confirm-accept']);
   }
   rejectAppear() {
-    this.adminService.rejectAppear(this.id, this.data).subscribe(data => {
+    this.adminService.rejectAppear(this.id, this.rejectReason).subscribe(data => {
       this.getData = data;
     });
-    this.router.navigate(['/list-accept-reject']);
+    this.router.navigate(['/confirm-reject']);
   }
 }

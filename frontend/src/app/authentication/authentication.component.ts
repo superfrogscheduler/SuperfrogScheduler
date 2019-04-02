@@ -52,7 +52,7 @@ export class AuthenticationComponent implements OnInit {
         //navigate to homepage
         
         if ((this.user.is_admin) || (this.user.is_staff))
-          this.router.navigate(['/admin-landing'])
+          this.router.navigate(['/list-accept-reject'])
         else  
           this.router.navigate(['/superfrog-landing'])
         
