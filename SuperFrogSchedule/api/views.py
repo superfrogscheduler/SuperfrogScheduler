@@ -15,7 +15,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
+from rest_framework import permissions
+
 
 import json
 
@@ -49,10 +51,16 @@ def list_by_status(request, status=None):
 #    if request.method == 'POST:
 #        user = User.objects.create_user('') 
 
-def getEmployee(request):
+def getSuperfrog(request, id = None):
     if request.method == 'GET':
-        queryset = Superfrog.objects.all()
-        serializer = SuperfrogSerializer(queryset, many= True)
+        queryset = Superfrog.objects.get(user = id)
+        serializer = SuperfrogSerializer(queryset, many= False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+
+def getAdmin(request, id = None):
+    if request.method == 'GET':
+        queryset = Admin.objects.get(user = id)
+        serializer = AdminSerializer(queryset, many= False)
         return HttpResponse(JSONRenderer().render(serializer.data))
 
 @csrf_exempt
@@ -214,3 +222,12 @@ class LoginView(views.APIView):
                 'status': 'Unauthorized',
                 'message': 'Username/password combination invalid.'
             }, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class LogoutView(views.APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, format=None):
+        logout(request)
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)

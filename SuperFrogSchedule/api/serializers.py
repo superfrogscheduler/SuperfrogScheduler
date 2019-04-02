@@ -4,12 +4,43 @@ from .models import User,Superfrog, Admin, Customer, Appearance, Event, Superfro
 #Serializer for custom user model
 from django.contrib.auth import update_session_auth_hash
 
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=False)
+    confirm_password = serializers.CharField(write_only=True, required=False)
+
+    class Meta:
+        model = User
+        fields = ('id', 'email','first_name', 'last_name',
+                    'created_at', 'updated_at',
+                    'password', 'confirm_password',
+                    'is_active','is_admin','is_staff',)
+        read_only_fields = ('created_at', 'updated_at',)
+
+        def create(self, validated_data):
+            return User.objects.create(**validated_data)
+    
+        def update(self, instance, validated_data):
+            instance.save()
+
+            password = validated_data.get('password', None)
+            confirm_password = validated_data.get('confirm_password', None)
+
+            if password and confirm_password and password == confirm_password:
+                instance.set_password(password)
+                instance.save()
+
+            #prevent logging user out after changing password
+            update_session_auth_hash(self.context.get('request'), instance)
+            return instance 
+
 class SuperfrogSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
     class Meta:
         model = Superfrog
         fields = "__all__"
 
 class AdminSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
     class Meta:
         model = Admin
         fields = "__all__"
@@ -54,32 +85,3 @@ class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
         fields = ('superfrog','appearance', 'date_assigned')
 
 
-class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=False)
-    confirm_password = serializers.CharField(write_only=True, required=False)
-
-    class Meta:
-        model = User
-        fields = ('id', 'email','first_name', 'last_name',
-                    'created_at', 'updated_at',
-                    'password','confirm_password',
-                    'is_active','is_admin','is_staff',)
-        read_only_fields = ('created_at', 'updated_at',)
-
-    """ def create(self, validated_data):
-            return User.objects.create(**validated_data)
-
-        def update(self, instance, validated_data):
-            instance.save()
-
-            password = validated_data.get('password', None)
-            confirm_password = validated_data.get('confirm_password', None)
-
-            if password and confirm_password and password == confirm_password:
-                instance.set_password(password)
-                instance.save()
-
-            #prevent logging user out after changing password
-            #update_session_auth_hash(self.context.get('request'), instance)
-
-            return instance """
