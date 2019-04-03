@@ -18,6 +18,17 @@ a {
     margin-right: 25px;
 }
 
+.modal {
+    position: absolute;
+    top: 2px;
+    right: 100px;
+    bottom: 0;
+    left: 0;
+    z-index: 10040;
+    overflow: auto;
+    overflow-y: auto;
+ }
+
 #request-container {
     padding: 50px;
     -webkit-box-shadow: 0px 0px 45px -1px rgba(0,0,0,0.75);
@@ -41,5 +52,13 @@ a {
 #a-nav:visited {
     font-family: "Helvetica Neue", sans-serif;
     font-weight: normal;
+    color: #4d1979;
+}
+
+#about-header {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 36px;
     color: #4d1979;
 }

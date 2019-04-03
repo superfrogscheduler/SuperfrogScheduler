@@ -29,7 +29,7 @@ export class SuperFrogSignupComponent implements OnInit {
   id: number; //appearance id
   superfrogId: number;
 
-  constructor(private signUpService: SignUpService, private route: ActivatedRoute, private authService: AuthenticationService) { }
+  constructor(private signUpService: SignUpService, private route: ActivatedRoute, private router: Router, private authService: AuthenticationService) { }
 
   onSignedUp() {this.signedUp = true; }
 
@@ -38,7 +38,7 @@ export class SuperFrogSignupComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.superfrog = {};
-    this.getSuperFrogId()
+    this.getSuperFrogId();
     //this.getSuperfrog();
     this.getID();
   }
@@ -54,16 +54,14 @@ export class SuperFrogSignupComponent implements OnInit {
     });
   }
 
-  getAppearance(){
-    
-  }
-  getSuperFrogId(){
-    this.superfrogId = this.authService.getUser('logged').id
+  getSuperFrogId() {
+    this.superfrogId = this.authService.getUser('logged').id;
   }
   
   signUp() {
     this.signUpService.signUp(this.id, this.superfrogId, this.data).subscribe(data => {
-      this.data = data
+      this.data = data;
     });
+    this.router.navigate(['/confirm-signup']);
   }
 }

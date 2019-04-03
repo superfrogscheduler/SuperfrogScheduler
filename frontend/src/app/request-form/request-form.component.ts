@@ -39,6 +39,7 @@ export class RequestFormComponent implements OnInit {
   invalidAddr: boolean = false;
   events = { id: "events", events: [], editable: false, overlap: false, eventColor: '#4d1979' };
   newEvent = [];
+  
   constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
 
   onSubmit() { this.submitted = true; }
@@ -114,7 +115,6 @@ export class RequestFormComponent implements OnInit {
   }
 
   getEvents(year, month){
-    console.log('Hi!');
     this.ucCalendar.fullCalendar('removeEventSource', this.events);
     this.events.events = [];
     this.requestService.getEvents(year, month).subscribe(data => {
@@ -152,12 +152,15 @@ export class RequestFormComponent implements OnInit {
     this.data.appearance.start_time = this.newEvent[0].start.format('kk:mm');
     this.data.appearance.end_time = this.newEvent[0].end.format('kk:mm');
     this.requestService.saveRequest(this.data).subscribe(response => {
-      this.router.navigate(['/customer-confirmation']);
+    this.router.navigate(['/customer-confirmation']); //how do i route this to a django view url instead???
+    
       },
       error => {
         console.log(error);
       });
   }
+
+
   //This function is called when a day is clicked on the calendar
   dayClick(event: any) {
     this.errorMsg = "";
@@ -235,7 +238,6 @@ export class RequestFormComponent implements OnInit {
     this.zone.run(() => {
       console.log(place);
       if (!place.geometry) {
-        console.log("INVALID ADDRESS");
         this.invalidAddr = true;
       }
       else{
@@ -243,6 +245,7 @@ export class RequestFormComponent implements OnInit {
         this.locationAddr = place.formatted_address;
         //This is working around a weird google
         this.form.get('locationAddr').setValue(this.locationAddr);
+
       }
     });
   }

@@ -66,6 +66,13 @@ class AppearanceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return Appearance(**validated_data)
 
+class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
+    superfrog = SuperfrogUserSerializer()
+    appearance = AppearanceSerializer()
+    class Meta:
+        model = SuperfrogAppearance
+        fields = ('id','superfrog','appearance', 'date_assigned')
+
 class AppearanceShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appearance
@@ -77,11 +84,41 @@ class CustomerAppearanceSerializer(serializers.ModelSerializer):
         model = Appearance
         fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','cheerleaders','showgirls','customer')
 
-class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
-    # superfrog = SuperfrogSerializer()
-    # appearance = AppearanceSerializer()
+# class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
+#     superfrog = SuperfrogSerializer()
+#     appearance = AppearanceSerializer()
+#     class Meta:
+#         model = SuperfrogAppearance
+#         fields = ('id','superfrog','appearance', 'date_assigned')
+
+# class PayrollSerializer(serializers.ModelSerializer):
+#     superfrog = SuperfrogUserSerializer()
+#     appearance = AppearanceSerializer()
+#     class Meta:
+#         model = SuperfrogAppearance
+#         fields = ('id','superfrog','appearance')
+class SuperfrogLandingSerializer(serializers.ModelSerializer):
+    superfrog = SuperfrogSerializer()
+    appearance = AppearanceSerializer()
     class Meta:
         model = SuperfrogAppearance
-        fields = ('superfrog','appearance', 'date_assigned')
+        fields = ('id','superfrog', 'appearance')
+        
+class PayrollSerializer(serializers.ModelSerializer):
+    superfrog = SuperfrogUserSerializer()
+    appearance = AppearanceSerializer()
+    class Meta:
+        model = SuperfrogAppearance
+        fields = ('id','superfrog','appearance')
+
+
+    
+# class ClassSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Class
+#         fields = "__all__"
+
+#     def create(self, validated_data):
+#         return Class(**validated_data)
 
 

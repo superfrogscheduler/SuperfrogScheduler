@@ -1,0 +1,42 @@
+<!--nav-->
+<div style="text-align:center">
+  <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+      <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <ul class="nav navbar-nav ml-auto">
+              <li><a id = "a-nav" href="#about">ABOUT</a></li>
+              <li><a id = "a-nav" href="#contact">CONTACT</a></li>
+              <li><a id = "a-nav" routerLink="/auth" routerLinkActive="active">LOGIN</a></li>
+            </ul>
+      </div>
+    </nav>
+</div>
+
+<!--page content-->
+
+<div class = "container" style = "padding-top: 125px;">
+  <div id = "form-container">
+    <h1>You're on your way to an awesome event!</h1>
+    <p>Here's some info you might need to know before making a request.</p>
+    <div class = "row">
+      <div class = "col-md-4">
+        <h2>Requesting</h2>
+        <p>You'll choose your event date from our calendar of available dates. Any event must be requested at least 2 weeks in advance.</p>
+      </div>
+      <div class = "col-md-4">
+        <h2>Range</h2>
+        <p>We can only service requests that are within a 100 mile radius from Amon G. Carter Stadium.</p>
+      </div>
+      <div class = "col-md-4">
+        <h2>Pricing</h2>
+        <p>Superfrogs cost $100 an hour for private events, and $75 an hour for TCU events. Showgirls and Cheerleaders are an added cost, that changes on a case by case basis.</p>
+      </div>
+    </div>
+    <div class = "row justify-content-center">
+      <button class = "btn-primary btn-xlarge"><a id = "btn-text" routerLink="/request-form" routerLinkActive="active">Got it!</a></button>
+    </div>
+  </div>
+</div>

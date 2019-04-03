@@ -18,5 +18,8 @@ export interface Appearance{
     expenses?: string,
     outside_orgs?: boolean,
     description?: string,
-    status?: string
+    status?: string, 
+    mileage?: string,
+    cost?: string,
+    receipt_number?: string,
 }

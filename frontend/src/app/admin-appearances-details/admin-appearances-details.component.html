@@ -1,0 +1,34 @@
+
+
+<div style="text-align:center; padding-top:40px;">
+<div style = "padding-bottom: 50px;">
+<h1>Appearances Awaiting Payroll</h1>
+</div>
+<div *ngFor="let names of appearanceData">
+<div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
+<h3><a href="#">{{names.appearance.name}}</a></h3>
+<div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
+<div class= "col-md-6">
+<p class = "label">Start Time</p>
+<p>{{names.appearance.start_time}}</p>
+<p class = "label">End Time</p>
+<p>{{names.appearance.end_time}}</p>
+</div>
+<div class= "col-md-6">
+<p class = "label">Date</p>
+<p>{{names.appearance.date}}</p>
+<p class = "label">Location</p>
+<p>{{names.appearance.location}}</p>
+</div>
+<div class = "col-md-6" style = "float: none; margin: 0 auto;">
+  <p class = "label">Description</p>
+  <p>{{names.appearance.description}}</p>
+</div>
+</div>
+<div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
+<button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-change-appearances/{{names.id}}" routerLinkActive="active">View Details</a></button>
+</div>
+</div>
+</div>
+</div>
+

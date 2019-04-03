@@ -28,6 +28,21 @@ import { SuperfrogCalendarComponent } from './superfrog-calendar/superfrog-calen
 import { EventCodeComponent } from './event-code/event-code.component';
 import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-reject-details.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
+import { ListPayrollAppearancesComponent } from './list-payroll-appearances/list-payroll-appearances.component';
+import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-generate-payroll.component';
+import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
+import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
+import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
+import { SuperfrogViewAssignedAppearancesComponent } from './superfrog-view-assigned-appearances/superfrog-view-assigned-appearances.component';
+import { AdminViewAppearancesComponent } from './admin-view-appearances/admin-view-appearances.component';
+import { AdminChangeAppearanceComponent } from './admin-change-appearance/admin-change-appearance.component';
+import { SuperfrogAppearanceDetailsComponent } from './superfrog-appearance-details/superfrog-appearance-details.component';
+import { ConfirmSignupComponent } from './confirm-signup/confirm-signup.component';
+import { ConfirmRejectComponent } from './confirm-reject/confirm-reject.component';
+import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.component';
+import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
+import { AdminAppearancesDetailsComponent } from './admin-appearances-details/admin-appearances-details.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -46,7 +61,24 @@ const appRoutes: Routes = [
   {path: 'appearance-details/:id', component: AppearanceDetailComponent},
   {path: 'auth', component: AuthenticationComponent},
   { path: 'list-accept-reject',  component: ListAcceptRejectComponent },
-  { path: 'accept-reject-details/:id',component: AcceptRejectDetailsComponent},
+  { path: 'accept-reject-details/:id', component: AcceptRejectDetailsComponent},
+  { path: 'list-payroll-appearances', component: ListPayrollAppearancesComponent},
+  { path: 'admin-generate-payroll/:id', component: AdminGeneratePayrollComponent},
+  {path: 'instructions-page', component: InstructionsPageComponent},
+  {path: 'superfrog-landing-details/:id', component: SuperfrogLandingDetailsComponent},
+  { path: 'superfrog-class-schedule', component: SuperfrogClassScheduleComponent},
+  { path: 'superfrog-view-assigned-appearances', component: SuperfrogViewAssignedAppearancesComponent},
+  { path: 'admin-view-appearances', component: AdminViewAppearancesComponent},
+  { path: 'admin-change-appearances/:id', component: AdminChangeAppearanceComponent},
+  { path: 'superfrog-appearance-details/:id', component: SuperfrogAppearanceDetailsComponent},
+  {path: 'instructions-page', component: InstructionsPageComponent},
+  {path: 'confirm-accept', component: ConfirmAcceptComponent},
+  {path: 'confirm-reject', component: ConfirmRejectComponent},
+  {path: 'confirm-signup', component: ConfirmSignupComponent},
+  {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
+  {path: 'admin-settings', component: AdminSettingsComponent},
+  { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent}
+
 ];
 
 @NgModule({
@@ -71,6 +103,21 @@ const appRoutes: Routes = [
     EventCodeComponent,
     ListAcceptRejectComponent,
     AcceptRejectDetailsComponent,
+    ListPayrollAppearancesComponent,
+    AdminGeneratePayrollComponent,
+    SuperfrogClassScheduleComponent,
+    InstructionsPageComponent,
+    SuperfrogLandingDetailsComponent,
+    SuperfrogViewAssignedAppearancesComponent,
+    AdminViewAppearancesComponent,
+    AdminChangeAppearanceComponent,
+    SuperfrogAppearanceDetailsComponent,
+    ConfirmSignupComponent,
+    ConfirmRejectComponent,
+    ConfirmAcceptComponent,
+    AdminCreateAppearanceComponent,
+    AdminSettingsComponent,
+    AdminAppearancesDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(

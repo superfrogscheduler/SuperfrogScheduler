@@ -60,7 +60,7 @@ ROOT_URLCONF = 'SuperFrogSchedule.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,8 +125,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# set up emails to go to console for testing 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# set up emails to go to console for testing
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'superfrogscheduler@gmail.com'
+EMAIL_HOST_PASSWORD = '1819Superfrog'
+
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
@@ -135,3 +141,5 @@ CORS_ORIGIN_WHITELIST = (
 
 #Redirect Django authentication to our new custom user model
 AUTH_USER_MODEL = 'api.User'
+
+LOGIN_REDIRECT_URL = '/list-appearances'

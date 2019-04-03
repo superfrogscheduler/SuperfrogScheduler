@@ -1,0 +1,208 @@
+<!--admin nav-->
+<div style="text-align:center">
+    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="nav navbar-nav ml-auto">
+                <li><a id = "a-nav disabled" routerLink="#">APPEARANCES</a></li>
+                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">REQUESTS</a></li>
+                <li><a id = "a-nav disabled" routerLink="/list-payroll-appearances" routerLinkActive="active">PAYROLL</a></li>
+                <li><a id = "a-nav disabled" routerLink="#" routerLinkActive = "active" style = "font-weight:bold;">SETTINGS</a></li>
+                <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
+              </ul>
+        </div>
+      </nav>
+  </div>
+  
+  <!--Body-->
+  <div style = "padding-top: 75px;">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin-settings">Admin Settings</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Admin Create Appearance</li>
+          </ol>
+        </nav>
+  </div>
+
+  <!--page content-->
+  
+    <div class = "container align-center" style="padding-top: 10px;" >
+    <div style="text-align:center">
+      <div class="container align-center" id="pad-container">
+      <h1>Admin Create Appearances</h1>
+      <p>Use this form to create an appearance.</p>
+        <form name='form' [formGroup]='form'>
+          <div class="container top-buffer" id="form-container">
+            <div class="form-group col-md-6">
+              <label>Contact First Name*:</label>
+              <input type="text" class="form-control" id="first_name" formControlName="firstName" [ngClass]="{'is-invalid':form.get('firstName').touched && form.get('firstName').invalid}">
+              <div class='invalid-feedback'>
+                <div>This field is required.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Contact Last Name*:</label>
+              <input type="text" class="form-control" id="last_name" formControlName="lastName" [ngClass]="{'is-invalid':form.get('lastName').touched && form.get('lastName').invalid}">
+              <div class='invalid-feedback'>
+                <div>This field is required.</div>
+              </div>
+            </div>
+  
+            <div class="form-group col-md-12">
+              <label class="col-form-label">Event Title*:</label>
+              <input type="text" class="form-control" id="last_name" formControlName="eventTitle" [ngClass]="{'is-invalid':form.get('eventTitle').touched && form.get('eventTitle').invalid}">
+              <div class='invalid-feedback'>
+                <div>This field is required.</div>
+              </div>
+            </div>
+  
+            <div class="form-group col-md-12">
+              <label class="col-form-label">Organization requesting appearance (if applicable):</label>
+              <input type="text" class="form-control" id="organization" [(ngModel)]="data.appearance.organization" [ngModelOptions]="{standalone: true}" name="organization">
+            </div>
+  
+            <div class="form-group col-md-6">
+              <label>Organization Type</label>
+              <select class="form-control" [(ngModel)]="data.appearance.org_type" [ngModelOptions]="{standalone: true}" name ="orgType">
+                <option selected>TCU</option>
+                <option>Public School/Non-Profit</option>
+                <option>Private/Business</option>
+              </select>
+            </div>
+  
+            <div class="form-group col-md-4">
+              <label> Date*: </label>
+              <input type = "date" class="form-control"  id="date" formControlName="date" [ngClass]="{'is-invalid':form.get('date').touched && form.get('date').invalid}">
+            </div>
+  
+            <div class="form-group col-md-2">
+              <label class="col-form-label">Start Time*:</label>
+              <input type = "time" class="form-control"  id="startTime" formControlName="startTime" [ngClass]="{'is-invalid':form.get('startTime').touched && form.get('startTime').invalid}">
+            </div>
+  
+            <div class="form-group col-md-2">
+              <label class="col-form-label">End Time*:</label>
+              <input type = "time" class="form-control" id="endTime" formControlName="endTime" [ngClass]="{'is-invalid':form.get('endTime').touched && form.get('endTime').invalid}">
+            </div>
+  
+            <div class="form-group col-md-6">
+              <label class="col-form-label">Phone Number (Include dashes)*:</label>
+              <input type="" class="form-control" id="phone" placeholder="###-###-####"  formControlName="phoneNumber" [ngClass]="{'is-invalid':form.get('phoneNumber').touched && form.get('phoneNumber').invalid}"  name="phone">
+              <div *ngIf="form.get('phoneNumber').touched && form.get('phoneNumber').invalid" class='invalid-feedback'>
+                <div *ngIf="form.get('phoneNumber').errors.required">This field is required.</div>
+                <div *ngIf="form.get('phoneNumber').errors.pattern">Invalid Phone Number.</div>
+              </div>
+            </div>
+  
+            <div class="form-group col-md-6">
+              <label class="col-form-label">Email*:</label>
+              <input type="email" class="form-control" id="email"  formControlName="email" name="email" [ngClass]="{'is-invalid':form.get('email').touched && form.get('email').invalid}">
+              <div *ngIf="form.get('email').touched && form.get('email').invalid" class='invalid-feedback'>
+                <div *ngIf="form.get('email').errors.required">This field is required.</div>
+                <div *ngIf="form.get('email').errors.email">Invalid Email.</div>
+              </div>
+            </div>
+            
+            <div class="form-group col-md-12">
+              <label class="col-form-label">On TCU Campus:</label>
+              <select  class="form-control" [(ngModel)]="onCampus" (ngModelChange)="locationTypeChange()" [ngModelOptions]="{standalone: true}" name="onCampus">
+                  <option [ngValue]="true">Yes</option>
+                  <option [ngValue]="false">No</option>
+                </select>
+            </div>
+            
+            <div [hidden]="!onCampus">
+              <div class="form-group col-md-12">
+                <label>Location*:</label>
+                <input autocomplete="off" type="text" class="form-control" formControlName="location" id="location" name="location" [ngClass]="{'is-invalid':form.get('location').touched && form.get('location').invalid}">
+                <div class="invalid-feedback">This field is required.</div>
+              </div>
+            </div>
+  
+            <div [hidden]="onCampus">
+              <div class="form-group col-md-10">
+                <label>Location Address*:</label>
+                <input autocomplete="off" google-place  (onSelect)="autocompleteSelect($event)" formControlName="locationAddr" type="text" class="form-control" id="location"  name="locationAddr" [ngClass]="{'is-invalid': (form.get('locationAddr').touched && form.get('locationAddr').invalid) || invalidAddr} ">
+                <div class="invalid-feedback">
+                  <div *ngIf="form.get('locationAddr').touched && form.get('locationAddr').invalid">This field is required.</div>
+                  <div *ngIf="invalidAddr">This address is either invalid or outside our service range of 100 miles.</div>
+                </div>
+              </div>
+              <div class="form-group col-md-2">
+                <label>Suite/Apt. Number</label>
+                <input class="form-control" type="text" [(ngModel)]="locationAptNum" [ngModelOptions]="{standalone: true}" name="aptNum">
+              </div>
+              <div class="form-group col-md-12">
+                  <label>Location Name (Optional)</label>
+                  <input class="form-control" type="text" [(ngModel)]="locationName" [ngModelOptions]="{standalone: true}" name="locationName">
+                </div>
+            </div>
+  
+  
+            <div class="form-group col-md-12">
+              <label for="team">Additional Spirit Members:</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Cheerleaders</label>
+              <select class="form-control"  name ="cheerleaders" [(ngModel)]="data.appearance.cheerleaders" [ngModelOptions]="{standalone: true}" value="None">
+                <option selected>None</option>
+                <option value="Small Team">Small Team (2-4 members)</option>
+                <option value = "Large Team">Large Team (6-8 members)</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Showgirls</label>
+                <select class="form-control" [(ngModel)]="data.appearance.showgirls" [ngModelOptions]="{standalone: true}" name ="showgirls" value = "None">
+                  <option selected>None</option>
+                  <option>Small Team (2-4 members)</option>
+                  <option>Large Team (6-8 members)</option>
+                </select>
+              </div>
+  
+            <div class="form-group col-md-12">
+              <label class="col-form-label">Special Instructions (Parking, gate code, location for spirit members to change/ keep belongings): </label>
+              <textarea type="text" class="form-control" rows="3" id="special_instruction"  [(ngModel)]="data.appearance.special_instructions" [ngModelOptions]="{standalone: true}"
+                name="special_instruction"></textarea>
+            </div>
+  
+            <div class="form-group col-md-6">
+              <label>Will there be a performance required? (Sound system must be provided)</label>
+              <select class="form-control" name ="perf_req" [(ngModel)]="data.appearance.performance_required" [ngModelOptions]="{standalone: true}" value="None">
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+  
+              </select>
+            </div>
+  
+            <div class="form-group col-md-12">
+              <label class="col-form-label">
+                Will there be any expenses or benefits to the spirit team members?
+              </label>
+              <input type="text" class="form-control" id="expenses" [(ngModel)]="data.appearance.expenses" [ngModelOptions]="{standalone: true}"   name="expenses">
+            </div>
+  
+            <div class="form-group col-md-12">
+              <label class="col-form-label"> Will there be any other outside organizations involved in sponsoring the event?</label>
+              <input type="text" class="form-control" id="outside_orgs"  [(ngModel)]="data.appearance.outside_orgs" [ngModelOptions]="{standalone: true}" name="outside_orgs">
+            </div>
+  
+            <div class="form-group col-md-12">
+              <label class="col-form-label">Description of Event* (What is the event, what will Superfrog be doing, exact number of additional spirit team members, etc.):</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="description" formControlName="description"  [ngClass]="{'is-invalid':form.get('description').touched && form.get('description').invalid}" name="description"></textarea>
+              <div class='invalid-feedback'>This field is required.</div>
+            </div>
+            <div class="form-check col-md-12">
+                <input type = "checkbox">
+                <label class="col-form-label" style = "padding-bottom: 20px; padding-left: 5px;"> This event is eligible for pay.</label>
+              </div>
+            <div class="col-md-12">
+              <button type="button" [disabled]="!form.valid || invalidAddr" (click)="saveRequest();">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
