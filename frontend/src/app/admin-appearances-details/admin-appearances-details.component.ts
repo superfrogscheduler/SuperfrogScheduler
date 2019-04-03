@@ -8,6 +8,8 @@ import { AdminAppearancesDetailsService } from './admin-appearances-details.serv
 })
 export class AdminAppearancesDetailsComponent implements OnInit {
   appearanceData: any = {};
+  superfrogData: any = {};
+  newVal: number;
   constructor(private adminDetails: AdminAppearancesDetailsService) { }
 
   ngOnInit() {
@@ -15,6 +17,14 @@ export class AdminAppearancesDetailsComponent implements OnInit {
   }
   getAppearances() {
     this.adminDetails.getAppearances().subscribe( data => {
+      this.appearanceData = data;
+      this.superfrogData = data;
+    });
+  }
+  public onChange(event): void {  // event will give you full breif of action
+    this.newVal = event.target.value;
+    console.log(this.newVal);
+    this.adminDetails.get_by_Superfrog(this.newVal).subscribe(data => {
       this.appearanceData = data;
     });
   }

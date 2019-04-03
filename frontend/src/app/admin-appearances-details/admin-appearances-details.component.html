@@ -4,6 +4,12 @@
 <div style = "padding-bottom: 50px;">
 <h1>Assigned Appearances</h1>
 </div>
+<!-- <select [ngModel]="selectedDeviceObj" (ngModelChange)="onChangeObj($event)" name="sel3">
+  <option [ngValue]="i" *ngFor="let i of appearanceData">{{i.superfrog.user.first_name}}</option>
+</select> -->
+<select (change)="onChange($event)">
+  <option *ngFor="let v of superfrogData" [value]="v.superfrog.user.id">{{v.superfrog.user.first_name}}</option>
+</select>
 <div *ngFor="let names of appearanceData">
 <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
 <h3><a href="#">{{names.appearance.name}}</a></h3>
@@ -33,5 +39,7 @@
     <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-change-appearances/{{names.id}}" routerLinkActive="active">View Details</a></button>
     </div>
 </div>
-</div>
+<!-- <select name="selectedFacilityId" ng-model="selectedFacilityId">
+  <option ng-repeat="facility in appearanceData" value="{{facility.superfrog.user.id}}">{{facility.superfrog.user.first_name}}</option>
+</select>  -->
 

@@ -245,6 +245,13 @@ def payroll_appearance(request,status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+def show_appearances_by_superfrog(request, status = None, SFID = None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter(superfrog = SFID, appearance__status = status)
+        serializer = SuperfrogAppearanceSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else: 
+        return HttpResponseBadRequest()
 
 def payroll_detail(request, id=None):
     if request.method == 'GET':
