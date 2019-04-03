@@ -7,8 +7,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="nav navbar-nav ml-auto">
                 <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active" >SIGN UP</a></li>
-                <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active" style = "font-weight:bold;">APPEARANCES</a></li>
-                <li><a id = "a-nav" href="/superfrog-settings" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active">APPEARANCES</a></li>
+                <li><a id = "a-nav" href="/superfrog-settings" routerLinkActive = "active" style = "font-weight:bold;">SETTINGS</a></li>
                 <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
               </ul>
         </div>
@@ -20,17 +20,21 @@
   <div style = "padding-top: 75px;">
       <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-              <li class="breadcrumb-item active" aria-current="page">All My Appearances</li>
+              <li class="breadcrumb-item"><a href="/superfrog-settings">Settings</a></li>
+              <li class="breadcrumb-item active" aria-current="page">My Class Schedule</li>
           </ol>
         </nav>
   </div>
-  <!-- page content -->
+
+<!--page content-->
+
 <div class = "container" style = "text-align: center; padding-top: 10px;">
-    <div class = "row top-buffer" style = "padding: 20px;">
-        <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getPastAppearance()">Past</button>
-        <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getAssignedAppearance()">Assigned</button>
-      </div>
+  <div style = "padding-bottom : 10px;">
+    <p>This is your class schedule. Click edit to make any changes.</p>
+  </div>
   <div *ngIf="calendarOptions">
-    <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
+    <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
+        (eventResize)="updateEvent($event.detail)" (select) = "select($event.detail)"></ng-fullcalendar>
   </div>
 </div>
+ 

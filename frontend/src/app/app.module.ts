@@ -30,7 +30,7 @@ import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-rej
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { ListPayrollAppearancesComponent } from './list-payroll-appearances/list-payroll-appearances.component';
 import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-generate-payroll.component';
-import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
+import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule.component';
 import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
 import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
 import { SuperfrogViewAssignedAppearancesComponent } from './superfrog-view-assigned-appearances/superfrog-view-assigned-appearances.component';
@@ -44,6 +44,7 @@ import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-
 import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 import { AdminAppearancesDetailsComponent } from './admin-appearances-details/admin-appearances-details.component';
 import { SuperfrogContactInfoComponent } from './superfrog-contact-info/superfrog-contact-info.component';
+import { SuperfrogSettingsComponent } from './superfrog-settings/superfrog-settings.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -78,7 +79,8 @@ const appRoutes: Routes = [
   {path: 'confirm-signup', component: ConfirmSignupComponent},
   {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
   {path: 'admin-settings', component: AdminSettingsComponent},
-  { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent}
+  { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent},
+  {path: 'superfrog-settings', component: SuperfrogSettingsComponent}
 
 ];
 
@@ -120,6 +122,7 @@ const appRoutes: Routes = [
     AdminSettingsComponent,
     AdminAppearancesDetailsComponent,
     SuperfrogContactInfoComponent,
+    SuperfrogSettingsComponent,
   ],
   imports: [
     RouterModule.forRoot(
