@@ -41,16 +41,6 @@ export class AdminChangeAppearanceComponent implements OnInit {
     });
   }
   updateAppearance() {
-<<<<<<< HEAD
-    this.data.appearance.name = this.form.get('Name').value;
-    this.data.appearance.date = this.form.get('Date').value;
-    this.data.appearance.start_time = this.newEvent[0].start.format('kk:mm');
-    this.data.appearance.end_time = this.newEvent[0].end.format('kk:mm');
-    this.data.appearance.cheerleaders = this.form.get('Cheerleaders').value;
-    this.data.appearance.showgirls = this.form.get('Showgirls').value;
-    //this.data.appearance.
-    //this.changeService.updateAppearance(this.data).subscribe();
-=======
     // this.data.appearance.name = this.form.get('Name').value;
     // this.data.appearance.date = this.form.get('Date').value;
     // this.data.appearance.start_time = this.newEvent[0].start.format('kk:mm');
@@ -62,6 +52,5 @@ export class AdminChangeAppearanceComponent implements OnInit {
     // this.data.appearance.outside_orgs = this.form.get('Out').value;
     // this.data.appearance.description = this.form.get('Description').value;;
     // this.changeService.updateAppearance(this.data).subscribe();
->>>>>>> 712602c43949103db599a5f5f945b6639b4e2cb0
   }
 }
