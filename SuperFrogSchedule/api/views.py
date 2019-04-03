@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets, views, generics
-from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance
+from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance, SuperfrogClass
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
 from rest_framework import viewsets, views, generics, status
 from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, SuperfrogClassSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -107,7 +107,7 @@ def create(request):
         if serializer.is_valid():
             serializer.save()
             return HttpResponse(serializer.data, status = 201)
-        return HttpResponse(serializer.errors, status = 400)
+        return HttpResponse(reason = serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()
         
@@ -199,6 +199,48 @@ def email(request):
     send_mail( subject, message, email_from, recipient_list )
     return redirect('/customer-confirmation')
 
+@csrf_exempt
+def class_schedule(request, id = None):
+    if request.method == 'GET':
+        queryset = SuperfrogClass.objects.filter(superfrog=id)
+        serializer = SuperfrogClassSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    elif request.method == 'PATCH':
+        data = json.loads(request.body)
+        addSerializer = SuperfrogClassSerializer(data = data['toAdd'], many = True)
+        if addSerializer.is_valid():
+            for u in data['toUpdate']:
+                update = SuperfrogClass.objects.get(pk = u['id'])
+                updateSerializer = SuperfrogClassSerializer(update, data=u)
+                if not updateSerializer.is_valid():
+                    return HttpResponseBadRequest(reason = updateSerializer.errors)
+                else:
+                    updateSerializer.save()
+        
+
+            
+            for i in range(len(data['toDelete'])):
+                sfClass = SuperfrogClass.objects.filter(pk = data['toDelete'][i])
+                if sfClass:
+                    sfClass.delete()
+                else:
+                    return HttpResponseBadRequest(reason="Delete Error: class with id " + data.toDelete[i] + " not found")
+               
+            adds = addSerializer.save()
+                
+            for add in adds:
+                add.save()
+               
+            queryset = SuperfrogClass.objects.filter(superfrog = id)
+            serializer = SuperfrogClassSerializer(queryset, many = True)
+            return HttpResponse(JSONRenderer().render(serializer.data))
+
+        else:
+            return HttpResponseBadRequest(reason=addSerializer.errors, status = 400) 
+    else:
+        return HttpResponseBadRequest()
+
+
 #Login View
 class LoginView(views.APIView):
     #override post function
@@ -229,3 +271,5 @@ class LoginView(views.APIView):
                 'status': 'Unauthorized',
                 'message': 'Username/password combination invalid.'
             }, status=status.HTTP_401_UNAUTHORIZED)
+
+

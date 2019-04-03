@@ -15,7 +15,8 @@ from .views import (
     LoginView,
     acceptAppearance,
     rejectAppearance,
-    email
+    email,
+    class_schedule
     )
 
 urlpatterns = [
@@ -29,5 +30,6 @@ urlpatterns = [
     url(r'^auth/login/$', LoginView.as_view(), name='Login'),
     url(r'adminAccept/(?P<id>\d+)/$',acceptAppearance),
     url(r'adminReject/(?P<id>\d+)/$', rejectAppearance),
-    url(r'^email/', email)
+    url(r'^email/', email),
+    url(r'^class-schedule/(?P<id>\d+)/$', class_schedule),
 ]

@@ -168,6 +168,16 @@ class Appearance(Event):
     def __str__(self):
         return super().__str__()
 
+class SuperfrogClass(models.Model):
+    superfrog = models.ForeignKey(Superfrog, on_delete=models.CASCADE)
+    name = models.CharField(max_length= 255)
+    day = models.IntegerField()
+    start = models.TimeField()
+    end = models.TimeField()
+
+    def __str__(self):
+        return ""+str(self.superfrog) +":" + str(self.day) + " " + str(self.start)+"-"+str(self.end)
+
 # class OrgType(models.Model):
 #     org_type=models.CharField(max_length = 255)
 
