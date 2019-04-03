@@ -24,6 +24,7 @@ from .views import (
     Appearance_to_Change, 
     update_appearance,
     superfrog_appearance_detail,
+    class_schedule
     )
 
 urlpatterns = [
@@ -45,5 +46,6 @@ urlpatterns = [
     url(r'^superfrogappearances/status/(?P<status>\w+)/$',list_SuperfrogAppearance_by_Status),
     url(r'^SuperFrogappearance/(?P<AID>\d+)/$', Appearance_to_Change),
     url(r'^updateAppearance/$', update_appearance),
-    url(r'^superfrogappearancedetails/(?P<id>\d+)/$', superfrog_appearance_detail)
+    url(r'^superfrogappearancedetails/(?P<id>\d+)/$', superfrog_appearance_detail),
+    url(r'^class-schedule/(?P<id>\d+)/$', class_schedule),
 ]

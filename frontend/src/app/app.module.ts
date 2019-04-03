@@ -30,7 +30,7 @@ import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-rej
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { ListPayrollAppearancesComponent } from './list-payroll-appearances/list-payroll-appearances.component';
 import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-generate-payroll.component';
-import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
+import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule.component';
 import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
 import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
 import { SuperfrogViewAssignedAppearancesComponent } from './superfrog-view-assigned-appearances/superfrog-view-assigned-appearances.component';
