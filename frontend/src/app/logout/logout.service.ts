@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LogoutService {
 
-  baseurl = "http://3.94.88.53:800/";
+  baseurl = "http://3.94.88.53:8000";
 
   constructor(private http: HttpClient, private storage: LocalStorageService, private router: Router) {
     
