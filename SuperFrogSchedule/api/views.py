@@ -550,7 +550,7 @@ def class_schedule_intersection(request):
                     flag = True
                 else:
                     if flag:
-                        schedule.append((start.strftime("%H:%M:%S"), interval.start_datetime.time().strftime("%H:%M:%S")))
+                        schedule.append((start, interval.start_datetime.time()))
                         flag = False
                 interval = interval+datetime.timedelta(seconds = 30*60)
         classes[i] = schedule
@@ -561,7 +561,7 @@ def class_schedule_intersection(request):
         if classes[day]:
             response[day] = []
             for time in classes[day]:
-                response[day].append({'start': time[0], 'end': time[1]})
+                response[day].append({'start': {'hour':time[0].hour, 'minute': time[0].minute}, 'end': {'hour':time[1].hour, 'minute': time[1].minute}})
     return HttpResponse(JSONRenderer().render(response))
 
 
