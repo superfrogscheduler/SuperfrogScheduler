@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { SuperfrogClassScheduleService } from './superfrog-class-schedule.service';
 import { element } from '@angular/core/src/render3';
+import { AuthenticationService } from '../authentication/authentication.service';
 @Component({
   selector: 'superfrog-class-schedule',
   templateUrl: './superfrog-class-schedule.component.html',
@@ -24,12 +25,11 @@ export class SuperfrogClassScheduleComponent implements OnInit {
 
   selectedEvent: any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent
-  constructor(private classScheduleService: SuperfrogClassScheduleService) { }
+  constructor(private classScheduleService: SuperfrogClassScheduleService, private authService: AuthenticationService) { }
 
   ngOnInit() {
-    this.superfrog = {id: 1};
-    this.getClasses(this.superfrog.id).subscribe(data =>{
-      console.log(data);
+    this.superfrog = this.authService.getUser('logged').id
+    this.getClasses(this.superfrog).subscribe(data =>{
       data.forEach(element => {
         let start = moment(this.defaultDateStr+'T'+element.start);
         start.add(element.day, 'd');
@@ -45,16 +45,17 @@ export class SuperfrogClassScheduleComponent implements OnInit {
       this.toDisplay.events = _.cloneDeep(this.data);
       this.calendarInit();
     });
-    console.log(this.toDisplay.events);
 
   }
 
   getClasses(id: number){
-    return this.classScheduleService.getSchedule(this.superfrog.id);
+    return this.classScheduleService.getSchedule(id);
   }
 
   calendarInit(){
     this.calendarOptions = {
+      minTime: "08:00:00",
+      maxTime:"22:00:00",
       editable: false,
       eventLimit: false,
       eventOverlap: false,
@@ -111,7 +112,6 @@ export class SuperfrogClassScheduleComponent implements OnInit {
                 });
               });
               changes.toDelete = this.toDelete;
-              console.log(changes);
               this.classScheduleService.saveChanges(this.superfrog.id, changes).subscribe(data =>{
                 this.data = [];
                 this.toUpdate = [];
@@ -187,17 +187,12 @@ export class SuperfrogClassScheduleComponent implements OnInit {
                 index = this.toUpdate.findIndex((element)=>{return element.id == this.selectedEvent.id;});
                 this.toUpdate.splice(index,1);
               }
-              console.log('1');
             }
             else{
               let index = this.toAdd.findIndex((element)=>{return element.addId == this.selectedEvent.addId;});
               this.toAdd.splice(index,1);
-              console.log(index);
             }
             this.ucCalendar.fullCalendar('rerenderEvents');
-            console.log(this.toDisplay);
-            console.log(this.toUpdate);
-            console.log(this.toAdd);
           }
         }
       }, 
@@ -246,26 +241,20 @@ export class SuperfrogClassScheduleComponent implements OnInit {
     if(event.event.id){
       let index = this.toDisplay.events.findIndex((element)=>{return element.id == event.event.id;});
       if(index > -1){
-        console.log('a');
         let updated = this.toDisplay.events.splice(index, 1);
         updated = event.event;
         this.toUpdate.push(updated);
       }
       else{
-        console.log('b');
         index = this.toUpdate.findIndex((element)=>{return element.id == event.event.id;});
         this.toUpdate[index] = event.event;
       }
     }
     else{
       let index = this.toAdd.findIndex((element)=>{return element.addId == event.event.addId;});
-      console.log(index);
       this.toAdd[index] = event.event;
     }
     this.ucCalendar.fullCalendar('updateEvent', event.event);
-    console.log(this.toDisplay);
-    console.log(this.toUpdate);
-    console.log(this.toAdd);
   }
 
   getSchedule(id: number){
