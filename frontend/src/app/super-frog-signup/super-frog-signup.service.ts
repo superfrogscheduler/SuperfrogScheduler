@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
   })
   export class SignUpService {
-    baseurl = "http://127.0.0.1:8000/";
+    baseurl = "http://3.94.88.53:800/";
     id: string;
     httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
     constructor(private http: HttpClient) { }
