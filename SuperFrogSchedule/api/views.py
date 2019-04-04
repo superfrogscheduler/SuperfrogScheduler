@@ -485,6 +485,85 @@ def events_customer_monthly(request, year, month):
             response.append(OrderedDict([('start', str(day) + " "+ event.get_start_time_str()), ('end',  str(day) + " "+ event.get_end_time_str()), ('editable', False)]))
     return HttpResponse(JSONRenderer().render(response))
 
+def class_schedule_intersection(request):
+    classes = {}
+    frogs = Superfrog.objects.values_list('pk', flat=True)
+    for i in range(7):
+        classes[i] = []
+        # Merge adjacent classes into encompassing classes
+        for j in range(len(frogs)):
+            classes[i].append([])
+            classlist = list(SuperfrogClass.objects.filter(superfrog = frogs[j], day = i).order_by('start', 'end').values('start', 'end'))
+            for clss in classlist:
+                dtr = toDateRange(datetime.date(2018,12,30), clss['start'], clss['end'])
+                if not classes[i][j]:
+                    classes[i][j].append(dtr)
+                else:
+                    inserted = False
+                    for k in range(len(classes[i][j])):
+                        c = classes[i][j][k]
+                        if c.is_intersection(dtr):
+                            classes[i][j][k] = c.encompass(dtr)
+                            inserted = True
+                            break
+                    if not inserted:
+                        classes[i][j].append(dtr)
+        #Convert class time ranges to binary
+        for j in range(len(frogs)):
+            if(classes[i][j]):
+                temp = ""
+                interval = DateTimeRange("2018-12-30T08:00:00", "2018-12-30T08:30:00")
+                index = 0
+                inInterval = False
+                while interval.start_datetime.time() < datetime.time(21,30):
+                    if index < len(classes[i][j]):
+                        if interval in classes[i][j][index]:
+                            inInterval = True
+                            temp = temp +"1"
+                        else:
+                            if inInterval:
+                                index += 1
+                                inInterval = False
+                            temp = temp +"0"
+                    else:
+                        temp = temp + "0"
+                    interval = interval+datetime.timedelta(seconds = 30*60)
+            else:
+                temp = "000000000000000000000000000"
+            classes[i][j] = temp
+        #And the binary strings together to get intersection
+        temp = int("111111111111111111111111111",2)
+        for j in range(len(frogs)):
+            temp = temp & int(classes[i][j],2)
+        classes[i] = format(temp, "027b")
+
+        #Convert the resulting string back into time ranges
+        schedule = []
+        string = classes[i]
+        interval = DateTimeRange("2018-12-30T08:00:00", "2018-12-30T08:30:00")
+        flag = False
+        if string != "000000000000000000000000000":
+            for j in range(len(string)):
+                if(string[j]=="1"):
+                    start = interval.start_datetime - datetime.timedelta(seconds = 30*60)
+                    start = start.time()
+                    flag = True
+                else:
+                    if flag:
+                        schedule.append((start.strftime("%H:%M:%S"), interval.start_datetime.time().strftime("%H:%M:%S")))
+                        flag = False
+                interval = interval+datetime.timedelta(seconds = 30*60)
+        classes[i] = schedule
+
+    #Prepare JSON payload
+    response = {}
+    for day in classes:
+        if classes[day]:
+            response[day] = []
+            for time in classes[day]:
+                response[day].append({'start': time[0], 'end': time[1]})
+    return HttpResponse(JSONRenderer().render(response))
+
 
 def list_by_status_list(request, status=None, sID=None):
     if request.method == 'GET':

@@ -55,6 +55,8 @@ export class SuperfrogClassScheduleComponent implements OnInit {
 
   calendarInit(){
     this.calendarOptions = {
+      minTime: "08:00:00",
+      maxTime:"22:00:00",
       editable: false,
       eventLimit: false,
       eventOverlap: false,

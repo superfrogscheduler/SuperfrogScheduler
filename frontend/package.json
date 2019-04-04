@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
     "@types/fullcalendar": "^3.8.0",
-    "@types/googlemaps": "^3.30.18",
+    "@types/googlemaps": "^3.30.19",
     "angular-web-storage": "^4.1.0",
     "angular4-datepicker": "^1.0.1",
     "core-js": "^2.5.4",
