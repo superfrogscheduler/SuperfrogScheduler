@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SuperfrogClassScheduleService {
-  baseurl = "http://3.94.88.53:800/";
+  baseurl = "http://3.94.88.53:8000/";
 
   constructor(private http: HttpClient) { }
 
