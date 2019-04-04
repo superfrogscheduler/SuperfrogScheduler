@@ -21,7 +21,4 @@ export class RequestFormService {
     console.log('about to call email url.');
     return this.http.post(this.baseurl + "email/", req);
   }
-  getClassIntersection(): Observable<any>{
-    return this.http.get(this.baseurl+"class-schedule-intersection/")
-  }
 }

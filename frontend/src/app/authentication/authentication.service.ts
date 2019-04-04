@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { SessionStorage, LocalStorageService} from 'angular-web-storage';
-import { Superfrog  } from '../shared/superfrog';
-import { User  } from '../shared/user';
-import { Router } from '@angular/router';
+import { SessionStorage, SessionStorageService} from 'angular-web-storage';
+import { Superfrog } from '../shared/superfrog';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +13,11 @@ export class AuthenticationService {
   //httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
 
   errormessage = "";
-  isLoggedIn: number;
 
-  constructor(private http: HttpClient, private storage: LocalStorageService, private router: Router) {
+  superfrog: Superfrog;
+
+  constructor(private http: HttpClient, private storage: SessionStorageService) {
     this.errormessage = '';
-    this.isLoggedIn = 0;
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -49,48 +47,13 @@ export class AuthenticationService {
   }
 
   getUser(key) {
-    return JSON.parse(this.storage.get(key))
-    
+    this.superfrog = JSON.parse(this.storage.get(key))
+    return this.superfrog
   }
 
-  setUser(user, status: number) {
+  setUser(user) {
     this.storage.set('logged', JSON.stringify(user))
-    this.isLoggedIn = status
-    this.storage.set('isLoggedIn', this.isLoggedIn)
-  }
-
-  getLoggedInStatus(){
-    return this.storage.get('isLoggedIn')
-  }
-
-  isAuthenticated(status: number){
-    if (this.storage.get('isLoggedIn') != 0) {
-      console.log(this.storage.get('isLoggedIn'))
-      return (this.storage.get('isLoggedIn')==status)
-    } else {
-      return false
-    }
-  }
-
-  isAccessible(status: number){
-    if (!this.isAuthenticated(status)){
-      if (this.storage.get('isLoggedIn') == 0){
-        this.router.navigate(['/auth'])
-      } else if (this.storage.get('isLoggedIn') == 1){
-        this.router.navigate(['/admin-landing'])
-      } else {
-        this.router.navigate(['/superfrog-landing'])
-      }
-    } else {
-      console.log(this.isAuthenticated(status))
-    }
-  }
-
-  clearStorage(){
-    this.isLoggedIn = 0;
-    this.storage.remove('isLoggedIn')
-    this.storage.remove('logged')
-    alert(this.storage.get('isLoggedIn'))
+    console.log(user)
   }
 
   registerSuperfrog(userData): Observable<any> {
@@ -98,23 +61,10 @@ export class AuthenticationService {
     return this.http.post(this.baseurl + "users/", userData);
   }
 
-  getSuperFrog(id: number): Observable<any> {
-    return this.http.get(this.baseurl + "employee/" + id + "/").pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  getAdmin(id: number): Observable<any> {
-    return this.http.get(this.baseurl + "get-admin/" + id + "/").pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  loginUser(userData): Observable<any> {
+  loginSuperfrog(userData): Observable<any> {
     console.log(userData);
     return this.http.post(this.baseurl + "auth/login/", userData).pipe(
       catchError(this.handleError)
     );
   }
-
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Superfrog } from '../shared/superfrog';
-import { Router } from '@angular/router';
 import { SuperfrogLandingService } from './superfrog-landing.component.service';
 import { SignUpService } from '../super-frog-signup/super-frog-signup.service';
 
@@ -20,7 +19,6 @@ export class SuperfrogLandingComponent implements OnInit {
 
   ngOnInit() {
     this.superfrog = {};
-    this.authService.isAccessible(2)
     this.getUser();
     this.getSuperFrogId();
     this.getAppearances();
@@ -37,7 +35,4 @@ export class SuperfrogLandingComponent implements OnInit {
       this.landingData = data;
     });
   }
-
-
-
 }

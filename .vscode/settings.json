@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-    "python.pythonPath": "SuperFrog\\Scripts\\python.exe"
-=======
     "python.pythonPath": "C:\\Users\\Duncan\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
     "python.linting.pylintEnabled": false
->>>>>>> Iteration3
 }

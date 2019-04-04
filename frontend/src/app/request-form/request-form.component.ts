@@ -39,8 +39,6 @@ export class RequestFormComponent implements OnInit {
   invalidAddr: boolean = false;
   events = { id: "events", events: [], editable: false, overlap: false, eventColor: '#4d1979' };
   newEvent = [];
-  classIntersection: any;
-
   
   constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
 
@@ -59,73 +57,66 @@ export class RequestFormComponent implements OnInit {
     location: new FormControl('', Validators.required)
   })
   ngOnInit() {
-    this.requestService.getClassIntersection().subscribe(data =>{
-      this.classIntersection = data;
-      this.generateClassEvents(moment().startOf('month'));
-      //get preexisting events from the database
-      this.requestService.getEvents(moment().year(), moment().add(1, 'M').month()).subscribe(data => {
-        data.forEach(element => {
-          this.events.events.push({ title: "Unavailable", start: element.start, end: element.end });
-        });
-        this.calendarOptions = {
-          minTime: "08:00:00",
-          maxTime: "23:00:00",
-          showNonCurrentDates: false,
-          defaultDate: this.earliestDay, 
-          editable: true,
-          eventLimit: false,
-          selectable: false,
-          selectOverlap: false,
-          longPressDelay: 500,
-          eventColor: '#4d1979',
-          header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: ''
-          },
-          //block out two weeks before
-          eventSources: [
-            [{
-              id: '2week',
-              allDay: true,
-              start: moment(0),
-              end: this.earliestDay.add(1, 'day'),
-              rendering: 'background',
-              backgroundColor: 'lightgray'
-            }],
-            this.events,
-          ],
-          eventOverlap: false,
-          customButtons: {
-            back: {
-              text: 'back',
-              click: () => {
-                this.ucCalendar.fullCalendar('changeView', 'month', this.clickedDay);
-                this.ucCalendar.fullCalendar('option', {
-                  header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: ''
-                  },
-                  selectable: false
-                });
-                this.ucCalendar.fullCalendar('goToDate', this.clickedDay)
-              }
-            }
+
+    //Initialize the calendar's options
+    this.calendarOptions = {
+      editable: true,
+      eventLimit: false,
+      selectable: false,
+      selectOverlap: false,
+      longPressDelay: 500,
+      eventColor: '#4d1979',
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
+      //block out two weeks before
+      eventSources: [
+        [{
+          id: '2week',
+          allDay: true,
+          start: moment(0),
+          end: this.earliestDay.add(1, 'day'),
+          rendering: 'background',
+          backgroundColor: 'lightgray'
+        }],
+        this.events,
+      ],
+      eventOverlap: false,
+      customButtons: {
+        back: {
+          text: 'back',
+          click: () => {
+            this.ucCalendar.fullCalendar('changeView', 'month', this.clickedDay);
+            this.ucCalendar.fullCalendar('option', {
+              header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: ''
+              },
+              selectable: false
+            });
+            this.ucCalendar.fullCalendar('goToDate', this.clickedDay)
           }
-    
-        };
-      //Add them to the calendar
+        }
+      }
+
+    };
+    //get preexisting events from the database
+    this.requestService.getEvents(moment().year(), moment().add(1, 'M').month()).subscribe(data => {
+      data.forEach(element => {
+        this.events.events.push({ title: "Unavailable", start: element.start, end: element.end })
       });
-
+      this.ucCalendar.fullCalendar('addEventSource',this.events);
+     //Add them to the calendar
     });
-
-
 
   }
 
   getEvents(year, month){
     this.ucCalendar.fullCalendar('removeEventSource', this.events);
+    this.events.events = [];
     this.requestService.getEvents(year, month).subscribe(data => {
       data.forEach(element => {
         this.events.events.push({ title: "Unavailable", start: element.start, end: element.end })
@@ -262,10 +253,7 @@ export class RequestFormComponent implements OnInit {
   clickButton(event){
     console.log(event.data.format());
     if(event.buttonType == "next" || event.buttonType == "prev"){
-      this.events.events = [];
-      this.ucCalendar.fullCalendar('removeEvents');
       if(event.data.isSameOrAfter(moment(),'month')){
-        this.generateClassEvents(event.data);
         this.getEvents(event.data.year(), event.data.add(1,"M").month());
       }
     }
@@ -281,33 +269,6 @@ export class RequestFormComponent implements OnInit {
     console.log(this.form.get('locationAddr'));
   }
 
-  generateClassEvents(date: moment.Moment){
-    console.log(this.events.events);
-    let nextMonth = date.clone().add(1, "month");
-    let start = date.clone().startOf('week');
-    while(start.isBefore(nextMonth)){
-      for(var d in this.classIntersection){
-        var day = this.classIntersection[d];
-        for(var t in day){
-          var time = day[t];
-          var s = start.clone().add(d, 'days');
-          s.hours(time['start']['hour']);
-          s.minutes(time['start']['minutes']);
-          var e = start.clone().add(d, 'days');
-          e.hours(time['end']['hour']);
-          e.minutes(time['end']['minutes']);
-          var event = {
-            title: "Unavailable",
-            start: s,
-            end: e,
-          };
-          console.log(event);
-          this.events.events.push(event);
-        }
-      }
-      start.add(1, 'week');
-    }
-  }
   calculateCost(){
 
   }
