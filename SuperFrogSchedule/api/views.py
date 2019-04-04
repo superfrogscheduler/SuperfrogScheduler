@@ -1,10 +1,7 @@
 from django.shortcuts import render
-from rest_framework import viewsets, views, generics
-from .models import Superfrog, Admin, Customer, Event, Appearance, Superfrog, SuperfrogAppearance, User
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer,CustomerAppearanceSerializer, SuperfrogAppearanceSerializer
+from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, CustomerAppearanceSerializer, SuperfrogAppearanceSerializer, SuperfrogLandingSerializer,PayrollSerializer, SuperfrogClassSerializer
 from rest_framework import viewsets, views, generics, status
-from .models import Superfrog, Admin, Customer, Event, Appearance
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, SuperfrogLandingSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action, list_route
@@ -16,9 +13,13 @@ from django.core.mail import send_mail
 from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout, user_logged_in
+from rest_framework import permissions
+import pdfrw
+import os
 from django.template.loader import render_to_string, get_template
-
+import datetime
+from time import strftime
 import json
 
 # class AppearanceViewSet(viewsets.ViewSet):
@@ -38,6 +39,78 @@ import json
 
 #     serializer = AppearanceShortSerializer
 
+INVOICE_TEMPLATE_PATH = 'Honorarium_Request_Final.pdf'
+#INVOICE_OUTPUT_PATH = 'fillform.pdf'
+
+ANNOT_KEY = '/Annots'
+ANNOT_FIELD_KEY = '/T'
+ANNOT_VAL_KEY='/V'
+ANNOT_RECT_KEY = '/Rect'
+SUBTYPE_KEY = '/Subtype'
+WIDGET_SUBTYPE_kEY='/Widget'
+
+def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
+    template_pdf=pdfrw.PdfReader(input_pdf_path)
+    annotations=template_pdf.pages[0][ANNOT_KEY]
+    for annotation in annotations:
+        if annotation[SUBTYPE_KEY]==WIDGET_SUBTYPE_kEY:
+            if(annotation[ANNOT_FIELD_KEY]):
+                print(annotation[ANNOT_FIELD_KEY])
+                key=annotation[ANNOT_FIELD_KEY][1:-1]
+                if key in data_dict.keys():
+                    annotation.update(
+                        pdfrw.PdfDict(V='{}'.format(data_dict[key]))
+                    )
+
+    pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
+@csrf_exempt 
+def generatePayroll(request, SFAid = None, adminID = None):
+    if request.method == 'PATCH':
+        admin_id = Admin.objects.get(pk = adminID)
+        print(admin_id)
+        superfrog_appearance = SuperfrogAppearance.objects.get(pk = SFAid)
+        print(superfrog_appearance)
+        INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
+        a = superfrog_appearance.appearance.start_time
+        b = superfrog_appearance.appearance.end_time
+        dates = superfrog_appearance.appearance.date
+        datesS = dates.strftime('%Y/%m/%d')
+        aT = a.strftime('%I:%M')
+        bT = b.strftime('%I:%M')
+        deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
+        deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
+        dA = deltaA
+        dB = deltaB
+        delta = dB - dA
+        deltaSec = delta.total_seconds()
+        deltaHour = deltaSec / 3600
+        mile = superfrog_appearance.appearance.mileage
+        amount = deltaHour* 25 + mile * .5
+        data_dict = {
+            'Name' : superfrog_appearance.superfrog.user.first_name + superfrog_appearance.superfrog.user.last_name,
+            'Permanentaddress 2' : superfrog_appearance.superfrog.street+ ' ' + superfrog_appearance.superfrog.city+ ' ' + superfrog_appearance.superfrog.state+ ' ' + superfrog_appearance.superfrog.zipCode,
+            '1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1' : 'Appearance Name: '+superfrog_appearance.appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Location '+superfrog_appearance.appearance.location+ ', ' + 'Appearance Time: '+aT + '-' + bT,
+            'Amount' : amount,
+            '3g' : admin_id.user.first_name + ' ' + admin_id.user.last_name
+        }
+        print(data_dict)
+        write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
+        
+        superfrog_appearance.appearance.status = "Completed"
+        superfrog_appearance.appearance.save()
+        return HttpResponse(superfrog_appearance, status= 201)
+
+# def pdf_view(request):
+#     with open('/path/to/my/file.pdf', 'r') as pdf:
+#         response = HttpResponse(pdf.read(), mimetype='application/pdf')
+#         response['Content-Disposition'] = 'inline;filename=some_file.pdf'
+#         return response
+#     pdf.closed
+
+# def home(request):
+# image_data = open(“/path/to/my/image.pdf”, “rb”).read()
+# return HttpResponse(image_data, mimetype=”application/pdf”)
+
 def list_by_status(request, status=None):
     if request.method == 'GET':
         print('we did it')
@@ -53,14 +126,37 @@ def list_by_status_superfrog(request, status=None, sId= None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
+def list_SuperfrogAppearance_by_Status(request, status=None):
+    if request.method == 'GET':
+        print('we did it')
+        queryset = SuperfrogAppearance.objects.filter(appearance__status=status)
+        serializer = SuperfrogAppearanceSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+
+def Appearance_to_Change(request, AID):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.get(pk=AID )
+        serializer = SuperfrogAppearanceSerializer(queryset, many=False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 #def addEmployee(request):
 #    if request.method == 'POST:
 #        user = User.objects.create_user('') 
 
-def getEmployee(request):
+def getSuperfrog(request, id = None):
     if request.method == 'GET':
-        queryset = Superfrog.objects.all()
-        serializer = SuperfrogSerializer(queryset, many= True)
+        queryset = Superfrog.objects.get(user = id)
+        serializer = SuperfrogSerializer(queryset, many= False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+
+def getAdmin(request, id = None):
+    if request.method == 'GET':
+        queryset = Admin.objects.get(user = id)
+        serializer = AdminSerializer(queryset, many= False)
         return HttpResponse(JSONRenderer().render(serializer.data))
 @csrf_exempt
 def appearances(request):
@@ -146,7 +242,36 @@ def detail(request, id=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+def payroll_appearance(request,status=None):
+    if request.method == 'GET': 
+        queryset = SuperfrogAppearance.objects.filter( appearance__status=status)
+        serializer = PayrollSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+def show_appearances_by_superfrog(request, status = None, SFID = None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter(superfrog = SFID, appearance__status = status)
+        serializer = SuperfrogAppearanceSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else: 
+        return HttpResponseBadRequest()
 
+def payroll_detail(request, id=None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.get(pk=id)
+        serializer = PayrollSerializer(queryset, many=False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
+
+def superfrog_appearance_detail(request, id=None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.get(pk=id)
+        serializer = SuperfrogAppearanceSerializer(queryset, many=False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 def create(request):
     if request.method=='POST':
         data = JSONParser().parse(request.body)
@@ -154,10 +279,21 @@ def create(request):
         if serializer.is_valid():
             serializer.save()
             return HttpResponse(serializer.data, status = 201)
-        return HttpResponse(serializer.errors, status = 400)
+        return HttpResponse(reason = serializer.errors, status = 400)
     else:
         return HttpResponseBadRequest()
-        
+@csrf_exempt
+def update_appearance(request):
+    if request.method=='PATCH':
+        data = json.loads(request.body)
+        print(data)
+        appearance_serializer = AppearanceShortSerializer(data=data['appearance'])
+        if appearance_serializer.is_valid():
+            appearance_serializer.save()
+        return HttpResponse(status= 200)
+    else:
+        print(appearance_serializer.errors)
+        return HttpResponse(appearance_serializer.errors, status = 400)
 @csrf_exempt
 def signUp(request, id=None, sId = None):
     if request.method=='PATCH':
@@ -324,6 +460,7 @@ def rejectAppearance(request, id = None):
         appearance_id.delete()
         
         return HttpResponse(status = 201)
+
 def events(request):
     if request.method == 'GET':
         queryset = Event.objects.all()
@@ -362,11 +499,90 @@ def events_customer_monthly(request, year, month):
             response.append(OrderedDict([('start', str(day) + " "+ event.get_start_time_str()), ('end',  str(day) + " "+ event.get_end_time_str()), ('editable', False)]))
     return HttpResponse(JSONRenderer().render(response))
 
+def class_schedule_intersection(request):
+    classes = {}
+    frogs = Superfrog.objects.values_list('pk', flat=True)
+    for i in range(7):
+        classes[i] = []
+        # Merge adjacent classes into encompassing classes
+        for j in range(len(frogs)):
+            classes[i].append([])
+            classlist = list(SuperfrogClass.objects.filter(superfrog = frogs[j], day = i).order_by('start', 'end').values('start', 'end'))
+            for clss in classlist:
+                dtr = toDateRange(datetime.date(2018,12,30), clss['start'], clss['end'])
+                if not classes[i][j]:
+                    classes[i][j].append(dtr)
+                else:
+                    inserted = False
+                    for k in range(len(classes[i][j])):
+                        c = classes[i][j][k]
+                        if c.is_intersection(dtr):
+                            classes[i][j][k] = c.encompass(dtr)
+                            inserted = True
+                            break
+                    if not inserted:
+                        classes[i][j].append(dtr)
+        #Convert class time ranges to binary
+        for j in range(len(frogs)):
+            if(classes[i][j]):
+                temp = ""
+                interval = DateTimeRange("2018-12-30T08:00:00", "2018-12-30T08:30:00")
+                index = 0
+                inInterval = False
+                while interval.start_datetime.time() < datetime.time(21,30):
+                    if index < len(classes[i][j]):
+                        if interval in classes[i][j][index]:
+                            inInterval = True
+                            temp = temp +"1"
+                        else:
+                            if inInterval:
+                                index += 1
+                                inInterval = False
+                            temp = temp +"0"
+                    else:
+                        temp = temp + "0"
+                    interval = interval+datetime.timedelta(seconds = 30*60)
+            else:
+                temp = "000000000000000000000000000"
+            classes[i][j] = temp
+        #And the binary strings together to get intersection
+        temp = int("111111111111111111111111111",2)
+        for j in range(len(frogs)):
+            temp = temp & int(classes[i][j],2)
+        classes[i] = format(temp, "027b")
 
-def list_by_status_list(request, status=None):
+        #Convert the resulting string back into time ranges
+        schedule = []
+        string = classes[i]
+        interval = DateTimeRange("2018-12-30T08:00:00", "2018-12-30T08:30:00")
+        flag = False
+        if string != "000000000000000000000000000":
+            for j in range(len(string)):
+                if(string[j]=="1"):
+                    start = interval.start_datetime - datetime.timedelta(seconds = 30*60)
+                    start = start.time()
+                    flag = True
+                else:
+                    if flag:
+                        schedule.append((start, interval.start_datetime.time()))
+                        flag = False
+                interval = interval+datetime.timedelta(seconds = 30*60)
+        classes[i] = schedule
+
+    #Prepare JSON payload
+    response = {}
+    for day in classes:
+        if classes[day]:
+            response[day] = []
+            for time in classes[day]:
+                response[day].append({'start': {'hour':time[0].hour, 'minute': time[0].minute}, 'end': {'hour':time[1].hour, 'minute': time[1].minute}})
+    return HttpResponse(JSONRenderer().render(response))
+
+
+def list_by_status_list(request, status=None, sID=None):
     if request.method == 'GET':
-        queryset = Appearance.objects.filter(status=status)
-        serializer = AppearanceShortSerializer(queryset, many=True)
+        queryset = SuperfrogAppearance.objects.filter(appearance__status=status, superfrog=sID)
+        serializer = SuperfrogAppearanceSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
@@ -380,8 +596,50 @@ def email(request):
     send_mail( subject, message, email_from, recipient_list )
     return redirect('/customer-confirmation')
 
+@csrf_exempt
+def class_schedule(request, id = None):
+    if request.method == 'GET':
+        queryset = SuperfrogClass.objects.filter(superfrog=id)
+        serializer = SuperfrogClassSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    elif request.method == 'PATCH':
+        data = json.loads(request.body)
+        addSerializer = SuperfrogClassSerializer(data = data['toAdd'], many = True)
+        if addSerializer.is_valid():
+            for u in data['toUpdate']:
+                update = SuperfrogClass.objects.get(pk = u['id'])
+                updateSerializer = SuperfrogClassSerializer(update, data=u)
+                if not updateSerializer.is_valid():
+                    return HttpResponseBadRequest(reason = updateSerializer.errors)
+                else:
+                    updateSerializer.save()
+        
+
+            
+            for i in range(len(data['toDelete'])):
+                sfClass = SuperfrogClass.objects.filter(pk = data['toDelete'][i])
+                if sfClass:
+                    sfClass.delete()
+                else:
+                    return HttpResponseBadRequest(reason="Delete Error: class with id " + data.toDelete[i] + " not found")
+               
+            adds = addSerializer.save()
+                
+            for add in adds:
+                add.save()
+               
+            queryset = SuperfrogClass.objects.filter(superfrog = id)
+            serializer = SuperfrogClassSerializer(queryset, many = True)
+            return HttpResponse(JSONRenderer().render(serializer.data))
+
+        else:
+            return HttpResponseBadRequest(reason=addSerializer.errors, status = 400) 
+    else:
+        return HttpResponseBadRequest()
+
+
 #Login View
-class LoginView(views.APIView):
+class login_view(views.APIView):
     #override post function
     def post(self, request, format=None):
         data = json.loads(request.body)
@@ -410,3 +668,12 @@ class LoginView(views.APIView):
                 'status': 'Unauthorized',
                 'message': 'Username/password combination invalid.'
             }, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class logout_view(views.APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, format=None):
+        print (auth.user_logged_in())
+        logout(request)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)

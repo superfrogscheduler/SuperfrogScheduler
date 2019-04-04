@@ -4,7 +4,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Superfrog } from '../shared/superfrog';
 import { User } from '../shared/user';
-
+import { Admin } from '../shared/admin';
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
@@ -14,52 +14,92 @@ import { User } from '../shared/user';
 
 export class AuthenticationComponent implements OnInit {
 
-  superfrog: Superfrog;
   user: User;
+  superfrog: Superfrog;
+  admin: Admin;
   data;
 
-  edited: Boolean;
+  isAdmin: boolean;
+  edited: boolean;
   baseurl = 'This is homepage url'
   alert = 'This is alert';
 
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   ngOnInit() {
-    this.superfrog = {};
     this.user = {}
     this.baseurl = "http://127.0.0.1:8000/";
+    this.alert = '';
     this.edited =  false;
+    this.isAdmin = false;
   }
 
   //register Superfrog user 
   //when move use a different service and move the method from loginService to the corresponding service 
   onRegister() {
-    this.authService.registerSuperfrog(this.superfrog).subscribe(
+    this.authService.registerSuperfrog(this.user).subscribe(
       response =>{
         console.log(response)
-        alert ('User ' + this.superfrog.email + ' has been registered') 
+        alert ('User ' + this.user.email + ' has been registered') 
       }, 
       error => console.log('error', error)
     );
   }
   
   onLogin() {
-    console.log(this.superfrog)
-    this.authService.loginSuperfrog(this.superfrog).subscribe(
+    this.authService.loginUser(this.user).subscribe(
       response =>{
         this.user = response 
-        this.authService.setUser(this.user)
+        //this.authService.setUser(this.user)
         //navigate to homepage
-        
-        if ((this.user.is_admin) || (this.user.is_staff))
-          this.router.navigate(['/list-accept-reject'])
-        else  
-          this.router.navigate(['/superfrog-landing'])
-        
+
+        if (this.user.is_admin && this.user.is_staff){
+
+          this.authService.getAdmin(this.user.id).subscribe(
+            response => {
+              this.admin = response
+              this.authService.setUser(this.admin, 1)
+              this.router.navigate(['/admin-landing'])
+            }
+          );
+
+          
+        } else if (!this.user.is_admin && this.user.is_staff) {
+          if (this.isAdmin == true) {
+            this.authService.getAdmin(this.user.id).subscribe(
+              response => {
+                this.admin = response
+                this.authService.setUser(this.admin, 1)
+                this.router.navigate(['/admin-landing'])
+              }
+            );
+
+          } else {
+            this.authService.getSuperFrog(this.user.id).subscribe(
+              response => {
+                this.superfrog = response
+                this.authService.setUser(this.superfrog, 2)
+                this.router.navigate(['/superfrog-landing'])
+              }
+            );
+            
+          }
+        } else {
+          this.authService.getSuperFrog(this.user.id).subscribe(
+            response => {
+              this.superfrog = response
+              this.authService.setUser(this.superfrog, 2)
+              this.router.navigate(['/superfrog-landing'])
+            }
+          );
+          
+        }
+
       }, 
       error => {
         this.alert = 'Email/Password combination is invalid'
         this.edited = true
+        alert('login failed')
       }
     );
   }

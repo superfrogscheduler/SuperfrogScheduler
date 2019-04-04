@@ -1,0 +1,47 @@
+<!--superfrog nav-->
+<div style="text-align:center">
+    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="nav navbar-nav ml-auto">
+                <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active">SIGN UP</a></li>
+                <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active">APPEARANCES</a></li>
+                <li><a id = "a-nav" href="//superfrog-settings" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>   
+              </ul>
+        </div>
+      </nav>
+  </div>
+
+<!-- page content-->
+
+<div style="text-align:center; padding-top:125px;">
+  <div class = "container align-center" id="request-container">
+    <div>
+      <h1>{{appearanceData.appearance.name}}</h1>
+    </div>
+    <div>
+      <p>Status: {{appearanceData.appearance.status}}</p>
+    </div>
+    <div class = "row" style = "padding-top: 25px;">
+      <div class = "col-md-4">
+          <h3>Event Date</h3> <p>{{appearanceData.appearance.date}}</p>
+          <h3>Time</h3> <p>{{appearanceData.appearance.start_time}} - {{appearanceData.appearance.end_time}}</p>
+          <h3>Location</h3> <p>{{appearanceData.appearance.location}}</p>
+      </div>
+      <div class = "col-md-4">
+          <h3>Spirit Members</h3> <p>{{appearanceData.appearance.cheerleaders}} Cheerleaders, 
+              {{appearanceData.appearance.showgirls}} Showgirls </p>
+          <h3>Special Instructions</h3> <p>{{appearanceData.appearance.parking_info}}</p>
+          <h3>Description</h3> <p>{{appearanceData.appearance.description}}</p>
+          
+      </div>
+      <div class = "col-md-4">
+        <h3>Superfrog Assigned: </h3> <p>{{appearanceData.superfrog.user.first_name}} {{appearanceData.superfrog.user.last_name}}</p>
+    </div>
+    </div>
+  </div>
+</div>

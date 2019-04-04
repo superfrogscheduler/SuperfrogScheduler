@@ -1,0 +1,76 @@
+<div style="text-align:center">
+    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="nav navbar-nav ml-auto">
+                <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active" >SIGN UP</a></li>
+                <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active" style = "font-weight:bold;">APPEARANCES</a></li>
+                <li><a id = "a-nav" href="/superfrog-settings" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
+              </ul>
+        </div>
+      </nav>
+  </div>
+
+
+  <!--breadcrumb-->
+  <div style = "padding-top: 75px;">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/view-appearance" style = "color: #4d1979;">All My Appearances</a></li>
+            <li class="breadcrumb-item active" aria-current="page">All Superfrog Appearances</li>
+          </ol>
+        </nav>
+  </div>
+  <div class = "container" style = "padding-bottom: 10px;">
+    <div class="form-group">
+        <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
+        <select (change)="onChange($event)">
+            <option *ngFor="let v of superfrogData" [value]="v.superfrog.user.id">{{v.superfrog.user.first_name}}</option>
+          </select>
+      </div>
+</div>
+<!--page content-->
+<div style="text-align:center; padding-top:10px;">
+  <div style = "padding-bottom: 50px;">
+    <h1>All Upcoming Superfrog Appearances</h1>
+  </div>
+  <div *ngFor="let names of appearanceData">
+  <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
+    <h3>{{names.appearance.name}}</h3>
+    <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
+    <div class= "col-md-6">
+      <p class = "label">Start Time</p>
+      <p>{{names.appearance.start_time}}</p>
+      <p class = "label">End Time</p>
+      <p>{{names.appearance.end_time}}</p>
+    </div>
+    <div class= "col-md-6">
+      <p class = "label">Date</p>
+      <p>{{names.appearance.date}}</p>
+      <p class = "label">Location</p>
+      <p>{{names.appearance.location}}</p>
+    </div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+        <p class = "label">Description</p>
+        <p>{{names.appearance.description}}</p>
+    </div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+      <p class = "label">Superfrog Assigned: </p>
+      <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
+  </div>
+    </div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
+      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/superfrog-appearance-details/{{names.id}}" routerLinkActive="active">View Details</a></button>
+    </div>
+  </div>
+  </div>
+</div>
+<!-- 
+<select ng-model="selectedSuperfrogAccount">
+  <option value="">Select Superfrog</option> 
+ <option ng-repeat="item in appearanceData" value="{{item.id}}">{{item.appearance.name}}    
+ </option></select> -->

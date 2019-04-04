@@ -1,0 +1,81 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+/* You can add global styles to this file, and also import other style files */
+h1 {
+    color: #4d1979;
+}
+
+h2 {
+    color: #4d1979;
+    font-size: 18px;
+}
+
+h3 {
+    font-size: 16px !important;
+    font-weight: bold;
+    margin: 10px;
+}
+
+p {
+    color: #4d1979;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.subtle {
+    font-size: 14px;
+    color: white;
+    opacity: .5;
+}
+
+.lead {
+    color: WHITE;
+}
+
+.card{
+    border: 2px;
+
+}
+
+.jumbotron{
+    background-image: url(/assets/images/SuperfrogFog.png);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 90vh;
+    margin-top: 0;
+}
+
+.card-img-top{
+    max-width: 300px;
+    max-height: 600px;
+}
+.top-buffer { margin-top:20px; }
+
+
+.navbar {
+    background-color: #FFFFFF;
+    min-height:50px;
+    padding-bottom: 10px; 
+
+}
+
+#a-nav {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+#a-nav:visited {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    color: #4d1979;
+}
+
+
+#about-header {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: #4d1979;
+}

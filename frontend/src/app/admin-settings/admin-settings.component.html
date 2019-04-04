@@ -1,0 +1,41 @@
+<!--admin nav-->
+<div style="text-align:center">
+    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="nav navbar-nav ml-auto">
+                <li><a id = "a-nav disabled" routerLink="/admin-view-appearances">APPEARANCES</a></li>
+                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active">REQUESTS</a></li>
+                <li><a id = "a-nav disabled" routerLink="/list-payroll-appearances" routerLinkActive="active">PAYROLL</a></li>
+                <li><a id = "a-nav disabled" routerLink="/admin-settings" routerLinkActive = "active" style = "font-weight: bold;">SETTINGS</a></li>
+                <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
+              </ul>
+        </div>
+      </nav>
+  </div>
+  
+  <!--Body-->
+  <div style = "padding-top: 75px;">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Admin Settings</li>
+          </ol>
+        </nav>
+  </div>
+
+  <!--Page Content -->
+  
+  <div class = "container align-center" style="padding-top: 10px;" >
+      <div style="text-align:center">
+        <div class="container align-center" id="pad-container">
+        <h1>Admin Settings</h1>
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action">Manage Roster</a>
+            <a href="/admin-create-appearance" class="list-group-item list-group-item-action">Create Appearance</a>
+          </div>
+        </div>
+      </div>
+    </div>
