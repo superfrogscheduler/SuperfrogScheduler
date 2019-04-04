@@ -8,6 +8,8 @@ import { ViewAllAppearancesService } from './superfrog-view-assigned-appearances
 })
 export class SuperfrogViewAssignedAppearancesComponent implements OnInit {
   appearanceData: any = {};
+  superfrogData: any = {};
+  newVal: number;
   constructor(private assignedAppearances: ViewAllAppearancesService) { }
 
   ngOnInit() {
@@ -15,6 +17,14 @@ export class SuperfrogViewAssignedAppearancesComponent implements OnInit {
   }
   getAppearances() {
     this.assignedAppearances.getAppearances().subscribe(data => {
+      this.appearanceData = data;
+      this.superfrogData = data;
+    });
+  }
+  public onChange(event): void {  // event will give you full breif of action
+    this.newVal = event.target.value;
+    console.log(this.newVal);
+    this.assignedAppearances.get_by_Superfrog(this.newVal).subscribe(data => {
       this.appearanceData = data;
     });
   }
