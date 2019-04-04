@@ -16,27 +16,27 @@
       </nav>
   </div>
 
-<div style="text-align:center; padding-top: 75px;">
-
-  <h1> Staff Login </h1> <br>
-
-
+<div style="text-align:center; padding-top: 100px;">
   <div class = "container">
       <div *ngIf="edited" class="alert alert-danger" role="alert">
-          {{alert}}
-        </div>
-    <h1>Login</h1> <br>
+          <!---{{alert}}-->
+          Incorrect username/password combination.
+      </div>
+    <h1> Staff Login</h1> <br>
     <div class = "row justify-content-center">
       <div class = "col-md-2">
-        <input [(ngModel)] = "superfrog.user.email" placeholder="Email address" class="form-control form-control-lg"> <br>
-        <input [(ngModel)] = "superfrog.user.password" type="Password" placeholder="Password" class="form-control form-control-lg"> <br>
-        <input [(ngModel)] = "isAdmin" type="checkbox" > Login as an admin<br>
+        <input [(ngModel)] = "user.email" placeholder="Email address" class="form-control form-control-lg"> <br>
+        <input [(ngModel)] = "user.password" type="Password" placeholder="Password" class="form-control form-control-lg"> <br>
+        <input [(ngModel)] = "isAdmin" type="checkbox" style="padding: 30px"> Login as an admin<br>
+
       </div>
+      
     </div>
+    
     <div class = "row justify-content-center">
 
       <button (click) = "onRegister()" hidden> Register</button>
-      <button (click) = "onLogin()">Login</button> <br>
+      <button (click) = "onLogin()"> Login</button> <br>
     </div>
   </div>
 </div>

@@ -85,8 +85,9 @@ export class AuthenticationService {
 
   clearStorage(){
     this.isLoggedIn = 0;
-    this.storage.set('isLoggedIn', this.isLoggedIn)
-    this.storage.set('logged', null)
+    this.storage.remove('isLoggedIn')
+    this.storage.remove('logged')
+    alert(this.storage.get('isLoggedIn'))
   }
 
   registerSuperfrog(userData): Observable<any> {
@@ -106,12 +107,11 @@ export class AuthenticationService {
     );
   }
 
-
-
   loginUser(userData): Observable<any> {
     console.log(userData);
     return this.http.post(this.baseurl + "auth/login/", userData).pipe(
       catchError(this.handleError)
     );
   }
+
 }

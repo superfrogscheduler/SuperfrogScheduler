@@ -29,6 +29,7 @@ export class AuthenticationComponent implements OnInit {
   ngOnInit() {
     this.user = {}
     this.baseurl = "http://127.0.0.1:8000/";
+    this.alert = '';
     this.edited =  false;
     this.isAdmin = false;
   }
@@ -98,6 +99,7 @@ export class AuthenticationComponent implements OnInit {
       error => {
         this.alert = 'Email/Password combination is invalid'
         this.edited = true
+        alert('login failed')
       }
     );
   }

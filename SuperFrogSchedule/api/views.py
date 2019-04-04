@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login,logout, user_logged_in
 from rest_framework import permissions
 import pdfrw
 import os
@@ -514,7 +514,7 @@ def email(request):
     return redirect('/customer-confirmation')
 
 #Login View
-class LoginView(views.APIView):
+class login_view(views.APIView):
     #override post function
     def post(self, request, format=None):
         data = json.loads(request.body)
@@ -545,10 +545,10 @@ class LoginView(views.APIView):
             }, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class LogoutView(views.APIView):
+class logout_view(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, format=None):
+        print (auth.user_logged_in())
         logout(request)
-
         return Response({}, status=status.HTTP_204_NO_CONTENT)

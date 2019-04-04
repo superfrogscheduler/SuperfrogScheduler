@@ -67,7 +67,7 @@ class AppearanceSerializer(serializers.ModelSerializer):
         return Appearance(**validated_data)
 
 class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
-    superfrog = SuperfrogUserSerializer()
+    superfrog = SuperfrogSerializer()
     appearance = AppearanceSerializer()
     class Meta:
         model = SuperfrogAppearance
@@ -105,7 +105,7 @@ class SuperfrogLandingSerializer(serializers.ModelSerializer):
         fields = ('id','superfrog', 'appearance')
         
 class PayrollSerializer(serializers.ModelSerializer):
-    superfrog = SuperfrogUserSerializer()
+    superfrog = SuperfrogSerializer()
     appearance = AppearanceSerializer()
     class Meta:
         model = SuperfrogAppearance
