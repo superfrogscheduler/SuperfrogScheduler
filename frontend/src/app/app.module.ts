@@ -43,6 +43,7 @@ import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.componen
 import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
 import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 import { AdminAppearancesDetailsComponent } from './admin-appearances-details/admin-appearances-details.component';
+import { SuperfrogContactInfoComponent } from './superfrog-contact-info/superfrog-contact-info.component';
 import { SuperfrogSettingsComponent } from './superfrog-settings/superfrog-settings.component';
 
 const appRoutes: Routes = [
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
   {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
   {path: 'admin-settings', component: AdminSettingsComponent},
   { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent},
-  {path: 'superfrog-settings', component: SuperfrogSettingsComponent}
+  {path: 'superfrog-settings', component: SuperfrogSettingsComponent},
+  {path: 'superfrog-contact-info', component: SuperfrogContactInfoComponent}
 
 ];
 
@@ -120,6 +122,7 @@ const appRoutes: Routes = [
     AdminCreateAppearanceComponent,
     AdminSettingsComponent,
     AdminAppearancesDetailsComponent,
+    SuperfrogContactInfoComponent,
     SuperfrogSettingsComponent,
   ],
   imports: [

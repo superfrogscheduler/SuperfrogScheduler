@@ -1,4 +1,9 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+
+h1 {
+    color: #4d1979;
+}
+
 a {
     color: #4d1979;
 }

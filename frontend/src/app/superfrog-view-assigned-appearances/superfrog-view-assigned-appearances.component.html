@@ -20,12 +20,19 @@
   <div style = "padding-top: 75px;">
       <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/view-appearance">All My Appearances</a></li>
+            <li class="breadcrumb-item"><a href="/view-appearance" style = "color: #4d1979;">All My Appearances</a></li>
             <li class="breadcrumb-item active" aria-current="page">All Superfrog Appearances</li>
           </ol>
         </nav>
   </div>
-
+  <div class = "container" style = "padding-bottom: 10px;">
+    <div class="form-group">
+        <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
+        <select (change)="onChange($event)">
+            <option *ngFor="let v of superfrogData" [value]="v.superfrog.user.id">{{v.superfrog.user.first_name}}</option>
+          </select>
+      </div>
+</div>
 <!--page content-->
 <div style="text-align:center; padding-top:10px;">
   <div style = "padding-bottom: 50px;">
@@ -33,7 +40,7 @@
   </div>
   <div *ngFor="let names of appearanceData">
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
-    <h3><a href="#">{{names.appearance.name}}</a></h3>
+    <h3>{{names.appearance.name}}</h3>
     <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
     <div class= "col-md-6">
       <p class = "label">Start Time</p>

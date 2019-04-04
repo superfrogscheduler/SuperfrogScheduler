@@ -28,19 +28,19 @@
 </div>
 
 <div style="text-align:center; padding-top:40px;">
-  <div style = "padding-bottom: 10px;">
-    <h1>All Assigned Appearances</h1>
-  </div>
+<div style = "padding-bottom: 50px;">
+<h1>Assigned Appearances</h1>
+</div>
+<!-- <select [ngModel]="selectedDeviceObj" (ngModelChange)="onChangeObj($event)" name="sel3">
+  <option [ngValue]="i" *ngFor="let i of appearanceData">{{i.superfrog.user.first_name}}</option>
+</select> -->
+
   <div class = "container" style = "padding-bottom: 10px;">
       <div class="form-group">
           <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
-          <select class="form-control-lg" id="exampleFormControlSelect1">
-            <option>Example 1</option>
-            <option>Example 2</option>
-            <option>Example 3</option>
-            <option>Example 4</option>
-            <option>Example 5</option>
-          </select>
+          <select (change)="onChange($event)">
+              <option *ngFor="let v of superfrogData" [value]="v.superfrog.user.id">{{v.superfrog.user.first_name}}</option>
+            </select>
         </div>
   </div>
     <div *ngFor="let names of appearanceData">
