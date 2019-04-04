@@ -22,7 +22,7 @@ export class ListPayrollAppearancesComponent implements OnInit {
   newVal: number;
   admin: Admin;
   adminID: number;
-  filterID: number;
+  superfrogID: number;
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   constructor(private payrollService: ListPayrollService, private router: Router, private authService: AuthenticationService) { }
   payrollData: any = {};
@@ -41,6 +41,7 @@ export class ListPayrollAppearancesComponent implements OnInit {
     // };
     this.getAdmin();
     this.getAppearances();
+    // this.superfrogID = 2;
   }
   getAdmin() {
     this.adminID = this.authService.getUser('logged').id;
@@ -60,12 +61,12 @@ export class ListPayrollAppearancesComponent implements OnInit {
     console.log(this.newVal);
     this.payrollService.get_by_Superfrog(this.newVal).subscribe(data => {
       this.appearanceData = data;
-      console.log(this.appearanceData);
-      
+      this.superfrogID = data.superfrog.user.id;
+      console.log(this.superfrogID);
     });
   }
   genPayroll() {
-    this.payrollService.genPayroll(this.adminID, this.superfrogData).subscribe();
+    this.payrollService.genPayroll(this.superfrogID, this.adminID, this.data).subscribe();
   }
 }
 

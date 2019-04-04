@@ -66,40 +66,42 @@ def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
 
     pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
 @csrf_exempt 
-def generatePayroll(request, adminID = None):
+def generatePayroll(request, SFID = None, adminID = None):
     if request.method == 'PATCH':
         admin_id = Admin.objects.get(pk = adminID)
         print(admin_id)
-        superfrog_appearance = SuperfrogAppearance.objects.get(request)
+        superfrog_appearance = SuperfrogAppearance.objects.filter(superfrog =SFID, appearance__status= 'Past')
         print(superfrog_appearance)
-        INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
-        a = superfrog_appearance.appearance.start_time
-        b = superfrog_appearance.appearance.end_time
-        dates = superfrog_appearance.appearance.date
-        datesS = dates.strftime('%Y/%m/%d')
-        aT = a.strftime('%I:%M')
-        bT = b.strftime('%I:%M')
-        deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
-        deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
-        dA = deltaA
-        dB = deltaB
-        delta = dB - dA
-        deltaSec = delta.total_seconds()
-        deltaHour = deltaSec / 3600
-        mile = superfrog_appearance.appearance.mileage
-        amount = deltaHour* 25 + mile * .5
-        data_dict = {
-            'Name' : superfrog_appearance.superfrog.user.first_name + superfrog_appearance.superfrog.user.last_name,
-            'Permanentaddress 2' : superfrog_appearance.superfrog.street+ ' ' + superfrog_appearance.superfrog.city+ ' ' + superfrog_appearance.superfrog.state+ ' ' + superfrog_appearance.superfrog.zipCode,
-            '1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1' : 'Appearance Name: '+superfrog_appearance.appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Location '+superfrog_appearance.appearance.location+ ', ' + 'Appearance Time: '+aT + '-' + bT,
-            'Amount' : amount,
-            '3g' : admin_id.user.first_name + ' ' + admin_id.user.last_name
-        }
-        print(data_dict)
-        write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
-        
-        superfrog_appearance.appearance.status = "Completed"
-        superfrog_appearance.appearance.save()
+        for appearances in superfrog_appearance:
+            print(appearances)
+            # INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
+            # a = superfrog_appearance.appearance.start_time
+            # b = superfrog_appearance.appearance.end_time
+            # dates = superfrog_appearance.appearance.date
+            # datesS = dates.strftime('%Y/%m/%d')
+            # aT = a.strftime('%I:%M')
+            # bT = b.strftime('%I:%M')
+            # deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
+            # deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
+            # dA = deltaA
+            # dB = deltaB
+            # delta = dB - dA
+            # deltaSec = delta.total_seconds()
+            # deltaHour = deltaSec / 3600
+            # mile = superfrog_appearance.appearance.mileage
+            # amount = deltaHour* 25 + mile * .5
+            # data_dict = {
+            #     'Name' : superfrog_appearance.superfrog.user.first_name + superfrog_appearance.superfrog.user.last_name,
+            #     'Permanentaddress 2' : superfrog_appearance.superfrog.street+ ' ' + superfrog_appearance.superfrog.city+ ' ' + superfrog_appearance.superfrog.state+ ' ' + superfrog_appearance.superfrog.zipCode,
+            #     '1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1' : 'Appearance Name: '+superfrog_appearance.appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Location '+superfrog_appearance.appearance.location+ ', ' + 'Appearance Time: '+aT + '-' + bT,
+            #     'Amount' : amount,
+            #     '3g' : admin_id.user.first_name + ' ' + admin_id.user.last_name
+            # }
+            # print(data_dict)
+            # write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
+            
+            # superfrog_appearance.appearance.status = "Completed"
+            # superfrog_appearance.appearance.save()
         return HttpResponse(superfrog_appearance, status= 201)
 
 # def pdf_view(request):
