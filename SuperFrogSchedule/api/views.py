@@ -151,6 +151,7 @@ def getEmployee(request):
         queryset = Superfrog.objects.all()
         serializer = SuperfrogSerializer(queryset, many= True)
         return HttpResponse(JSONRenderer().render(serializer.data))
+
 @csrf_exempt
 def appearances(request):
     print('hi')
@@ -428,11 +429,19 @@ def acceptAppearance(request, id=None):
         
         return HttpResponse( status=201)
 
-@crsf_exempt
+@csrf_exempt
 def updateContact(request, sId = None):
     if request.method == 'PATCH':
-        superfrog = Superfrog.objects.get(user_id = sId)
-        superfrog.save()
+        data = json.loads(request.body)
+        superfrog = Superfrog.objects.get(pk=sId)
+        # passing company as first argument. This will invoke 
+        #  ModelSerializer's 'update' method instead of 'create' method.
+        serializer = SuperfrogUserSerializer(superfrog, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+    else:
+        return HttpResponseBadRequest()
 
 
 @csrf_exempt

@@ -26,6 +26,7 @@ button {
     width: 150px;
     padding-top: 9px;
     padding-bottom: 9px;
+    border-radius: .25vh;
 }
 
 .subtle {

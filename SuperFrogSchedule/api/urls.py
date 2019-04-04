@@ -25,7 +25,8 @@ from .views import (
     update_appearance,
     superfrog_appearance_detail,
     show_appearances_by_superfrog,
-    class_schedule
+    class_schedule,
+    updateContact
     )
 
 urlpatterns = [
