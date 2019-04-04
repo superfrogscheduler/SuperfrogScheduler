@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^SuperFrogappearance/status/(?P<status>\w+)/$', payroll_appearance),
     url(r'^email/', email),
     url(r'^landingAppearance/status/(?P<status>\w+)/(?P<sId>\d+)/$', list_by_status_superfrog),
-    url(r'^payrollAppearances/(?P<SFAid>\d+)/(?P<adminID>\d+)/$', generatePayroll),
+    url(r'^payrollAppearances/(?P<adminID>\d+)/$', generatePayroll),
     url(r'^superfrogappearances/status/(?P<status>\w+)/$',list_SuperfrogAppearance_by_Status),
     url(r'^SuperFrogappearance/(?P<AID>\d+)/$', Appearance_to_Change),
     url(r'^updateAppearance/$', update_appearance),

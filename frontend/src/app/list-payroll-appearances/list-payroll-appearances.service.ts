@@ -13,4 +13,10 @@ export class ListPayrollService {
   getAppearances(req: {}): Observable<any> {
     return this.http.get(this.baseurl + "SuperFrogappearance/status/Past/", req);
   }
+  get_by_Superfrog(SFID: number): Observable<any> {
+    return this.http.get(this.baseurl + "by_Superfrog/status/Past/" + SFID);
+  }
+  genPayroll( adminID: number, req: {}) {
+    return this.http.patch(this.baseurl + "payrollAppearances/" + adminID + "/", req);
+  }
 }

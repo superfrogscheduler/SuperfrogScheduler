@@ -66,11 +66,11 @@ def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
 
     pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
 @csrf_exempt 
-def generatePayroll(request, SFAid = None, adminID = None):
+def generatePayroll(request, adminID = None):
     if request.method == 'PATCH':
         admin_id = Admin.objects.get(pk = adminID)
         print(admin_id)
-        superfrog_appearance = SuperfrogAppearance.objects.get(pk = SFAid)
+        superfrog_appearance = SuperfrogAppearance.objects.get(request)
         print(superfrog_appearance)
         INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
         a = superfrog_appearance.appearance.start_time

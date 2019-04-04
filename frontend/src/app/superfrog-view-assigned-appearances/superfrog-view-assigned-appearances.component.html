@@ -31,6 +31,14 @@
   <div style = "padding-bottom: 50px;">
     <h1>All Upcoming Superfrog Appearances</h1>
   </div>
+  <div class = "container" style = "padding-bottom: 10px;">
+    <div class="form-group">
+        <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
+        <select (change)="onChange($event)">
+            <option *ngFor="let v of superfrogData" [value]="v.superfrog.user.id">{{v.superfrog.user.first_name}}</option>
+          </select>
+      </div>
+</div>
   <div *ngFor="let names of appearanceData">
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.appearance.name}}</a></h3>

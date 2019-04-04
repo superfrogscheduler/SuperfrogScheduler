@@ -7,51 +7,65 @@ import { Options } from 'fullcalendar';
 import { windowWhen } from 'rxjs/operators';
 import { List } from '../list-appearances';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { Admin } from '../shared/admin';
 @Component({
   selector: 'app-list-payroll-appearances',
   templateUrl: './list-payroll-appearances.component.html',
   styleUrls: ['./list-payroll-appearances.component.css']
 })
 export class ListPayrollAppearancesComponent implements OnInit {
-  appearances = [];
+  appearanceData: any = {};
   calendarOptions: Options;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
+  superfrogData: any = {};
+  newVal: number;
+  admin: Admin;
+  adminID: number;
+  filterID: number;
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
-  constructor(private payrollService: ListPayrollService, private router: Router) { }
+  constructor(private payrollService: ListPayrollService, private router: Router, private authService: AuthenticationService) { }
   payrollData: any = {};
   ngOnInit() {
-    this.calendarOptions = {
-      editable: false,
-      eventLimit: false,
-      header: {
-        left: '',
-        center: 'title',
-        right: 'prev,next'
-      },
-      selectable: true,
-      events: this.appearances,
-      defaultView: 'listMonth'
-    };
+    // this.calendarOptions = {
+    //   editable: false,
+    //   eventLimit: false,
+    //   header: {
+    //     left: '',
+    //     center: 'title',
+    //     right: 'prev,next'
+    //   },
+    //   selectable: true,
+    //   events: this.appearances,
+    //   defaultView: 'listMonth'
+    // };
+    this.getAdmin();
     this.getAppearances();
+  }
+  getAdmin() {
+    this.adminID = this.authService.getUser('logged').id;
+    console.log(this.adminID);
   }
   getAppearances() {
     this.payrollService.getAppearances(this.data).subscribe(data => {
-      data.forEach(element => {
-        this.appearances.push({
-          id: element.id,
-          title: element.appearance.name,
-          start: "" + element.appearance.date + " " + element.appearance.start_time,
-          end: ""+ element.appearance.date + " " + element.appearance.end_time
-        });   
-      });
-      this.ucCalendar.fullCalendar('removeEvents');
-      this.ucCalendar.fullCalendar('removeEventSources');
-      this.ucCalendar.fullCalendar('addEventSource', this.appearances);
-      // this.ucCalendar.fullCalendar('rerenderEvents');
+      this.appearanceData = data;
+      this.superfrogData = data;
     });
   }
-  eventClick(event: any) {
-    this.router.navigate(['/admin-generate-payroll/' + event.event.id]);
+  // eventClick(event: any) {
+  //   this.router.navigate(['/admin-generate-payroll/' + event.event.id]);
+  // }
+  public onChange(event): void {  // event will give you full breif of action
+    this.newVal = event.target.value;
+    console.log(this.newVal);
+    this.payrollService.get_by_Superfrog(this.newVal).subscribe(data => {
+      this.superfrogData = data;
+      console.log(this.superfrogData);
+      
+    });
+  }
+  genPayroll() {
+    this.payrollService.genPayroll(this.adminID, this.superfrogData).subscribe();
   }
 }
 
