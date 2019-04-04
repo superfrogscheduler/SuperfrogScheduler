@@ -16,11 +16,16 @@ export class SuperfrogLandingComponent implements OnInit {
   superfrog: Superfrog;
   landingData = [];
   superfrogID: number;
-  constructor(private authService: AuthenticationService, private landService: SuperfrogLandingService) { }
+  constructor(private authService: AuthenticationService, private landService: SuperfrogLandingService, private router: Router) { }
 
   ngOnInit() {
     this.superfrog = {};
-    this.authService.isAccessible(2)
+    if(!this.authService.isAuthenticated(2)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 1)
+        this.router.navigate(['/admin-landing'])
+    }
     this.getUser();
     this.getSuperFrogId();
     this.getAppearances();
