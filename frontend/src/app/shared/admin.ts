@@ -1,6 +1,6 @@
-export interface Admin {
-    first_name?: string,
-    last_name?: string,
-    email?: string,
+import { User } from '../shared/user';
+
+export interface Admin{
+    user?: User,
     phone?: string,
 }

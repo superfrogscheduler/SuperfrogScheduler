@@ -13,7 +13,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout, user_logged_in
+from rest_framework import permissions
 import pdfrw
 import os
 from django.template.loader import render_to_string, get_template
@@ -146,10 +147,16 @@ def Appearance_to_Change(request, AID):
 #    if request.method == 'POST:
 #        user = User.objects.create_user('') 
 
-def getEmployee(request):
+def getSuperfrog(request, id = None):
     if request.method == 'GET':
-        queryset = Superfrog.objects.all()
-        serializer = SuperfrogSerializer(queryset, many= True)
+        queryset = Superfrog.objects.get(user = id)
+        serializer = SuperfrogSerializer(queryset, many= False)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+
+def getAdmin(request, id = None):
+    if request.method == 'GET':
+        queryset = Admin.objects.get(user = id)
+        serializer = AdminSerializer(queryset, many= False)
         return HttpResponse(JSONRenderer().render(serializer.data))
 @csrf_exempt
 def appearances(request):
@@ -632,7 +639,7 @@ def class_schedule(request, id = None):
 
 
 #Login View
-class LoginView(views.APIView):
+class login_view(views.APIView):
     #override post function
     def post(self, request, format=None):
         data = json.loads(request.body)
@@ -663,3 +670,10 @@ class LoginView(views.APIView):
             }, status=status.HTTP_401_UNAUTHORIZED)
 
 
+class logout_view(views.APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, format=None):
+        print (auth.user_logged_in())
+        logout(request)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)

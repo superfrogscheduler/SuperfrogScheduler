@@ -45,6 +45,7 @@ import { AdminSettingsComponent } from './admin-settings/admin-settings.componen
 import { AdminAppearancesDetailsComponent } from './admin-appearances-details/admin-appearances-details.component';
 import { SuperfrogContactInfoComponent } from './superfrog-contact-info/superfrog-contact-info.component';
 import { SuperfrogSettingsComponent } from './superfrog-settings/superfrog-settings.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -77,6 +78,7 @@ const appRoutes: Routes = [
   {path: 'confirm-accept', component: ConfirmAcceptComponent},
   {path: 'confirm-reject', component: ConfirmRejectComponent},
   {path: 'confirm-signup', component: ConfirmSignupComponent},
+  {path: 'logout', component: LogoutComponent},
   {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
   {path: 'admin-settings', component: AdminSettingsComponent},
   { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent},
@@ -124,6 +126,7 @@ const appRoutes: Routes = [
     AdminAppearancesDetailsComponent,
     SuperfrogContactInfoComponent,
     SuperfrogSettingsComponent,
+    LogoutComponent,
   ],
   imports: [
     RouterModule.forRoot(
