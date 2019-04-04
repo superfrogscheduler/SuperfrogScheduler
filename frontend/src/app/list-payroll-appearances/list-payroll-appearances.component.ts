@@ -59,8 +59,8 @@ export class ListPayrollAppearancesComponent implements OnInit {
     this.newVal = event.target.value;
     console.log(this.newVal);
     this.payrollService.get_by_Superfrog(this.newVal).subscribe(data => {
-      this.superfrogData = data;
-      console.log(this.superfrogData);
+      this.appearanceData = data;
+      console.log(this.appearanceData);
       
     });
   }
