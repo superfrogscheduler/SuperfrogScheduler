@@ -25,7 +25,7 @@ export class AdminAppearancesDetailsComponent implements OnInit {
     this.newVal = event.target.value;
     console.log(this.newVal);
     this.adminDetails.get_by_Superfrog(this.newVal).subscribe(data => {
-      this.appearanceData = data;
+      this.appearanceData= data;
     });
   }
 }

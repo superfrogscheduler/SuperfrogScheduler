@@ -25,7 +25,14 @@
           </ol>
         </nav>
   </div>
-
+  <div class = "container" style = "padding-bottom: 10px;">
+    <div class="form-group">
+        <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
+        <select (change)="onChange($event)">
+            <option *ngFor="let v of superfrogData" [value]="v.superfrog.user.id">{{v.superfrog.user.first_name}}</option>
+          </select>
+      </div>
+</div>
 <!--page content-->
 <div style="text-align:center; padding-top:10px;">
   <div style = "padding-bottom: 50px;">
