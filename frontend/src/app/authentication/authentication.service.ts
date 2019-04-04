@@ -65,7 +65,8 @@ export class AuthenticationService {
 
   isAuthenticated(status: number){
     if (this.storage.get('isLoggedIn') != 0) {
-     return (this.storage.get('isLoggedIn')==status)
+      console.log(this.storage.get('isLoggedIn'))
+      return (this.storage.get('isLoggedIn')==status)
     } else {
       return false
     }
@@ -80,7 +81,9 @@ export class AuthenticationService {
       } else {
         this.router.navigate(['/superfrog-landing'])
       }
-    } 
+    } else {
+      console.log(this.isAuthenticated(status))
+    }
   }
 
   clearStorage(){
