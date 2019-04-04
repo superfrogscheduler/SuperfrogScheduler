@@ -29,27 +29,27 @@
 
 <div class = "container" style="text-align:center; padding-top: 75px;">
     <h1>Superfrog Settings</h1>
-    <form>
+    <form name='form' [formGroup]='form'>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputEmail4">First Name</label>
-            <input type="email" class="form-control form-control-lg" id="inputEmail4" placeholder="First Name">
+            <input type="email" class="form-control form-control-lg" id="inputEmail4" placeholder="First Name" [(ngModel)]="data.superfrog.first_name" [ngModelOptions]="{standalone: true}" name="first_name">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Last Name</label>
-            <input class="form-control form-control-lg" id="inputPassword4" placeholder="Last Name">
+            <input class="form-control form-control-lg" id="inputPassword4" placeholder="Last Name" [(ngModel)]="data.superfrog.last_name" [ngModelOptions]="{standalone: true}" name="last_name">
           </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail4">Email</label>
-              <input type="email" class="form-control form-control-lg" id="inputEmail4" placeholder="Email">
+              <input type="email" class="form-control form-control-lg" id="inputEmail4" placeholder="Email" [(ngModel)]="data.superfrog.email" [ngModelOptions]="{standalone: true}" name="email">
             </div>
             <div class="form-group col-md-6">
               <label for="inputPassword4">Phone Number</label>
-              <input class="form-control form-control-lg" placeholder="Phone Number">
+              <input class="form-control form-control-lg" placeholder="Phone Number" [(ngModel)]="data.superfrog.phone" [ngModelOptions]="{standalone: true}" name="phone">
             </div>
           </div>
-        <button type="submit" class="btn btn-primary btn-lg" style = "margin-top: 20px; background-color: #4d1979; border-color:#4d1979;">Update Contact Info</button>
+        <button type="submit" class="btn btn-primary btn-lg" (click)="updateContact();" style = "margin-top: 20px; background-color: #4d1979; border-color:#4d1979;">Update Contact Info</button>
       </form>
 </div>

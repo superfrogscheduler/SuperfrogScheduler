@@ -50,4 +50,5 @@ urlpatterns = [
     url(r'^superfrogappearancedetails/(?P<id>\d+)/$', superfrog_appearance_detail),
     url(r'^by_Superfrog/status/(?P<status>\w+)/(?P<SFID>\d+)/$', show_appearances_by_superfrog),
     url(r'^class-schedule/(?P<id>\d+)/$', class_schedule),
+    url(r'^superfrog-contact-info/(?P<sId>\d+)/$', updateContact),
 ]

@@ -428,6 +428,13 @@ def acceptAppearance(request, id=None):
         
         return HttpResponse( status=201)
 
+@crsf_exempt
+def updateContact(request, sId = None):
+    if request.method == 'PATCH':
+        superfrog = Superfrog.objects.get(user_id = sId)
+        superfrog.save()
+
+
 @csrf_exempt
 def rejectAppearance(request, id = None):
     if request.method=='PATCH':
