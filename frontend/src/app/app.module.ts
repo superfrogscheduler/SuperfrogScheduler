@@ -30,7 +30,7 @@ import { AcceptRejectDetailsComponent } from './accept-reject-details/accept-rej
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { ListPayrollAppearancesComponent } from './list-payroll-appearances/list-payroll-appearances.component';
 import { AdminGeneratePayrollComponent } from './admin-generate-payroll/admin-generate-payroll.component';
-import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule/superfrog-class-schedule.component';
+import { SuperfrogClassScheduleComponent } from './superfrog-class-schedule/superfrog-class-schedule.component';
 import { InstructionsPageComponent } from './instructions-page/instructions-page.component';
 import { SuperfrogLandingDetailsComponent } from './superfrog-landing-details/superfrog-landing-details.component';
 import { SuperfrogViewAssignedAppearancesComponent } from './superfrog-view-assigned-appearances/superfrog-view-assigned-appearances.component';
@@ -43,6 +43,8 @@ import { ConfirmAcceptComponent } from './confirm-accept/confirm-accept.componen
 import { AdminCreateAppearanceComponent } from './admin-create-appearance/admin-create-appearance.component';
 import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 import { AdminAppearancesDetailsComponent } from './admin-appearances-details/admin-appearances-details.component';
+import { SuperfrogContactInfoComponent } from './superfrog-contact-info/superfrog-contact-info.component';
+import { SuperfrogSettingsComponent } from './superfrog-settings/superfrog-settings.component';
 import { LogoutComponent } from './logout/logout.component';
 
 const appRoutes: Routes = [
@@ -79,7 +81,9 @@ const appRoutes: Routes = [
   {path: 'logout', component: LogoutComponent},
   {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
   {path: 'admin-settings', component: AdminSettingsComponent},
-  { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent}
+  { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent},
+  {path: 'superfrog-settings', component: SuperfrogSettingsComponent},
+  {path: 'superfrog-contact-info', component: SuperfrogContactInfoComponent}
 
 ];
 
@@ -120,6 +124,8 @@ const appRoutes: Routes = [
     AdminCreateAppearanceComponent,
     AdminSettingsComponent,
     AdminAppearancesDetailsComponent,
+    SuperfrogContactInfoComponent,
+    SuperfrogSettingsComponent,
     LogoutComponent,
   ],
   imports: [

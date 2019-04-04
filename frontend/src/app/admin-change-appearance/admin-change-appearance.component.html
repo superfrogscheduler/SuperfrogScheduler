@@ -1,18 +1,64 @@
-<form form="ngForm"(ngSubmit)="updateAppearance(form.value)">     
-  <input type = "text" name="name" [(ngModel)]="name" value="{{appearanceData.appearance.name}}">
-  <input type = "date" name="date" [(ngModel)]="date" value="{{appearanceData.appearance.date}}">
-  <input type = "time" name="start_time" [(ngModel)]="start_time" value="{{appearanceData.appearance.start_time}}">
-  <input type = "time" name="end_time" [(ngModel)]="end_time" value="{{appearanceData.appearance.end_time}}">
-  <input type = "text" name="org" [(ngModel)]="org" value="{{appearanceData.appearance.organization}}">
-  <input type = "text" name="Location" [(ngModel)]="Location" value="{{appearanceData.appearance.location}}">
-  <input type = "text" name="Parking" [(ngModel)]="Parking" value="{{appearanceData.appearance.parking_info}}">
-  <input type = "text" name="org_type" [(ngModel)]="org_type" value="{{appearanceData.appearance.org_type}}">
-  <input type = "text" name="Cheerleaders" [(ngModel)]="Cheerleaders" value="{{appearanceData.appearance.cheerleaders}}">
-  <input type = "text" name="Showgirls" [(ngModel)]="Showgirls" value="{{appearanceData.appearance.showgirls}}">
-  <input type = "text" name="Special_Instructions" [(ngModel)]="Special_Instructions" value="{{appearanceData.appearance.special_instructions}}">
-  <input type = "text" name="expenses" [(ngModel)]="expenses" value="{{appearanceData.appearance.expenses_and_benefits}}">
-  <input type = "text" name="Outside_Orgs" [(ngModel)]="Outside_Orgs" value="{{appearanceData.appearance.outside_orgs}}">
-  <input type = "text" name="Description" [(ngModel)]="Description" value="{{appearanceData.appearance.description}}">
-  <button type="submit">Save</button>
- </form>
+<!--admin nav-->
+<div style="text-align:center">
+    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
+        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="nav navbar-nav ml-auto">
+                <li><a id = "a-nav disabled" routerLink="/admin-view-appearances" style = "font-weight:bold;">APPEARANCES</a></li>
+                <li><a id = "a-nav" routerLink="/list-accept-reject" routerLinkActive = "active" >REQUESTS</a></li>
+                <li><a id = "a-nav disabled" routerLink="/list-payroll-appearances" routerLinkActive="active">PAYROLL</a></li>
+                <li><a id = "a-nav disabled" routerLink="/admin-settings" routerLinkActive = "active">SETTINGS</a></li>
+                <li><a id = "a-nav" routerLink="/" routerLinkActive = "active">LOGOUT</a></li>
+              </ul>
+        </div>
+      </nav>
+  </div>
+
+<!--page content-->
+<div style = "padding-top: 75px;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin-view-appearances">View All Appearances</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Appearance Details</li>
+        </ol>
+      </nav>
+</div>
+
+<div style = "text-align:center; padding-top:10px;">
+    <h1>Appearance Details</h1>
+</div>
+  
+
+<div style="text-align:center; padding-top:40px;">
+  <div class = "container align-center" id="request-container">
+    <div>
+      <h1>{{appearanceData.appearance.name}}</h1>
+    </div>
+    <div>
+      <p>Status: {{appearanceData.appearance.status}}</p>
+    </div>
+    <div class = "row" style = "padding-top: 25px;">
+      <div class = "col-md-4">
+          <h3>Event Date</h3> <p>{{appearanceData.appearance.date}}</p>
+          <h3>Time</h3> <p>{{appearanceData.appearance.start_time}} - {{appearanceData.appearance.end_time}}</p>
+          <h3>Location</h3> <p>{{appearanceData.appearance.location}}</p>
+      </div>
+      <div class = "col-md-4">
+          <h3>Spirit Members</h3> <p>{{appearanceData.appearance.cheerleaders}} Cheerleaders, 
+              {{appearanceData.appearance.showgirls}} Showgirls </p>
+          <h3>Special Instructions</h3> <p>{{appearanceData.appearance.parking_info}}</p>
+          <h3>Description</h3> <p>{{appearanceData.appearance.description}}</p>
+          
+      </div>
+      <div class = "col-md-4">
+        <h3>Superfrog Assigned: </h3> <p>{{appearanceData.superfrog.user.first_name}} {{appearanceData.superfrog.user.last_name}}</p>
+    </div>
+    </div>
+  </div>
+</div>
+
+
 

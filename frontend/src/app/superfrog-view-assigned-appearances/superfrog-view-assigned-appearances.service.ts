@@ -13,4 +13,7 @@ export class ViewAllAppearancesService {
   getAppearances(): Observable<any> {
     return this.http.get(this.baseurl + "superfrogappearances/status/Assigned/");
   }
+  get_by_Superfrog(SFID: number): Observable<any> {
+    return this.http.get(this.baseurl + "by_Superfrog/status/Assigned/" + SFID);
+  }
 }
