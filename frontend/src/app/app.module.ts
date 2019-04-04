@@ -80,7 +80,8 @@ const appRoutes: Routes = [
   {path: 'admin-create-appearance', component: AdminCreateAppearanceComponent},
   {path: 'admin-settings', component: AdminSettingsComponent},
   { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent},
-  {path: 'superfrog-settings', component: SuperfrogSettingsComponent}
+  {path: 'superfrog-settings', component: SuperfrogSettingsComponent},
+  {path: 'superfrog-contact-info', component: SuperfrogContactInfoComponent}
 
 ];
 
