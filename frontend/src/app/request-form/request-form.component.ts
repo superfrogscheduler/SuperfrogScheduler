@@ -288,11 +288,8 @@ export class RequestFormComponent implements OnInit {
     while(start.isBefore(nextMonth)){
       for(var d in this.classIntersection){
         var day = this.classIntersection[d];
-        console.log(day);
         for(var t in day){
-          console.log(t);
           var time = day[t];
-          console.log(time);
           var s = start.clone().add(d, 'days');
           s.hours(time['start']['hour']);
           s.minutes(time['start']['minutes']);
@@ -304,8 +301,8 @@ export class RequestFormComponent implements OnInit {
             start: s,
             end: e,
           };
+          console.log(event);
           this.events.events.push(event);
-          console.log(this.events.events);
         }
       }
       start.add(1, 'week');

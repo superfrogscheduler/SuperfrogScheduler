@@ -28,7 +28,8 @@ export class SuperfrogClassScheduleComponent implements OnInit {
   constructor(private classScheduleService: SuperfrogClassScheduleService, private authService: AuthenticationService) { }
 
   ngOnInit() {
-    this.superfrog = this.authService.getUser('logged').id
+    console.log(this.authService.getUser('logged'));
+    this.superfrog = this.authService.getUser('logged').user.id;
     this.getClasses(this.superfrog).subscribe(data =>{
       data.forEach(element => {
         let start = moment(this.defaultDateStr+'T'+element.start);
@@ -94,7 +95,7 @@ export class SuperfrogClassScheduleComponent implements OnInit {
               };
               this.toAdd.forEach(element => {
                 changes.toAdd.push({
-                  superfrog: this.superfrog.id,
+                  superfrog: this.superfrog,
                   name: element.title,
                   day: element.start.day(),
                   start: element.start.format("kk:mm"),
@@ -104,7 +105,7 @@ export class SuperfrogClassScheduleComponent implements OnInit {
               this.toUpdate.forEach(element =>{
                 changes.toUpdate.push({
                   id: element.id,
-                  superfrog: this.superfrog.id,
+                  superfrog: this.superfrog,
                   name: element.title,
                   day: element.start.day(),
                   start: element.start.format("kk:mm"),
@@ -112,7 +113,7 @@ export class SuperfrogClassScheduleComponent implements OnInit {
                 });
               });
               changes.toDelete = this.toDelete;
-              this.classScheduleService.saveChanges(this.superfrog.id, changes).subscribe(data =>{
+              this.classScheduleService.saveChanges(this.superfrog, changes).subscribe(data =>{
                 this.data = [];
                 this.toUpdate = [];
                 this.toAdd = [];
@@ -206,6 +207,7 @@ export class SuperfrogClassScheduleComponent implements OnInit {
     }
   }
   select(event: any){
+
     var title = prompt("Enter event name:");
     if(title){
       this.toAdd.push({
