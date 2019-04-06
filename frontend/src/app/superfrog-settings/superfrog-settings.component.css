@@ -1,26 +1,11 @@
 @import "~bootstrap/dist/css/bootstrap.css";
-a {
+
+h1 {
     color: #4d1979;
 }
 
-h1 {
- color: #4d1979;
-}
-
-h3{
-    font-size: 21px;
-}
-
-p{
-    font-size: 14px;
-}
-
-.label{
-    font-size: 14px;
-    font-weight: bold;
-    color: grey;
-    letter-spacing: .25px;
-    opacity: .5;
+a {
+    color: #4d1979;
 }
 
 .btn-primary{
@@ -62,8 +47,4 @@ p{
     font-family: "Helvetica Neue", sans-serif;
     font-weight: normal;
     color: #4d1979;
-}
-
-#btn-nav {
-    color: #ffffff;
 }

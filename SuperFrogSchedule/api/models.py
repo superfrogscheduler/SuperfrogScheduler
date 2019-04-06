@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 import datetime
+from django.contrib.auth.models import (PermissionsMixin, Permission)
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -23,7 +24,7 @@ class UserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
-        
+        user.is_superfrog = True
         return user
 
     def create_staffuser(self, email, first_name, password):
@@ -54,7 +55,7 @@ class UserManager(BaseUserManager):
         return user
 
 #custom user class
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         verbose_name='Email',
         max_length=255,
@@ -75,7 +76,7 @@ class User(AbstractBaseUser):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name'] # Email & Password are required by default. 'username'
+    REQUIRED_FIELDS = ['first_name', 'last_name'] # require last name and first name
 
     objects = UserManager()
 
@@ -107,6 +108,8 @@ class Superfrog(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,)
     phone = models.IntegerField(default=0)
     #list of appearances id
+
+   # permisison = Permission.objects.
     appearances = models.ManyToManyField("Appearance", through="SuperfrogAppearance")
     street = models.CharField(max_length=100, blank = True)
     city = models.CharField(max_length=100, blank= True)
@@ -171,6 +174,16 @@ class Appearance(Event):
 
     def __str__(self):
         return super().__str__()
+
+class SuperfrogClass(models.Model):
+    superfrog = models.ForeignKey(Superfrog, on_delete=models.CASCADE)
+    name = models.CharField(max_length= 255)
+    day = models.IntegerField()
+    start = models.TimeField()
+    end = models.TimeField()
+
+    def __str__(self):
+        return ""+str(self.superfrog) +":" + str(self.day) + " " + str(self.start)+"-"+str(self.end)
 
 # class OrgType(models.Model):
 #     org_type=models.CharField(max_length = 255)

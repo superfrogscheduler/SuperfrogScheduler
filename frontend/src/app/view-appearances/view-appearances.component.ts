@@ -45,7 +45,7 @@ export class ViewAppearancesComponent implements OnInit {
     this.superfrog = this.authService.getUser('logged');
   }
   getSuperFrogId() {
-    this.superfrogID = this.authService.getUser('logged').id;
+    this.superfrogID = this.authService.getUser('logged').user.id;
     console.log(this.superfrogID);
   }
   getPastAppearance() {
