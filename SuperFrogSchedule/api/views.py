@@ -102,6 +102,13 @@ def generatePayroll(request, SFID = None, adminID = None):
             # superfrog_appearance.appearance.save()
         return HttpResponse(superfrog_appearance, status= 201)
 
+def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter( appearance__date__range=[start_date,end_date], appearance__status='Past')
+        serializer = PayrollSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 # def pdf_view(request):
 #     with open('/path/to/my/file.pdf', 'r') as pdf:
 #         response = HttpResponse(pdf.read(), mimetype='application/pdf')
@@ -296,6 +303,14 @@ def update_appearance(request):
     else:
         print(appearance_serializer.errors)
         return HttpResponse(appearance_serializer.errors, status = 400)
+
+def get_Superfrogs(request):
+    if request.method=='GET':
+        queryset = Superfrog.objects.all()
+        serializer = SuperfrogSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 @csrf_exempt
 def signUp(request, id=None, sId = None):
     if request.method=='PATCH':

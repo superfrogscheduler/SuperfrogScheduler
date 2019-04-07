@@ -19,4 +19,10 @@ export class ListPayrollService {
   genPayroll( SFID: number, adminID: number, req: {}) {
     return this.http.patch(this.baseurl + "payrollAppearances/"+ SFID + "/" + adminID + "/", req);
   }
+  get_Superfrogs(): Observable<any> {
+    return this.http.get(this.baseurl + "get_Superfrogs/");
+  }
+  filter_SuperfrogAppearance( start_date: Date, end_time: Date): Observable<any> {
+    return this.http.get(this.baseurl + "filter_by_Superfrog_Date/" + start_date + "/" + end_time + "/");
+  }
 }

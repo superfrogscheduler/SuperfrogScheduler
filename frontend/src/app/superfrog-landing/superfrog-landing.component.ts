@@ -30,7 +30,7 @@ export class SuperfrogLandingComponent implements OnInit {
     this.superfrog = this.authService.getUser('logged');
   }
   getSuperFrogId() {
-    this.superfrogID = this.authService.getUser('logged').id;
+    this.superfrogID = this.authService.getUser('logged').user.id;
   }
   getAppearances() {
     this.landService.getAppearances('Assigned', this.superfrogID).subscribe(data => {

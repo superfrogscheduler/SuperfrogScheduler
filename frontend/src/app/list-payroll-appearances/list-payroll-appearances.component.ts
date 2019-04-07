@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Appearance } from '../shared/appearance';
 import { Superfrog } from '../shared/superfrog';
 import { ListPayrollService } from './list-payroll-appearances.service';
@@ -9,6 +9,15 @@ import { List } from '../list-appearances';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Admin } from '../shared/admin';
+import { stringify } from '@angular/core/src/render3/util';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+@NgModule({
+  imports: [
+     FormsModule
+  ],
+  })
 @Component({
   selector: 'app-list-payroll-appearances',
   templateUrl: './list-payroll-appearances.component.html',
@@ -23,6 +32,12 @@ export class ListPayrollAppearancesComponent implements OnInit {
   admin: Admin;
   adminID: number;
   superfrogID: number;
+  payroll_Name: any ;
+  payroll_start: any;
+  payroll_end: any;
+  SFID: number;
+  payroll_checkbox: any = [];
+  array = [];
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   constructor(private payrollService: ListPayrollService, private router: Router, private authService: AuthenticationService) { }
   payrollData: any = {};
@@ -41,6 +56,7 @@ export class ListPayrollAppearancesComponent implements OnInit {
     // };
     this.getAdmin();
     this.getAppearances();
+    this.getSuperfrogs();
     // this.superfrogID = 2;
   }
   getAdmin() {
@@ -50,7 +66,6 @@ export class ListPayrollAppearancesComponent implements OnInit {
   getAppearances() {
     this.payrollService.getAppearances(this.data).subscribe(data => {
       this.appearanceData = data;
-      this.superfrogData = data;
     });
   }
   // eventClick(event: any) {
@@ -61,12 +76,24 @@ export class ListPayrollAppearancesComponent implements OnInit {
     console.log(this.newVal);
     this.payrollService.get_by_Superfrog(this.newVal).subscribe(data => {
       this.appearanceData = data;
-      this.superfrogID = data.superfrog.user.id;
-      console.log(this.superfrogID);
     });
   }
   genPayroll() {
-    this.payrollService.genPayroll(this.superfrogID, this.adminID, this.data).subscribe();
+    // this.payrollService.genPayroll(this.superfrogID, this.adminID, this.data).subscribe();
+    console.log(this.payroll_checkbox);
+  }
+  
+  getSuperfrogs() {
+    this.payrollService.get_Superfrogs().subscribe(data => {
+      this.superfrogData = data;
+    });
+  }
+  // @Input()
+  filter_SuperfrogAppearance() {
+    this.SFID = this.payroll_Name;
+    this.payrollService.filter_SuperfrogAppearance( this.payroll_start , this.payroll_end).subscribe(data => {
+      this.appearanceData = data;
+    });
   }
 }
 
