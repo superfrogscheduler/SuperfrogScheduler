@@ -133,7 +133,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'superfrogscheduler@gmail.com'
 EMAIL_HOST_PASSWORD = '1819Superfrog'
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
