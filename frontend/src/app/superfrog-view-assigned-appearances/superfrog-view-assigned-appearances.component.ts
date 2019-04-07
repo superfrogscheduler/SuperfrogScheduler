@@ -14,11 +14,11 @@ export class SuperfrogViewAssignedAppearancesComponent implements OnInit {
 
   ngOnInit() {
     this.getAppearances();
+    this.getSuperfrogs();
   }
   getAppearances() {
     this.assignedAppearances.getAppearances().subscribe(data => {
       this.appearanceData = data;
-      this.superfrogData = data;
     });
   }
   public onChange(event): void {  // event will give you full breif of action
@@ -26,6 +26,11 @@ export class SuperfrogViewAssignedAppearancesComponent implements OnInit {
     console.log(this.newVal);
     this.assignedAppearances.get_by_Superfrog(this.newVal).subscribe(data => {
       this.appearanceData = data;
+    });
+  }
+  getSuperfrogs() {
+    this.assignedAppearances.get_Superfrogs().subscribe(data => {
+      this.superfrogData = data;
     });
   }
 }

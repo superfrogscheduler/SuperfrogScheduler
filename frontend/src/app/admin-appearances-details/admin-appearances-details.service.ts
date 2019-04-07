@@ -16,4 +16,7 @@ export class AdminAppearancesDetailsService {
   get_by_Superfrog(SFID: number): Observable<any> {
     return this.http.get(this.baseurl + "by_Superfrog/status/Assigned/" + SFID);
   }
+  get_Superfrogs(): Observable<any> {
+    return this.http.get(this.baseurl + "get_Superfrogs/");
+  }
 }
