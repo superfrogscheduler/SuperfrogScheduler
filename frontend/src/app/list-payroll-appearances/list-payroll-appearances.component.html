@@ -32,15 +32,31 @@
     <h1>Appearances Awaiting Payroll</h1>
   </div>
 
-<div class = "container">
+<!-- <div class = "container">
   <div *ngIf="calendarOptions">
       <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
     </div>
+</div> -->
+<div class = "container" style = "padding-bottom: 10px;">
+  <div class="form-group">
+      <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
+        <select (change)="onChange($event)">
+          <option *ngFor="let v of superfrogData" [value]="v.user.id">{{v.user.first_name}}</option>
+        </select>
+    </div>
 </div>
-  <div *ngFor="let names of payrollData">
+<label>Start Date:
+  <input type="date" name="start_date" [(ngModel)]="payroll_start">
+</label>
+<label>End Date:
+  <input type="date" name="end_date" [(ngModel)]="payroll_end">
+</label>
+<button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="filter_SuperfrogAppearance()">Submit</button>
+  <div *ngFor="let names of appearanceData">
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.appearance.name}}</a></h3>
     <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
+          <input name="myName" type="checkbox"  ng-model="payroll_checkbox" checklist-value="names.id" ng-change="change(payroll_checkbox, names.id)">{{names.id}}
     <div class= "col-md-6">
       <p class = "label">Start Time</p>
       <p>{{names.appearance.start_time}}</p>
@@ -58,9 +74,9 @@
         <p>{{names.appearance.description}}</p>
     </div>
     </div>
-    <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
-      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-generate-payroll/{{names.id}}" routerLinkActive="active">View Details</a></button>
-    </div>
   </div>
   </div>
+<div>
+<button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="genPayroll()">Submit</button>
+</div>
 </div>
