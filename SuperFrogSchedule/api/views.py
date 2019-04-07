@@ -525,6 +525,7 @@ def class_schedule_intersection(request):
         for j in range(len(frogs)):
             classes[i].append([])
             classlist = list(SuperfrogClass.objects.filter(superfrog = frogs[j], day = i).order_by('start', 'end').values('start', 'end'))
+            print(classlist)
             for clss in classlist:
                 dtr = toDateRange(datetime.date(2018,12,30), clss['start'], clss['end'])
                 if not classes[i][j]:
@@ -539,6 +540,7 @@ def class_schedule_intersection(request):
                             break
                     if not inserted:
                         classes[i][j].append(dtr)
+        print(classes)
         #Convert class time ranges to binary
         for j in range(len(frogs)):
             if(classes[i][j]):
@@ -562,12 +564,14 @@ def class_schedule_intersection(request):
             else:
                 temp = "000000000000000000000000000"
             classes[i][j] = temp
+        print(classes)
         #And the binary strings together to get intersection
         temp = int("111111111111111111111111111",2)
         for j in range(len(frogs)):
             temp = temp & int(classes[i][j],2)
         classes[i] = format(temp, "027b")
 
+        print(classes)
         #Convert the resulting string back into time ranges
         schedule = []
         string = classes[i]
@@ -576,16 +580,17 @@ def class_schedule_intersection(request):
         if string != "000000000000000000000000000":
             for j in range(len(string)):
                 if(string[j]=="1"):
-                    start = interval.start_datetime - datetime.timedelta(seconds = 30*60)
-                    start = start.time()
-                    flag = True
+                    if not flag:
+                        start = interval.start_datetime
+                        start = start.time()
+                        flag = True
                 else:
                     if flag:
                         schedule.append((start, interval.start_datetime.time()))
                         flag = False
                 interval = interval+datetime.timedelta(seconds = 30*60)
         classes[i] = schedule
-
+    print(classes)
     #Prepare JSON payload
     response = {}
     for day in classes:
@@ -593,6 +598,7 @@ def class_schedule_intersection(request):
             response[day] = []
             for time in classes[day]:
                 response[day].append({'start': {'hour':time[0].hour, 'minute': time[0].minute}, 'end': {'hour':time[1].hour, 'minute': time[1].minute}})
+    print(response)
     return HttpResponse(JSONRenderer().render(response))
 
 
