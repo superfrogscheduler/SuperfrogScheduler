@@ -72,25 +72,12 @@ export class AuthenticationService {
     }
   }
 
-  isAccessible(status: number){
-    if (!this.isAuthenticated(status)){
-      if (this.storage.get('isLoggedIn') == 0){
-        this.router.navigate(['/auth'])
-      } else if (this.storage.get('isLoggedIn') == 1){
-        this.router.navigate(['/admin-landing'])
-      } else {
-        this.router.navigate(['/superfrog-landing'])
-      }
-    } else {
-      console.log(this.isAuthenticated(status))
-    }
-  }
-
   clearStorage(){
     this.isLoggedIn = 0;
-    this.storage.remove('isLoggedIn')
+    this.storage.set('isLoggedIn', this.isLoggedIn)
+    console.log(this.storage.get('isLoggedIn'))
     this.storage.remove('logged')
-    alert(this.storage.get('isLoggedIn'))
+    
   }
 
   registerSuperfrog(userData): Observable<any> {
