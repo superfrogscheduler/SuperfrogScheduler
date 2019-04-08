@@ -45,13 +45,14 @@
         </select>
     </div>
 </div>
+<button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="getAppearances()">View All Payable Appearances</button>
 <label>Start Date:
   <input type="date" name="start_date" [(ngModel)]="payroll_start">
 </label>
 <label>End Date:
   <input type="date" name="end_date" [(ngModel)]="payroll_end">
 </label>
-<button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="filter_SuperfrogAppearance()">Submit</button>
+<button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="filter_SuperfrogAppearance()">Search</button>
   <div *ngFor="let names of appearanceData">
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.appearance.name}}</a></h3>
