@@ -60,7 +60,7 @@ export class ListPayrollAppearancesComponent implements OnInit {
     // this.superfrogID = 2;
   }
   getAdmin() {
-    this.adminID = this.authService.getUser('logged').id;
+    this.adminID = this.authService.getUser('logged').user.id;
     console.log(this.adminID);
   }
   getAppearances() {
