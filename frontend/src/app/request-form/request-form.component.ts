@@ -38,7 +38,8 @@ export class RequestFormComponent implements OnInit {
   locationName: string;
   invalidAddr: boolean = false;
   events = { id: "events", events: [], editable: false, overlap: false, eventColor: '#4d1979' };
-  newEvent = [];
+  twoWeek = false;
+  newEvent = {id: 'newEvent', events: [] };
   classIntersection: any;
 
   
@@ -79,61 +80,91 @@ export class RequestFormComponent implements OnInit {
           longPressDelay: 500,
           eventColor: '#4d1979',
           header: {
-            left: 'prev,next today',
+            left: 'myPrev,myNext today',
             center: 'title',
             right: ''
           },
           //block out two weeks before
-          eventSources: [
-            [{
-              id: '2week',
-              allDay: true,
-              start: moment(0),
-              end: this.earliestDay.add(1, 'day'),
-              rendering: 'background',
-              backgroundColor: 'lightgray'
-            }],
+          eventSources: [[{
+            allDay: true,
+            start: moment(0),
+            end: this.earliestDay.add(1, 'day'),
+            rendering: 'background',
+            backgroundColor: 'lightgray'
+          }],
             this.events,
           ],
           eventOverlap: false,
           customButtons: {
+            myNext:{
+              text: 'next',
+              icon: 'right-single-arrow',
+              click: () => {
+                this.events.events = [];
+                this.ucCalendar.fullCalendar('next');
+                let day = this.ucCalendar.fullCalendar('getDate');
+                console.log(day.format());
+                if(day.isSameOrAfter(moment(),'month')){
+                  this.generateClassEvents(day.clone());
+                  this.getEvents(day.year(), day.clone().add(1,"M").month());
+                }
+                this.ucCalendar.fullCalendar("refetchEvents");
+              }
+            },
+            myPrev:{
+              text: 'prev',
+              icon: 'left-single-arrow',
+              click: () => {
+                this.events.events = [];
+                this.ucCalendar.fullCalendar('prev');
+                let day = this.ucCalendar.fullCalendar('getDate');
+                console.log(day.format());
+                if(day.isSameOrAfter(moment(),'month')){
+                  this.generateClassEvents(day.clone());
+                  this.getEvents(day.year(), day.clone().add(1,"M").month());
+                }
+                this.ucCalendar.fullCalendar("refetchEvents");
+              }
+            },
             back: {
               text: 'back',
               click: () => {
-                this.ucCalendar.fullCalendar('changeView', 'month', this.clickedDay);
                 this.ucCalendar.fullCalendar('option', {
                   header: {
-                    left: 'prev,next today',
+                    left: 'myPrev,myNext today',
                     center: 'title',
                     right: ''
                   },
                   selectable: false
                 });
-                this.ucCalendar.fullCalendar('goToDate', this.clickedDay)
+                this.ucCalendar.fullCalendar('changeView', 'month');
+
               }
             }
           }
     
         };
-      //Add them to the calendar
       });
-
     });
-
-
-
   }
 
   getEvents(year, month){
-    this.ucCalendar.fullCalendar('removeEventSource', this.events);
     this.requestService.getEvents(year, month).subscribe(data => {
+      this.ucCalendar.fullCalendar('removeEventSource', 'events');
       data.forEach(element => {
         this.events.events.push({ title: "Unavailable", start: element.start, end: element.end })
       });
       this.ucCalendar.fullCalendar('addEventSource',this.events);
       console.log(this.ucCalendar.fullCalendar('getEventSources'));
       //Add them to the calendar
-      this.ucCalendar.fullCalendar('rerenderEvents');
+      this.ucCalendar.fullCalendar('renderEvent', {
+        allDay: true,
+        start: moment(0),
+        end: this.earliestDay.clone().add(1, 'day'),
+        rendering: 'background',
+        backgroundColor: 'lightgray'
+      });
+
       });
       
   }
@@ -199,8 +230,8 @@ export class RequestFormComponent implements OnInit {
   //the customer's event.
   select(event: any) {
     this.errorMsg = "";
-    if (this.newEvent.length == 0) {
-      this.newEvent.push({
+    if (this.newEvent.events.length == 0) {
+      this.newEvent.events.push({
         id: "myevent",
         title: "My Event",
         start: event.start,
@@ -209,13 +240,13 @@ export class RequestFormComponent implements OnInit {
       this.ucCalendar.fullCalendar('addEventSource', this.newEvent);
     }
     else {
-      this.newEvent[0] = {
+      this.newEvent.events[0] = {
         id: "myevent",
         title: "My Event",
         start: event.start,
         end: event.end
       };
-      this.ucCalendar.fullCalendar('removeEventSource', this.newEvent);
+      this.ucCalendar.fullCalendar('removeEventSource', 'newEvent');
       this.ucCalendar.fullCalendar('addEventSource', this.newEvent);
     }
     this.ucCalendar.fullCalendar('refetchEvents');
@@ -259,18 +290,6 @@ export class RequestFormComponent implements OnInit {
     });
   }
 
-  clickButton(event){
-    console.log(event.data.format());
-    if(event.buttonType == "next" || event.buttonType == "prev"){
-      this.events.events = [];
-      this.ucCalendar.fullCalendar('removeEvents');
-      if(event.data.isSameOrAfter(moment(),'month')){
-        this.generateClassEvents(event.data);
-        this.getEvents(event.data.year(), event.data.add(1,"M").month());
-      }
-    }
-  }
-
   locationTypeChange(){
    
     this.onCampus ? ( console.log("On CAMPUS"),this.invalidAddr = false, this.form.get('locationAddr').setValue(""),this.form.get('locationAddr').clearValidators(), this.form.get('location').setValidators([Validators.required])) : 
@@ -283,14 +302,16 @@ export class RequestFormComponent implements OnInit {
 
   generateClassEvents(date: moment.Moment){
     console.log(this.events.events);
+    console.log(date);
     let nextMonth = date.clone().add(1, "month");
     let start = date.clone().startOf('week');
+    console.log(moment.isMoment(start));
     while(start.isBefore(nextMonth)){
       for(var d in this.classIntersection){
         var day = this.classIntersection[d];
         for(var t in day){
           var time = day[t];
-          var s = start.clone().add(d, 'days');
+          var s = moment(start.clone().add(d, 'days'));
           s.hours(time['start']['hour']);
           s.minutes(time['start']['minutes']);
           var e = start.clone().add(d, 'days');
@@ -298,8 +319,9 @@ export class RequestFormComponent implements OnInit {
           e.minutes(time['end']['minutes']);
           var event = {
             title: "Unavailable",
-            start: s,
-            end: e,
+            start: s.format("YYYY-MM-DD kk:mm:ss"),
+            end: e.format("YYYY-MM-DD kk:mm:ss"),
+            allDay: false
           };
           console.log(event);
           this.events.events.push(event);

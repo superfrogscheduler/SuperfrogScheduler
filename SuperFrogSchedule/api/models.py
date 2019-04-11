@@ -186,18 +186,18 @@ class SuperfrogClass(models.Model):
         return ""+str(self.superfrog) +":" + str(self.day) + " " + str(self.start)+"-"+str(self.end)
 
 class Constants(models.Model):
-    showgirl_captain_email = model.EmailField(
+    showgirl_captain_email = models.EmailField(
         verbose_name='Showgirl Captain Email',
         max_length=255,
     )
-    cheerleader_captain_email = model.EmailField(
+    cheerleader_captain_email = models.EmailField(
         verbose_name='Showgirl Captain Email',
         max_length=255,
     )
-    fall_semester_start = models.DateTimeFiel()
-    fall_semester_end = models.DateTimeFiel()
-    spring_semester_start = models.DateTimeFiel()
-    spring_semester_end = models.DateTimeFiel()
+    fall_semester_start = models.DateTimeField()
+    fall_semester_end = models.DateTimeField()
+    spring_semester_start = models.DateTimeField()
+    spring_semester_end = models.DateTimeField()
 
 # class OrgType(models.Model):
 #     org_type=models.CharField(max_length = 255)

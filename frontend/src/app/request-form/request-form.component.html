@@ -29,11 +29,11 @@
     <div class="col-md-10">
       <div *ngIf="calendarOptions" style = "padding-top:40px;">
         <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
-            (select) = "select($event.detail)" (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)" (dayClick)="dayClick($event.detail)"></ng-fullcalendar>
+            (select) = "select($event.detail)" (eventResize)="updateEvent($event.detail)"  (dayClick)="dayClick($event.detail)"></ng-fullcalendar>
       </div>
     </div>
   </div>
-  <div class="row justify-content-center" *ngIf="newEvent[0]" style = "padding-bottom:25px;">
+  <div class="row justify-content-center" *ngIf="newEvent.events[0]" style = "padding-bottom:25px;">
     <div class="col-md-10">
       <button class="btn btn-primary btn-lg" (click)="continueClick()">Continue</button>
     </div>
