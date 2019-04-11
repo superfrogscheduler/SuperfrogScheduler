@@ -14,7 +14,7 @@
   <div class = "row top-buffer" style = "padding: 20px;">
       <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getPendingAppearance()">Pending</button>
       <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getAssignedAppearance()">Assigned</button>
-      <button  class="btn btn-primary btn-lg" style = "margin: 2px;" type="accept"><a id = "btn-nav" routerLink="/admin-appearance-details/" routerLinkActive="active" style = "color: white;">List All Upcoming Appearances</a></button>
+      <button  class="btn btn-primary btn-lg" style = "margin: 2px;" routerLink="/admin-appearance-details/" routerLinkActive="active">List All Upcoming Appearances</button>
     </div>
 <div *ngIf="calendarOptions">
   <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>

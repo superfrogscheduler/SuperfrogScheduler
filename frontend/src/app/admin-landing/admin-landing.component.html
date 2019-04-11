@@ -8,26 +8,28 @@
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.name}}</a></h3>
     <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
-    <div class= "col-md-6">
-      <p class = "label">Start Time</p>
-      <p>{{names.start_time}}</p>
-      <p class = "label">End Time</p>
-      <p>{{names.end_time}}</p>
-    </div>
-    <div class= "col-md-6">
-      <p class = "label">Date</p>
-      <p>{{names.date}}</p>
-      <p class = "label">Location</p>
-      <p>{{names.location}}</p>
-    </div>
+    
+    <div class = "row">
+        <div class= "col-md-6">
+          <p class = "label">Start Time</p>
+          <p>{{names.start_time}}</p>
+          <p class = "label">End Time</p>
+          <p>{{names.end_time}}</p>
+      </div>
+      <div class= "col-md-6">
+          <p class = "label">Date</p>
+          <p>{{names.date}}</p>
+          <p class = "label">Location</p>
+          <p>{{names.location}}</p>
+      </div>
+  </div>
     <div class = "col-md-6" style = "float: none; margin: 0 auto;">
         <p class = "label">Description</p>
         <p>{{names.description}}</p>
     </div>
     </div>
     <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
-      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/accept-reject-details/{{names.id}}" routerLinkActive="active">View Details</a></button>
-      <button class="btn btn-secondary btn-space btn-lg" type="reject">View on Calendar</button>
+      <button  class="btn btn-primary" type="accept" routerLink="/accept-reject-details/{{names.id}}" routerLinkActive="active">View Details</button>
     </div>
   </div>
   </div>

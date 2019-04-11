@@ -1,10 +1,10 @@
 
   
   <!--page content-->
-  <div style = "padding-top: 75px;">
+  <div>
       <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/list-accept-reject">Pending Appearance Requests</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/list-accept-reject']">Pending Appearance Requests</a></li>
             <li class="breadcrumb-item active" aria-current="page">Details</li>
             <li class="breadcrumb-item active" aria-current="page">Accept</li>
           </ol>
@@ -12,7 +12,7 @@
   </div>
   <div class = "container" style="text-align:center; padding-top: 40px; height: 500px; ">
     <div id = "form-container">
-        <div classs = "row">
+        <div class = "row">
           <div class = "col-md-6">
             <h1>Event Accepted</h1>
             <p>You have accepted this event request. The Superfrogs have been notified of the available appearance.</p>

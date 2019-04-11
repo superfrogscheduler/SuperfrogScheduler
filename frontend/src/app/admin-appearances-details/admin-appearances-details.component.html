@@ -4,7 +4,7 @@
 <div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/admin-view-appearances">View All Appearances</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/admin-view-appearances']" >View All Appearances</a></li>
           <li class="breadcrumb-item active" aria-current="page">List View</li>
         </ol>
       </nav>
@@ -30,17 +30,19 @@
     <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.appearance.name}}</a></h3>
       <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
-        <div class= "col-md-6">
-          <p class = "label">Start Time</p>
-          <p>{{names.appearance.start_time}}</p>
-          <p class = "label">End Time</p>
-          <p>{{names.appearance.end_time}}</p>
-        </div>
-        <div class= "col-md-6">
-          <p class = "label">Date</p>
-          <p>{{names.appearance.date}}</p>
-          <p class = "label">Location</p>
-          <p>{{names.appearance.location}}</p>
+        <div class = "row">
+          <div class= "col-md-6">
+            <p class = "label">Start Time</p>
+            <p>{{names.appearance.start_time}}</p>
+            <p class = "label">End Time</p>
+            <p>{{names.appearance.end_time}}</p>
+          </div>
+          <div class= "col-md-6">
+            <p class = "label">Date</p>
+            <p>{{names.appearance.date}}</p>
+            <p class = "label">Location</p>
+            <p>{{names.appearance.location}}</p>
+          </div>
         </div>
         <div class = "col-md-6" style = "float: none; margin: 0 auto;">
           <p class = "label">Description</p>
@@ -52,7 +54,7 @@
       <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
     </div>
     <div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
-      <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-change-appearances/{{names.id}}" routerLinkActive="active">View Details</a></button>
+      <button  class="btn btn-primary" type="accept" routerLink="/admin-change-appearances/{{names.id}}" routerLinkActive="active">View Details</button>
     </div>
     </div>
 </div>
