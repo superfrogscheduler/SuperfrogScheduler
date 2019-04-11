@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, forwardRef, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
@@ -10,6 +10,7 @@ import { Event } from '../shared/event';
 import * as moment from 'moment';
 import { GoogleService } from '../shared/google.service';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-request-form',
@@ -28,7 +29,7 @@ export class RequestFormComponent implements OnInit {
   members = [1, 2, 3];
   submitted = false;
   showCalendar = true;
-  data: { "customer": Customer, "appearance": Appearance } = { "customer": {}, "appearance": {performance_required: false, cheerleaders: "None", showgirls: "None", org_type: "TCU"} };
+  data: { "customer": Customer, "appearance": Appearance } = { "customer": {}, "appearance": {performance_required: false, cheerleaders: "None", showgirls: "None", org_type: "TCU", cost: 0} };
   clickedDay: any;
   errorMsg: string = "";
   earliestDay: any = moment().add(2, 'weeks').subtract(1, 'day').startOf('day');
@@ -41,6 +42,9 @@ export class RequestFormComponent implements OnInit {
   twoWeek = false;
   newEvent = {id: 'newEvent', events: [] };
   classIntersection: any;
+  distance: any;
+  hourly=0;
+  duration=0;
 
   
   constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
@@ -53,7 +57,7 @@ export class RequestFormComponent implements OnInit {
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     eventTitle: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^[2-9]\d{2}-\d{3}-\d{4}$/)]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     description: new FormControl('', Validators.required),
     locationAddr: new FormControl(''),
@@ -72,10 +76,14 @@ export class RequestFormComponent implements OnInit {
           minTime: "08:00:00",
           maxTime: "23:00:00",
           showNonCurrentDates: false,
+          allDaySlot: false,
           defaultDate: this.earliestDay, 
           editable: true,
           eventLimit: false,
           selectable: false,
+          selectAllow: (selectinfo) => {
+            return selectinfo.end.diff(selectinfo.start,'hours',true)<=4.0;
+          },
           selectOverlap: false,
           longPressDelay: 500,
           eventColor: '#4d1979',
@@ -189,8 +197,8 @@ export class RequestFormComponent implements OnInit {
     this.data.customer.email = this.form.get('email').value;
     this.data.appearance.name = this.form.get('eventTitle').value;
     this.data.appearance.description = this.form.get('description').value;
-    this.data.appearance.start_time = this.newEvent[0].start.format('kk:mm');
-    this.data.appearance.end_time = this.newEvent[0].end.format('kk:mm');
+    this.data.appearance.start_time = this.newEvent.events[0].start.format('kk:mm');
+    this.data.appearance.end_time = this.newEvent.events[0].end.format('kk:mm');
     this.requestService.saveRequest(this.data).subscribe(response => {
     this.router.navigate(['/customer-confirmation']); //how do i route this to a django view url instead???
     
@@ -255,16 +263,17 @@ export class RequestFormComponent implements OnInit {
   //This function is called when the user rezises or moves their event
   updateEvent(event: any){
     this.errorMsg = "";
-    this.newEvent[0] = event.event;
+    this.newEvent.events[0] = event.event;
     this.ucCalendar.fullCalendar("rerenderEvents");
   }
   //This function is called when the user clicks the continue button.
   //They are brought to the empty form with their date and time filled out.
   continueClick(){
-    this.data.appearance.date = this.newEvent[0].start.format('YYYY-MM-DD');
-    this.data.appearance.start_time = this.newEvent[0].start.format('kk:mm');
-    this.data.appearance.end_time = this.newEvent[0].end.format('kk:mm');
+    this.data.appearance.date = this.newEvent.events[0].start.format('YYYY-MM-DD');
+    this.data.appearance.start_time = this.newEvent.events[0].start.format('kk:mm');
+    this.data.appearance.end_time = this.newEvent.events[0].end.format('kk:mm');
     this.locationTypeChange();
+    this.updateCost();
     this.showCalendar = false;
   }
   //This function brings the user back to the calendar view from the form
@@ -283,7 +292,20 @@ export class RequestFormComponent implements OnInit {
       else{
         this.invalidAddr = false;
         this.locationAddr = place.formatted_address;
-        //This is working around a weird google
+
+        var service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix({
+          origins: [{lat: 32.7097, lng:-97.3681}],
+          destinations: [place.geometry.location],
+          travelMode: google.maps.TravelMode.DRIVING,
+          unitSystem: google.maps.UnitSystem.IMPERIAL
+        }, (response, status) => {
+          this.distance = response.rows[0].elements[0].distance;
+          console.log(this.distance); 
+          this.data.appearance.mileage = _.round(this.distance.value / 1609.344, 2); 
+          this.zone.run(() =>{this.updateCost()});
+        });
+        //This is working around a weird google bug
         this.form.get('locationAddr').setValue(this.locationAddr);
 
       }
@@ -296,6 +318,9 @@ export class RequestFormComponent implements OnInit {
     (console.log("OFF CAMPUS"),this.form.get('location').setValue(""), this.form.get('location').clearValidators(), this.form.get('locationAddr').setValidators([Validators.required]));
     this.form.get('location').updateValueAndValidity();
     this.form.get('locationAddr').updateValueAndValidity();
+    if(this.onCampus){
+      this.data.appearance.mileage = 0;
+    }
     console.log(this.form.get('location'));
     console.log(this.form.get('locationAddr'));
   }
@@ -330,7 +355,33 @@ export class RequestFormComponent implements OnInit {
       start.add(1, 'week');
     }
   }
-  calculateCost(){
+  updateCost(){
+    this.data.appearance.cost = 0;
+
+    this.duration = Math.ceil(this.newEvent.events[0].end.diff(this.newEvent.events[0].start, 'hours', true));
+    if(this.data.appearance.org_type == "Private/Business"){
+      this.hourly = 175.0;
+    }
+    else{
+      this.hourly = 100.0;
+    }
+    this.data.appearance.cost += this.duration * this.hourly;
+    if(this.data.appearance.cheerleaders == 'Small Team'){
+      this.data.appearance.cost += this.duration * this.hourly;
+    }
+    if(this.data.appearance.cheerleaders == 'Large Team'){
+      this.data.appearance.cost += this.duration * (this.hourly+50);
+    }
+    if(this.data.appearance.showgirls == 'Small Team'){
+      this.data.appearance.cost += this.duration * this.hourly;
+    }
+    if(this.data.appearance.showgirls == 'Large Team'){
+      this.data.appearance.cost += this.duration * (this.hourly+50);
+    }
+    if(this.data.appearance.mileage > 2){
+      this.data.appearance.cost += _.round(this.data.appearance.mileage * .5, 1);
+    }
+    console.log(this.data.appearance.cost);
 
   }
 
