@@ -65,6 +65,12 @@ p {
 
 }
 
+.btn-outline-primary:hover{
+    background-color: #4d1979 !important;
+    color: white !important;
+}
+
+
 .card-img-top{
     max-width: 300px;
     max-height: 600px;

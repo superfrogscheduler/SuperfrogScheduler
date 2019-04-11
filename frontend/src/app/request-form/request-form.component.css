@@ -82,6 +82,11 @@ a:hover{
             border-radius: 0px;
 }
 
+.btn-outline-primary:hover{
+    background-color: #4d1979 !important;
+    color: white !important;
+}
+
 #btn-text {
     color:white;
     text-decoration: none;
