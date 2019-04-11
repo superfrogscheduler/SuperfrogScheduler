@@ -100,14 +100,6 @@ p {
     max-width: 100%;
 }
 
-#btn-text {
-    color:white;
-    text-decoration: none;
-    letter-spacing: 1px;
-    font-weight: lighter;
-    font-size: 14px;
-}
-
 #jumbo-header {
     margin-top: 20%;
     color:white;
@@ -120,6 +112,11 @@ p {
     border-color: white;
     border-radius:0;
     font-family: 'Montserrat', sans-serif;
+    color:white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-weight: lighter;
+    font-size: 14px;
 }
 
 #jumbo-button:hover {

@@ -12,11 +12,11 @@
 <div class = "container" style = "text-align: center; padding-top: 10px;">
   <p>Click on an event to view event details </p>
   <div class = "row top-buffer" style = "padding: 20px;">
-      <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getPastAppearance()">Past</button>
-      <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getAssignedAppearance()">Assigned</button>
-      <button  class="btn btn-primary btn-lg" style = "margin: 2px;" type="accept"><a id = "btn-nav" routerLink="/admin-appearance-details/" routerLinkActive="active" style = "color: white;">View All Assigned Appearances</a></button>
+      <button class="btn btn-primary" style = "margin: 2px;" (click)="getPastAppearance()">Past</button>
+      <button class="btn btn-primary" style = "margin: 2px;" (click)="getAssignedAppearance()">Assigned</button>
+      <button  class="btn btn-primary" style = "margin: 2px;" routerLink="/admin-appearance-details/" routerLinkActive="active">List All Upcoming Appearances</button>
       <input type="date"  [(ngModel)]="chooseDate">
-        <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="onChangeDate()">Change Month and Year</button>
+        <button class="btn btn-primary" style = "margin: 2px;" (click)="onChangeDate()">Change Month and Year</button>
     </div>
 <div *ngIf="calendarOptions">
   <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>

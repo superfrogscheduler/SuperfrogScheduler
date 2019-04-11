@@ -4,7 +4,7 @@
 <div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/list-accept-reject">Pending Appearance Requests</a></li>
+          <li class="breadcrumb-item"><a [routerLink]="['/list-accept-reject']">Pending Appearance Requests</a></li>
           <li class="breadcrumb-item active" aria-current="page">Details</li>
         </ol>
       </nav>
@@ -79,8 +79,8 @@
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="reason" [(ngModel)]="rejectReason"></textarea>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary btn-lg" (click)="rejectAppear()" data-dismiss="modal" routerlink = "/confirm-reject" routerLinkActive = "active">Reject</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="rejectAppear()" data-dismiss="modal" routerlink = "/confirm-reject" routerLinkActive = "active">Reject</button>
             </div>
           </div>
         </div>
