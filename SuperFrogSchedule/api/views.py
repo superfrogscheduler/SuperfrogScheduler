@@ -64,42 +64,51 @@ def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
 
     pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
 @csrf_exempt 
-def generatePayroll(request, SFAid = None, adminID = None):
+def generatePayroll(request, SFID = None, adminID = None):
     if request.method == 'PATCH':
         admin_id = Admin.objects.get(pk = adminID)
         print(admin_id)
-        superfrog_appearance = SuperfrogAppearance.objects.get(pk = SFAid)
+        superfrog_appearance = SuperfrogAppearance.objects.filter(superfrog =SFID, appearance__status= 'Past')
         print(superfrog_appearance)
-        INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
-        a = superfrog_appearance.appearance.start_time
-        b = superfrog_appearance.appearance.end_time
-        dates = superfrog_appearance.appearance.date
-        datesS = dates.strftime('%Y/%m/%d')
-        aT = a.strftime('%I:%M')
-        bT = b.strftime('%I:%M')
-        deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
-        deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
-        dA = deltaA
-        dB = deltaB
-        delta = dB - dA
-        deltaSec = delta.total_seconds()
-        deltaHour = deltaSec / 3600
-        mile = superfrog_appearance.appearance.mileage
-        amount = deltaHour* 25 + mile * .5
-        data_dict = {
-            'Name' : superfrog_appearance.superfrog.user.first_name + superfrog_appearance.superfrog.user.last_name,
-            'Permanentaddress 2' : superfrog_appearance.superfrog.street+ ' ' + superfrog_appearance.superfrog.city+ ' ' + superfrog_appearance.superfrog.state+ ' ' + superfrog_appearance.superfrog.zipCode,
-            '1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1' : 'Appearance Name: '+superfrog_appearance.appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Location '+superfrog_appearance.appearance.location+ ', ' + 'Appearance Time: '+aT + '-' + bT,
-            'Amount' : amount,
-            '3g' : admin_id.user.first_name + ' ' + admin_id.user.last_name
-        }
-        print(data_dict)
-        write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
-        
-        superfrog_appearance.appearance.status = "Completed"
-        superfrog_appearance.appearance.save()
+        for appearances in superfrog_appearance:
+            print(appearances)
+            # INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
+            # a = superfrog_appearance.appearance.start_time
+            # b = superfrog_appearance.appearance.end_time
+            # dates = superfrog_appearance.appearance.date
+            # datesS = dates.strftime('%Y/%m/%d')
+            # aT = a.strftime('%I:%M')
+            # bT = b.strftime('%I:%M')
+            # deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
+            # deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
+            # dA = deltaA
+            # dB = deltaB
+            # delta = dB - dA
+            # deltaSec = delta.total_seconds()
+            # deltaHour = deltaSec / 3600
+            # mile = superfrog_appearance.appearance.mileage
+            # amount = deltaHour* 25 + mile * .5
+            # data_dict = {
+            #     'Name' : superfrog_appearance.superfrog.user.first_name + superfrog_appearance.superfrog.user.last_name,
+            #     'Permanentaddress 2' : superfrog_appearance.superfrog.street+ ' ' + superfrog_appearance.superfrog.city+ ' ' + superfrog_appearance.superfrog.state+ ' ' + superfrog_appearance.superfrog.zipCode,
+            #     '1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1' : 'Appearance Name: '+superfrog_appearance.appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Location '+superfrog_appearance.appearance.location+ ', ' + 'Appearance Time: '+aT + '-' + bT,
+            #     'Amount' : amount,
+            #     '3g' : admin_id.user.first_name + ' ' + admin_id.user.last_name
+            # }
+            # print(data_dict)
+            # write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
+            
+            # superfrog_appearance.appearance.status = "Completed"
+            # superfrog_appearance.appearance.save()
         return HttpResponse(superfrog_appearance, status= 201)
 
+def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter( appearance__date__range=[start_date,end_date], appearance__status='Past')
+        serializer = PayrollSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 # def pdf_view(request):
 #     with open('/path/to/my/file.pdf', 'r') as pdf:
 #         response = HttpResponse(pdf.read(), mimetype='application/pdf')
@@ -294,6 +303,14 @@ def update_appearance(request):
     else:
         print(appearance_serializer.errors)
         return HttpResponse(appearance_serializer.errors, status = 400)
+
+def get_Superfrogs(request):
+    if request.method=='GET':
+        queryset = Superfrog.objects.all()
+        serializer = SuperfrogSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 @csrf_exempt
 def signUp(request, id=None, sId = None):
     if request.method=='PATCH':
@@ -508,6 +525,7 @@ def class_schedule_intersection(request):
         for j in range(len(frogs)):
             classes[i].append([])
             classlist = list(SuperfrogClass.objects.filter(superfrog = frogs[j], day = i).order_by('start', 'end').values('start', 'end'))
+            print(classlist)
             for clss in classlist:
                 dtr = toDateRange(datetime.date(2018,12,30), clss['start'], clss['end'])
                 if not classes[i][j]:
@@ -522,6 +540,7 @@ def class_schedule_intersection(request):
                             break
                     if not inserted:
                         classes[i][j].append(dtr)
+        print(classes)
         #Convert class time ranges to binary
         for j in range(len(frogs)):
             if(classes[i][j]):
@@ -545,12 +564,14 @@ def class_schedule_intersection(request):
             else:
                 temp = "000000000000000000000000000"
             classes[i][j] = temp
+        print(classes)
         #And the binary strings together to get intersection
         temp = int("111111111111111111111111111",2)
         for j in range(len(frogs)):
             temp = temp & int(classes[i][j],2)
         classes[i] = format(temp, "027b")
 
+        print(classes)
         #Convert the resulting string back into time ranges
         schedule = []
         string = classes[i]
@@ -559,16 +580,17 @@ def class_schedule_intersection(request):
         if string != "000000000000000000000000000":
             for j in range(len(string)):
                 if(string[j]=="1"):
-                    start = interval.start_datetime - datetime.timedelta(seconds = 30*60)
-                    start = start.time()
-                    flag = True
+                    if not flag:
+                        start = interval.start_datetime
+                        start = start.time()
+                        flag = True
                 else:
                     if flag:
                         schedule.append((start, interval.start_datetime.time()))
                         flag = False
                 interval = interval+datetime.timedelta(seconds = 30*60)
         classes[i] = schedule
-
+    print(classes)
     #Prepare JSON payload
     response = {}
     for day in classes:
@@ -576,6 +598,7 @@ def class_schedule_intersection(request):
             response[day] = []
             for time in classes[day]:
                 response[day].append({'start': {'hour':time[0].hour, 'minute': time[0].minute}, 'end': {'hour':time[1].hour, 'minute': time[1].minute}})
+    print(response)
     return HttpResponse(JSONRenderer().render(response))
 
 
