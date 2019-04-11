@@ -301,8 +301,8 @@ export class RequestFormComponent implements OnInit {
           unitSystem: google.maps.UnitSystem.IMPERIAL
         }, (response, status) => {
           this.distance = response.rows[0].elements[0].distance;
-          console.log(this.distance); 
-          this.data.appearance.mileage = _.round(this.distance.value / 1609.344, 2); 
+          this.data.appearance.mileage = _.round(this.distance.value / 1609.344, 1);
+          console.log(this.data.appearance.mileage); 
           this.zone.run(() =>{this.updateCost()});
         });
         //This is working around a weird google bug
