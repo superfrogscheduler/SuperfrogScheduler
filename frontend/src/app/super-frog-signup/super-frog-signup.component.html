@@ -1,23 +1,7 @@
-<!--superfrog nav-->
-<div style="text-align:center">
-    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
-        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="nav navbar-nav ml-auto">
-                <li><a id = "a-nav" routerLink="/superfrog-calendar" routerLinkActive="active">CALENDAR</a></li>
-                <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active" style = "font-weight:bold;">AVAILABLE APPEARANCES</a></li>
-                <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active">MY APPEARANCES</a></li>
-                <li><a id = "a-nav" (click) = "onLogout()" routerLinkActive = "active">LOGOUT</a></li>
-              </ul>
-        </div>
-      </nav>
-  </div>
+
   
 <!--breadcrumb-->
-<div style = "padding-top: 75px;">
+<div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/list-appearances">Available Appearances</a></li>
@@ -32,21 +16,22 @@
         <h1 style = "padding-bottom: 10px;">{{getData.name}}</h1>
 <div style="text-align: center">
       <div class = "row">
+
         <div class = "col-md-4">
-          <h3>Contact Name</h3> <p>{{getData.customer.first_name}} {{getData.customer.last_name}}</p>
-          <h3>Phone Number</h3> <p>{{getData.customer.phone}}</p>
-          <h3>Email</h3> <p>{{getData.customer.email}}</p>
+          <p class = "label">Contact Name</p> <p>{{getData.customer.first_name}} {{getData.customer.last_name}}</p>
+          <p class = "label">Phone Number</p> <p>{{getData.customer.phone}}</p>
+          <p class = "label">Email</p> <p>{{getData.customer.email}}</p>
         </div>
         <div class = "col-md-4">
-            <h3>Event Date</h3> <p>{{getData.date}}</p>
-            <h3>Time</h3> <p>{{getData.start_time}} - {{getData.end_time}}</p>
-            <h3>Location</h3> <p>{{getData.location}}</p>
+            <p class = "label">Event Date</p> <p>{{getData.date}}</p>
+            <p class = "label">Time</p> <p>{{getData.start_time}} - {{getData.end_time}}</p>
+            <p class = "label">Location</p> <p>{{getData.location}}</p>
         </div>
         <div class = "col-md-4">
-            <h3>Spirit Members</h3> <p>Cheerleaders: {{getData.cheerleaders}}
+            <p class = "label">Spirit Members</p> <p>Cheerleaders: {{getData.cheerleaders}}
                  Showgirls: {{getData.showgirls}}</p>
-            <h3>Special Instructions</h3> <p>{{getData.parking_info}}</p>
-            <h3>Description</h3> <p>{{getData.description}}</p>
+            <p class = "label">Special Instructions</p> <p>{{getData.parking_info}}</p>
+            <p class = "label">Description<p> <p>{{getData.description}}</p>
             
         </div>
 
@@ -55,8 +40,8 @@
     </div>
     <div>
       <div>
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" style = "margin-left: 5px; margin-right: 5px;">Sign Up</button>
-        <button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" routerLink="/list-appearances">Cancel</button>    
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style = "margin-left: 5px; margin-right: 5px;">Sign Up</button>
+        <button type="button" class="btn btn-primary" style = "margin-left: 5px; margin-right: 5px;" routerLink="/list-appearances">Cancel</button>    
       </div>
       <p class= "text-muted">Be aware that you will not be able to cancel your appearance once you sign up. You will have to contact admin to cancel.</p>
 
@@ -74,8 +59,8 @@
             You are signing up to attend this event. A confirmation email will be send to the customer and you will not be able to undo this action. 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary btn-lg" (click)="signUp()" data-dismiss="modal" routerlink = "/confirm-signup" routerLinkActive = "active">I'm sure!</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="signUp()" data-dismiss="modal" routerlink = "/confirm-signup" routerLinkActive = "active">I'm sure!</button>
           </div>
         </div>
       </div>

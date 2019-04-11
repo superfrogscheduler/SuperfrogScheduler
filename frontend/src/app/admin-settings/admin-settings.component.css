@@ -1,6 +1,11 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 h1 {
     color: #4d1979;
     margin-bottom: 25px;

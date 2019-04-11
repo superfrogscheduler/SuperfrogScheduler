@@ -11,15 +11,16 @@ import { Appearance } from '../shared/appearance';
 })
 export class SuperfrogLandingDetailsComponent implements OnInit {
   id: number;
-  landingData: any = {};
+  landingData: any = {}; // Holds appearance details
   data: {"customer": Customer, "appearance": Appearance} = {"customer":{}, "appearance": {}};
   constructor(private landingDetailsService: SuperfrogLandingDetailsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.params['id']; //Sent from the super-landing component, the appearance ID
+                                                //determined by which appearance the user wants details on
     this.getID();
   }
-  getID() {
+  getID() {//Get appearance details from the ID sent from superfrog-landing component
     this.landingDetailsService.getID(this.id).subscribe(data => {
       this.landingData = data;
     });
