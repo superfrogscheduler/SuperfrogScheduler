@@ -10,7 +10,7 @@ export class SuperfrogLandingDetailsService {
   baseurl = "http://127.0.0.1:8000/";
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
-  getID(id: number): Observable<any> {
+  getID(id: number): Observable<any> { //Get appearance details from id 
     return this.http.get(this.baseurl + "appearances/" + id);
   }
 }
