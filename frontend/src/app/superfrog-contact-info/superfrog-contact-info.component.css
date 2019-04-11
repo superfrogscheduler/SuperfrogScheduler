@@ -1,5 +1,9 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 h1 {
     color: #4d1979;
 }
@@ -33,6 +37,13 @@ p {
 
 .card{
     border: 2px;
+
+}
+
+.btn-secondary, .btn-primary:hover{
+    background-color: grey;
+    border-color:grey;
+    color: white;
 
 }
 

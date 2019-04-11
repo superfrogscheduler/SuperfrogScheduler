@@ -5,7 +5,7 @@ import { LandingComponent } from './landing/landing.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/',
     pathMatch: 'full'
   },
   {
