@@ -1,6 +1,7 @@
 from django.urls import path, include
 from django.conf.urls import url
 from .router import router
+from django.contrib.auth.views import PasswordResetView
 # from.views import AppearanceByStatusList
 
 from .views import (
@@ -40,8 +41,6 @@ urlpatterns = [
     url(r'^get-admin/(?P<id>\d+)/$', getAdmin),
     url(r'^employeeAppearance/(?P<id>\d+)/(?P<sId>\d+)/$', signUp),
     url(r'^listAppearances/status/(?P<status>\w+)/(?P<sID>\d+)/$', list_by_status_list),
-    url(r'^auth/login/$', login_view.as_view(), name='Login'),
-    url(r'^auth/logout/$', logout_view.as_view(), name='Logout'),
     url(r'^adminAccept/(?P<id>\d+)/$',acceptAppearance),
     url(r'^adminReject/(?P<id>\d+)/$', rejectAppearance),
     url(r'^appearance/(?P<id>\d+)/$', payroll_detail),
@@ -56,4 +55,6 @@ urlpatterns = [
     url(r'^by_Superfrog/status/(?P<status>\w+)/(?P<SFID>\d+)/$', show_appearances_by_superfrog),
     url(r'^class-schedule/(?P<id>\d+)/$', class_schedule),
     url(r'^class-schedule-intersection/$', class_schedule_intersection),
+    url(r'^auth/login/$', login_view.as_view(), name='Login'),
+    url(r'^auth/logout/$', logout_view.as_view(), name='Logout'),
 ]
