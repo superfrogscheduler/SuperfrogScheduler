@@ -1,4 +1,9 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 a {
     color: #4d1979;
 }

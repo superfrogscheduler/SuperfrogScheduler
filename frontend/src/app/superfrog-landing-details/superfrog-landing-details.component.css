@@ -1,6 +1,14 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 a {
     color: #4d1979;
+}
+
+p {
+    color: grey;
 }
 
 .btn-primary{
@@ -8,8 +16,9 @@ a {
     border-color: #4d1979;
 }
 
-.btn-secondary{
+.btn-secondary, .btn-primary:hover{
     background-color: grey;
+    border-color:grey;
     color: white;
 
 }
@@ -30,16 +39,4 @@ a {
     min-height:50px;
     padding-bottom: 10px; 
 
-}
-
-#a-nav {
-    font-family: "Helvetica Neue", sans-serif;
-    font-weight: normal;
-    color: #4d1979;
-}
-
-#a-nav:visited {
-    font-family: "Helvetica Neue", sans-serif;
-    font-weight: normal;
-    color: #4d1979;
 }

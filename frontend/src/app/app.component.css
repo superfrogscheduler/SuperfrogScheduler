@@ -7,6 +7,31 @@
 
 }
 
+.container {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+h1{
+    font-family: 'Montserrat', sans-serif;
+}
+
+h2{
+    font-family: 'Montserrat', sans-serif;
+}
+
+h3{
+    font-family: 'Montserrat', sans-serif;
+}
+
+p{
+    font-family: 'Montserrat', sans-serif;
+}
+
+a{
+    font-family: 'Montserrat', sans-serif;
+}
+
 #a-nav {
     font-family: "Helvetica Neue", sans-serif;
     font-weight: normal;

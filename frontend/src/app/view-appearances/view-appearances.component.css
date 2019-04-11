@@ -1,4 +1,8 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 a {
     color: #4d1979;
 }
@@ -8,8 +12,9 @@ a {
     border-color: #4d1979;
 }
 
-.btn-secondary{
+.btn-secondary, .btn-primary:hover{
     background-color: grey;
+    border-color:grey;
     color: white;
 
 }
