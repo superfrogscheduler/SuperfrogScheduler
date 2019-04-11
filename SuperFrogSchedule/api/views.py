@@ -360,7 +360,7 @@ def signUp(request, id=None, sId = None):
                     'parking_info': appearance_id.parking_info,
                     'outside_orgs': appearance_id.outside_orgs,
                     'performance_required': appearance_id.performance_required,
-                    'cost': appearance_id.cost,
+                    'cost': str(appearance_id.cost),
                 }
             )
         #admin email
@@ -395,7 +395,7 @@ def signUp(request, id=None, sId = None):
         '\n' + 'Location: ' + appearance_id.location + '\n' +
         'Description: ' + appearance_id.description + '\n' + 'Status: ' +
         appearance_id.status + '\n' + '\n' + 
-        'Cost: ' + appearance_id.cost + '\n' +
+        'Cost: ' + str(appearance_id.cost) + '\n' +
         'In order to complete the booking of this appearance, you must pay through this link:' + '\n' +
         'Thanks and Go Frogs!' ,
         'superfrog@scheduler.com',
