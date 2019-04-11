@@ -12,9 +12,11 @@
 <div class = "container" style = "text-align: center; padding-top: 10px;">
     <p>This is where you can view all your past and currently assigned appearances. <a href = "/superfrog-view-assigned-appearances">Click here to view the entire team's appearances.</a></p>
     <div class = "row top-buffer" style = "padding: 20px;">
-        <button class="btn btn-primary" style = "margin: 2px;" (click)="getPastAppearance()">Past</button>
-        <button class="btn btn-primary" style = "margin: 2px;" (click)="getAssignedAppearance()">Assigned</button>
+        <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getPastAppearance()">Past</button>
+        <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="getAssignedAppearance()">Assigned</button>
         <button  class="btn btn-primary" style = "margin: 2px;" routerLink="/superfrog-view-assigned-appearances/" routerLinkActive="active">View All Assigned Appearances</button>
+        <input type="date"  [(ngModel)]="chooseDate">
+        <button class="btn btn-primary btn-lg" style = "margin: 2px;" (click)="onChangeDate()">Change Month and Year</button>
       </div>
   <div *ngIf="calendarOptions">
     <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
