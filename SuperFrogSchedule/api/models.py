@@ -167,7 +167,7 @@ class Appearance(Event):
     description = models.CharField(max_length = 1000, blank = True)
     status = models.CharField(max_length = 255, default = "Pending")
     customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True, blank=True)
-    mileage = models.IntegerField(default = 0)
+    mileage = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
     cost = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
     receipt_number = models.CharField(max_length = 255, blank = True, null=True)
     compensation_date = models.DateTimeField(blank=True, null=True)
@@ -184,6 +184,20 @@ class SuperfrogClass(models.Model):
 
     def __str__(self):
         return ""+str(self.superfrog) +":" + str(self.day) + " " + str(self.start)+"-"+str(self.end)
+
+class Constants(models.Model):
+    showgirl_captain_email = models.EmailField(
+        verbose_name='Showgirl Captain Email',
+        max_length=255,
+    )
+    cheerleader_captain_email = models.EmailField(
+        verbose_name='Showgirl Captain Email',
+        max_length=255,
+    )
+    fall_semester_start = models.DateTimeField()
+    fall_semester_end = models.DateTimeField()
+    spring_semester_start = models.DateTimeField()
+    spring_semester_end = models.DateTimeField()
 
 # class OrgType(models.Model):
 #     org_type=models.CharField(max_length = 255)

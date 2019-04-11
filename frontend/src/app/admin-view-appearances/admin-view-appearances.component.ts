@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ViewAppearancesAdminService } from './admin-view-appearances.service';
 import { Appearance } from '../shared/appearance';
 import { Superfrog } from '../shared/superfrog';
+
 @Component({
   selector: 'app-admin-view-appearances',
   templateUrl: './admin-view-appearances.component.html',
@@ -13,6 +14,7 @@ import { Superfrog } from '../shared/superfrog';
 export class AdminViewAppearancesComponent implements OnInit {
   appearances = [];
   calendarOptions: Options;
+  chooseDate: any;
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   constructor(private adminView: ViewAppearancesAdminService, private router: Router) { }
@@ -22,7 +24,7 @@ export class AdminViewAppearancesComponent implements OnInit {
       editable: true,
       eventLimit: false,
       header: {
-        left: '',
+        left: 'prevYear,nextYear',
         center: 'title',
         right: 'prev,next'
       },
@@ -32,8 +34,9 @@ export class AdminViewAppearancesComponent implements OnInit {
     };
     this.getAssignedAppearance();
   }
-  getPendingAppearance() {
-    this.adminView.getPendingAppearances().subscribe(data => {
+  getPastAppearance() {
+    this.appearances.length = 0;
+    this.adminView.getPastAppearances().subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
           id: element.id,
@@ -45,10 +48,11 @@ export class AdminViewAppearancesComponent implements OnInit {
       this.ucCalendar.fullCalendar('removeEvents');
       this.ucCalendar.fullCalendar('removeEventSources');
       this.ucCalendar.fullCalendar('addEventSource', this.appearances);
-      // this.ucCalendar.fullCalendar('rerenderEvents');
+      this.ucCalendar.fullCalendar('rerenderEvents');
     });
   }
   getAssignedAppearance() {
+    this.appearances.length = 0;
     this.adminView.getAssignedAppearances().subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
@@ -61,10 +65,14 @@ export class AdminViewAppearancesComponent implements OnInit {
       this.ucCalendar.fullCalendar('removeEvents');
       this.ucCalendar.fullCalendar('removeEventSources');
       this.ucCalendar.fullCalendar('addEventSource', this.appearances);
-      // this.ucCalendar.fullCalendar('rerenderEvents');
+      this.ucCalendar.fullCalendar('rerenderEvents');
     });
   }
   eventClick(event: any) {
     this.router.navigate(['/admin-change-appearances/' + event.event.id ]);
+  }
+  onChangeDate() {
+    console.log(this.chooseDate);
+    this.ucCalendar.fullCalendar('gotoDate', this.chooseDate);
   }
 }

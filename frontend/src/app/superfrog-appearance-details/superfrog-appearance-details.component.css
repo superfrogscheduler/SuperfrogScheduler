@@ -1,0 +1,14 @@
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
+p {
+    color: grey;
+}
+
+.btn-secondary, .btn-primary:hover{
+    background-color: grey;
+    border-color:grey;
+    color: white;
+
+}
