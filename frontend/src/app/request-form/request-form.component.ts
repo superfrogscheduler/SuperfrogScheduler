@@ -88,7 +88,7 @@ export class RequestFormComponent implements OnInit {
           eventSources: [[{
             allDay: true,
             start: moment(0),
-            end: this.earliestDay.add(1, 'day'),
+            end: this.earliestDay.clone().add(1, 'day'),
             rendering: 'background',
             backgroundColor: 'lightgray'
           }],
@@ -157,13 +157,13 @@ export class RequestFormComponent implements OnInit {
       this.ucCalendar.fullCalendar('addEventSource',this.events);
       console.log(this.ucCalendar.fullCalendar('getEventSources'));
       //Add them to the calendar
-      this.ucCalendar.fullCalendar('renderEvent', {
-        allDay: true,
-        start: moment(0),
-        end: this.earliestDay.clone().add(1, 'day'),
-        rendering: 'background',
-        backgroundColor: 'lightgray'
-      });
+      // this.ucCalendar.fullCalendar('renderEvent', {
+      //   allDay: true,
+      //   start: moment(0),
+      //   end: this.earliestDay.clone().add(1, 'day'),
+      //   rendering: 'background',
+      //   backgroundColor: 'lightgray'
+      // });
 
       });
       
