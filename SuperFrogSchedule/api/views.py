@@ -55,7 +55,6 @@ def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
     for annotation in annotations:
         if annotation[SUBTYPE_KEY]==WIDGET_SUBTYPE_kEY:
             if(annotation[ANNOT_FIELD_KEY]):
-                print(annotation[ANNOT_FIELD_KEY])
                 key=annotation[ANNOT_FIELD_KEY][1:-1]
                 if key in data_dict.keys():
                     annotation.update(
@@ -67,11 +66,8 @@ def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
 def generatePayroll(request, SFID = None, adminID = None):
     if request.method == 'PATCH':
         admin_id = Admin.objects.get(pk = adminID)
-        print(admin_id)
         superfrog_appearance = SuperfrogAppearance.objects.filter(superfrog =SFID, appearance__status= 'Past')
-        print(superfrog_appearance)
         for appearances in superfrog_appearance:
-            print(appearances)
             # INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
             # a = superfrog_appearance.appearance.start_time
             # b = superfrog_appearance.appearance.end_time
@@ -95,7 +91,6 @@ def generatePayroll(request, SFID = None, adminID = None):
             #     'Amount' : amount,
             #     '3g' : admin_id.user.first_name + ' ' + admin_id.user.last_name
             # }
-            # print(data_dict)
             # write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
             
             # superfrog_appearance.appearance.status = "Completed"
@@ -122,7 +117,6 @@ def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
 
 def list_by_status(request, status=None):
     if request.method == 'GET':
-        print('we did it')
         queryset = Appearance.objects.filter(status=status)
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
@@ -138,7 +132,6 @@ def list_by_status_superfrog(request, status=None, sId= None):
 
 def list_SuperfrogAppearance_by_Status(request, status=None):
     if request.method == 'GET':
-        print('we did it')
         queryset = SuperfrogAppearance.objects.filter(appearance__status=status)
         serializer = SuperfrogAppearanceSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
@@ -169,7 +162,6 @@ def getAdmin(request, id = None):
         return HttpResponse(JSONRenderer().render(serializer.data))
 @csrf_exempt
 def appearances(request):
-    print('hi')
     if request.method == 'GET':
         queryset = Appearance.objects.all()
         serializer = AppearanceShortSerializer(queryset, many=True)
@@ -177,16 +169,13 @@ def appearances(request):
     #save information from form into appearance request
     elif request.method=='POST':
         data = json.loads(request.body)
-        print(data)
         appearance_serializer = AppearanceSerializer(data=data['appearance'])
         if appearance_serializer.is_valid():
             appearance = appearance_serializer.save()
             appearance_serializer = AppearanceSerializer(appearance)
-            print(appearance_serializer.data)
             
             
         else:
-            print(appearance_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
                 
         customer_serializer = CustomerSerializer(data=data['customer'])
@@ -237,7 +226,6 @@ def appearances(request):
              fail_silently = False,
              html_message = html_message)
         else:
-            print(customer_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
         appearance_serializer = AppearanceSerializer(appearance)
         return HttpResponse(status = 200)
@@ -295,13 +283,11 @@ def create(request):
 def update_appearance(request):
     if request.method=='PATCH':
         data = json.loads(request.body)
-        print(data)
         appearance_serializer = AppearanceShortSerializer(data=data['appearance'])
         if appearance_serializer.is_valid():
             appearance_serializer.save()
         return HttpResponse(status= 200)
     else:
-        print(appearance_serializer.errors)
         return HttpResponse(appearance_serializer.errors, status = 400)
 
 def get_Superfrogs(request):
@@ -486,8 +472,6 @@ def events(request):
     if request.method == 'GET':
         queryset = Event.objects.all()
         serializer = EventSerializer(queryset, many=True)
-        print(serializer.data)
-        print(type(serializer.data))
         return HttpResponse(JSONRenderer().render(serializer.data))    
 
 def toDateRange(date, start, end):
@@ -529,7 +513,6 @@ def class_schedule_intersection(request):
         for j in range(len(frogs)):
             classes[i].append([])
             classlist = list(SuperfrogClass.objects.filter(superfrog = frogs[j], day = i).order_by('start', 'end').values('start', 'end'))
-            print(classlist)
             for clss in classlist:
                 dtr = toDateRange(datetime.date(2018,12,30), clss['start'], clss['end'])
                 if not classes[i][j]:
@@ -544,7 +527,6 @@ def class_schedule_intersection(request):
                             break
                     if not inserted:
                         classes[i][j].append(dtr)
-        print(classes)
         #Convert class time ranges to binary
         for j in range(len(frogs)):
             if(classes[i][j]):
@@ -568,14 +550,12 @@ def class_schedule_intersection(request):
             else:
                 temp = "000000000000000000000000000"
             classes[i][j] = temp
-        print(classes)
         #And the binary strings together to get intersection
         temp = int("111111111111111111111111111",2)
         for j in range(len(frogs)):
             temp = temp & int(classes[i][j],2)
         classes[i] = format(temp, "027b")
 
-        print(classes)
         #Convert the resulting string back into time ranges
         schedule = []
         string = classes[i]
@@ -594,7 +574,6 @@ def class_schedule_intersection(request):
                         flag = False
                 interval = interval+datetime.timedelta(seconds = 30*60)
         classes[i] = schedule
-    print(classes)
     #Prepare JSON payload
     response = {}
     for day in classes:
@@ -602,7 +581,6 @@ def class_schedule_intersection(request):
             response[day] = []
             for time in classes[day]:
                 response[day].append({'start': {'hour':time[0].hour, 'minute': time[0].minute}, 'end': {'hour':time[1].hour, 'minute': time[1].minute}})
-    print(response)
     return HttpResponse(JSONRenderer().render(response))
 
 
@@ -699,7 +677,6 @@ class login_view(views.APIView):
 
 class logout_view(views.APIView):
     #permission_classes = (permissions.IsAuthenticated,)
-    #print (user_logged_in())
     def post(self, request, format=None):
         logout(request)
         return Response({}, status=status.HTTP_204_NO_CONTENT)
