@@ -67,7 +67,7 @@ def generatePayroll(request, SFID = None, adminID = None):
     if request.method == 'PATCH':
         admin_id = Admin.objects.get(pk = adminID)
         superfrog_appearance = SuperfrogAppearance.objects.filter(superfrog =SFID, appearance__status= 'Past')
-        for appearances in superfrog_appearance:
+        # for appearances in superfrog_appearance:
             # INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
             # a = superfrog_appearance.appearance.start_time
             # b = superfrog_appearance.appearance.end_time
