@@ -25,15 +25,15 @@ SECRET_KEY = 'x22swu=bsyi!g-11j9hq*y0lih0v&h@p(lt!j84-&eh(r2f&g3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.94.88.53']
+ALLOWED_HOSTS = ['3.94.88.53', '127.0.0.1']
 
 TIME_ZONE = 'US/Central'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -150,5 +150,7 @@ CORS_ORIGIN_WHITELIST = (
 
 #Redirect Django authentication to our new custom user model
 AUTH_USER_MODEL = 'api.User'
+
+LOGIN_URL = 'http://localhost:4200/auth'
 
 LOGIN_REDIRECT_URL = '/list-appearances'

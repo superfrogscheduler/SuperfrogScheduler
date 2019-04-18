@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminAppearancesDetailsService } from './admin-appearances-details.service';
-
+import { AuthenticationService } from '../authentication/authentication.service';
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-admin-appearances-details',
   templateUrl: './admin-appearances-details.component.html',
@@ -10,9 +11,15 @@ export class AdminAppearancesDetailsComponent implements OnInit {
   appearanceData: any = {};
   superfrogData: any = {};
   newVal: number;
-  constructor(private adminDetails: AdminAppearancesDetailsService) { }
+  constructor(private router: Router,private authService: AuthenticationService, private adminDetails: AdminAppearancesDetailsService) { }
 
   ngOnInit() {
+    if(!this.authService.isAuthenticated(1)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 2)
+        this.router.navigate(['/superfrog-landing'])
+    }
     this.getAppearances();
     this.getSuperfrogs();
   }

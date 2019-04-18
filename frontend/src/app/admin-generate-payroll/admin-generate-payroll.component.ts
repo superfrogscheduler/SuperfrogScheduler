@@ -3,7 +3,7 @@ import { Superfrog } from '../shared/superfrog';
 import { Appearance } from '../shared/appearance';
 import { Admin } from '../shared/admin';
 import { PayrollService } from './admin-generate-payroll.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../authentication/authentication.service';
 @Component({
   selector: 'app-admin-generate-payroll',
@@ -17,10 +17,16 @@ export class AdminGeneratePayrollComponent implements OnInit {
   admin: Admin;
   adminID: number;
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
-  constructor(private pService: PayrollService, private route: ActivatedRoute, private authService: AuthenticationService) { }
+  constructor(private pService: PayrollService,private router: Router, private route: ActivatedRoute, private authService: AuthenticationService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+    if(!this.authService.isAuthenticated(1)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 2)
+        this.router.navigate(['/superfrog-landing'])
+    }
     this.admin = {};
     this.getID();
     this.getAdmin();

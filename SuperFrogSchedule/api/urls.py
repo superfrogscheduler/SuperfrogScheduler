@@ -1,7 +1,7 @@
 from django.urls import path, include
 from django.conf.urls import url
 from .router import router
-from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth import views as auth_views
 # from.views import AppearanceByStatusList
 
 from .views import (
@@ -58,7 +58,12 @@ urlpatterns = [
     url(r'^class-schedule/(?P<id>\d+)/$', class_schedule),
     url(r'^class-schedule-intersection/$', class_schedule_intersection),
     url(r'^get_Superfrogs/$', get_Superfrogs),
-    url(r'^filter_by_Superfrog_Date/(?P<start_date>\d{4}-\d{2}-\d{2})/(?P<end_date>\d{4}-\d{2}-\d{2})/$',filter_by_Superfrog_and_date,)
+    url(r'^filter_by_Superfrog_Date/(?P<start_date>\d{4}-\d{2}-\d{2})/(?P<end_date>\d{4}-\d{2}-\d{2})/$',filter_by_Superfrog_and_date,),
     url(r'^auth/login/$', login_view.as_view(), name='Login'),
     url(r'^auth/logout/$', logout_view.as_view(), name='Logout'),
+    url(r'^reset-password/$', auth_views.PasswordResetView.as_view(), name='password_rest'),
+    url(r'^reset-password/done/$', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    url(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    url(r'^reset-password/complete/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    
 ]

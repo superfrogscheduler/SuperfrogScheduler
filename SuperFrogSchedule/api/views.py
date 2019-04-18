@@ -14,6 +14,7 @@ from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
 from django.contrib.auth import authenticate, login,logout, user_logged_in
+from django.contrib.auth.views import PasswordResetView
 from rest_framework import permissions
 import pdfrw
 import os
@@ -21,7 +22,7 @@ from django.template.loader import render_to_string, get_template
 import datetime
 from time import strftime
 import json
-
+from django.views.generic.base import TemplateView
 # class AppearanceViewSet(viewsets.ViewSet):
 #     queryset = Appearance.objects.all()
 #     serializer_class = AppearanceSerializer

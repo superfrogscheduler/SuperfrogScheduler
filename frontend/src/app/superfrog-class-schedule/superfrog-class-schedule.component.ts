@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { SuperfrogClassScheduleService } from './superfrog-class-schedule.service';
 import { element } from '@angular/core/src/render3';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { Router} from '@angular/router';
 @Component({
   selector: 'superfrog-class-schedule',
   templateUrl: './superfrog-class-schedule.component.html',
@@ -25,10 +26,16 @@ export class SuperfrogClassScheduleComponent implements OnInit {
 
   selectedEvent: any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent
-  constructor(private classScheduleService: SuperfrogClassScheduleService, private authService: AuthenticationService) { }
+  constructor(private classScheduleService: SuperfrogClassScheduleService, private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
     console.log(this.authService.getUser('logged'));
+    if(!this.authService.isAuthenticated(2)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 1)
+        this.router.navigate(['/admin-landing'])
+    }
     this.superfrog = this.authService.getUser('logged').user.id;
     this.getClasses(this.superfrog).subscribe(data =>{
       data.forEach(element => {
