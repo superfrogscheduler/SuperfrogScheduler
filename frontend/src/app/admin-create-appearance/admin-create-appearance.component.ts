@@ -8,6 +8,7 @@ import { Event } from '../shared/event';
 import * as moment from 'moment';
 import { GoogleService } from '../shared/google.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-admin-create-appearance',
@@ -35,7 +36,7 @@ export class AdminCreateAppearanceComponent implements OnInit {
   events = { id: "events", events: [], editable: false, overlap: false, eventColor: '#4d1979' };
   newEvent = [];
   
-  constructor(private requestService: AdminCreateAppearanceService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
+  constructor(private authService: AuthenticationService,private requestService: AdminCreateAppearanceService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
 
   onSubmit() { this.submitted = true; }
 
@@ -55,7 +56,12 @@ export class AdminCreateAppearanceComponent implements OnInit {
     date: new FormControl('', Validators.required),
   })
   ngOnInit() {
-
+    if(!this.authService.isAuthenticated(1)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 2)
+        this.router.navigate(['/superfrog-landing'])
+    }
   }
 
   saveRequest() {

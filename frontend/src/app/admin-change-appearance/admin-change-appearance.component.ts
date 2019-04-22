@@ -4,6 +4,7 @@ import { Appearance } from '../shared/appearance';
 import { AdminChangeService } from './admin-change-appearance.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-admin-change-appearance',
@@ -29,9 +30,15 @@ export class AdminChangeAppearanceComponent implements OnInit {
   //   Outside_Orgs: new FormControl(''),
   //   Description: new FormControl(''),
   // });
-  constructor(private changeService: AdminChangeService, private route: ActivatedRoute) { }
+  constructor( private router: Router, private authService: AuthenticationService,private changeService: AdminChangeService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    if(!this.authService.isAuthenticated(1)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 2)
+        this.router.navigate(['/superfrog-landing'])
+    }
     this.id = this.route.snapshot.params['id'];
     this.getID();
   }
