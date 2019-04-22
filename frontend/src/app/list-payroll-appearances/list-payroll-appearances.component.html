@@ -57,7 +57,15 @@
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.appearance.name}}</a></h3>
     <div class = "container" style = "margin: 25px;" style = "float: none; margin: 0 auto;">
-          <input name="myName" type="checkbox"  ng-model="payroll_checkbox" value="names.id" ng-change="change(payroll_checkbox, names.id)">{{names.id}}
+      <!-- <input name="myName" type="checkbox"  [ngModel]="payroll_checkbox.checked" checklist-value="names.id" ng-change="change()">{{names.id}} -->
+      <label>
+        <input type="checkbox"
+       name="names-{{names.id}}"
+       #myItem
+      (change)="OnCheckboxSelect(names.id, $event)">
+      Submit for Payroll
+    </label>
+
     <div class= "col-md-6">
       <p class = "label">Start Time</p>
       <p>{{names.appearance.start_time}}</p>
