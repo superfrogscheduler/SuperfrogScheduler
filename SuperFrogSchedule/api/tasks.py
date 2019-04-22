@@ -8,20 +8,20 @@ def set_past():
     for appearance in past_appearances:
         appearance.status = 'Past'
         appearance.save()
-        print(appearance.name + ' has been marked as past')
+        #print(appearance.name + ' has been marked as past')
     
 def superfrog_remind():
     upcoming_appearances = Appearance.objects.filter(date__lte = datetime.datetime.now() + datetime.timedelta(days=7), status = 'Assigned')
-    print(upcoming_appearances)
+    #print(upcoming_appearances)
     for appearance in upcoming_appearances:
         superfrog_appearances = SuperfrogAppearance.objects.filter(appearance = appearance.pk)
         for sa in superfrog_appearances:
-            print(sa.superfrog.user.first_name + ' ' + sa.superfrog.user.last_name + " has " + appearance.name + " a week from now")
+            #print(sa.superfrog.user.first_name + ' ' + sa.superfrog.user.last_name + " has " + appearance.name + " a week from now")
 
 def reject_expired():
     expired_reqs = Appearance.objects.filter(date__lte = datetime.datetime.now() + datetime.timedelta(days=7), status = 'Pending')
     for req in expired_reqs:
-        print(req.name +" will be rejected.")
+        #print(req.name +" will be rejected.")
         customer_reject = render_to_string(
             'customer_reject.html',
             {
