@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, forwardRef, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 import { FormGroup, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
@@ -10,6 +10,7 @@ import { Event } from '../shared/event';
 import * as moment from 'moment';
 import { GoogleService } from '../shared/google.service';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-request-form',
@@ -28,7 +29,7 @@ export class RequestFormComponent implements OnInit {
   members = [1, 2, 3];
   submitted = false;
   showCalendar = true;
-  data: { "customer": Customer, "appearance": Appearance } = { "customer": {}, "appearance": {performance_required: false, cheerleaders: "None", showgirls: "None", org_type: "TCU"} };
+  data: { "customer": Customer, "appearance": Appearance } = { "customer": {}, "appearance": {performance_required: false, cheerleaders: "None", showgirls: "None", org_type: "TCU", cost: 0} };
   clickedDay: any;
   errorMsg: string = "";
   earliestDay: any = moment().add(2, 'weeks').subtract(1, 'day').startOf('day');
@@ -38,8 +39,12 @@ export class RequestFormComponent implements OnInit {
   locationName: string;
   invalidAddr: boolean = false;
   events = { id: "events", events: [], editable: false, overlap: false, eventColor: '#4d1979' };
-  newEvent = [];
+  twoWeek = false;
+  newEvent = {id: 'newEvent', events: [] };
   classIntersection: any;
+  distance: any;
+  hourly=0;
+  duration=0;
 
   
   constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
@@ -52,7 +57,7 @@ export class RequestFormComponent implements OnInit {
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     eventTitle: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^[2-9]\d{2}-\d{3}-\d{4}$/)]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     description: new FormControl('', Validators.required),
     locationAddr: new FormControl(''),
@@ -61,9 +66,9 @@ export class RequestFormComponent implements OnInit {
   ngOnInit() {
     this.requestService.getClassIntersection().subscribe(data =>{
       this.classIntersection = data;
-      this.generateClassEvents(moment().startOf('month'));
+      this.generateClassEvents(this.earliestDay.startOf('month'));
       //get preexisting events from the database
-      this.requestService.getEvents(moment().year(), moment().add(1, 'M').month()).subscribe(data => {
+      this.requestService.getEvents(this.earliestDay.year(), this.earliestDay.clone().add(1, 'M').month()).subscribe(data => {
         data.forEach(element => {
           this.events.events.push({ title: "Unavailable", start: element.start, end: element.end });
         });
@@ -71,69 +76,94 @@ export class RequestFormComponent implements OnInit {
           minTime: "08:00:00",
           maxTime: "23:00:00",
           showNonCurrentDates: false,
+          allDaySlot: false,
           defaultDate: this.earliestDay, 
           editable: true,
           eventLimit: false,
           selectable: false,
+          selectAllow: (selectinfo) => {
+            return selectinfo.end.diff(selectinfo.start,'hours',true)<=4.0;
+          },
           selectOverlap: false,
           longPressDelay: 500,
           eventColor: '#4d1979',
           header: {
-            left: 'prev,next today',
+            left: 'myPrev,myNext',
             center: 'title',
             right: ''
           },
           //block out two weeks before
-          eventSources: [
-            [{
-              id: '2week',
-              allDay: true,
-              start: moment(0),
-              end: this.earliestDay.add(1, 'day'),
-              rendering: 'background',
-              backgroundColor: 'lightgray'
-            }],
+          eventSources: [[{
+            allDay: true,
+            start: moment(0),
+            end: this.earliestDay.clone().add(1, 'day'),
+            rendering: 'background',
+            backgroundColor: 'lightgray'
+          }],
             this.events,
           ],
           eventOverlap: false,
           customButtons: {
+            myNext:{
+              text: 'next',
+              icon: 'right-single-arrow',
+              click: () => {
+                this.events.events = [];
+                this.ucCalendar.fullCalendar('next');
+                let day = this.ucCalendar.fullCalendar('getDate');
+                console.log(day.format());
+                if(day.isSameOrAfter(moment(),'month')){
+                  this.generateClassEvents(day.clone());
+                  this.getEvents(day.year(), day.clone().add(1,"M").month());
+                }
+                this.ucCalendar.fullCalendar("refetchEvents");
+              }
+            },
+            myPrev:{
+              text: 'prev',
+              icon: 'left-single-arrow',
+              click: () => {
+                this.events.events = [];
+                this.ucCalendar.fullCalendar('prev');
+                let day = this.ucCalendar.fullCalendar('getDate');
+                console.log(day.format());
+                if(day.isSameOrAfter(moment(),'month')){
+                  this.generateClassEvents(day.clone());
+                  this.getEvents(day.year(), day.clone().add(1,"M").month());
+                }
+                this.ucCalendar.fullCalendar("refetchEvents");
+              }
+            },
             back: {
               text: 'back',
               click: () => {
-                this.ucCalendar.fullCalendar('changeView', 'month', this.clickedDay);
                 this.ucCalendar.fullCalendar('option', {
                   header: {
-                    left: 'prev,next today',
+                    left: 'myPrev,myNext',
                     center: 'title',
                     right: ''
                   },
                   selectable: false
                 });
-                this.ucCalendar.fullCalendar('goToDate', this.clickedDay)
+                this.ucCalendar.fullCalendar('changeView', 'month');
+
               }
             }
           }
     
         };
-      //Add them to the calendar
       });
-
     });
-
-
-
   }
 
   getEvents(year, month){
-    this.ucCalendar.fullCalendar('removeEventSource', this.events);
     this.requestService.getEvents(year, month).subscribe(data => {
+      this.ucCalendar.fullCalendar('removeEventSource', 'events');
       data.forEach(element => {
         this.events.events.push({ title: "Unavailable", start: element.start, end: element.end })
       });
       this.ucCalendar.fullCalendar('addEventSource',this.events);
       console.log(this.ucCalendar.fullCalendar('getEventSources'));
-      //Add them to the calendar
-      this.ucCalendar.fullCalendar('rerenderEvents');
       });
       
   }
@@ -158,8 +188,8 @@ export class RequestFormComponent implements OnInit {
     this.data.customer.email = this.form.get('email').value;
     this.data.appearance.name = this.form.get('eventTitle').value;
     this.data.appearance.description = this.form.get('description').value;
-    this.data.appearance.start_time = this.newEvent[0].start.format('kk:mm');
-    this.data.appearance.end_time = this.newEvent[0].end.format('kk:mm');
+    this.data.appearance.start_time = this.newEvent.events[0].start.format('kk:mm');
+    this.data.appearance.end_time = this.newEvent.events[0].end.format('kk:mm');
     this.requestService.saveRequest(this.data).subscribe(response => {
     this.router.navigate(['/customer-confirmation']); //how do i route this to a django view url instead???
     
@@ -175,14 +205,14 @@ export class RequestFormComponent implements OnInit {
     this.errorMsg = "";
     //We only want the view to change if a day is clicked in the month view
     if (event.view.type == "month") {
-      this.clickedDay = event.date;
       //Check if its 2 weeks ahead
       if (event.date.isBefore(this.earliestDay, 'day')) {
         this.errorMsg = "Appearances must be scheduled at least two weeks in advance."
       }
       //Switch the view
       else {
-        this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay);
+        this.clickedDay = event.date;
+        console.log(this.clickedDay.format());
         this.ucCalendar.fullCalendar('option', {
           header: {
             left: 'back',
@@ -191,6 +221,7 @@ export class RequestFormComponent implements OnInit {
           },
           selectable: true
         });
+        this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay.format('YYYY-MM-DD'));
       }
     }
   }
@@ -199,8 +230,8 @@ export class RequestFormComponent implements OnInit {
   //the customer's event.
   select(event: any) {
     this.errorMsg = "";
-    if (this.newEvent.length == 0) {
-      this.newEvent.push({
+    if (this.newEvent.events.length == 0) {
+      this.newEvent.events.push({
         id: "myevent",
         title: "My Event",
         start: event.start,
@@ -209,13 +240,13 @@ export class RequestFormComponent implements OnInit {
       this.ucCalendar.fullCalendar('addEventSource', this.newEvent);
     }
     else {
-      this.newEvent[0] = {
+      this.newEvent.events[0] = {
         id: "myevent",
         title: "My Event",
         start: event.start,
         end: event.end
       };
-      this.ucCalendar.fullCalendar('removeEventSource', this.newEvent);
+      this.ucCalendar.fullCalendar('removeEventSource', 'newEvent');
       this.ucCalendar.fullCalendar('addEventSource', this.newEvent);
     }
     this.ucCalendar.fullCalendar('refetchEvents');
@@ -224,21 +255,30 @@ export class RequestFormComponent implements OnInit {
   //This function is called when the user rezises or moves their event
   updateEvent(event: any){
     this.errorMsg = "";
-    this.newEvent[0] = event.event;
+    this.newEvent.events[0] = event.event;
     this.ucCalendar.fullCalendar("rerenderEvents");
   }
   //This function is called when the user clicks the continue button.
   //They are brought to the empty form with their date and time filled out.
   continueClick(){
-    this.data.appearance.date = this.newEvent[0].start.format('YYYY-MM-DD');
-    this.data.appearance.start_time = this.newEvent[0].start.format('kk:mm');
-    this.data.appearance.end_time = this.newEvent[0].end.format('kk:mm');
+    this.data.appearance.date = this.newEvent.events[0].start.format('YYYY-MM-DD');
+    this.data.appearance.start_time = this.newEvent.events[0].start.format('kk:mm');
+    this.data.appearance.end_time = this.newEvent.events[0].end.format('kk:mm');
     this.locationTypeChange();
+    this.updateCost();
     this.showCalendar = false;
   }
   //This function brings the user back to the calendar view from the form
   backToCalendar(){
     this.ucCalendar.fullCalendar('refetchEvents');
+    this.ucCalendar.fullCalendar('option', {
+      header: {
+        left: 'myPrev,myNext',
+        center: 'title',
+        right: ''
+      },
+      selectable: false
+    });
     this.ucCalendar.fullCalendar("changeView", "month");
     this.showCalendar = true;
   }
@@ -252,23 +292,24 @@ export class RequestFormComponent implements OnInit {
       else{
         this.invalidAddr = false;
         this.locationAddr = place.formatted_address;
-        //This is working around a weird google
+
+        var service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix({
+          origins: [{lat: 32.7097, lng:-97.3681}],
+          destinations: [place.geometry.location],
+          travelMode: google.maps.TravelMode.DRIVING,
+          unitSystem: google.maps.UnitSystem.IMPERIAL
+        }, (response, status) => {
+          this.distance = response.rows[0].elements[0].distance;
+          this.data.appearance.mileage = _.round(this.distance.value / 1609.344, 1);
+          console.log(this.data.appearance.mileage); 
+          this.zone.run(() =>{this.updateCost()});
+        });
+        //This is working around a weird google bug
         this.form.get('locationAddr').setValue(this.locationAddr);
 
       }
     });
-  }
-
-  clickButton(event){
-    console.log(event.data.format());
-    if(event.buttonType == "next" || event.buttonType == "prev"){
-      this.events.events = [];
-      this.ucCalendar.fullCalendar('removeEvents');
-      if(event.data.isSameOrAfter(moment(),'month')){
-        this.generateClassEvents(event.data);
-        this.getEvents(event.data.year(), event.data.add(1,"M").month());
-      }
-    }
   }
 
   locationTypeChange(){
@@ -277,20 +318,25 @@ export class RequestFormComponent implements OnInit {
     (console.log("OFF CAMPUS"),this.form.get('location').setValue(""), this.form.get('location').clearValidators(), this.form.get('locationAddr').setValidators([Validators.required]));
     this.form.get('location').updateValueAndValidity();
     this.form.get('locationAddr').updateValueAndValidity();
+    if(this.onCampus){
+      this.data.appearance.mileage = 0;
+    }
     console.log(this.form.get('location'));
     console.log(this.form.get('locationAddr'));
   }
 
   generateClassEvents(date: moment.Moment){
     console.log(this.events.events);
+    console.log(date);
     let nextMonth = date.clone().add(1, "month");
     let start = date.clone().startOf('week');
+    console.log(moment.isMoment(start));
     while(start.isBefore(nextMonth)){
       for(var d in this.classIntersection){
         var day = this.classIntersection[d];
         for(var t in day){
           var time = day[t];
-          var s = start.clone().add(d, 'days');
+          var s = moment(start.clone().add(d, 'days'));
           s.hours(time['start']['hour']);
           s.minutes(time['start']['minutes']);
           var e = start.clone().add(d, 'days');
@@ -298,8 +344,9 @@ export class RequestFormComponent implements OnInit {
           e.minutes(time['end']['minutes']);
           var event = {
             title: "Unavailable",
-            start: s,
-            end: e,
+            start: s.format("YYYY-MM-DD kk:mm:ss"),
+            end: e.format("YYYY-MM-DD kk:mm:ss"),
+            allDay: false
           };
           console.log(event);
           this.events.events.push(event);
@@ -308,7 +355,33 @@ export class RequestFormComponent implements OnInit {
       start.add(1, 'week');
     }
   }
-  calculateCost(){
+  updateCost(){
+    this.data.appearance.cost = 0;
+
+    this.duration = Math.ceil(this.newEvent.events[0].end.diff(this.newEvent.events[0].start, 'hours', true));
+    if(this.data.appearance.org_type == "Private/Business"){
+      this.hourly = 175.0;
+    }
+    else{
+      this.hourly = 100.0;
+    }
+    this.data.appearance.cost += this.duration * this.hourly;
+    if(this.data.appearance.cheerleaders == 'Small Team'){
+      this.data.appearance.cost += this.duration * this.hourly;
+    }
+    if(this.data.appearance.cheerleaders == 'Large Team'){
+      this.data.appearance.cost += this.duration * (this.hourly+50);
+    }
+    if(this.data.appearance.showgirls == 'Small Team'){
+      this.data.appearance.cost += this.duration * this.hourly;
+    }
+    if(this.data.appearance.showgirls == 'Large Team'){
+      this.data.appearance.cost += this.duration * (this.hourly+50);
+    }
+    if(this.data.appearance.mileage > 2){
+      this.data.appearance.cost += _.round(this.data.appearance.mileage * .5, 1);
+    }
+    console.log(this.data.appearance.cost);
 
   }
 

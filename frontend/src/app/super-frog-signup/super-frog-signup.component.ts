@@ -37,6 +37,12 @@ export class SuperFrogSignupComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+    if(!this.authService.isAuthenticated(2)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 1)
+        this.router.navigate(['/admin-landing'])
+    }
     this.superfrog = {};
     this.getSuperFrogId();
     //this.getSuperfrog();
@@ -55,7 +61,7 @@ export class SuperFrogSignupComponent implements OnInit {
   }
 
   getSuperFrogId() {
-    this.superfrogId = this.authService.getUser('logged').id;
+    this.superfrogId = this.authService.getUser('logged').user.id;
   }
   
   signUp() {

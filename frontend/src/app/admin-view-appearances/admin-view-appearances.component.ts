@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ViewAppearancesAdminService } from './admin-view-appearances.service';
 import { Appearance } from '../shared/appearance';
 import { Superfrog } from '../shared/superfrog';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-admin-view-appearances',
@@ -17,9 +18,15 @@ export class AdminViewAppearancesComponent implements OnInit {
   chooseDate: any;
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
-  constructor(private adminView: ViewAppearancesAdminService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private adminView: ViewAppearancesAdminService, private router: Router) { }
 
   ngOnInit() {
+    if(!this.authService.isAuthenticated(1)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 2)
+        this.router.navigate(['/superfrog-landing'])
+    }
     this.calendarOptions = {
       editable: true,
       eventLimit: false,

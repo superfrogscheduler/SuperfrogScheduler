@@ -1,27 +1,12 @@
-<div style="text-align:center">
-    <nav class="navbar navbar-expand-lg fixed-top" style= "background: white;">
-        <a href = "#" class = "navbar-brand"><img src="/assets/images/sfLogo.png" class="img-fluid" alt="Responsive image" width="150" height="150" /></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="nav navbar-nav ml-auto">
-                <li><a id = "a-nav" href="/list-appearances" routerLinkActive = "active" style = "font-weight:bold;" >SIGN UP</a></li>
-                <li><a id = "a-nav" href="/view-appearance" routerLinkActive = "active">APPEARANCES</a></li>
-                <li><a id = "a-nav" href="/superfrog-settings" routerLinkActive = "active">SETTINGS</a></li>
-                <li><a id = "a-nav" href="/landing" routerLinkActive = "active">LOGOUT</a></li>
-              </ul>
-        </div>
-      </nav>
-  </div>
+
   
 <!--page content-->
     
 <!--breadcrumb-->
-<div style = "padding-top: 75px;">
+<div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/list-appearances">Available Appearances</a></li>
+          <li class="breadcrumb-item"><a [routerLink]="['/list-appearances']">Available Appearances</a></li>
           <li class="breadcrumb-item active" aria-current="page">Details</li>
           <li class="breadcrumb-item active" aria-current="page">Sign Up Confirmation</li>
         </ol>
@@ -29,15 +14,18 @@
 </div>
   <div class = "container" style="text-align:center; padding-top: 120px; height: 500px; ">
     <div id = "form-container">
-  
-        <img class = "thankyou-img" src = "/assets/images/superfrogFountain.jpg" style = "max-width: 250px; max-height: 250px; border-top-left-radius: 50% 50%;
-        border-top-right-radius: 50% 50%;
-        border-bottom-right-radius: 50% 50%;
-        border-bottom-left-radius: 50% 50%;">
-        <div class = "col-md-8">
-        <h1>See you there!</h1>
-        <p>You have signed up for this event. The customer has been notified! Thanks!</p>
-        <button type="button" routerLink="/superfrog-landing">Home</button>
+        <div class = "row">
+          <div class = "col-md-6">
+            <h1>See you there!</h1>
+            <p>You have signed up for this event. The customer has been notified! Thanks!</p>
+            <button class = "btn btn-primary" type="button" routerLink="/superfrog-landing">Home</button>
+          </div>
+          <div class = "col-md-6">
+            <img class = "thankyou-img" src = "/assets/images/superfrogFountain.jpg" style = "max-width: 250px; max-height: 250px; border-top-left-radius: 50% 50%;
+            border-top-right-radius: 50% 50%;
+            border-bottom-right-radius: 50% 50%;
+            border-bottom-left-radius: 50% 50%;">
+          </div>
       </div>
     </div>
   </div>

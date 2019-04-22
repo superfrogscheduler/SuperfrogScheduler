@@ -22,10 +22,9 @@ export class LogoutComponent implements OnInit {
     this.logoutSer.logoutUser(this.authSer.getUser('logged')).subscribe(
       response => {
         this.authSer.clearStorage()
-        this.router.navigate(['/'])
+        //this.router.navigate(['/'])
       },
       error => {
-
       }
     );
   } 

@@ -2,9 +2,11 @@ import { Component, OnInit, forwardRef } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavbarService } from '../services/navbar.service';
 import { Superfrog } from '../shared/superfrog';
 import { User } from '../shared/user';
 import { Admin } from '../shared/admin';
+
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
@@ -14,6 +16,8 @@ import { Admin } from '../shared/admin';
 
 export class AuthenticationComponent implements OnInit {
 
+  isLoggedIn = false;
+  role = '';
   user: User;
   superfrog: Superfrog;
   admin: Admin;
@@ -24,11 +28,21 @@ export class AuthenticationComponent implements OnInit {
   baseurl = 'This is homepage url'
   alert = 'This is alert';
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router, private navbarService: NavbarService) {
+    this.navbarService.getLoginStatus().subscribe(status => this.isLoggedIn = status);
+  }
 
   ngOnInit() {
     this.user = {}
+
+    if (this.authService.isLoggedIn == 1)
+      this.router.navigate(['/admin-landing'])
+    else if (this.authService.isLoggedIn == 2)
+    this.router.navigate(['/superfrog-landing'])
+    
+    //this.baseurl = "http://3.94.88.53:8000/";
     this.baseurl = "http://127.0.0.1:8000/";
+
     this.alert = '';
     this.edited =  false;
     this.isAdmin = false;
@@ -40,7 +54,6 @@ export class AuthenticationComponent implements OnInit {
     this.authService.registerSuperfrog(this.user).subscribe(
       response =>{
         console.log(response)
-        alert ('User ' + this.user.email + ' has been registered') 
       }, 
       error => console.log('error', error)
     );
@@ -54,8 +67,11 @@ export class AuthenticationComponent implements OnInit {
         //navigate to homepage
 
         if (this.user.is_admin && this.user.is_staff){
-
+          this.navbarService.updateNavAfterAuth('admin');
+          this.navbarService.updateLoginStatus(true);
+          this.role = 'admin';
           this.authService.getAdmin(this.user.id).subscribe(
+            
             response => {
               this.admin = response
               this.authService.setUser(this.admin, 1)
@@ -66,6 +82,9 @@ export class AuthenticationComponent implements OnInit {
           
         } else if (!this.user.is_admin && this.user.is_staff) {
           if (this.isAdmin == true) {
+            this.navbarService.updateNavAfterAuth('admin');
+            this.navbarService.updateLoginStatus(true);
+            this.role = 'admin';
             this.authService.getAdmin(this.user.id).subscribe(
               response => {
                 this.admin = response
@@ -75,6 +94,10 @@ export class AuthenticationComponent implements OnInit {
             );
 
           } else {
+            this.navbarService.updateNavAfterAuth('user');
+            this.navbarService.updateLoginStatus(true);
+            this.role = 'user';
+
             this.authService.getSuperFrog(this.user.id).subscribe(
               response => {
                 this.superfrog = response
@@ -85,6 +108,10 @@ export class AuthenticationComponent implements OnInit {
             
           }
         } else {
+          this.navbarService.updateNavAfterAuth('user');
+          this.navbarService.updateLoginStatus(true);
+          this.role = 'user';
+          
           this.authService.getSuperFrog(this.user.id).subscribe(
             response => {
               this.superfrog = response
@@ -99,7 +126,6 @@ export class AuthenticationComponent implements OnInit {
       error => {
         this.alert = 'Email/Password combination is invalid'
         this.edited = true
-        alert('login failed')
       }
     );
   }

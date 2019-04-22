@@ -13,14 +13,19 @@ import { SignUpService } from '../super-frog-signup/super-frog-signup.service';
 })
 export class SuperfrogLandingComponent implements OnInit {
 
-  superfrog: Superfrog; //Superfrog object
-  landingData = []; //Array used to holds the appearance data
-  superfrogID: number; //The superfrog user ID.
-  constructor(private authService: AuthenticationService, private landService: SuperfrogLandingService) { }
+  superfrog: Superfrog;
+  landingData = [];
+  superfrogID: number;
+  constructor(private authService: AuthenticationService, private landService: SuperfrogLandingService, private router: Router) { }
 
   ngOnInit() {
     this.superfrog = {};
-    this.authService.isAccessible(2);
+    if(!this.authService.isAuthenticated(2)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 1)
+        this.router.navigate(['/admin-landing'])
+    }
     this.getUser();
     this.getSuperFrogId();
     this.getAppearances();
