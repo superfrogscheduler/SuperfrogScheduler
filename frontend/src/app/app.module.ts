@@ -12,7 +12,7 @@ import { LandingComponent } from './landing/landing.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AcceptFormComponent } from './accept-form/accept-form.component';
 import { CustomerConfirmationComponent } from './customer-confirmation/customer-confirmation.component';
-import { LoginComponent } from './login/login.component';
+
 import { RequestListComponent } from './request-list/request-list.component';
 import { SuperfrogLandingComponent } from './superfrog-landing/superfrog-landing.component';
 import { AdminLandingComponent } from './admin-landing/admin-landing.component';
@@ -95,7 +95,6 @@ const appRoutes: Routes = [
     EventDetailComponent,
     AcceptFormComponent,
     CustomerConfirmationComponent,
-    LoginComponent,
     RequestListComponent,
     SuperfrogLandingComponent,
     AdminLandingComponent,

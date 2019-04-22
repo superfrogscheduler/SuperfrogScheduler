@@ -40,6 +40,6 @@ export class AppComponent implements OnInit{
 
   logout() {
     this.navbarService.updateLoginStatus(false);
-    this.router.navigate(['']);
+    this.router.navigate(['logout']);
   }
 }
