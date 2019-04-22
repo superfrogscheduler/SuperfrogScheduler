@@ -16,8 +16,8 @@ def superfrog_remind():
     for appearance in upcoming_appearances:
         superfrog_appearances = SuperfrogAppearance.objects.filter(appearance = appearance.pk)
         for sa in superfrog_appearances:
-            #print(sa.superfrog.user.first_name + ' ' + sa.superfrog.user.last_name + " has " + appearance.name + " a week from now")
-
+            pass
+            #email superfrog
 def reject_expired():
     expired_reqs = Appearance.objects.filter(date__lte = datetime.datetime.now() + datetime.timedelta(days=7), status = 'Pending')
     for req in expired_reqs:

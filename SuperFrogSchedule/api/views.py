@@ -26,7 +26,6 @@ from .payroll import *
 from wsgiref.util import FileWrapper
 from django.http import FileResponse, Http404
 from io import BytesIO
-import pypdftk
 
 from django.views.generic.base import TemplateView
 

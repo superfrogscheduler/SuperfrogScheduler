@@ -39,7 +39,6 @@ def fill_fields(template_pdf, data_dict):
 
 
 def create_pdf(superfrog):
-    print(superfrog.user)
     template_pdf=pdfrw.PdfReader(INVOICE_TEMPLATE_PATH)
     template_pdf.Root.AcroForm.update(pdfrw.PdfDict(NeedAppearances=pdfrw.PdfObject('true')))
     data_dict = {
