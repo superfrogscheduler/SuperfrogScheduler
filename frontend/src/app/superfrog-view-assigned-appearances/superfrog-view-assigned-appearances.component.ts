@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewAllAppearancesService } from './superfrog-view-assigned-appearances.service'; 
+import { Router} from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-superfrog-view-assigned-appearances',
@@ -10,11 +12,18 @@ export class SuperfrogViewAssignedAppearancesComponent implements OnInit {
   appearanceData: any = {};
   superfrogData: any = {};
   newVal: number;
-  constructor(private assignedAppearances: ViewAllAppearancesService) { }
+  constructor(private assignedAppearances: ViewAllAppearancesService,private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
+    if(!this.authService.isAuthenticated(2)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 1)
+        this.router.navigate(['/admin-landing'])
+    }
     this.getAppearances();
     this.getSuperfrogs();
+    
   }
   getAppearances() {
     this.assignedAppearances.getAppearances().subscribe(data => {

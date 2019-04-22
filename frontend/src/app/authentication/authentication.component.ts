@@ -34,7 +34,15 @@ export class AuthenticationComponent implements OnInit {
 
   ngOnInit() {
     this.user = {}
-    this.baseurl = "http://3.94.88.53:8000/";
+
+    if (this.authService.isLoggedIn == 1)
+      this.router.navigate(['/admin-landing'])
+    else if (this.authService.isLoggedIn == 2)
+    this.router.navigate(['/superfrog-landing'])
+    
+    //this.baseurl = "http://3.94.88.53:8000/";
+    this.baseurl = "http://127.0.0.1:8000/";
+
     this.alert = '';
     this.edited =  false;
     this.isAdmin = false;

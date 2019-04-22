@@ -14,6 +14,7 @@ from django.conf import settings
 from datetimerange import DateTimeRange
 from collections import defaultdict, OrderedDict
 from django.contrib.auth import authenticate, login,logout, user_logged_in
+from django.contrib.auth.views import PasswordResetView
 from rest_framework import permissions
 import pdfrw
 import os
@@ -21,6 +22,14 @@ from django.template.loader import render_to_string, get_template
 import datetime
 from time import strftime
 import json
+from .payroll import *
+from wsgiref.util import FileWrapper
+from django.http import FileResponse, Http404
+from io import BytesIO
+
+from django.views.generic.base import TemplateView
+
+from .tasks import *
 
 # class AppearanceViewSet(viewsets.ViewSet):
 #     queryset = Appearance.objects.all()
@@ -62,40 +71,53 @@ def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
                     )
 
     pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
+
+def payroll_test(request):
+    array = json.loads(request.body)
+    ids = []
+    for i in array:
+        ids.append(i['id'])
+    data = get_appearance_dict(ids)
+
+    return HttpResponse(200)
+
+
 @csrf_exempt 
-def generatePayroll(request, SFID = None, adminID = None):
+def generatePayroll(request, adminID = None):
     if request.method == 'PATCH':
+        Superfrogs = Superfrog.objects.all()
         admin_id = Admin.objects.get(pk = adminID)
-        superfrog_appearance = SuperfrogAppearance.objects.filter(superfrog =SFID, appearance__status= 'Past')
-        # for appearances in superfrog_appearance:
-            # INVOICE_OUTPUT_PATH = superfrog_appearance.appearance.name + '.pdf'
-            # a = superfrog_appearance.appearance.start_time
-            # b = superfrog_appearance.appearance.end_time
-            # dates = superfrog_appearance.appearance.date
-            # datesS = dates.strftime('%Y/%m/%d')
-            # aT = a.strftime('%I:%M')
-            # bT = b.strftime('%I:%M')
-            # deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
-            # deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
-            # dA = deltaA
-            # dB = deltaB
-            # delta = dB - dA
-            # deltaSec = delta.total_seconds()
-            # deltaHour = deltaSec / 3600
-            # mile = superfrog_appearance.appearance.mileage
-            # amount = deltaHour* 25 + mile * .5
-            # data_dict = {
-            #     'Name' : superfrog_appearance.superfrog.user.first_name + superfrog_appearance.superfrog.user.last_name,
-            #     'Permanentaddress 2' : superfrog_appearance.superfrog.street+ ' ' + superfrog_appearance.superfrog.city+ ' ' + superfrog_appearance.superfrog.state+ ' ' + superfrog_appearance.superfrog.zipCode,
-            #     '1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1' : 'Appearance Name: '+superfrog_appearance.appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Location '+superfrog_appearance.appearance.location+ ', ' + 'Appearance Time: '+aT + '-' + bT,
-            #     'Amount' : amount,
-            #     '3g' : admin_id.user.first_name + ' ' + admin_id.user.last_name
-            # }
-            # write_fillable_pdf(INVOICE_TEMPLATE_PATH, INVOICE_OUTPUT_PATH, data_dict)
-            
-            # superfrog_appearance.appearance.status = "Completed"
-            # superfrog_appearance.appearance.save()
-        return HttpResponse(superfrog_appearance, status= 201)
+
+        array = json.loads(request.body)
+        ids = []
+        for i in array:
+            ids.append(i['id'])
+        data = get_appearance_dict(ids)
+        master_pdf = pdfrw.PdfWriter()
+
+        for superfrog in data:
+            pdf = create_pdf(superfrog)
+            summary = ""
+            total = 0
+            for appearance in data[superfrog]:
+                temp = process_appearance(appearance)
+                summary = summary + temp[0] + "\n"
+                total = total + temp[1]
+            locale.setlocale( locale.LC_ALL, '' )
+            data_dict = {
+                'appearances' : summary,
+                'amount' : locale.currency( total, grouping=True ),
+            }
+            fill_fields(pdf, data_dict)
+            master_pdf.addpages(pdf.pages)
+        outpath = datetime.datetime.now().strftime('%d-%m-%y_%H_%M_%S')+ ".pdf"
+        master_pdf.write(outpath)  
+        with open(outpath, 'rb') as pdf:
+            response = HttpResponse(pdf.read(),content_type='application/pdf')
+            # response['Content-Disposition'] = 'filename=some_file.pdf'
+            return response
+        return HttpResponse(FileWrapper(response) , status= 200)
+
 
 def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
     if request.method == 'GET':
@@ -381,9 +403,9 @@ def signUp(request, id=None, sId = None):
         '\n' + 'Location: ' + appearance_id.location + '\n' +
         'Description: ' + appearance_id.description + '\n' + 'Status: ' +
         appearance_id.status + '\n' + '\n' + 
-        'Cost: ' + str(appearance_id.cost) + '\n' +
-        'In order to complete the booking of this appearance, you must pay through this link:' + '\n' +
-        'Thanks and Go Frogs!' ,
+        'Cost: $' + str(appearance_id.cost) + '\n' +
+        'In order to complete the booking of this appearance, you must pay through this link: https://secure.touchnet.com/C21491_ustores/web/classic/product_detail.jsp?PRODUCTID=221' + '\n' +
+        'Enter the cost of the appearance ($' + str(appearance_id.cost)+') in the field titled \'Donation Amount\'.\n Thanks and Go Frogs!' ,
         'superfrog@scheduler.com',
         [appearance_id.customer.email],
         fail_silently = False,
@@ -643,6 +665,9 @@ def class_schedule(request, id = None):
         return HttpResponseBadRequest()
 
 
+def run_tasks(request):
+    dayscan(repeat=86400)
+    return HttpResponse(status=200)
 #Login View
 class login_view(views.APIView):
     #override post function

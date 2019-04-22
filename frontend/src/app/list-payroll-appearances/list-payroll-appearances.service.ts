@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { Headers, RequestOptions, ResponseContentType } from '@angular/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,8 @@ export class ListPayrollService {
   get_by_Superfrog(SFID: number): Observable<any> {
     return this.http.get(this.baseurl + "by_Superfrog/status/Past/" + SFID);
   }
-  genPayroll( SFID: number, adminID: number, req: {}) {
-    return this.http.patch(this.baseurl + "payrollAppearances/"+ SFID + "/" + adminID + "/", req);
+  genPayroll( adminID: number, req: {}) {
+    return this.http.patch(this.baseurl + "payrollAppearances/" + adminID + "/" , req, { responseType: "blob" });
   }
   get_Superfrogs(): Observable<any> {
     return this.http.get(this.baseurl + "get_Superfrogs/");

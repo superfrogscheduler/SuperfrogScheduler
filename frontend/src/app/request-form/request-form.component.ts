@@ -66,9 +66,9 @@ export class RequestFormComponent implements OnInit {
   ngOnInit() {
     this.requestService.getClassIntersection().subscribe(data =>{
       this.classIntersection = data;
-      this.generateClassEvents(moment().startOf('month'));
+      this.generateClassEvents(this.earliestDay.startOf('month'));
       //get preexisting events from the database
-      this.requestService.getEvents(moment().year(), moment().add(1, 'M').month()).subscribe(data => {
+      this.requestService.getEvents(this.earliestDay.year(), this.earliestDay.clone().add(1, 'M').month()).subscribe(data => {
         data.forEach(element => {
           this.events.events.push({ title: "Unavailable", start: element.start, end: element.end });
         });
@@ -88,7 +88,7 @@ export class RequestFormComponent implements OnInit {
           longPressDelay: 500,
           eventColor: '#4d1979',
           header: {
-            left: 'myPrev,myNext today',
+            left: 'myPrev,myNext',
             center: 'title',
             right: ''
           },
@@ -139,7 +139,7 @@ export class RequestFormComponent implements OnInit {
               click: () => {
                 this.ucCalendar.fullCalendar('option', {
                   header: {
-                    left: 'myPrev,myNext today',
+                    left: 'myPrev,myNext',
                     center: 'title',
                     right: ''
                   },
@@ -273,7 +273,7 @@ export class RequestFormComponent implements OnInit {
     this.ucCalendar.fullCalendar('refetchEvents');
     this.ucCalendar.fullCalendar('option', {
       header: {
-        left: 'myPrev,myNext today',
+        left: 'myPrev,myNext',
         center: 'title',
         right: ''
       },
