@@ -12,9 +12,7 @@ export class LogoutService {
 
   baseurl = "http://3.94.88.53:8000/";
 
-  constructor(private http: HttpClient, private storage: LocalStorageService, private router: Router) {
-    
-  }
+  constructor(private http: HttpClient, private storage: LocalStorageService, private router: Router) {    }
 
   logoutUser(userData): Observable <any> {
     return this.http.post(this.baseurl + "auth/logout/",userData);

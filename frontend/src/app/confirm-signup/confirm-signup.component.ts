@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-confirm-signup',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmSignupComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
+    if(!this.authService.isAuthenticated(2)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 1)
+        this.router.navigate(['/admin-landing'])
+    }
   }
 
 }

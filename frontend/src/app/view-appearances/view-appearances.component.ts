@@ -27,6 +27,12 @@ export class ViewAppearancesComponent implements OnInit {
   constructor(private listService: ListAppearancesService, private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
+    if(!this.authService.isAuthenticated(2)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 1)
+        this.router.navigate(['/admin-landing'])
+    }
     this.superfrog = {};
     this.getUser();
     this.getSuperFrogId();
