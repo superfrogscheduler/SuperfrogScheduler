@@ -1,5 +1,9 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 .navbar {
     background-color: #FFFFFF;
     min-height:50px;

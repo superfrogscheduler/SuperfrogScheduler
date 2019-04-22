@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SuperfrogLandingDetailsService {
-  baseurl = "http://127.0.0.1:8000/";
+  baseurl = "http://3.94.88.53:8000/";
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
   getID(id: number): Observable<any> { //Get appearance details from id 

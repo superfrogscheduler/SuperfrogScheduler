@@ -59,7 +59,6 @@ def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
     for annotation in annotations:
         if annotation[SUBTYPE_KEY]==WIDGET_SUBTYPE_kEY:
             if(annotation[ANNOT_FIELD_KEY]):
-                print(annotation[ANNOT_FIELD_KEY])
                 key=annotation[ANNOT_FIELD_KEY][1:-1]
                 if key in data_dict.keys():
                     annotation.update(
@@ -83,6 +82,7 @@ def generatePayroll(request, adminID = None):
     if request.method == 'PATCH':
         Superfrogs = Superfrog.objects.all()
         admin_id = Admin.objects.get(pk = adminID)
+
         array = json.loads(request.body)
         ids = []
         for i in array:
@@ -113,6 +113,7 @@ def generatePayroll(request, adminID = None):
             return response
         return HttpResponse(FileWrapper(response) , status= 200)
 
+
 def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
     if request.method == 'GET':
         queryset = SuperfrogAppearance.objects.filter( appearance__date__range=[start_date,end_date], appearance__status='Past')
@@ -133,7 +134,6 @@ def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
 
 def list_by_status(request, status=None):
     if request.method == 'GET':
-        print('we did it')
         queryset = Appearance.objects.filter(status=status)
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
@@ -149,7 +149,6 @@ def list_by_status_superfrog(request, status=None, sId= None):
 
 def list_SuperfrogAppearance_by_Status(request, status=None):
     if request.method == 'GET':
-        print('we did it')
         queryset = SuperfrogAppearance.objects.filter(appearance__status=status)
         serializer = SuperfrogAppearanceSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
@@ -180,7 +179,6 @@ def getAdmin(request, id = None):
         return HttpResponse(JSONRenderer().render(serializer.data))
 @csrf_exempt
 def appearances(request):
-    print('hi')
     if request.method == 'GET':
         queryset = Appearance.objects.all()
         serializer = AppearanceShortSerializer(queryset, many=True)
@@ -188,16 +186,13 @@ def appearances(request):
     #save information from form into appearance request
     elif request.method=='POST':
         data = json.loads(request.body)
-        print(data)
         appearance_serializer = AppearanceSerializer(data=data['appearance'])
         if appearance_serializer.is_valid():
             appearance = appearance_serializer.save()
             appearance_serializer = AppearanceSerializer(appearance)
-            print(appearance_serializer.data)
             
             
         else:
-            print(appearance_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
                 
         customer_serializer = CustomerSerializer(data=data['customer'])
@@ -248,7 +243,6 @@ def appearances(request):
              fail_silently = False,
              html_message = html_message)
         else:
-            print(customer_serializer.errors)
             return HttpResponse(appearance_serializer.errors, status = 400)
         appearance_serializer = AppearanceSerializer(appearance)
         return HttpResponse(status = 200)
@@ -306,13 +300,11 @@ def create(request):
 def update_appearance(request):
     if request.method=='PATCH':
         data = json.loads(request.body)
-        print(data)
         appearance_serializer = AppearanceShortSerializer(data=data['appearance'])
         if appearance_serializer.is_valid():
             appearance_serializer.save()
         return HttpResponse(status= 200)
     else:
-        print(appearance_serializer.errors)
         return HttpResponse(appearance_serializer.errors, status = 400)
 
 def get_Superfrogs(request):
@@ -371,6 +363,7 @@ def signUp(request, id=None, sId = None):
                     'parking_info': appearance_id.parking_info,
                     'outside_orgs': appearance_id.outside_orgs,
                     'performance_required': appearance_id.performance_required,
+                    'cost': str(appearance_id.cost),
                 }
             )
         #admin email
@@ -404,7 +397,10 @@ def signUp(request, id=None, sId = None):
         'Organization requesting event: ' + appearance_id.organization +
         '\n' + 'Location: ' + appearance_id.location + '\n' +
         'Description: ' + appearance_id.description + '\n' + 'Status: ' +
-        appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+        appearance_id.status + '\n' + '\n' + 
+        'Cost: ' + str(appearance_id.cost) + '\n' +
+        'In order to complete the booking of this appearance, you must pay through this link:' + '\n' +
+        'Thanks and Go Frogs!' ,
         'superfrog@scheduler.com',
         [appearance_id.customer.email],
         fail_silently = False,
@@ -493,8 +489,6 @@ def events(request):
     if request.method == 'GET':
         queryset = Event.objects.all()
         serializer = EventSerializer(queryset, many=True)
-        print(serializer.data)
-        print(type(serializer.data))
         return HttpResponse(JSONRenderer().render(serializer.data))    
 
 def toDateRange(date, start, end):
@@ -587,16 +581,16 @@ def class_schedule_intersection(request):
         if string != "000000000000000000000000000":
             for j in range(len(string)):
                 if(string[j]=="1"):
-                    start = interval.start_datetime - datetime.timedelta(seconds = 30*60)
-                    start = start.time()
-                    flag = True
+                    if not flag:
+                        start = interval.start_datetime
+                        start = start.time()
+                        flag = True
                 else:
                     if flag:
                         schedule.append((start, interval.start_datetime.time()))
                         flag = False
                 interval = interval+datetime.timedelta(seconds = 30*60)
         classes[i] = schedule
-
     #Prepare JSON payload
     response = {}
     for day in classes:
@@ -699,9 +693,7 @@ class login_view(views.APIView):
 
 
 class logout_view(views.APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-
+    #permission_classes = (permissions.IsAuthenticated,)
     def post(self, request, format=None):
-        print (auth.user_logged_in())
         logout(request)
         return Response({}, status=status.HTTP_204_NO_CONTENT)

@@ -1,4 +1,8 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 a {
     color: #4d1979;
 }
@@ -16,11 +20,7 @@ p{
 }
 
 .label{
-    font-size: 14px;
-    font-weight: bold;
     color: grey;
-    letter-spacing: .25px;
-    opacity: .5;
 }
 
 .btn-primary{
@@ -28,8 +28,9 @@ p{
     border-color: #4d1979;
 }
 
-.btn-secondary{
+.btn-secondary, .btn-primary:hover{
     background-color: grey;
+    border-color:grey;
     color: white;
 
 }

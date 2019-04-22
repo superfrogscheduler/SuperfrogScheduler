@@ -55,7 +55,7 @@ export class SuperFrogSignupComponent implements OnInit {
   }
 
   getSuperFrogId() {
-    this.superfrogId = this.authService.getUser('logged').id;
+    this.superfrogId = this.authService.getUser('logged').user.id;
   }
   
   signUp() {

@@ -1,6 +1,22 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 a {
     color: #4d1979;
+}
+
+h3{
+    font-size: 21px;
+}
+
+
+.label{
+    font-weight: bold;
+    color: grey;
+    letter-spacing: .25px;
+    opacity: .5;
 }
 
 .btn-primary{
@@ -8,8 +24,9 @@ a {
     border-color: #4d1979;
 }
 
-.btn-secondary{
+.btn-secondary, .btn-primary:hover{
     background-color: grey;
+    border-color:grey;
     color: white;
 
 }
@@ -17,17 +34,6 @@ a {
 .btn-space {
     margin-right: 25px;
 }
-
-.modal {
-    position: absolute;
-    top: 2px;
-    right: 100px;
-    bottom: 0;
-    left: 0;
-    z-index: 10040;
-    overflow: auto;
-    overflow-y: auto;
- }
 
 #request-container {
     padding: 50px;
@@ -55,10 +61,6 @@ a {
     color: #4d1979;
 }
 
-#about-header {
-    font-family: "Helvetica Neue", sans-serif;
-    font-weight: bold;
-    font-style: italic;
-    font-size: 36px;
-    color: #4d1979;
+#btn-nav {
+    color: #ffffff;
 }

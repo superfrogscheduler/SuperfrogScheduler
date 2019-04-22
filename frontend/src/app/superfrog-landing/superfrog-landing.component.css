@@ -1,15 +1,12 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 a {
     color: #4d1979;
 }
 
-h3{
-    font-size: 21px;
-}
-
-p{
-    font-size: 14px;
-}
 
 .label{
     font-size: 14px;
@@ -24,8 +21,9 @@ p{
     border-color: #4d1979;
 }
 
-.btn-secondary{
+.btn-secondary, .btn-primary:hover{
     background-color: grey;
+    border-color:grey;
     color: white;
 
 }

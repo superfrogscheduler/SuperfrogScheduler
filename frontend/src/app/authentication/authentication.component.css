@@ -1,5 +1,9 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 /* You can add global styles to this file, and also import other style files */
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 body {
     padding: 70px;
 }
@@ -67,6 +71,11 @@ navbar, .navbar-expand-lg {
     border-radius: 0px;
 }
 
+.btn-outline-primary:hover{
+    background-color: #4d1979 !important;
+    color: white !important;
+}
+
 a, a:visited{
     color: #4d1979;
     font-weight: bold;
@@ -86,6 +95,8 @@ a:hover{
        -moz-border-radius: 0px;
             border-radius: 0px;
 }
+
+
 
 #btn-text {
     color:white;
