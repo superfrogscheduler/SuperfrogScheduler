@@ -25,7 +25,7 @@ from .payroll import *
 from wsgiref.util import FileWrapper
 from django.http import FileResponse, Http404
 from io import BytesIO
-import pypdftk
+
 # class AppearanceViewSet(viewsets.ViewSet):
 #     queryset = Appearance.objects.all()
 #     serializer_class = AppearanceSerializer
