@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminDetailsService } from './accept-reject-details.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from '../shared/customer';
 import { Appearance } from '../shared/appearance';
 import { Superfrog } from '../shared/superfrog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-accept-reject-details',
@@ -15,10 +16,16 @@ export class AcceptRejectDetailsComponent implements OnInit {
   getData: any = {};
   rejectReason: String = "";
   data: {"customer": Customer, "appearance": Appearance, "superfrog": Superfrog} = {"customer":{}, "appearance":{}, "superfrog": {}};
-  constructor(private adminService: AdminDetailsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private adminService: AdminDetailsService, private route: ActivatedRoute, private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+    if(!this.authService.isAuthenticated(1)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 2)
+        this.router.navigate(['/superfrog-landing'])
+    }
     this.getID();
   }
   getID() {

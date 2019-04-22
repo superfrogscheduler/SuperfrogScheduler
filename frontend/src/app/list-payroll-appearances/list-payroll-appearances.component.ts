@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ViewChildren } from '@angular/core';
 import { Appearance } from '../shared/appearance';
 import { Superfrog } from '../shared/superfrog';
 import { ListPayrollService } from './list-payroll-appearances.service';
@@ -10,9 +10,10 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Admin } from '../shared/admin';
 import { stringify } from '@angular/core/src/render3/util';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { analyzeAndValidateNgModules, isNgTemplate } from '@angular/compiler';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { saveAs } from 'file-saver';
 
 @NgModule({
   imports: [
@@ -37,8 +38,11 @@ export class ListPayrollAppearancesComponent implements OnInit {
   payroll_start: any;
   payroll_end: any;
   SFID: number;
-  payroll_checkbox: any = [];
+  payroll_checkbox: any ;
   array = [];
+  tempData: any = {};
+  payroll_array: any = [];
+  @ViewChildren('myItem') names;
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   constructor(private payrollService: ListPayrollService, private router: Router, private authService: AuthenticationService) { }
   payrollData: any = {};
@@ -55,6 +59,12 @@ export class ListPayrollAppearancesComponent implements OnInit {
     //   events: this.appearances,
     //   defaultView: 'listMonth'
     // };
+    if(!this.authService.isAuthenticated(1)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 2)
+        this.router.navigate(['/superfrog-landing'])
+    }
     this.getAdmin();
     this.getAppearances();
     this.getSuperfrogs();
@@ -74,16 +84,27 @@ export class ListPayrollAppearancesComponent implements OnInit {
   // }
   public onChange(event): void {  // event will give you full breif of action
     this.newVal = event.target.value;
-    console.log(this.newVal);
     this.payrollService.get_by_Superfrog(this.newVal).subscribe(data => {
       this.appearanceData = data;
     });
   }
-  genPayroll() {
-    // this.payrollService.genPayroll(this.superfrogID, this.adminID, this.data).subscribe();
-    console.log(this.payroll_checkbox);
+
+  OnCheckboxSelect(id, event) {
+      if (event.target.checked === true) {
+        this.array.push({id: id});
+        this.payroll_array = JSON.stringify(this.array);
+      }
+      if (event.target.checked === false) {
+        this.array = this.array.filter((names) => names.id !== id);
+      }
   }
-  
+  genPayroll() {
+    const reader = new FileReader();
+    this.payrollService.genPayroll(this.adminID, this.payroll_array).subscribe(Response => {
+      const blob = new Blob([Response], { type: 'application/pdf' });
+      saveAs(blob, 'payroll.pdf');
+    });
+  }
   getSuperfrogs() {
     this.payrollService.get_Superfrogs().subscribe(data => {
       this.superfrogData = data;
