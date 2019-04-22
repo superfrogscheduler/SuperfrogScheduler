@@ -34,6 +34,12 @@ export class AuthenticationComponent implements OnInit {
 
   ngOnInit() {
     this.user = {}
+    if (this.authService.isLoggedIn == 1)
+      this.router.navigate(['/admin-landing'])
+    else if (this.authService.isLoggedIn == 2)
+    this.router.navigate(['/superfrog-landing'])
+    
+    //this.baseurl = "http://3.94.88.53:8000/";
     this.baseurl = "http://127.0.0.1:8000/";
     this.alert = '';
     this.edited =  false;
@@ -46,7 +52,6 @@ export class AuthenticationComponent implements OnInit {
     this.authService.registerSuperfrog(this.user).subscribe(
       response =>{
         console.log(response)
-        alert ('User ' + this.user.email + ' has been registered') 
       }, 
       error => console.log('error', error)
     );
@@ -119,7 +124,6 @@ export class AuthenticationComponent implements OnInit {
       error => {
         this.alert = 'Email/Password combination is invalid'
         this.edited = true
-        alert('login failed')
       }
     );
   }

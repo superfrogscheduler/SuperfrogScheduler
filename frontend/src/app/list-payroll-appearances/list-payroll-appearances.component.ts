@@ -55,6 +55,12 @@ export class ListPayrollAppearancesComponent implements OnInit {
     //   events: this.appearances,
     //   defaultView: 'listMonth'
     // };
+    if(!this.authService.isAuthenticated(1)){
+      if(this.authService.isLoggedIn == 0)
+        this.router.navigate(['/'])
+      else if (this.authService.isLoggedIn == 2)
+        this.router.navigate(['/superfrog-landing'])
+    }
     this.getAdmin();
     this.getAppearances();
     this.getSuperfrogs();
