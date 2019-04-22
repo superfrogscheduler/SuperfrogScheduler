@@ -21,6 +21,8 @@ from django.template.loader import render_to_string, get_template
 import datetime
 from time import strftime
 import json
+from .tasks import *
+
 
 # class AppearanceViewSet(viewsets.ViewSet):
 #     queryset = Appearance.objects.all()
@@ -395,9 +397,9 @@ def signUp(request, id=None, sId = None):
         '\n' + 'Location: ' + appearance_id.location + '\n' +
         'Description: ' + appearance_id.description + '\n' + 'Status: ' +
         appearance_id.status + '\n' + '\n' + 
-        'Cost: ' + str(appearance_id.cost) + '\n' +
-        'In order to complete the booking of this appearance, you must pay through this link:' + '\n' +
-        'Thanks and Go Frogs!' ,
+        'Cost: $' + str(appearance_id.cost) + '\n' +
+        'In order to complete the booking of this appearance, you must pay through this link: https://secure.touchnet.com/C21491_ustores/web/classic/product_detail.jsp?PRODUCTID=221' + '\n' +
+        'Enter the cost of the appearance ($' + str(appearance_id.cost)+') in the field titled \'Donation Amount\'.\n Thanks and Go Frogs!' ,
         'superfrog@scheduler.com',
         [appearance_id.customer.email],
         fail_silently = False,
@@ -665,6 +667,9 @@ def class_schedule(request, id = None):
         return HttpResponseBadRequest()
 
 
+def run_tasks(request):
+    dayscan(repeat=86400)
+    return HttpResponse(status=200)
 #Login View
 class login_view(views.APIView):
     #override post function

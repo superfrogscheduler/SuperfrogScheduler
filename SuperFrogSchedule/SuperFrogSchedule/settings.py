@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'api',
     'rest_framework',
+    'background_task',
 ]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
