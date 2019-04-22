@@ -10,31 +10,33 @@
 
 
 <div style="text-align:center; padding-top:40px;">
-  <div style = "padding-bottom: 50px;">
+  <div style = "padding-bottom: 40px;">
     <h1>Appearances Awaiting Payroll</h1>
   </div>
-
 <!-- <div class = "container">
   <div *ngIf="calendarOptions">
       <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
     </div>
 </div> -->
-<div class = "container" style = "padding-bottom: 10px;">
   <div class="form-group">
       <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
         <select (change)="onChange($event)">
           <option *ngFor="let v of superfrogData" [value]="v.user.id">{{v.user.first_name}}</option>
         </select>
     </div>
+
+
+<div style = "padding-bottom: 40px;">
+  <button type="button" class="btn btn-primary" style = "margin-left: 5px; margin-right: 5px;" (click)="getAppearances()">View All Payable Appearances</button>
 </div>
-<button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="getAppearances()">View All Payable Appearances</button>
+
 <label>Start Date:
   <input type="date" name="start_date" [(ngModel)]="payroll_start">
 </label>
 <label>End Date:
   <input type="date" name="end_date" [(ngModel)]="payroll_end">
 </label>
-<button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="filter_SuperfrogAppearance()">Search</button>
+<button type="button" class="btn btn-primary" style = "margin-left: 5px; margin-right: 5px;" (click)="filter_SuperfrogAppearance()">Search</button>
   <div *ngFor="let names of appearanceData">
   <div class = "container" id = "request-container" style = "margin-bottom: 50px; margin-top: 50px;">
     <h3><a href="#">{{names.appearance.name}}</a></h3>
@@ -59,7 +61,7 @@
     </div>
   </div>
   </div>
-<div>
-<button type="button" class="btn btn-primary btn-lg" style = "margin-left: 5px; margin-right: 5px;" (click)="genPayroll()">Submit</button>
+<div style = "padding-top:10px;">
+  <button type="button" class="btn btn-primary" style = "margin-left: 5px; margin-right: 5px;" (click)="genPayroll()">Submit</button>
 </div>
 </div>

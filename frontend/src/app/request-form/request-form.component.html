@@ -3,7 +3,7 @@
 <!--page content-->
 
 <div style="text-align:center">
-  <div class = "container align-center" style="padding-top: 50px;" >
+  <div class = "container align-center">
   <div class = "row top-buffer align-center">
     
 <div class="container" [hidden]="!showCalendar">
@@ -222,7 +222,7 @@
                 <td>${{(this.duration * this.hourly).toFixed(2)}}</td>
               </tr>
               <tr *ngIf="this.data.appearance.showgirls == 'Large Team'">
-                <td>Cheerleaders</td>
+                <td>Showgirls</td>
                 <td>{{this.duration}} hour(s) × ${{(this.hourly + 50).toFixed(2)}}</td>
                 <td>${{(this.duration * (this.hourly+50)).toFixed(2)}}</td>
               </tr>

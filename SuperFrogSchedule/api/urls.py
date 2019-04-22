@@ -32,6 +32,7 @@ from .views import (
     class_schedule_intersection,
     get_Superfrogs,
     filter_by_Superfrog_and_date,
+    run_tasks,
     )
 
 urlpatterns = [
@@ -59,6 +60,7 @@ urlpatterns = [
     url(r'^class-schedule-intersection/$', class_schedule_intersection),
     url(r'^get_Superfrogs/$', get_Superfrogs),
     url(r'^filter_by_Superfrog_Date/(?P<start_date>\d{4}-\d{2}-\d{2})/(?P<end_date>\d{4}-\d{2}-\d{2})/$',filter_by_Superfrog_and_date,),
+
     url(r'^auth/login/$', login_view.as_view(), name='Login'),
     url(r'^auth/logout/$', logout_view.as_view(), name='Logout'),
     url(r'^reset-password/$', auth_views.PasswordResetView.as_view(), name='password_rest'),
@@ -66,4 +68,5 @@ urlpatterns = [
     url(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^reset-password/complete/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     
+    url(r'^run-tasks/', run_tasks)
 ]

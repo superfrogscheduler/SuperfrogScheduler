@@ -23,6 +23,9 @@ import datetime
 from time import strftime
 import json
 from django.views.generic.base import TemplateView
+
+from .tasks import *
+
 # class AppearanceViewSet(viewsets.ViewSet):
 #     queryset = Appearance.objects.all()
 #     serializer_class = AppearanceSerializer
@@ -361,6 +364,7 @@ def signUp(request, id=None, sId = None):
                     'parking_info': appearance_id.parking_info,
                     'outside_orgs': appearance_id.outside_orgs,
                     'performance_required': appearance_id.performance_required,
+                    'cost': str(appearance_id.cost),
                 }
             )
         #admin email
@@ -394,7 +398,10 @@ def signUp(request, id=None, sId = None):
         'Organization requesting event: ' + appearance_id.organization +
         '\n' + 'Location: ' + appearance_id.location + '\n' +
         'Description: ' + appearance_id.description + '\n' + 'Status: ' +
-        appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+        appearance_id.status + '\n' + '\n' + 
+        'Cost: $' + str(appearance_id.cost) + '\n' +
+        'In order to complete the booking of this appearance, you must pay through this link: https://secure.touchnet.com/C21491_ustores/web/classic/product_detail.jsp?PRODUCTID=221' + '\n' +
+        'Enter the cost of the appearance ($' + str(appearance_id.cost)+') in the field titled \'Donation Amount\'.\n Thanks and Go Frogs!' ,
         'superfrog@scheduler.com',
         [appearance_id.customer.email],
         fail_silently = False,
@@ -662,6 +669,9 @@ def class_schedule(request, id = None):
         return HttpResponseBadRequest()
 
 
+def run_tasks(request):
+    dayscan(repeat=86400)
+    return HttpResponse(status=200)
 #Login View
 class login_view(views.APIView):
     #override post function

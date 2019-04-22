@@ -66,9 +66,9 @@ export class RequestFormComponent implements OnInit {
   ngOnInit() {
     this.requestService.getClassIntersection().subscribe(data =>{
       this.classIntersection = data;
-      this.generateClassEvents(moment().startOf('month'));
+      this.generateClassEvents(this.earliestDay.startOf('month'));
       //get preexisting events from the database
-      this.requestService.getEvents(moment().year(), moment().add(1, 'M').month()).subscribe(data => {
+      this.requestService.getEvents(this.earliestDay.year(), this.earliestDay.clone().add(1, 'M').month()).subscribe(data => {
         data.forEach(element => {
           this.events.events.push({ title: "Unavailable", start: element.start, end: element.end });
         });
@@ -88,7 +88,7 @@ export class RequestFormComponent implements OnInit {
           longPressDelay: 500,
           eventColor: '#4d1979',
           header: {
-            left: 'myPrev,myNext today',
+            left: 'myPrev,myNext',
             center: 'title',
             right: ''
           },
@@ -139,7 +139,7 @@ export class RequestFormComponent implements OnInit {
               click: () => {
                 this.ucCalendar.fullCalendar('option', {
                   header: {
-                    left: 'myPrev,myNext today',
+                    left: 'myPrev,myNext',
                     center: 'title',
                     right: ''
                   },
@@ -164,15 +164,6 @@ export class RequestFormComponent implements OnInit {
       });
       this.ucCalendar.fullCalendar('addEventSource',this.events);
       console.log(this.ucCalendar.fullCalendar('getEventSources'));
-      //Add them to the calendar
-      // this.ucCalendar.fullCalendar('renderEvent', {
-      //   allDay: true,
-      //   start: moment(0),
-      //   end: this.earliestDay.clone().add(1, 'day'),
-      //   rendering: 'background',
-      //   backgroundColor: 'lightgray'
-      // });
-
       });
       
   }
@@ -214,14 +205,14 @@ export class RequestFormComponent implements OnInit {
     this.errorMsg = "";
     //We only want the view to change if a day is clicked in the month view
     if (event.view.type == "month") {
-      this.clickedDay = event.date;
       //Check if its 2 weeks ahead
       if (event.date.isBefore(this.earliestDay, 'day')) {
         this.errorMsg = "Appearances must be scheduled at least two weeks in advance."
       }
       //Switch the view
       else {
-        this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay);
+        this.clickedDay = event.date;
+        console.log(this.clickedDay.format());
         this.ucCalendar.fullCalendar('option', {
           header: {
             left: 'back',
@@ -230,6 +221,7 @@ export class RequestFormComponent implements OnInit {
           },
           selectable: true
         });
+        this.ucCalendar.fullCalendar('changeView', 'agendaDay', this.clickedDay.format('YYYY-MM-DD'));
       }
     }
   }
@@ -279,6 +271,14 @@ export class RequestFormComponent implements OnInit {
   //This function brings the user back to the calendar view from the form
   backToCalendar(){
     this.ucCalendar.fullCalendar('refetchEvents');
+    this.ucCalendar.fullCalendar('option', {
+      header: {
+        left: 'myPrev,myNext',
+        center: 'title',
+        right: ''
+      },
+      selectable: false
+    });
     this.ucCalendar.fullCalendar("changeView", "month");
     this.showCalendar = true;
   }
@@ -301,8 +301,8 @@ export class RequestFormComponent implements OnInit {
           unitSystem: google.maps.UnitSystem.IMPERIAL
         }, (response, status) => {
           this.distance = response.rows[0].elements[0].distance;
-          console.log(this.distance); 
-          this.data.appearance.mileage = _.round(this.distance.value / 1609.344, 2); 
+          this.data.appearance.mileage = _.round(this.distance.value / 1609.344, 1);
+          console.log(this.data.appearance.mileage); 
           this.zone.run(() =>{this.updateCost()});
         });
         //This is working around a weird google bug
