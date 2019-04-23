@@ -104,7 +104,7 @@ def generatePayroll(request, adminID = None):
                 total = total + temp[1]
             result.write("Total: " + locale.currency( total, grouping=True )+"\n\n")
         
-        response = HttpResponse(result.getvalue(),content_type='text/plain')
+        response = HttpResponse(result.getvalue(),content_type='text/html')
         
         return HttpResponse(response, status= 200)
 
