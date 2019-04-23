@@ -46,6 +46,7 @@ import { AdminAppearancesDetailsComponent } from './admin-appearances-details/ad
 import { SuperfrogContactInfoComponent } from './superfrog-contact-info/superfrog-contact-info.component';
 import { SuperfrogSettingsComponent } from './superfrog-settings/superfrog-settings.component';
 import { LogoutComponent } from './logout/logout.component';
+import {TermsAndConditionsComponent} from './terms-and-conditions/terms-and-conditions.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -126,6 +127,7 @@ const appRoutes: Routes = [
     SuperfrogContactInfoComponent,
     SuperfrogSettingsComponent,
     LogoutComponent,
+    TermsAndConditionsComponent,
   ],
   imports: [
     RouterModule.forRoot(
