@@ -112,7 +112,7 @@ def generatePayroll(request, adminID = None):
         outpath = datetime.datetime.now().strftime('%d-%m-%y_%H_%M_%S')+ ".pdf"
         master_pdf.write(outpath)  
         with open(outpath, 'rb') as pdf:
-            response = HttpResponse(pdf.read(),content_type='application/pdf')
+            response = HttpResponse(pdf.read(),content_type='text/plain')
             # response['Content-Disposition'] = 'filename=some_file.pdf'
             return response
         return HttpResponse(FileWrapper(response) , status= 200)
