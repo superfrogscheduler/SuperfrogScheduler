@@ -397,9 +397,9 @@ def signUp(request, id=None, sId = None):
         + '\n' + 'Customer email: ' 
         + appearance_id.customer.email 
         + '\n' + ' \n' + 'Appearance Information \n' 
-        + 'Name: ' + appearance.name + '\n' 
-        + 'Start Time: ' + appearance.start_time + '\n' 
-        + 'End Time: ' + appearance.end_time + '\n' 
+        + 'Name: ' + appearance_id.name + '\n' 
+        + 'Start Time: ' + appearance_id.start_time + '\n' 
+        + 'End Time: ' + appearance_id.end_time + '\n' 
         + 'Organization requesting event: ' + appearance_id.organization 
         + '\n' + 'Location: ' + appearance_id.location +
         '\n' + 'Description: ' + appearance_id.description 
@@ -417,9 +417,9 @@ def signUp(request, id=None, sId = None):
         'Phone Number: ' + str(appearance_id.customer.phone) +
         '\n' + 'Customer email: ' + appearance_id.customer.email +
         '\n' + ' \n' + 'Appearance Information \n' +
-        'Name: ' + appearance.name + '\n' 
-        + 'Start Time: ' + appearance.start_time + '\n' 
-        + 'End Time: ' + appearance.end_time + '\n' 
+        'Name: ' + appearance_id.name + '\n' 
+        + 'Start Time: ' + appearance_id.start_time + '\n' 
+        + 'End Time: ' + appearance_id.end_time + '\n' 
         'Organization requesting event: ' + appearance_id.organization +
         '\n' + 'Location: ' + appearance_id.location + '\n' +
         'Description: ' + appearance_id.description + '\n' + 'Status: ' +
