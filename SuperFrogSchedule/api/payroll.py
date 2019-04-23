@@ -1,15 +1,15 @@
 from .models import *
-import pdfrw, locale, time
+import locale, time, io
 from collections import defaultdict
-INVOICE_TEMPLATE_PATH = 'Honorarium_Request_Final.pdf'
-#INVOICE_OUTPUT_PATH = 'fillform.pdf'
+# INVOICE_TEMPLATE_PATH = 'Honorarium_Request_Final.pdf'
+# #INVOICE_OUTPUT_PATH = 'fillform.pdf'
 
-ANNOT_KEY = '/Annots'
-ANNOT_FIELD_KEY = '/T'
-ANNOT_VAL_KEY='/V'
-ANNOT_RECT_KEY = '/Rect'
-SUBTYPE_KEY = '/Subtype'
-WIDGET_SUBTYPE_kEY='/Widget'
+# ANNOT_KEY = '/Annots'
+# ANNOT_FIELD_KEY = '/T'
+# ANNOT_VAL_KEY='/V'
+# ANNOT_RECT_KEY = '/Rect'
+# SUBTYPE_KEY = '/Subtype'
+# WIDGET_SUBTYPE_kEY='/Widget'
 
 def get_appearance_dict(appearances):
     appearance_dict = defaultdict(list)
@@ -40,7 +40,7 @@ def fill_fields(template_pdf, data_dict):
 
 def create_pdf(superfrog):
     template_pdf=pdfrw.PdfReader(INVOICE_TEMPLATE_PATH)
-    template_pdf.Root.AcroForm.update(pdfrw.PdfDict(NeedAppearances=pdfrw.PdfObject('true')))
+    # template_pdf.Root.AcroForm.update(pdfrw.PdfDict(NeedAppearances=pdfrw.PdfObject('true')))
     data_dict = {
                 'name' : superfrog.user.first_name + " "+ superfrog.user.last_name,
                 'address_1' : superfrog.street+ ' ' + superfrog.city+ ' ' + superfrog.state+ ' ' + superfrog.zipCode,
@@ -63,7 +63,7 @@ def process_appearance(appearance):
     deltaSec = delta.total_seconds()
     deltaHour = deltaSec / 3600
     mile = appearance.mileage
-    amount = deltaHour* 25 + mile * .5
+    amount = deltaHour* 25 + float(mile) * .5
     # appearance.status = 'Completed'
     # appearance.save()
     locale.setlocale( locale.LC_ALL, '' )
