@@ -1,7 +1,6 @@
 import uuid
 from django.db import models
 import datetime
-from django.contrib.auth.models import (PermissionsMixin, Permission)
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -24,7 +23,7 @@ class UserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
-        user.is_superfrog = True
+        
         return user
 
     def create_staffuser(self, email, first_name, password):
@@ -55,7 +54,7 @@ class UserManager(BaseUserManager):
         return user
 
 #custom user class
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='Email',
         max_length=255,
@@ -76,7 +75,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name'] # require last name and first name
+    REQUIRED_FIELDS = ['first_name'] # Email & Password are required by default. 'username'
 
     objects = UserManager()
 
@@ -108,13 +107,7 @@ class Superfrog(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,)
     phone = models.IntegerField(default=0)
     #list of appearances id
-
-   # permisison = Permission.objects.
     appearances = models.ManyToManyField("Appearance", through="SuperfrogAppearance")
-    street = models.CharField(max_length=100, blank = True)
-    city = models.CharField(max_length=100, blank= True)
-    state = models.CharField(max_length= 100, blank = True)
-    zipCode = models.CharField(max_length=100, blank = True)
 
     def __str__(self):
         return self.user.__str__()
@@ -167,7 +160,7 @@ class Appearance(Event):
     description = models.CharField(max_length = 1000, blank = True)
     status = models.CharField(max_length = 255, default = "Pending")
     customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True, blank=True)
-    mileage = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
+    mileage = models.IntegerField(default = 0)
     cost = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
     receipt_number = models.CharField(max_length = 255, blank = True, null=True)
     compensation_date = models.DateTimeField(blank=True, null=True)
@@ -177,23 +170,24 @@ class Appearance(Event):
 
 class SuperfrogClass(models.Model):
     superfrog = models.ForeignKey(Superfrog, on_delete=models.CASCADE)
-    name = models.CharField(max_length= 255)
+    name = models.CharField(max_length=255)
     day = models.IntegerField()
     start = models.TimeField()
     end = models.TimeField()
 
     def __str__(self):
-        return ""+str(self.superfrog) +":" + str(self.day) + " " + str(self.start)+"-"+str(self.end)
+        return "" + str(self.superfrog) + ":" + str(self.day)+ " " + str(self.start) + "-" + str(self.end)
 
-class Constants(models.Model):
+class Constant(models.Model):
     showgirl_captain_email = models.EmailField(
-        verbose_name='Showgirl Captain Email',
+        verbose_name= 'Showgirl Captain Email',
         max_length=255,
     )
     cheerleader_captain_email = models.EmailField(
-        verbose_name='Showgirl Captain Email',
+        verbose_name = 'Showgirl Captain Email',
         max_length=255,
     )
+
     fall_semester_start = models.DateTimeField()
     fall_semester_end = models.DateTimeField()
     spring_semester_start = models.DateTimeField()
