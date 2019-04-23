@@ -22,7 +22,7 @@ export class AuthenticationService {
                       // 1 = logged in as admin
                       // 2 = logged in as superfrog
 
-  constructor(private http: HttpClient, private storage: LocalStorageService, private router: Router) {
+  constructor(private http: HttpClient, private storage: LocalStorageService, private router: Router,) {
     this.errormessage = '';
     this.isLoggedIn = 0;
   }
