@@ -45,6 +45,7 @@ export class RequestFormComponent implements OnInit {
   distance: any;
   hourly=0;
   duration=0;
+  loading = false;
 
   
   constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
@@ -169,6 +170,7 @@ export class RequestFormComponent implements OnInit {
   }
 
   saveRequest() {
+    this.loading =true;
     this.data.appearance.location = "";
     if(!this.onCampus){
       if(this.locationName){
@@ -191,7 +193,8 @@ export class RequestFormComponent implements OnInit {
     this.data.appearance.start_time = this.newEvent.events[0].start.format('kk:mm');
     this.data.appearance.end_time = this.newEvent.events[0].end.format('kk:mm');
     this.requestService.saveRequest(this.data).subscribe(response => {
-    this.router.navigate(['/customer-confirmation']); //how do i route this to a django view url instead???
+        this.loading = false;
+        this.router.navigate(['/customer-confirmation']); //how do i route this to a django view url instead???
     
       },
       error => {
