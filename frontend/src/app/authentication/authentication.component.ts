@@ -47,17 +47,6 @@ export class AuthenticationComponent implements OnInit {
     this.edited =  false;
     this.isAdmin = false;
   }
-
-  //register Superfrog user 
-  //when move use a different service and move the method from loginService to the corresponding service 
-  onRegister() {
-    this.authService.registerSuperfrog(this.user).subscribe(
-      response =>{
-        console.log(response)
-      }, 
-      error => console.log('error', error)
-    );
-  }
   
   onLogin() {
     this.authService.loginUser(this.user).subscribe(

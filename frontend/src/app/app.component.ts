@@ -4,6 +4,7 @@ import { ApiService } from './api.service';
 import { getSymbolIterator } from '@angular/core/src/util';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { NavbarService } from './services/navbar.service';
+import { AuthenticationService } from './authentication/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,12 @@ export class AppComponent implements OnInit{
   links: Array<{text: string, path: string}>;
   isLoggedIn = false;
 
-  constructor(private api: ApiService, private router: Router, private navbarService: NavbarService) {
+  constructor(private authSer: AuthenticationService, private api: ApiService, private router: Router, private navbarService: NavbarService) {
+    if ( this.authSer.getLoggedInStatus() == 0){
+      this.isLoggedIn = false
+    } else  {
+      this.isLoggedIn = true
+    }
     this.getSites();
     this.router.config.unshift(
       {path: 'auth', component: AuthenticationComponent},

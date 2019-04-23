@@ -70,7 +70,6 @@ export class AuthenticationService {
 
   isAuthenticated(status: number){
     if (this.storage.get('isLoggedIn') != 0) {
-      console.log(this.storage.get('isLoggedIn'))
       return (this.storage.get('isLoggedIn')==status)
     } else {
       return false
@@ -79,14 +78,12 @@ export class AuthenticationService {
 
   clearStorage(){
     this.isLoggedIn = 0;
-    this.storage.set('isLoggedIn', this.isLoggedIn)
-    console.log(this.storage.get('isLoggedIn'))
+    this.storage.set('isLoggedIn', 0)
     this.storage.remove('logged')
     
   }
 
   registerSuperfrog(userData): Observable<any> {
-    console.log(userData);
     return this.http.post(this.baseurl + "users/", userData);
   }
 
@@ -103,7 +100,6 @@ export class AuthenticationService {
   }
 
   loginUser(userData): Observable<any> {
-    console.log(userData);
     return this.http.post(this.baseurl + "auth/login/", userData).pipe(
       catchError(this.handleError)
     );
