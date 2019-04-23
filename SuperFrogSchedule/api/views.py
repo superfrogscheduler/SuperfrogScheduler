@@ -240,8 +240,9 @@ def appearances(request):
              '\n' + 'Customer email: ' + customer.email + 
              '\n' + ' \n' + 'Appearance Information \n' + 
              'Start Time: ' + appearance.name + '\n' +
-             'Start Time: ' + appearance.start_time + '\n' +
-             'End Time: ' + appearance.end_time + '\n' +
+             'Date: ' + str(appearance.date) + '\n' +
+             'Start Time: ' + str(appearance.start_time) + '\n' +
+             'End Time: ' + str(appearance.end_time) + '\n' +
              'Organization requesting event: ' + appearance.organization + '\n' + 
              'Location: ' + appearance.location + '\n' + 
              'Description: ' + appearance.description + '\n' + 
@@ -398,11 +399,12 @@ def signUp(request, id=None, sId = None):
         + appearance_id.customer.email 
         + '\n' + ' \n' + 'Appearance Information \n' 
         + 'Name: ' + appearance_id.name + '\n' 
-        + 'Start Time: ' + appearance_id.start_time + '\n' 
-        + 'End Time: ' + appearance_id.end_time + '\n' 
+        + 'Start Time: ' + str(appearance_id.start_time) + '\n' 
+        + 'End Time: ' + str(appearance_id.end_time) + '\n' 
+        + 'Date: ' + str(appearance_id.date) + '\n'
         + 'Organization requesting event: ' + appearance_id.organization 
-        + '\n' + 'Location: ' + appearance_id.location +
-        '\n' + 'Description: ' + appearance_id.description 
+        + '\n' + 'Location: ' + appearance_id.location 
+        + '\n' + 'Description: ' + appearance_id.description 
         + '\n' + 'Status: ' + appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' 
         ,'superfrog@scheduler.com',
         [User.objects.get(pk=sId).email],
@@ -418,8 +420,9 @@ def signUp(request, id=None, sId = None):
         '\n' + 'Customer email: ' + appearance_id.customer.email +
         '\n' + ' \n' + 'Appearance Information \n' +
         'Name: ' + appearance_id.name + '\n' 
-        + 'Start Time: ' + appearance_id.start_time + '\n' 
-        + 'End Time: ' + appearance_id.end_time + '\n' 
+        + 'Date: ' + str(appearance_id.date) + '\n'
+        + 'Start Time: ' + str(appearance_id.start_time) + '\n' 
+        + 'End Time: ' + str(appearance_id.end_time) + '\n' 
         'Organization requesting event: ' + appearance_id.organization +
         '\n' + 'Location: ' + appearance_id.location + '\n' +
         'Description: ' + appearance_id.description + '\n' + 'Status: ' +
@@ -478,6 +481,10 @@ def acceptAppearance(request, id=None):
         'Phone Number: ' + str(appearance_id.customer.phone) +
         '\n' + 'Customer email: ' + appearance_id.customer.email +
         '\n' + ' \n' + 'Appearance Information \n' +
+        'Name: ' + appearance_id.name + '\n' +
+        'Date: ' + str(appearance_id.date) + '\n' +
+        'Start Time: ' + str(appearance_id.start_time) + '\n' +
+        'End Time: ' + str(appearance_id.end_time) + '\n' +
         'Organization requesting event: ' + appearance_id.organization +
         '\n' + 'Location: ' + appearance_id.location + '\n' +
         'Description: ' + appearance_id.description + '\n' + 'Status: ' +
