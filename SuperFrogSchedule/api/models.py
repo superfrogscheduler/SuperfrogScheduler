@@ -111,6 +111,10 @@ class Superfrog(models.Model):
     phone = models.IntegerField(default=0)
     #list of appearances id
     appearances = models.ManyToManyField("Appearance", through="SuperfrogAppearance")
+    street = models.CharField(max_length=100, blank = True)
+    city = models.CharField(max_length=100, blank= True)
+    state = models.CharField(max_length= 100, blank = True)
+    zipCode = models.CharField(max_length=100, blank = True)
 
     def __str__(self):
         return self.user.__str__()
