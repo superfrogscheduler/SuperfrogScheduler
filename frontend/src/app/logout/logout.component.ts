@@ -15,7 +15,7 @@ import { Admin } from '../shared/admin';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private logoutSer: LogoutService, private authSer: AuthenticationService, private router: Router) {
+  constructor(private logoutSer: LogoutService, private authSer: AuthenticationService, private router: Router, private navbarService: NavbarService,) {
     if(this.authSer.getLoggedInStatus() == 0 ) {
       this.router.navigate([''])
     }
@@ -24,6 +24,7 @@ export class LogoutComponent implements OnInit {
   ngOnInit() {
     this.logoutSer.logoutUser(this.authSer.getUser('logged')).subscribe(
       response => {
+        this.navbarService.updateLoginStatus(false)
         this.authSer.clearStorage()
       },
       error => {

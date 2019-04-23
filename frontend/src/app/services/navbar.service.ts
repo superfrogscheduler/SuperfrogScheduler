@@ -50,12 +50,14 @@ export class NavbarService {
       this.addItem({text: 'Sign Up', path: 'list-appearances'});
       this.addItem({text: 'Appearances', path: 'view-appearance'});
       this.addItem({text: 'Settings', path: 'superfrog-settings'});
+      this.addItem({text: 'Logout', path: 'logout'});
     } else if (role === 'admin'){
       this.addItem({text: 'Home', path: 'admin-landing'});
       this.addItem({text: 'Appearances', path: 'admin-view-appearances'});
       this.addItem({text: 'Requests', path: 'list-accept-reject'});
       this.addItem({text: 'Payroll', path: 'list-payroll-appearances'});
       this.addItem({text: 'Settings', path: 'admin-settings'});
+      this.addItem({text: 'Logout', path: 'logout'});
     }
   }
 

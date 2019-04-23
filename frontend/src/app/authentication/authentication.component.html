@@ -13,7 +13,8 @@
         <input [(ngModel)] = "user.email" placeholder="Email address" class="form-control form-control-lg"> <br>
         <input [(ngModel)] = "user.password" type="Password" placeholder="Password" class="form-control form-control-lg"> <br>
         <input [(ngModel)] = "isAdmin" type="checkbox" style="padding: 30px"> <label class = "input-label"> Login as an admin</label><br>
-        <p><a href = "http://127.0.0.1:8000/reset-password"> Forgot password?</a></p>
+        <p><a href = "{{baseurl + 'reset-password'}}"> Forgot password?</a></p>
+
       </div>
       
     </div>

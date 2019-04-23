@@ -26,7 +26,7 @@ export class AuthenticationComponent implements OnInit {
 
   isAdmin: boolean;
   edited: boolean;
-  baseurl = 'This is homepage url'
+  baseurl = environment.apiURL;
   alert = 'This is alert';
 
   constructor(private authService: AuthenticationService, private router: Router, private navbarService: NavbarService) {
