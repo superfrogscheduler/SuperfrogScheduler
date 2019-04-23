@@ -85,7 +85,7 @@ def payroll_test(request):
 @csrf_exempt 
 def generatePayroll(request, adminID = None):
     if request.method == 'PATCH':
-        locale.setlocale( locale.LC_ALL, '' )
+        locale.setlocale( locale.LC_ALL, 'en_CA.UTF-8' )
         array = json.loads(request.body)
         ids = []
         for i in array:
