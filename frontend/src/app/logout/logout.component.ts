@@ -15,14 +15,15 @@ import { Admin } from '../shared/admin';
 export class LogoutComponent implements OnInit {
 
   constructor(private logoutSer: LogoutService, private authSer: AuthenticationService, private router: Router) {
-  
+    if(this.authSer.getLoggedInStatus() == 0 ) {
+      this.router.navigate([''])
+    }
   }
 
   ngOnInit() {
     this.logoutSer.logoutUser(this.authSer.getUser('logged')).subscribe(
       response => {
         this.authSer.clearStorage()
-        //this.router.navigate(['/'])
       },
       error => {
       }

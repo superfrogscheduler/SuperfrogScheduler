@@ -8,7 +8,7 @@ from django.contrib.auth.models import (
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name, password):
+    def create_user(self, email, first_name, last_name, password):
         """
         Creates and saves a User with the given email and password.
         """
@@ -19,7 +19,8 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            first_name=first_name
+            first_name = first_name,
+            last_name = last_name
         )
 
         user.set_password(password)
@@ -27,26 +28,28 @@ class UserManager(BaseUserManager):
         user.is_superfrog = True
         return user
 
-    def create_staffuser(self, email, first_name, password):
+    def create_staffuser(self, email, first_name, last_name, password):
         """
         Creates and saves a staff user with the given email and password.
         """
         user = self.create_user(
             email,
             first_name,
+            last_name,
             password=password,
         )
         user.is_staff = True
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, first_name, password):
+    def create_superuser(self, email, first_name, last_name, password):
         """
         Creates and saves a superuser with the given email and password.
         """
         user = self.create_user(
             email,
             first_name,
+            last_name,
             password=password,
         )
         user.is_staff = True
@@ -65,8 +68,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     #username = models.CharField(max_length=40, unique=True)
 
     #password field is built-in
-    first_name = models.CharField(max_length=40, blank=True)
-    last_name = models.CharField(max_length=40, blank=True)
+    first_name = models.CharField(max_length=40)
+    last_name = models.CharField(max_length=40)
 
     is_active = models.BooleanField(default=True) # can login
     is_staff = models.BooleanField(default=False) # a admin user; non super-user
