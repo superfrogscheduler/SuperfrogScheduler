@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User,Superfrog, Customer, Event, Admin, Appearance, SuperfrogAppearance,SuperfrogClass, Constants
+from .models import User,Superfrog, Customer, Event, Admin, Appearance, SuperfrogAppearance,SuperfrogClass, Constant
 # Register your models here.
 
 from django import forms
@@ -90,4 +90,4 @@ admin.site.register(Event)
 admin.site.register(SuperfrogAppearance)
 admin.site.register(SuperfrogClass)
 admin.site.register(User, UserAdmin)
-admin.site.register(Constants)
+admin.site.register(Constant)

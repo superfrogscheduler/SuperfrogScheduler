@@ -17,7 +17,56 @@ def superfrog_remind():
         superfrog_appearances = SuperfrogAppearance.objects.filter(appearance = appearance.pk)
         for sa in superfrog_appearances:
             pass
-            #email superfrog
+            superfrog_reminder = render_to_string(
+                'superfrog_reminder.html',
+                {
+                    'name': sa.appearance.name,
+                    'date': sa.appearance.date,
+                    'start_time': sa.appearance.start_time,
+                    'end_time':sa.appearance.end_time,
+                    'first_name': sa.appearance.customer.first_name,
+                    'last_name':  sa.appearance.customer.last_name,
+                    'phone': sa.appearance.customer.phone,
+                    'email': sa.appearance.customer.email,
+                    'organization': sa.appearance.organization,
+                    'location': sa.appearance.location,
+                    'description': sa.appearance.description,
+                    'status': sa.appearance.status,
+                    'special_instructions': sa.appearance.special_instructions,
+                    'expenses_and_benefits': sa.appearance.expenses_and_benefits,
+                    'cheerleaders': sa.appearance.cheerleaders,
+                    'showgirls': sa.appearance.showgirls, 
+                    'parking_info': sa.appearance.parking_info,
+                    'outside_orgs': sa.appearance.outside_orgs,
+                    'performance_required': sa.appearance.performance_required,
+                }
+            )
+            send_mail(
+                'Appearance Reminder','You are scheduled to appear at an event that is coming up soon! Here is the appearance info: \n' + 
+                '\n' + 'Customer Contact Information \n' 
+                + 'Customer Name: ' 
+                + sa.appearance.customer.first_name 
+                + ' ' + sa.appearance.customer.last_name 
+                + '\n' + 'Phone Number: ' 
+                + str(sa.appearance.customer.phone) 
+                + '\n' + 'Customer email: ' 
+                + sa.appearance.customer.email 
+                + '\n' + ' \n' + 'Appearance Information \n' 
+                + 'Name: ' + sa.appearance.name + '\n' 
+                + 'Start Time: ' + str(sa.appearance.start_time) + '\n' 
+                + 'End Time: ' + str(sa.appearance.end_time) + '\n' 
+                + 'Date: ' + str(sa.appearance.date) + '\n'
+                + 'Organization requesting event: ' + sa.appearance.organization 
+                + '\n' + 'Location: ' + sa.appearance.location 
+                + '\n' + 'Description: ' + sa.appearance.description 
+                + '\n' + 'Status: ' + sa.appearance.status + '\n' + '\n' + 'Thanks and Go Frogs!' 
+                ,'superfrog@scheduler.com',
+                [sa.superfrog.user.email],
+                fail_silently = False,
+                html_message = superfrog_reminder
+            )
+            print("sent mail")
+
 def reject_expired():
     expired_reqs = Appearance.objects.filter(date__lte = datetime.datetime.now() + datetime.timedelta(days=7), status = 'Pending')
     for req in expired_reqs:

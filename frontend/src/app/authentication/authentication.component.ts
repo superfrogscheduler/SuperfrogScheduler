@@ -6,6 +6,7 @@ import { NavbarService } from '../services/navbar.service';
 import { Superfrog } from '../shared/superfrog';
 import { User } from '../shared/user';
 import { Admin } from '../shared/admin';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-authentication',
@@ -25,7 +26,7 @@ export class AuthenticationComponent implements OnInit {
 
   isAdmin: boolean;
   edited: boolean;
-  baseurl = 'This is homepage url'
+  baseurl = environment.apiURL;
   alert = 'This is alert';
 
   constructor(private authService: AuthenticationService, private router: Router, private navbarService: NavbarService) {
@@ -40,23 +41,10 @@ export class AuthenticationComponent implements OnInit {
     else if (this.authService.isLoggedIn == 2)
     this.router.navigate(['/superfrog-landing'])
     
-    //this.baseurl = "http://3.94.88.53:8000/";
-    this.baseurl = "http://127.0.0.1:8000/";
 
     this.alert = '';
     this.edited =  false;
     this.isAdmin = false;
-  }
-
-  //register Superfrog user 
-  //when move use a different service and move the method from loginService to the corresponding service 
-  onRegister() {
-    this.authService.registerSuperfrog(this.user).subscribe(
-      response =>{
-        console.log(response)
-      }, 
-      error => console.log('error', error)
-    );
   }
   
   onLogin() {
@@ -66,7 +54,7 @@ export class AuthenticationComponent implements OnInit {
         //this.authService.setUser(this.user)
         //navigate to homepage
 
-        if (this.user.is_admin && this.user.is_staff){
+        if (this.user.is_admin){
           this.navbarService.updateNavAfterAuth('admin');
           this.navbarService.updateLoginStatus(true);
           this.role = 'admin';
@@ -80,7 +68,7 @@ export class AuthenticationComponent implements OnInit {
           );
 
           
-        } else if (!this.user.is_admin && this.user.is_staff) {
+        } else if (this.user.is_staff) {
           if (this.isAdmin == true) {
             this.navbarService.updateNavAfterAuth('admin');
             this.navbarService.updateLoginStatus(true);

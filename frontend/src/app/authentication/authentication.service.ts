@@ -6,21 +6,25 @@ import { SessionStorage, LocalStorageService} from 'angular-web-storage';
 import { Superfrog  } from '../shared/superfrog';
 import { User  } from '../shared/user';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  baseurl = "http://3.94.88.53:8000/";
-  // baseurl = "http://127.0.0.1:8000/";
+
+  baseurl = environment.apiURL;
+
 
   //httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
 
   errormessage = "";
-  isLoggedIn: number;
+  isLoggedIn: number; // 0 = not logged in 
+                      // 1 = logged in as admin
+                      // 2 = logged in as superfrog
 
-  constructor(private http: HttpClient, private storage: LocalStorageService, private router: Router) {
+  constructor(private http: HttpClient, private storage: LocalStorageService, private router: Router,) {
     this.errormessage = '';
     this.isLoggedIn = 0;
   }
@@ -68,7 +72,6 @@ export class AuthenticationService {
 
   isAuthenticated(status: number){
     if (this.storage.get('isLoggedIn') != 0) {
-      console.log(this.storage.get('isLoggedIn'))
       return (this.storage.get('isLoggedIn')==status)
     } else {
       return false
@@ -77,14 +80,12 @@ export class AuthenticationService {
 
   clearStorage(){
     this.isLoggedIn = 0;
-    this.storage.set('isLoggedIn', this.isLoggedIn)
-    console.log(this.storage.get('isLoggedIn'))
+    this.storage.set('isLoggedIn', 0)
     this.storage.remove('logged')
     
   }
 
   registerSuperfrog(userData): Observable<any> {
-    console.log(userData);
     return this.http.post(this.baseurl + "users/", userData);
   }
 
@@ -101,7 +102,6 @@ export class AuthenticationService {
   }
 
   loginUser(userData): Observable<any> {
-    console.log(userData);
     return this.http.post(this.baseurl + "auth/login/", userData).pipe(
       catchError(this.handleError)
     );

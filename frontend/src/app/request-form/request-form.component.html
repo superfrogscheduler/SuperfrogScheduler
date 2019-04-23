@@ -241,10 +241,27 @@
             <p>By requesting this event, you are agreeing to the terms &amp; conditions of a TCU Spirit Appearance.</p>
           </div>
           <div class="col-md-12">
-            <button class="btn btn-primary" type="button" [disabled]="!form.valid || invalidAddr" (click)="saveRequest(); sendEmail();">Submit</button>
+            <button class="btn btn-primary" type="button" [disabled]="!form.valid || invalidAddr" (click)="saveRequest()" data-toggle="modal" data-target="#loadingModal">Submit</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>
+
+
+  <!-- Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+            <div class="app-loading" style = "margin-top : 80px; margin-bottom: 80px; ">
+                <div class="logo"></div>
+                <svg class="spinner" viewBox="25 25 50 50">
+                  <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                </svg>
+            </div> 
+        </div>
+      </div>
+    </div>
+  </div>

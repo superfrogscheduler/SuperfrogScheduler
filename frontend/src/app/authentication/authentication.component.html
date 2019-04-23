@@ -13,14 +13,14 @@
         <input [(ngModel)] = "user.email" placeholder="Email address" class="form-control form-control-lg"> <br>
         <input [(ngModel)] = "user.password" type="Password" placeholder="Password" class="form-control form-control-lg"> <br>
         <input [(ngModel)] = "isAdmin" type="checkbox" style="padding: 30px"> <label class = "input-label"> Login as an admin</label><br>
-        <p><a href = "http://3.94.88.53:8000/reset-password"> Forgot password?</a></p>
+        <p><a href = "{{baseurl + 'reset-password'}}"> Forgot password?</a></p>
+
       </div>
       
     </div>
     
     <div class = "row justify-content-center">
 
-      <button class = "btn btn-primary" (click) = "onRegister()" hidden> Register</button>
       <button class = "btn btn-primary" (click) = "onLogin()"> Login</button> <br>
     </div>
   </div>

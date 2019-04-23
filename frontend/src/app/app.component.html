@@ -7,15 +7,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="nav navbar-nav ml-auto" routerLinkActive = "active">
-        <li class="nav-item active">
-          <a class="nav-link" routerLink = "">Home <span class="sr-only">(current)</span></a>
-        </li>
         <li class="nav-item" *ngFor="let link of links">
           <a class="nav-link" [routerLink]="link.path">{{ link.text }}</a>
         </li>
-        <li class="nav-item" *ngIf = "isLoggedIn">
-            <a class="nav-link" [routerLink]="logout" (click) = "logout()">Logout</a>
-          </li>
       </ul>
     </div>
   </nav>

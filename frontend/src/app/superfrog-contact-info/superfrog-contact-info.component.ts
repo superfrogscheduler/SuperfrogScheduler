@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { Superfrog } from '../shared/superfrog';
 
 @Component({
   selector: 'app-superfrog-contact-info',
@@ -8,6 +9,8 @@ import { AuthenticationService } from '../authentication/authentication.service'
   styleUrls: ['./superfrog-contact-info.component.css']
 })
 export class SuperfrogContactInfoComponent implements OnInit {
+
+  superfrog: Superfrog
 
   constructor(private router: Router, private authService: AuthenticationService) { }
 
@@ -18,6 +21,8 @@ export class SuperfrogContactInfoComponent implements OnInit {
       else if (this.authService.isLoggedIn == 1)
         this.router.navigate(['/admin-landing'])
     }
+    this.superfrog = this.authService.getUser('logged')
   }
+
 
 }

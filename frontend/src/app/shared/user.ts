@@ -8,4 +8,5 @@ export interface User {
     is_active?: boolean,
     is_staff?: boolean,
     is_admin?: boolean,
+    password?: string,
 }
