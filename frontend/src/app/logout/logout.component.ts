@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LogoutService } from './logout.service';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { NavbarService } from '../services/navbar.service';
 import { Router } from '@angular/router';
 import { Superfrog } from '../shared/superfrog';
 import { User } from '../shared/user';
