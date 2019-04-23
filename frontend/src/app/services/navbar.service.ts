@@ -12,6 +12,7 @@ export class NavbarService {
   constructor() { 
     
     this.addItem({text: 'Login', path: 'auth'});
+    this.addItem({text: 'Home', path: ''});
     this.isLoggedIn.next(false);
   }
 
@@ -29,17 +30,21 @@ export class NavbarService {
     if (!status) {
       this.clearAllItems();
       this.addItem({text: 'Login', path: 'auth'});
+      this.addItem({text: 'Home', path: ''});
     }
   }
 
   updateNavAfterAuth(role: string): void {
     this.removeItem({text: 'Login'});
+    this.removeItem({text: 'Home'});
 
     if(role === 'user'){
+      this.addItem({text: 'Home', path: 'superfrog-landing'});
       this.addItem({text: 'Sign Up', path: 'list-appearances'});
       this.addItem({text: 'Appearances', path: 'view-appearance'});
       this.addItem({text: 'Settings', path: 'superfrog-settings'});
     } else if (role === 'admin'){
+      this.addItem({text: 'Home', path: 'admin-landing'});
       this.addItem({text: 'Appearances', path: 'admin-view-appearances'});
       this.addItem({text: 'Requests', path: 'list-accept-reject'});
       this.addItem({text: 'Payroll', path: 'list-payroll-appearances'});
