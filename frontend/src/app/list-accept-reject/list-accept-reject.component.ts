@@ -15,7 +15,7 @@ export class ListAcceptRejectComponent implements OnInit {
   constructor(private authService: AuthenticationService, private router: Router, private adminService: ListAdminService) { }
 
   ngOnInit() {
-    if(!this.authService.isAuthenticated(2)){
+    if(!this.authService.isAuthenticated(1)){
       if(this.authService.isLoggedIn == 0)
         this.router.navigate(['/'])
       else if (this.authService.isLoggedIn == 2)

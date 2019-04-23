@@ -40,7 +40,7 @@ export class AuthenticationComponent implements OnInit {
     else if (this.authService.isLoggedIn == 2)
     this.router.navigate(['/superfrog-landing'])
     
-    //this.baseurl = "http://3.94.88.53:8000/";
+    //this.baseurl = "http://127.0.0.1:8000/";
     this.baseurl = "http://127.0.0.1:8000/";
 
     this.alert = '';
@@ -66,7 +66,7 @@ export class AuthenticationComponent implements OnInit {
         //this.authService.setUser(this.user)
         //navigate to homepage
 
-        if (this.user.is_admin && this.user.is_staff){
+        if (this.user.is_admin){
           this.navbarService.updateNavAfterAuth('admin');
           this.navbarService.updateLoginStatus(true);
           this.role = 'admin';
@@ -80,7 +80,7 @@ export class AuthenticationComponent implements OnInit {
           );
 
           
-        } else if (!this.user.is_admin && this.user.is_staff) {
+        } else if (this.user.is_staff) {
           if (this.isAdmin == true) {
             this.navbarService.updateNavAfterAuth('admin');
             this.navbarService.updateLoginStatus(true);
