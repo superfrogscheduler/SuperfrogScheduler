@@ -185,7 +185,7 @@ class SuperfrogClass(models.Model):
     def __str__(self):
         return ""+str(self.superfrog) +":" + str(self.day) + " " + str(self.start)+"-"+str(self.end)
 
-class Constants(models.Model):
+class Constant(models.Model):
     showgirl_captain_email = models.EmailField(
         verbose_name='Showgirl Captain Email',
         max_length=255,

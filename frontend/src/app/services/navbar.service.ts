@@ -10,6 +10,7 @@ export class NavbarService {
   private isLoggedIn = new Subject<boolean>();
 
   constructor() { 
+    
     this.addItem({text: 'Login', path: 'auth'});
     this.isLoggedIn.next(false);
   }
