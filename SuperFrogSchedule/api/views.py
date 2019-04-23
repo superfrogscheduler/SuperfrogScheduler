@@ -17,7 +17,7 @@ from django.contrib.auth import authenticate, login,logout, user_logged_in
 from django.contrib.auth.views import PasswordResetView
 from rest_framework import permissions
 import pdfrw
-import os
+import os, locale
 from django.template.loader import render_to_string, get_template
 import datetime
 from time import strftime
@@ -26,7 +26,7 @@ from .payroll import *
 from wsgiref.util import FileWrapper
 from django.http import FileResponse, Http404
 from io import BytesIO
-
+from decimal import Decimal
 from django.views.generic.base import TemplateView
 
 from .tasks import *
@@ -85,38 +85,66 @@ def payroll_test(request):
 @csrf_exempt 
 def generatePayroll(request, adminID = None):
     if request.method == 'PATCH':
-        Superfrogs = Superfrog.objects.all()
-        admin_id = Admin.objects.get(pk = adminID)
-
+        locale.setlocale( locale.LC_ALL, '' )
         array = json.loads(request.body)
         ids = []
         for i in array:
             ids.append(i['id'])
         data = get_appearance_dict(ids)
-        master_pdf = pdfrw.PdfWriter()
+        result = io.StringIO("")
 
         for superfrog in data:
-            pdf = create_pdf(superfrog)
             summary = ""
             total = 0
+            result.write("Name: "+ superfrog.user.first_name + " "+ superfrog.user.last_name +"\n")
+            result.write("Address: "+ superfrog.street+ ' ' + superfrog.city+ ' ' + superfrog.state+ ' ' + superfrog.zipCode+ "\n") 
             for appearance in data[superfrog]:
                 temp = process_appearance(appearance)
-                summary = summary + temp[0] + "\n"
+                result.write(temp[0] + "\n")
                 total = total + temp[1]
-            locale.setlocale( locale.LC_ALL, '' )
-            data_dict = {
-                'appearances' : summary,
-                'amount' : locale.currency( total, grouping=True ),
-            }
-            fill_fields(pdf, data_dict)
-            master_pdf.addpages(pdf.pages)
-        outpath = datetime.datetime.now().strftime('%d-%m-%y_%H_%M_%S')+ ".pdf"
-        master_pdf.write(outpath)  
-        with open(outpath, 'rb') as pdf:
-            response = HttpResponse(pdf.read(),content_type='application/pdf')
-            # response['Content-Disposition'] = 'filename=some_file.pdf'
-            return response
-        return HttpResponse(FileWrapper(response) , status= 200)
+            result.write("Total: " + locale.currency( total, grouping=True )+"\n\n")
+        
+        print(result.getvalue())
+        response = HttpResponse(result.getvalue(),content_type='text/plain')
+        
+        # superfrog_appearance = SuperfrogAppearance.objects.filter(pk__in=ids)
+        # for appearance in superfrog_appearance:
+        #     a = appearance.appearance.start_time
+        #     b = appearance.appearance.end_time
+        #     dates = appearance.appearance.date
+        #     datesS = dates.strftime('%Y/%m/%d')
+        #     aT = a.strftime('%I:%M%p')
+        #     bT = b.strftime('%I:%M%p')
+        #     deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
+        #     deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
+        #     dA = deltaA
+        #     dB = deltaB
+        #     delta = dB - dA
+        #     deltaSec = delta.total_seconds()
+        #     deltaHour = deltaSec / 3600
+        #     mile = appearance.appearance.mileage
+        #     amount = deltaHour * 25.0 + float(mile) * .5
+        #     # appearance.status = 'Completed'
+        #     # appearance.save()
+        #     data_dict = {
+        #         'Superfrog Name' : appearance.superfrog.user.first_name + " " + appearance.superfrog.user.last_name,
+        #         'Superfrog Address' : appearance.superfrog.street + " " + appearance.superfrog.city + " " + appearance.superfrog.state + " " + appearance.superfrog.zipCode,
+        #         'Appearance Description' : appearance.appearance.name + datesS + aT + bT, 
+        #         'Cost' : amount
+        #     } 
+        #     print(data_dict)
+                    
+
+        # master_pdf = pdfrw.PdfWriter()
+
+        # 
+        # outpath = datetime.datetime.now().strftime('%d-%m-%y_%H_%M_%S')+ ".pdf"
+        # master_pdf.write(outpath)  
+        # with open(outpath, 'rb') as pdf:
+        #     response = HttpResponse(pdf.read(),content_type='application/pdf')
+        #     # response['Content-Disposition'] = 'filename=some_file.pdf'
+        #     return response
+        return HttpResponse(response, status= 200)
 
 
 def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
