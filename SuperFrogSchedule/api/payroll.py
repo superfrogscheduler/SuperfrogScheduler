@@ -35,6 +35,6 @@ def process_appearance(appearance):
     amount = deltaHour* 25 + float(mile) * .5
     appearance.status = 'Completed'
     appearance.save()
-    locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
+    locale.setlocale( locale.LC_ALL, 'en_US.utf8' )
     return ('Appearance Name: '+appearance.name + ', ' + 'Appearance Date: '+datesS + ', ' + 'Appearance Time: '+ aT + '-' + bT +  ', ' +  "Pay: " + locale.currency( amount, grouping=True ), amount)
 
