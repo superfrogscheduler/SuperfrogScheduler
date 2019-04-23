@@ -68,6 +68,7 @@ export class RequestFormComponent implements OnInit {
       this.classIntersection = data;
       this.generateClassEvents(this.earliestDay.startOf('month'));
       //get preexisting events from the database
+      //seeing if this comment will fix our server somehow
       this.requestService.getEvents(this.earliestDay.year(), this.earliestDay.clone().add(1, 'M').month()).subscribe(data => {
         data.forEach(element => {
           this.events.events.push({ title: "Unavailable", start: element.start, end: element.end });
