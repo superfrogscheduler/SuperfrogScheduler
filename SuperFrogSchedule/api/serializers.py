@@ -16,22 +16,22 @@ class UserSerializer(serializers.ModelSerializer):
                     'is_active','is_admin','is_staff',)
         read_only_fields = ('created_at', 'updated_at',)
 
-        def create(self, validated_data):
-            return User.objects.create(**validated_data)
+        # def create(self, validated_data):
+        #     return User.objects.create(**validated_data)
     
-        def update(self, instance, validated_data):
-            instance.save()
+        # def update(self, instance, validated_data):
+        #     instance.save()
 
-            password = validated_data.get('password', None)
-            confirm_password = validated_data.get('confirm_password', None)
+        #     password = validated_data.get('password', None)
+        #     confirm_password = validated_data.get('confirm_password', None)
 
-            if password and confirm_password and password == confirm_password:
-                instance.set_password(password)
-                instance.save()
+        #     if password and confirm_password and password == confirm_password:
+        #         instance.set_password(password)
+        #         instance.save()
 
-            #prevent logging user out after changing password
-            update_session_auth_hash(self.context.get('request'), instance)
-            return instance 
+        #     #prevent logging user out after changing password
+        #     update_session_auth_hash(self.context.get('request'), instance)
+        #     return instance 
 
 class SuperfrogSerializer(serializers.ModelSerializer):
     user = UserSerializer()

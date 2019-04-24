@@ -10,4 +10,8 @@ export class SuperfrogContactInfoService {
 
   constructor(private http: HttpClient) { }
 
+  updateContactInfo(userData): Observable<any>{
+    return this.http.patch(this.baseurl + "update-contact-info", userData);
+  }
+  
 }

@@ -83,10 +83,6 @@ export class AuthenticationService {
     
   }
 
-  registerSuperfrog(userData): Observable<any> {
-    return this.http.post(this.baseurl + "users/", userData);
-  }
-
   getSuperFrog(id: number): Observable<any> {
     return this.http.get(this.baseurl + "employee/" + id + "/").pipe(
       catchError(this.handleError)

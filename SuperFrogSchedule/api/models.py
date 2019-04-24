@@ -78,7 +78,7 @@ class User(AbstractBaseUser):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name'] # Email & Password are required by default. 'username'
+    REQUIRED_FIELDS = ['first_name','last_name'] # Email & Password are required by default. 'username'
 
     objects = UserManager()
 

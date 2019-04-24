@@ -24,5 +24,8 @@ export class SuperfrogContactInfoComponent implements OnInit {
     this.superfrog = this.authService.getUser('logged')
   }
 
+  onSubmit(){
+    
+  }
 
 }

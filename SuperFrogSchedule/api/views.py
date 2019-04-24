@@ -700,6 +700,19 @@ def class_schedule(request, id = None):
 def run_tasks(request):
     dayscan(repeat=86400)
     return HttpResponse(status=200)
+
+@csrf_exempt
+def update_contact_info(request):
+    if request.method=='PATCH':
+        data = json.loads(request.body)
+        user = UserSerializer(data)
+        if (request.user.is_authenticated):
+            pass
+
+    else:
+        return HttpResponse({'message': 'This user is not authorized to update the information'}, status = 400)
+
+
 #Login View
 class login_view(views.APIView):
     #override post function
@@ -737,3 +750,4 @@ class logout_view(views.APIView):
     def post(self, request, format=None):
         logout(request)
         return Response({}, status=status.HTTP_204_NO_CONTENT)
+
