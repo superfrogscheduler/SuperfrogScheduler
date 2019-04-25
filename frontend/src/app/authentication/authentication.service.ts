@@ -6,14 +6,16 @@ import { SessionStorage, LocalStorageService} from 'angular-web-storage';
 import { Superfrog  } from '../shared/superfrog';
 import { User  } from '../shared/user';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  //baseurl = "http://127.0.0.1:8000/";
-  baseurl = "http://127.0.0.1:8000/";
+
+  baseurl = environment.apiURL;
+
 
   //httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
 
