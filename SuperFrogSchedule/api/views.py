@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass
+from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass, Constant
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, CustomerAppearanceSerializer, SuperfrogAppearanceSerializer, SuperfrogLandingSerializer,PayrollSerializer, SuperfrogClassSerializer
 from rest_framework import viewsets, views, generics, status
 from rest_framework.permissions import IsAdminUser
@@ -430,8 +430,56 @@ def signUp(request, id=None, sId = None):
 def acceptAppearance(request, id=None):
     if request.method=='PATCH':
         appearance_id = Appearance.objects.get(pk=id)
+        constant = Constant.objects.get()
         appearance_id.status = "Accepted"
         appearance_id.save()
+        #if there are cheerleaders in the event, email cheerleader captain.
+        if appearance_id.cheerleaders != "None":
+             send_mail('Cheerleaders Requested at Superfrog Appearance',
+                'A new event request has been approved by the admin- the customer has requested cheerleaders-' + appearance_id.cheerleaders +
+                '! Below is the appearance info confirmation: \n' +
+                '\n' + 'Customer Contact Information \n' +
+                'Customer Name: ' + appearance_id.customer.first_name +
+                ' ' + appearance_id.customer.last_name + '\n' +
+                'Phone Number: ' + str(appearance_id.customer.phone) +
+                '\n' + 'Customer email: ' + appearance_id.customer.email +
+                '\n' + ' \n' + 'Appearance Information \n' +
+                'Name: ' + appearance_id.name + '\n' +
+                'Date: ' + str(appearance_id.date) + '\n' +
+                'Start Time: ' + str(appearance_id.start_time) + '\n' +
+                'End Time: ' + str(appearance_id.end_time) + '\n' +
+                'Organization requesting event: ' + appearance_id.organization +
+                '\n' + 'Location: ' + appearance_id.location + '\n' +
+                'Description: ' + appearance_id.description + '\n' + 'Status: ' +
+                appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+                'superfrog@scheduler.com',
+                [constant.cheerleader_captain_email],
+                fail_silently = False,
+            )
+        #if there are showgirls in the event, email showgirl captain.
+        if appearance_id.showgirls != "None":
+             send_mail('Showgirls Requested at Superfrog Appearance',
+                'A new event request has been approved by the admin- the customer has requested cheerleaders-' + appearance_id.showgirls +
+                '! Below is the appearance info confirmation: \n' +
+                '\n' + 'Customer Contact Information \n' +
+                'Customer Name: ' + appearance_id.customer.first_name +
+                ' ' + appearance_id.customer.last_name + '\n' +
+                'Phone Number: ' + str(appearance_id.customer.phone) +
+                '\n' + 'Customer email: ' + appearance_id.customer.email +
+                '\n' + ' \n' + 'Appearance Information \n' +
+                'Name: ' + appearance_id.name + '\n' +
+                'Date: ' + str(appearance_id.date) + '\n' +
+                'Start Time: ' + str(appearance_id.start_time) + '\n' +
+                'End Time: ' + str(appearance_id.end_time) + '\n' +
+                'Organization requesting event: ' + appearance_id.organization +
+                '\n' + 'Location: ' + appearance_id.location + '\n' +
+                'Description: ' + appearance_id.description + '\n' + 'Status: ' +
+                appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+                'superfrog@scheduler.com',
+                [constant.showgirl_captain_email],
+                fail_silently = False,
+            )
+
         #superfrog email notification
         superfrog = User.objects.all()
         slist = []

@@ -11,12 +11,6 @@ def get_appearance_dict(appearances):
     return appearance_dict
     
 
-
-
-
-
-
-
 def process_appearance(appearance):
     a = appearance.start_time
     b = appearance.end_time

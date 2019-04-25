@@ -9,6 +9,25 @@ def set_past():
         appearance.status = 'Past'
         appearance.save()
         #print(appearance.name + ' has been marked as past')
+        pass
+        customer_feedback = render_to_string(
+            'customer_feedback.html',
+            {
+                'name': appearance.name,
+                'customer': appearance.customer.first_name,
+            }
+        )
+        send_mail(
+            'How did SuperFrog do?',
+            'Thanks for having us, ' + appearance.customer.first_name + "!\n"
+            + 'We would love your feedback on your experience with SuperFrog.\n'
+            + 'Click here to fill out this survey.'  
+            ,'superfrog@scheduler.com',
+            [appearance.customer.email],
+            fail_silently = False,
+            html_message = customer_feedback
+        )
+        print("feedback")
     
 def superfrog_remind():
     upcoming_appearances = Appearance.objects.filter(date__lte = datetime.datetime.now() + datetime.timedelta(days=7), status = 'Assigned')
@@ -65,7 +84,7 @@ def superfrog_remind():
                 fail_silently = False,
                 html_message = superfrog_reminder
             )
-            print("sent mail")
+            #print("sent mail")
 
 def reject_expired():
     expired_reqs = Appearance.objects.filter(date__lte = datetime.datetime.now() + datetime.timedelta(days=7), status = 'Pending')
