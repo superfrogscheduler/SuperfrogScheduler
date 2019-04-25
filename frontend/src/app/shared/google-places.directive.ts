@@ -1,5 +1,6 @@
 /// <reference types="@types/googlemaps" />
 import { Directive, ElementRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ConstantsService } from './constants.service';
 
 @Directive({
   selector: '[google-place]'
@@ -7,15 +8,17 @@ import { Directive, ElementRef, OnInit, Input, Output, EventEmitter } from '@ang
 export class GooglePlacesDirective implements OnInit {
   private element: HTMLInputElement;
   @Output() onSelect: EventEmitter<any> = new EventEmitter();
-  constructor(private elRef: ElementRef) {
+  @Input() range: number;
+  constructor(private elRef: ElementRef, private constantsService: ConstantsService) {
     //elRef will get a reference to the element where
     //the directive is placed
     this.element = elRef.nativeElement;
   }
 
   ngOnInit() {
+    console.log(this.range);
     var latlng = {lat: 32.7097, lng:-97.3681};
-    var radius = 160934
+    var radius : number = this.range * 1609;
     var bounds = new google.maps.Circle({center: latlng, radius: radius}).getBounds();
     const options = {
       types: ['address'],

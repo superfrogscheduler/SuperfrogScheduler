@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User,Superfrog, Admin, Customer, Appearance, Event, SuperfrogAppearance, SuperfrogClass
+from .models import User,Superfrog, Admin, Customer, Appearance, Event, SuperfrogAppearance, SuperfrogClass, Constant
 
 #Serializer for custom user model
 from django.contrib.auth import update_session_auth_hash
@@ -135,5 +135,26 @@ class SuperfrogClassSerializer(serializers.ModelSerializer):
         instance.end = validated_data.get('end', instance.end)
         instance.save()
         return instance
+
+class ConstantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Constant
+        fields = (
+            'fall_semester_start', 
+            'fall_semester_end',
+            'spring_semester_start', 
+            'spring_semester_end',
+            'private_hourly_rate',
+            'public_hourly_rate',
+            'cost_per_mile',
+            'max_distance',
+            'spirit_public_sm_rate',
+            'spirit_public_lg_rate',
+            'spirit_private_sm_rate',
+            'spirit_private_lg_rate',
+            'earliest_appearance_time',
+            'latest_appearance_time',
+            'appearance_max_len',
+        )
 
 

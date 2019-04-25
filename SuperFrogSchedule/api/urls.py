@@ -34,6 +34,7 @@ from .views import (
     filter_by_Superfrog_and_date,
     payroll_test,
     run_tasks,
+    constants,
     )
 
 urlpatterns = [
@@ -69,5 +70,6 @@ urlpatterns = [
     url(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^reset-password/complete/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^run-tasks/', run_tasks),
+    url(r'constants/', constants),
 
 ]
