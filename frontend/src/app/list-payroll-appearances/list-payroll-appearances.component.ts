@@ -107,12 +107,11 @@ export class ListPayrollAppearancesComponent implements OnInit {
   }
   onNotPayable(id, event) {
     if (event.target.checked === true) {
-      console.log(id);
       this.payrollService.notPayable(id, this.data).subscribe(data => {
         this.appearanceData = data;
         console.log(this.appearanceData);
+        location.reload();
       });
-      location.reload();
     }
   }
   OnCheckboxSelect(id, event) {
