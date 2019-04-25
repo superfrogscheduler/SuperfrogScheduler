@@ -85,7 +85,7 @@ def payroll_test(request):
 @csrf_exempt 
 def generatePayroll(request, adminID = None):
     if request.method == 'PATCH':
-        locale.setlocale( locale.LC_ALL, '' )
+        locale.setlocale( locale.LC_ALL, 'en_US.utf8' )
         array = json.loads(request.body)
         ids = []
         for i in array:
@@ -104,46 +104,8 @@ def generatePayroll(request, adminID = None):
                 total = total + temp[1]
             result.write("Total: " + locale.currency( total, grouping=True )+"\n\n")
         
-        print(result.getvalue())
-        response = HttpResponse(result.getvalue(),content_type='text/plain')
+        response = HttpResponse(result.getvalue(),content_type='text/html')
         
-        # superfrog_appearance = SuperfrogAppearance.objects.filter(pk__in=ids)
-        # for appearance in superfrog_appearance:
-        #     a = appearance.appearance.start_time
-        #     b = appearance.appearance.end_time
-        #     dates = appearance.appearance.date
-        #     datesS = dates.strftime('%Y/%m/%d')
-        #     aT = a.strftime('%I:%M%p')
-        #     bT = b.strftime('%I:%M%p')
-        #     deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
-        #     deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
-        #     dA = deltaA
-        #     dB = deltaB
-        #     delta = dB - dA
-        #     deltaSec = delta.total_seconds()
-        #     deltaHour = deltaSec / 3600
-        #     mile = appearance.appearance.mileage
-        #     amount = deltaHour * 25.0 + float(mile) * .5
-        #     # appearance.status = 'Completed'
-        #     # appearance.save()
-        #     data_dict = {
-        #         'Superfrog Name' : appearance.superfrog.user.first_name + " " + appearance.superfrog.user.last_name,
-        #         'Superfrog Address' : appearance.superfrog.street + " " + appearance.superfrog.city + " " + appearance.superfrog.state + " " + appearance.superfrog.zipCode,
-        #         'Appearance Description' : appearance.appearance.name + datesS + aT + bT, 
-        #         'Cost' : amount
-        #     } 
-        #     print(data_dict)
-                    
-
-        # master_pdf = pdfrw.PdfWriter()
-
-        # 
-        # outpath = datetime.datetime.now().strftime('%d-%m-%y_%H_%M_%S')+ ".pdf"
-        # master_pdf.write(outpath)  
-        # with open(outpath, 'rb') as pdf:
-        #     response = HttpResponse(pdf.read(),content_type='application/pdf')
-        #     # response['Content-Disposition'] = 'filename=some_file.pdf'
-        #     return response
         return HttpResponse(response, status= 200)
 
 
