@@ -25,7 +25,7 @@ def process_appearance(appearance):
     delta = dB - dA
     deltaSec = delta.total_seconds()
     deltaHour = deltaSec / 3600
-    mile = appearance.mileage
+    mile = appearance.mileage * 2
     amount = deltaHour* 25 + float(mile) * .5
     appearance.status = 'Completed'
     appearance.save()

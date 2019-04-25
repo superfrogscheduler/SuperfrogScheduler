@@ -11,8 +11,8 @@ export class ViewAppearancesAdminService {
   baseurl = environment.apiURL;
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
-  getPastAppearances(): Observable<any> {
-    return this.http.get(this.baseurl + "superfrogappearances/status/Past/" );
+  getAcceptedAppearances(): Observable<any> {
+    return this.http.get(this.baseurl + "appearances/status/Accepted/" );
   }
   getAssignedAppearances(): Observable<any> {
     return this.http.get(this.baseurl + "superfrogappearances/status/Assigned/" );

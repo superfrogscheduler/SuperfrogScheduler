@@ -12,7 +12,7 @@
 <div class = "container" style = "text-align: center; padding-top: 10px;">
   <p>Click on an event to view event details </p>
   <div class = "row top-buffer justify-content-center">
-      <button class="btn btn-primary" style = "margin: 2px;" (click)="getPastAppearance()">Past</button>
+      <button class="btn btn-primary" style = "margin: 2px;" (click)="getAcceptedAppearance()">Accepted</button>
       <button class="btn btn-primary" style = "margin: 2px;" (click)="getAssignedAppearance()">Assigned</button>
       <button  class="btn btn-primary" style = "margin: 2px;" routerLink="/admin-appearance-details/" routerLinkActive="active">List All Upcoming Appearances</button>
   </div>
@@ -23,7 +23,4 @@
 <div *ngIf="calendarOptions">
   <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
 </div>
-</div>
-<div class = "col-md-6" style = "float: none; margin: 0 auto; padding-top: 20px;">
-  <button  class="btn btn-primary btn-space btn-lg" type="accept"><a id = "btn-nav" routerLink="/admin-appearance-details/" routerLinkActive="active">View All Upcoming Appearance</a></button>
 </div>
