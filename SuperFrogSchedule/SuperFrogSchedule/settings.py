@@ -27,7 +27,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = ['3.94.88.53', '127.0.0.1']
+ALLOWED_HOSTS = ['3.94.88.53', '127.0.0.1', 'localhost']
 
 
 TIME_ZONE = 'US/Central'

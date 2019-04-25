@@ -127,7 +127,7 @@ export class ListPayrollAppearancesComponent implements OnInit {
   genPayroll() {
     const reader = new FileReader();
     this.payrollService.genPayroll(this.adminID, this.payroll_array).subscribe(Response => {
-      const blob = new Blob([Response], { type: 'text/plain' });
+      const blob = new Blob([Response], { type: 'text/html' });
       saveAs(blob, 'payroll.txt');
       location.reload();
     });
