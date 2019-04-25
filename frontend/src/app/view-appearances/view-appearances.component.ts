@@ -58,17 +58,17 @@ export class ViewAppearancesComponent implements OnInit {
   }
   getSuperFrogId() {
     this.superfrogID = this.authService.getUser('logged').user.id;
-    console.log(this.superfrogID);
   }
-  getPastAppearance() {
+  getAcceptedAppearance() {
     this.appearances.length = 0;
-    this.listService.getPastAppearances(this.superfrogID).subscribe(data => {
+    this.listService.getAcceptedAppearances().subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
-          id: element.appearance.id,
-          title: element.appearance.name,
-          start: "" + element.appearance.date + " " + element.appearance.start_time,
-          end: ""+ element.appearance.date + " " + element.appearance.end_time
+          id: element.id,
+          title: element.name,
+          start: "" + element.date + " " + element.start_time,
+          end: ""+ element.date + " " + element.end_time,
+          superfrog: null
         });   
       });
       this.ucCalendar.fullCalendar('removeEvents');
@@ -86,7 +86,8 @@ export class ViewAppearancesComponent implements OnInit {
           id: element.appearance.id,
           title: element.appearance.name,
           start: "" + element.appearance.date + " " + element.appearance.start_time,
-          end: "" + element.appearance.date + " " + element.appearance.end_time
+          end: "" + element.appearance.date + " " + element.appearance.end_time,
+          superfrog: "" + element.superfrog.user.first_name + "" + element.superfrog.user.last_name
         });
       });
       this.ucCalendar.fullCalendar('removeEvents');
@@ -107,8 +108,12 @@ export class ViewAppearancesComponent implements OnInit {
     this.ucCalendar.fullCalendar('prev');
   }
   eventClick(event: any) {
-      // window.open("http://localhost:4200/appearance-details/"+ event.event.id);
+      if (event.event.superfrog != null) {
       this.router.navigate(['/appearance-details/' + event.event.id]);
+      }
+      if (event.event.superfrog == null) {
+        this.router.navigate(['sign-up/' + event.event.id]);
+      }
   }
   onChangeDate() {
     console.log(this.chooseDate);

@@ -35,6 +35,9 @@ from .views import (
     payroll_test,
     run_tasks,
     constants,
+    appearance_by_past_and_payable,
+    show_appearances_by_superfrog_payable,
+    mark_not_payable,
     )
 
 urlpatterns = [
@@ -71,5 +74,7 @@ urlpatterns = [
     url(r'^reset-password/complete/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^run-tasks/', run_tasks),
     url(r'constants/', constants),
-
+    url(r'^payable/status/(?P<status>\w+)/$', appearance_by_past_and_payable),
+    url(r'^SF_payable/status/(?P<status>\w+)/(?P<SFID>\d+)/$', show_appearances_by_superfrog_payable),
+    url(r'^notPayable/(?P<id>\d+)/$',mark_not_payable),
 ]

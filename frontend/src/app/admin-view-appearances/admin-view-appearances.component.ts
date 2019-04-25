@@ -41,15 +41,16 @@ export class AdminViewAppearancesComponent implements OnInit {
     };
     this.getAssignedAppearance();
   }
-  getPastAppearance() {
+  getAcceptedAppearance() {
     this.appearances.length = 0;
-    this.adminView.getPastAppearances().subscribe(data => {
+    this.adminView.getAcceptedAppearances().subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
           id: element.id,
-          title: element.appearance.name,
-          start: "" + element.appearance.date + " " + element.appearance.start_time,
-          end: ""+ element.appearance.date + " " + element.appearance.end_time
+          title: element.name,
+          start: "" + element.date + " " + element.start_time,
+          end: ""+ element.date + " " + element.end_time, 
+          superfrog: null
         });   
       });
       this.ucCalendar.fullCalendar('removeEvents');
@@ -66,7 +67,8 @@ export class AdminViewAppearancesComponent implements OnInit {
           id: element.id,
           title: element.appearance.name,
           start: "" + element.appearance.date + " " + element.appearance.start_time,
-          end: ""+ element.appearance.date + " " + element.appearance.end_time
+          end: ""+ element.appearance.date + " " + element.appearance.end_time, 
+          superfrog: "" + element.superfrog.user.first_name + "" + element.superfrog.user.last_name
         });   
       });
       this.ucCalendar.fullCalendar('removeEvents');
@@ -76,10 +78,14 @@ export class AdminViewAppearancesComponent implements OnInit {
     });
   }
   eventClick(event: any) {
-    this.router.navigate(['/admin-change-appearances/' + event.event.id ]);
+    if (event.event.superfrog != null) {
+      this.router.navigate(['/admin-change-appearances/' + event.event.id ]);
+      }
+    if (event.event.superfrog == null) {
+      this.router.navigate(['accepted-appearance-details/' + event.event.id]);   
+    }
   }
   onChangeDate() {
-    console.log(this.chooseDate);
     this.ucCalendar.fullCalendar('gotoDate', this.chooseDate);
   }
 }

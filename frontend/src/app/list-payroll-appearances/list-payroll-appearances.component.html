@@ -21,7 +21,8 @@
   <div class="form-group">
       <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
         <select (change)="onChange($event)">
-          <option *ngFor="let v of superfrogData" [value]="v.user.id">{{v.user.first_name}}</option>
+          <option>All</option>
+          <option *ngFor="let v of superfrogData" [value]="v.user.id">{{v.user.first_name }} {{v.user.last_name}}</option>
         </select>
     </div>
 
@@ -49,7 +50,14 @@
       (change)="OnCheckboxSelect(names.id, $event)">
       Submit for Payroll
     </label>
-
+    <div>
+      <input type="checkbox"
+      name="names-{{names.id}}"
+      #myItem1
+     (change)="onNotPayable(names.id, $event)">
+     Mark as Not Payable
+    </div>
+    
     <div class= "col-md-6">
       <p class = "label">Start Time</p>
       <p>{{names.appearance.start_time}}</p>
@@ -66,6 +74,10 @@
         <p class = "label">Description</p>
         <p>{{names.appearance.description}}</p>
     </div>
+    <div class = "col-md-6" style = "float: none; margin: 0 auto;">
+      <p class = "label">Superfrog Assigned</p>
+      <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
+  </div>
     </div>
   </div>
   </div>

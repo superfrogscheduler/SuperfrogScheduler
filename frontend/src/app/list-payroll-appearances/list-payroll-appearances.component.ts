@@ -14,6 +14,8 @@ import { analyzeAndValidateNgModules, isNgTemplate } from '@angular/compiler';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { saveAs } from 'file-saver';
+import { isNumber, isString } from 'util';
+import { Location} from '@angular/common';
 
 @NgModule({
   imports: [
@@ -28,6 +30,7 @@ import { saveAs } from 'file-saver';
 export class ListPayrollAppearancesComponent implements OnInit {
   appearanceData: any = {};
   calendarOptions: Options;
+  check: any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   superfrogData: any = {};
   newVal: number;
@@ -40,8 +43,13 @@ export class ListPayrollAppearancesComponent implements OnInit {
   SFID: number;
   payroll_checkbox: any ;
   array = [];
+  all: string;
   tempData: any = {};
+  all_data: any = {};
+  not_array: any = [];
   payroll_array: any = [];
+  not_payable_array: any = [];
+  shown: any;
   @ViewChildren('myItem') names;
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   constructor(private payrollService: ListPayrollService, private router: Router, private authService: AuthenticationService) { }
@@ -66,9 +74,9 @@ export class ListPayrollAppearancesComponent implements OnInit {
         this.router.navigate(['/superfrog-landing'])
     }
     this.getAdmin();
-    this.getAppearances();
     this.getSuperfrogs();
     // this.superfrogID = 2;
+    this.all = 'All';
   }
   getAdmin() {
     this.adminID = this.authService.getUser('logged').user.id;
@@ -77,6 +85,7 @@ export class ListPayrollAppearancesComponent implements OnInit {
   getAppearances() {
     this.payrollService.getAppearances(this.data).subscribe(data => {
       this.appearanceData = data;
+      this.all_data = data;
     });
   }
   // eventClick(event: any) {
@@ -84,11 +93,28 @@ export class ListPayrollAppearancesComponent implements OnInit {
   // }
   public onChange(event): void {  // event will give you full breif of action
     this.newVal = event.target.value;
+    const newString = this.newVal.toString();
+    console.log(newString);
+    if (newString !== 'All') {
     this.payrollService.get_by_Superfrog(this.newVal).subscribe(data => {
       this.appearanceData = data;
     });
+  } else {
+    this.payrollService.getAppearances(this.all_data).subscribe(data => {
+      this.appearanceData = data;
+    });
   }
-
+  }
+  onNotPayable(id, event) {
+    if (event.target.checked === true) {
+      console.log(id);
+      this.payrollService.notPayable(id, this.data).subscribe(data => {
+        this.appearanceData = data;
+        console.log(this.appearanceData);
+      });
+      location.reload();
+    }
+  }
   OnCheckboxSelect(id, event) {
       if (event.target.checked === true) {
         this.array.push({id: id});
@@ -103,7 +129,9 @@ export class ListPayrollAppearancesComponent implements OnInit {
     this.payrollService.genPayroll(this.adminID, this.payroll_array).subscribe(Response => {
       const blob = new Blob([Response], { type: 'text/plain' });
       saveAs(blob, 'payroll.txt');
+      location.reload();
     });
+    
   }
   getSuperfrogs() {
     this.payrollService.get_Superfrogs().subscribe(data => {

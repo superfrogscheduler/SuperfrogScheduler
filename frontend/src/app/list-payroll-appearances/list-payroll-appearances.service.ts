@@ -12,10 +12,10 @@ export class ListPayrollService {
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
   getAppearances(req: {}): Observable<any> {
-    return this.http.get(this.baseurl + "SuperFrogappearance/status/Past/", req);
+    return this.http.get(this.baseurl + "payable/status/Past/", req);
   }
   get_by_Superfrog(SFID: number): Observable<any> {
-    return this.http.get(this.baseurl + "by_Superfrog/status/Past/" + SFID);
+    return this.http.get(this.baseurl + "SF_payable/status/Past/" + SFID);
   }
   genPayroll( adminID: number, req: {}) {
     return this.http.patch(this.baseurl + "payrollAppearances/" + adminID + "/" , req, { responseType: "blob" });
@@ -25,5 +25,8 @@ export class ListPayrollService {
   }
   filter_SuperfrogAppearance( start_date: Date, end_time: Date): Observable<any> {
     return this.http.get(this.baseurl + "filter_by_Superfrog_Date/" + start_date + "/" + end_time + "/");
+  }
+  notPayable( id: number, req: {}) {
+    return this.http.patch(this.baseurl + "notPayable/" + id + "/" , req);
   }
 }

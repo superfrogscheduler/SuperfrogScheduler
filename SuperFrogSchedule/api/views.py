@@ -81,7 +81,17 @@ def payroll_test(request):
 
     return HttpResponse(200)
 
-
+@csrf_exempt 
+def mark_not_payable(request, id = None):
+    if request.method == 'PATCH':
+        superfrog_appearance= SuperfrogAppearance.objects.get(pk=id)
+        serializer = SuperfrogAppearanceSerializer(superfrog_appearance, many = False)
+        superfrog_appearance.appearance.eligable_for_pay = False
+        superfrog_appearance.appearance.save()
+        print(superfrog_appearance)
+        return HttpResponse(JSONRenderer().render(serializer.data), status= 200)
+    else:
+        return HttpResponseBadRequest()
 @csrf_exempt 
 def generatePayroll(request, adminID = None):
     if request.method == 'PATCH':
@@ -304,6 +314,15 @@ def payroll_appearance(request,status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
+def appearance_by_past_and_payable(request, status=None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter( appearance__status=status, appearance__compensation_date__isnull=True , appearance__eligable_for_pay = True )
+        serializer = PayrollSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else: 
+        return HttpResponseBadRequest()
+      
 def show_appearances_by_superfrog(request, status = None, SFID = None):
     if request.method == 'GET':
         queryset = SuperfrogAppearance.objects.filter(superfrog = SFID, appearance__status = status)
@@ -311,7 +330,13 @@ def show_appearances_by_superfrog(request, status = None, SFID = None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else: 
         return HttpResponseBadRequest()
-
+def show_appearances_by_superfrog_payable(request, status = None, SFID = None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter(superfrog = SFID, appearance__status = status,appearance__compensation_date__isnull=True , appearance__eligable_for_pay = True )
+        serializer = PayrollSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else: 
+        return HttpResponseBadRequest()
 def payroll_detail(request, id=None):
     if request.method == 'GET':
         queryset = SuperfrogAppearance.objects.get(pk=id)
@@ -355,6 +380,7 @@ def get_Superfrogs(request):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
 @csrf_exempt
 def signUp(request, id=None, sId = None):
     if request.method=='PATCH':
