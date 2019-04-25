@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass
+from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass, Constant
 from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, CustomerAppearanceSerializer, SuperfrogAppearanceSerializer, SuperfrogLandingSerializer,PayrollSerializer, SuperfrogClassSerializer
 from rest_framework import viewsets, views, generics, status
 from rest_framework.permissions import IsAdminUser
@@ -468,6 +468,7 @@ def signUp(request, id=None, sId = None):
 def acceptAppearance(request, id=None):
     if request.method=='PATCH':
         appearance_id = Appearance.objects.get(pk=id)
+        constant = Constant.objects.get()
         appearance_id.status = "Accepted"
         appearance_id.save()
         #if there are cheerleaders in the event, email cheerleader captain.
@@ -490,7 +491,7 @@ def acceptAppearance(request, id=None):
                 'Description: ' + appearance_id.description + '\n' + 'Status: ' +
                 appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
                 'superfrog@scheduler.com',
-                [Constant.objects.get(cheerleader_captain_email)],
+                [constant.cheerleader_captain_email],
                 fail_silently = False,
             )
         #if there are showgirls in the event, email showgirl captain.
@@ -513,7 +514,7 @@ def acceptAppearance(request, id=None):
                 'Description: ' + appearance_id.description + '\n' + 'Status: ' +
                 appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
                 'superfrog@scheduler.com',
-                [Constant.objects.get(showgirl_captain_email)],
+                [constant.showgirl_captain_email],
                 fail_silently = False,
             )
 

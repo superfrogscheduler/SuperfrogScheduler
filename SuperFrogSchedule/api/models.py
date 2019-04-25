@@ -191,7 +191,7 @@ class Constant(models.Model):
         max_length=255,
     )
     cheerleader_captain_email = models.EmailField(
-        verbose_name = 'Showgirl Captain Email',
+        verbose_name = 'Cheerleader Captain Email',
         max_length=255,
     )
 
