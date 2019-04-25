@@ -1,0 +1,31 @@
+<div style="text-align:center; padding-top:125px;">
+  <div class = "container align-center" id="request-container">
+    <div>
+      <h1>{{getData.name}}</h1>
+    </div>
+    <div>
+      <p>Status: {{getData.status}}</p>
+      <p><a href = "#" id = "edit">Edit event details</a></p>
+    </div>
+    <div class = "row" style = "padding-top: 25px;">
+      <div class = "col-md-4">
+        <h3>Contact Name</h3> <p>{{getData.customer.first_name}} {{getData.customer.last_name}}</p>
+        <h3>Phone Number</h3> <p>{{getData.customer.phone}}</p>
+        <h3>Email</h3> <p>{{getData.customer.email}}</p>
+      </div>
+      <div class = "col-md-4">
+          <h3>Event Date</h3> <p>{{getData.date}}</p>
+          <h3>Time</h3> <p>{{getData.start_time}} - {{getData.end_time}}</p>
+          <h3>Location</h3> <p>{{getData.location}}</p>
+      </div>
+      <div class = "col-md-4">
+          <h3>Spirit Members</h3> <p>{{getData.cheerleaders}} Cheerleaders, 
+              {{getData.showgirls}} Showgirls </p>
+          <h3>Special Instructions</h3> <p>{{getData.parking_info}}</p>
+          <h3>Description</h3> <p>{{getData.description}}</p>
+          
+      </div>
+
+    </div>
+  </div>
+</div>

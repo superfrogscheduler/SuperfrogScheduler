@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, CustomerAppearanceSerializer, SuperfrogAppearanceSerializer, SuperfrogLandingSerializer,PayrollSerializer, SuperfrogClassSerializer
+from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass, Constant
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, CustomerAppearanceSerializer, SuperfrogAppearanceSerializer, SuperfrogLandingSerializer,PayrollSerializer, SuperfrogClassSerializer, ConstantSerializer
+
 from rest_framework import viewsets, views, generics, status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -81,11 +82,21 @@ def payroll_test(request):
 
     return HttpResponse(200)
 
-
+@csrf_exempt 
+def mark_not_payable(request, id = None):
+    if request.method == 'PATCH':
+        superfrog_appearance= SuperfrogAppearance.objects.get(pk=id)
+        serializer = SuperfrogAppearanceSerializer(superfrog_appearance, many = False)
+        superfrog_appearance.appearance.eligable_for_pay = False
+        superfrog_appearance.appearance.save()
+        print(superfrog_appearance)
+        return HttpResponse(JSONRenderer().render(serializer.data), status= 200)
+    else:
+        return HttpResponseBadRequest()
 @csrf_exempt 
 def generatePayroll(request, adminID = None):
     if request.method == 'PATCH':
-        locale.setlocale( locale.LC_ALL, '' )
+        locale.setlocale( locale.LC_ALL, 'en_US.utf8' )
         array = json.loads(request.body)
         ids = []
         for i in array:
@@ -104,46 +115,8 @@ def generatePayroll(request, adminID = None):
                 total = total + temp[1]
             result.write("Total: " + locale.currency( total, grouping=True )+"\n\n")
         
-        print(result.getvalue())
-        response = HttpResponse(result.getvalue(),content_type='text/plain')
+        response = HttpResponse(result.getvalue(),content_type='text/html')
         
-        # superfrog_appearance = SuperfrogAppearance.objects.filter(pk__in=ids)
-        # for appearance in superfrog_appearance:
-        #     a = appearance.appearance.start_time
-        #     b = appearance.appearance.end_time
-        #     dates = appearance.appearance.date
-        #     datesS = dates.strftime('%Y/%m/%d')
-        #     aT = a.strftime('%I:%M%p')
-        #     bT = b.strftime('%I:%M%p')
-        #     deltaA = datetime.timedelta(hours=a.hour, minutes = a.minute)
-        #     deltaB = datetime.timedelta(hours=b.hour, minutes= b.minute)
-        #     dA = deltaA
-        #     dB = deltaB
-        #     delta = dB - dA
-        #     deltaSec = delta.total_seconds()
-        #     deltaHour = deltaSec / 3600
-        #     mile = appearance.appearance.mileage
-        #     amount = deltaHour * 25.0 + float(mile) * .5
-        #     # appearance.status = 'Completed'
-        #     # appearance.save()
-        #     data_dict = {
-        #         'Superfrog Name' : appearance.superfrog.user.first_name + " " + appearance.superfrog.user.last_name,
-        #         'Superfrog Address' : appearance.superfrog.street + " " + appearance.superfrog.city + " " + appearance.superfrog.state + " " + appearance.superfrog.zipCode,
-        #         'Appearance Description' : appearance.appearance.name + datesS + aT + bT, 
-        #         'Cost' : amount
-        #     } 
-        #     print(data_dict)
-                    
-
-        # master_pdf = pdfrw.PdfWriter()
-
-        # 
-        # outpath = datetime.datetime.now().strftime('%d-%m-%y_%H_%M_%S')+ ".pdf"
-        # master_pdf.write(outpath)  
-        # with open(outpath, 'rb') as pdf:
-        #     response = HttpResponse(pdf.read(),content_type='application/pdf')
-        #     # response['Content-Disposition'] = 'filename=some_file.pdf'
-        #     return response
         return HttpResponse(response, status= 200)
 
 
@@ -304,6 +277,15 @@ def payroll_appearance(request,status=None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
+def appearance_by_past_and_payable(request, status=None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter( appearance__status=status, appearance__compensation_date__isnull=True , appearance__eligable_for_pay = True )
+        serializer = PayrollSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else: 
+        return HttpResponseBadRequest()
+      
 def show_appearances_by_superfrog(request, status = None, SFID = None):
     if request.method == 'GET':
         queryset = SuperfrogAppearance.objects.filter(superfrog = SFID, appearance__status = status)
@@ -311,7 +293,13 @@ def show_appearances_by_superfrog(request, status = None, SFID = None):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else: 
         return HttpResponseBadRequest()
-
+def show_appearances_by_superfrog_payable(request, status = None, SFID = None):
+    if request.method == 'GET':
+        queryset = SuperfrogAppearance.objects.filter(superfrog = SFID, appearance__status = status,appearance__compensation_date__isnull=True , appearance__eligable_for_pay = True )
+        serializer = PayrollSerializer(queryset, many = True)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else: 
+        return HttpResponseBadRequest()
 def payroll_detail(request, id=None):
     if request.method == 'GET':
         queryset = SuperfrogAppearance.objects.get(pk=id)
@@ -355,6 +343,7 @@ def get_Superfrogs(request):
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
 @csrf_exempt
 def signUp(request, id=None, sId = None):
     if request.method=='PATCH':
@@ -468,8 +457,56 @@ def signUp(request, id=None, sId = None):
 def acceptAppearance(request, id=None):
     if request.method=='PATCH':
         appearance_id = Appearance.objects.get(pk=id)
+        constant = Constant.objects.get()
         appearance_id.status = "Accepted"
         appearance_id.save()
+        #if there are cheerleaders in the event, email cheerleader captain.
+        if appearance_id.cheerleaders != "None":
+             send_mail('Cheerleaders Requested at Superfrog Appearance',
+                'A new event request has been approved by the admin- the customer has requested cheerleaders-' + appearance_id.cheerleaders +
+                '! Below is the appearance info confirmation: \n' +
+                '\n' + 'Customer Contact Information \n' +
+                'Customer Name: ' + appearance_id.customer.first_name +
+                ' ' + appearance_id.customer.last_name + '\n' +
+                'Phone Number: ' + str(appearance_id.customer.phone) +
+                '\n' + 'Customer email: ' + appearance_id.customer.email +
+                '\n' + ' \n' + 'Appearance Information \n' +
+                'Name: ' + appearance_id.name + '\n' +
+                'Date: ' + str(appearance_id.date) + '\n' +
+                'Start Time: ' + str(appearance_id.start_time) + '\n' +
+                'End Time: ' + str(appearance_id.end_time) + '\n' +
+                'Organization requesting event: ' + appearance_id.organization +
+                '\n' + 'Location: ' + appearance_id.location + '\n' +
+                'Description: ' + appearance_id.description + '\n' + 'Status: ' +
+                appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+                'superfrog@scheduler.com',
+                [constant.cheerleader_captain_email],
+                fail_silently = False,
+            )
+        #if there are showgirls in the event, email showgirl captain.
+        if appearance_id.showgirls != "None":
+             send_mail('Showgirls Requested at Superfrog Appearance',
+                'A new event request has been approved by the admin- the customer has requested cheerleaders-' + appearance_id.showgirls +
+                '! Below is the appearance info confirmation: \n' +
+                '\n' + 'Customer Contact Information \n' +
+                'Customer Name: ' + appearance_id.customer.first_name +
+                ' ' + appearance_id.customer.last_name + '\n' +
+                'Phone Number: ' + str(appearance_id.customer.phone) +
+                '\n' + 'Customer email: ' + appearance_id.customer.email +
+                '\n' + ' \n' + 'Appearance Information \n' +
+                'Name: ' + appearance_id.name + '\n' +
+                'Date: ' + str(appearance_id.date) + '\n' +
+                'Start Time: ' + str(appearance_id.start_time) + '\n' +
+                'End Time: ' + str(appearance_id.end_time) + '\n' +
+                'Organization requesting event: ' + appearance_id.organization +
+                '\n' + 'Location: ' + appearance_id.location + '\n' +
+                'Description: ' + appearance_id.description + '\n' + 'Status: ' +
+                appearance_id.status + '\n' + '\n' + 'Thanks and Go Frogs!' ,
+                'superfrog@scheduler.com',
+                [constant.showgirl_captain_email],
+                fail_silently = False,
+            )
+
         #superfrog email notification
         superfrog = User.objects.all()
         slist = []
@@ -728,6 +765,15 @@ def class_schedule(request, id = None):
 def run_tasks(request):
     dayscan(repeat=86400)
     return HttpResponse(status=200)
+
+@csrf_exempt
+def constants(request):
+    if request.method == 'GET':
+        constant = Constant.objects.first()
+        serializer = ConstantSerializer(constant)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 #Login View
 class login_view(views.APIView):
     #override post function
@@ -765,3 +811,4 @@ class logout_view(views.APIView):
     def post(self, request, format=None):
         logout(request)
         return Response({}, status=status.HTTP_204_NO_CONTENT)
+
