@@ -9,7 +9,15 @@ import { ConstantsService } from '../shared/constants.service';
 export class InstructionsPageComponent implements OnInit {
 
   constructor(private constantsService: ConstantsService) { }
-  constants = {};
+  constants: any = {
+    private_hourly_rate: 0.0,
+    public_hourly_rate: 0.0,
+    spirit_private_sm_rate: 0.0,
+    spirit_private_lg_rate: 0.0,
+    spirit_public_sm_rate: 0.0,
+    spirit_public_lg_rate: 0.0,
+    cost_per_mile: 0.0,
+  };
   loading = true;
   ngOnInit() {
     this.constantsService.getConstants().subscribe(data => {
