@@ -33,14 +33,14 @@
         <div class="container top-buffer" id="form-container">
           <div class = "row">
             <div class="form-group col-md-6">
-              <label>Contact First Name*:</label>
+              <label>Contact First Name*</label>
               <input type="text" class="form-control" id="first_name" formControlName="firstName" [ngClass]="{'is-invalid':form.get('firstName').touched && form.get('firstName').invalid}">
               <div class='invalid-feedback'>
                 <div>This field is required.</div>
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label>Contact Last Name*:</label>
+              <label>Contact Last Name*</label>
               <input type="text" class="form-control" id="last_name" formControlName="lastName" [ngClass]="{'is-invalid':form.get('lastName').touched && form.get('lastName').invalid}">
               <div class='invalid-feedback'>
                 <div>This field is required.</div>
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="form-group col-md-12">
-            <label class="col-form-label">Event Title*:</label>
+            <label class="col-form-label">Event Title*</label>
             <input type="text" class="form-control" id="last_name" formControlName="eventTitle" [ngClass]="{'is-invalid':form.get('eventTitle').touched && form.get('eventTitle').invalid}">
             <div class='invalid-feedback'>
               <div>This field is required.</div>
@@ -56,7 +56,7 @@
           </div>
 
           <div class="form-group col-md-12">
-            <label class="col-form-label">Organization requesting appearance (if applicable):</label>
+            <label class="col-form-label">Organization requesting appearance (if applicable)</label>
             <input type="text" class="form-control" id="organization" [(ngModel)]="data.appearance.organization" [ngModelOptions]="{standalone: true}" name="organization">
           </div>
 
@@ -70,23 +70,23 @@
           </div>
           <div class = "row">
             <div class="form-group col-md-4">
-              <label class="col-form-label"> Date: </label>
+              <label class="col-form-label"> Date </label>
               <input class="form-control" type="date"  [(ngModel)]="data.appearance.date" [ngModelOptions]="{standalone: true}" name="date" readonly />
             </div>
 
             <div class="form-group col-md-4">
-              <label class="col-form-label">Start Time:</label>
+              <label class="col-form-label">Start Time</label>
               <input class="form-control" type="time"  [(ngModel)]="data.appearance.start_time" [ngModelOptions]="{standalone: true}" (change)="updateCost()" name="start_time" readonly/>
             </div>
 
             <div class="form-group col-md-4">
-              <label class="col-form-label">End Time:</label>
+              <label class="col-form-label">End Time</label>
               <input class="form-control" type="time"  [(ngModel)]="data.appearance.end_time" [ngModelOptions]="{standalone: true}" (change)="updateCost()" name="end_time" readonly/>
             </div>
           </div>
           <div class = "row">
             <div class="form-group col-md-6">
-              <label class="col-form-label">Phone Number*:</label>
+              <label class="col-form-label">Phone Number*</label>
               <input type="" class="form-control" id="phone" placeholder="###-###-####"  formControlName="phoneNumber" [ngClass]="{'is-invalid':form.get('phoneNumber').touched && form.get('phoneNumber').invalid}"  name="phone">
               <div *ngIf="form.get('phoneNumber').touched && form.get('phoneNumber').invalid" class='invalid-feedback'>
                 <div *ngIf="form.get('phoneNumber').errors.required">This field is required.</div>
@@ -95,7 +95,7 @@
             </div>
 
             <div class="form-group col-md-6">
-              <label class="col-form-label">Email*:</label>
+              <label class="col-form-label">Email*</label>
               <input type="email" class="form-control" id="email"  formControlName="email" name="email" [ngClass]="{'is-invalid':form.get('email').touched && form.get('email').invalid}">
               <div *ngIf="form.get('email').touched && form.get('email').invalid" class='invalid-feedback'>
                 <div *ngIf="form.get('email').errors.required">This field is required.</div>
@@ -105,7 +105,7 @@
           </div>
           
           <div class="form-group col-md-12">
-            <label class="col-form-label">On TCU Campus:</label>
+            <label class="col-form-label">On TCU Campus</label>
             <select  class="form-control" [(ngModel)]="onCampus" (ngModelChange)="locationTypeChange()" (change)="updateCost()" [ngModelOptions]="{standalone: true}" name="onCampus">
                 <option [ngValue]="true">Yes</option>
                 <option [ngValue]="false">No</option>
@@ -114,7 +114,7 @@
           
           <div [hidden]="!onCampus">
             <div class="form-group col-md-12">
-              <label>Location*:</label>
+              <label>Location*</label>
               <input autocomplete="off" type="text" class="form-control" formControlName="location" id="location" name="location" [ngClass]="{'is-invalid':form.get('location').touched && form.get('location').invalid}">
               <div class="invalid-feedback">This field is required.</div>
             </div>
@@ -122,7 +122,7 @@
 
           <div [hidden]="onCampus">
             <div class="form-group col-md-10">
-              <label>Location Address*: (Please choose from the autocomplete results)</label>
+              <label>Location Address* (Please choose from the autocomplete results)</label>
               <input autocomplete="off" google-place (onSelect)="autocompleteSelect($event)" formControlName="locationAddr" type="text" class="form-control" id="location"  name="locationAddr" [ngClass]="{'is-invalid': (form.get('locationAddr').touched && form.get('locationAddr').invalid) || invalidAddr} ">
               <div class="invalid-feedback">
                 <div *ngIf="form.get('locationAddr').touched && form.get('locationAddr').invalid">This field is required.</div>
@@ -141,7 +141,7 @@
 
           <div class = "row">
             <div class="form-group col-md-12">
-              <label for="team">Additional Spirit Members:</label>
+              <label for="team">Additional Spirit Members</label>
             </div>
             <div class="form-group col-md-6">
               <label>Cheerleaders</label>
@@ -162,7 +162,7 @@
             </div>
 
           <div class="form-group col-md-12">
-            <label class="col-form-label">Special Instructions (Parking, gate code, location for spirit members to change/ keep belongings): </label>
+            <label class="col-form-label">Special Instructions (Parking, gate code, location for spirit members to change/ keep belongings) </label>
             <textarea type="text" class="form-control" rows="3" id="special_instruction"  [(ngModel)]="data.appearance.special_instructions" [ngModelOptions]="{standalone: true}"
               name="special_instruction"></textarea>
           </div>
@@ -189,7 +189,7 @@
           </div>
 
           <div class="form-group col-md-12">
-            <label class="col-form-label">Description of Event* (What is the event, what will Superfrog be doing, exact number of additional spirit team members, etc.):</label>
+            <label class="col-form-label">Description of Event* (What is the event, what will Superfrog be doing, exact number of additional spirit team members, etc.)</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="description" formControlName="description"  [ngClass]="{'is-invalid':form.get('description').touched && form.get('description').invalid}" name="description"></textarea>
             <div class='invalid-feedback'>This field is required.</div>
           </div>
