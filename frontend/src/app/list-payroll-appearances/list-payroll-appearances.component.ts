@@ -129,8 +129,9 @@ export class ListPayrollAppearancesComponent implements OnInit {
     this.payrollService.genPayroll(this.adminID, this.payroll_array).subscribe(Response => {
       const blob = new Blob([Response], { type: 'text/plain' });
       saveAs(blob, 'payroll.txt');
+      location.reload();
     });
-    location.reload();
+    
   }
   getSuperfrogs() {
     this.payrollService.get_Superfrogs().subscribe(data => {
