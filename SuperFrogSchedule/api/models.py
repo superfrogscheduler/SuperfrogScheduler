@@ -171,6 +171,7 @@ class Appearance(Event):
     cost = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
     receipt_number = models.CharField(max_length = 255, blank = True, null=True)
     compensation_date = models.DateTimeField(blank=True, null=True)
+    eligable_for_pay = models.BooleanField(default=True)
 
     def __str__(self):
         return super().__str__()
