@@ -19,7 +19,7 @@
     </div>
 </div> -->
   <div class="form-group">
-      <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
+      <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select SuperFrog </label>
         <select (change)="onChange($event)">
           <option *ngFor="let v of superfrogData" [value]="v.user.id">{{v.user.first_name}}</option>
         </select>

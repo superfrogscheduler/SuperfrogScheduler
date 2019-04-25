@@ -27,7 +27,7 @@
   <div style="text-align:center">
     <div class="container align-center" id="pad-container">
     <h1>Request a TCU Spirit Appearance</h1>
-    <p>Fill out and submit the form below. We will review your request within a week and let you know if Superfrog can be there!</p>
+    <p>Fill out and submit the form below. We will review your request within a week and let you know if SuperFrog can be there!</p>
       <button class="btn btn-secondary" (click)="backToCalendar()"> Back to Calendar </button>
       <form name='form' [formGroup]='form'>
         <div class="container top-buffer" id="form-container">
@@ -189,7 +189,7 @@
           </div>
 
           <div class="form-group col-md-12">
-            <label class="col-form-label">Description of Event* (What is the event, what will Superfrog be doing, exact number of additional spirit team members, etc.):</label>
+            <label class="col-form-label">Description of Event* (What is the event, what will SuperFrog be doing, exact number of additional spirit team members, etc.):</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="description" formControlName="description"  [ngClass]="{'is-invalid':form.get('description').touched && form.get('description').invalid}" name="description"></textarea>
             <div class='invalid-feedback'>This field is required.</div>
           </div>
@@ -202,7 +202,7 @@
               </tr>
             </thead>
             <tr>
-              <td>Superfrog</td>
+              <td>SuperFrog</td>
               <td>{{this.duration}} hour(s) × ${{this.hourly.toFixed(2)}}</td>
               <td>${{(this.duration * this.hourly).toFixed(2)}}</td>
             </tr>
