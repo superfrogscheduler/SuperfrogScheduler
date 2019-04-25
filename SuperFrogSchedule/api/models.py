@@ -167,7 +167,7 @@ class Appearance(Event):
     description = models.CharField(max_length = 1000, blank = True)
     status = models.CharField(max_length = 255, default = "Pending")
     customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True, blank=True)
-    mileage = models.IntegerField(default = 0)
+    mileage = models.DecimalField(default = 0.00, decimal_places = 1, max_digits = 5)
     cost = models.DecimalField(default = 0.00, decimal_places=2, max_digits=10)
     receipt_number = models.CharField(max_length = 255, blank = True, null=True)
     compensation_date = models.DateTimeField(blank=True, null=True)
@@ -192,14 +192,28 @@ class Constant(models.Model):
         max_length=255,
     )
     cheerleader_captain_email = models.EmailField(
-        verbose_name = 'Showgirl Captain Email',
+        verbose_name = 'Cheerleader Captain Email',
         max_length=255,
     )
+    fall_semester_start = models.DateField()
+    fall_semester_end = models.DateField()
+    spring_semester_start = models.DateField()
+    spring_semester_end = models.DateField()
+    private_hourly_rate = models.DecimalField(decimal_places = 2, max_digits=10)
+    public_hourly_rate = models.DecimalField(decimal_places = 2, max_digits=10)
+    cost_per_mile = models.DecimalField(decimal_places = 2, max_digits=10)
+    superfrog_hourly_wage = models.DecimalField(decimal_places = 2, max_digits=10)
+    max_distance = models.IntegerField()
+    spirit_public_sm_rate = models.DecimalField(decimal_places = 2, max_digits=10)
+    spirit_public_lg_rate = models.DecimalField(decimal_places = 2, max_digits=10)
+    spirit_private_sm_rate = models.DecimalField(decimal_places = 2, max_digits=10)
+    spirit_private_lg_rate = models.DecimalField(decimal_places = 2, max_digits=10)
+    earliest_appearance_time = models.TimeField()
+    latest_appearance_time = models.TimeField()
+    appearance_max_len = models.IntegerField()
 
-    fall_semester_start = models.DateTimeField()
-    fall_semester_end = models.DateTimeField()
-    spring_semester_start = models.DateTimeField()
-    spring_semester_end = models.DateTimeField()
+    def __str__(self):
+        return "Constants"
 
 # class OrgType(models.Model):
 #     org_type=models.CharField(max_length = 255)

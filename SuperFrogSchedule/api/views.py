@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass
-from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, CustomerAppearanceSerializer, SuperfrogAppearanceSerializer, SuperfrogLandingSerializer,PayrollSerializer, SuperfrogClassSerializer
+from .models import Superfrog, Admin, Customer, Event, Appearance, SuperfrogAppearance, User,SuperfrogClass, Constant
+from .serializers import SuperfrogSerializer, AdminSerializer, CustomerSerializer, EventSerializer, AppearanceSerializer,AppearanceShortSerializer, UserSerializer, CustomerAppearanceSerializer, SuperfrogAppearanceSerializer, SuperfrogLandingSerializer,PayrollSerializer, SuperfrogClassSerializer, ConstantSerializer
 from rest_framework import viewsets, views, generics, status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -754,6 +754,15 @@ def class_schedule(request, id = None):
 def run_tasks(request):
     dayscan(repeat=86400)
     return HttpResponse(status=200)
+
+@csrf_exempt
+def constants(request):
+    if request.method == 'GET':
+        constant = Constant.objects.first()
+        serializer = ConstantSerializer(constant)
+        return HttpResponse(JSONRenderer().render(serializer.data))
+    else:
+        return HttpResponseBadRequest()
 #Login View
 class login_view(views.APIView):
     #override post function
@@ -791,3 +800,4 @@ class logout_view(views.APIView):
     def post(self, request, format=None):
         logout(request)
         return Response({}, status=status.HTTP_204_NO_CONTENT)
+

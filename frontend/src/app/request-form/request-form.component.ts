@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { GoogleService } from '../shared/google.service';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { ConstantsService } from '../shared/constants.service';
 
 @Component({
   selector: 'app-request-form',
@@ -43,14 +44,37 @@ export class RequestFormComponent implements OnInit {
   newEvent = {id: 'newEvent', events: [] };
   classIntersection: any;
   distance: any;
-  hourly=0;
-  duration=0;
-  loading = false;
+  hourly: number =0.0;
+  spiritSmHourly : number = 0.0;
+  spiritLgHourly : number= 0.0;
+  duration: number=0;
+  loading = true;
+  submitting = false;
+  constants: any = {
+    private_hourly_rate: 0.0,
+    public_hourly_rate: 0.0,
+    spirit_private_sm_rate: 0.0,
+    spirit_private_lg_rate: 0.0,
+    spirit_public_sm_rate: 0.0,
+    spirit_public_lg_rate: 0.0,
+    cost_per_mile: 0.0,
+  };
+  place: any;
 
   
-  constructor(private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
+  constructor(private constantsService: ConstantsService, private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
 
-  onSubmit() { this.submitted = true; }
+  onSubmit() {   
+    if (this.form.valid) {
+      this.saveRequest();
+    } 
+    else {
+      Object.keys(this.form.controls).forEach(field => { // {1}
+        const control = this.form.get(field);            // {2}
+        control.markAsTouched({ onlySelf: true });       // {3}
+      });
+    }
+  }
 
   // TODO: Remove this when we're done
   get diagnostic() { return JSON.stringify(this.model); }
@@ -62,10 +86,13 @@ export class RequestFormComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     description: new FormControl('', Validators.required),
     locationAddr: new FormControl(''),
-    location: new FormControl('', Validators.required)
-  })
+    location: new FormControl('', Validators.required),
+    agree: new FormControl('', Validators.required),
+  });
   ngOnInit() {
-    this.requestService.getClassIntersection().subscribe(data =>{
+    this.constantsService.getConstants().subscribe(c => {
+      this.constants = c;
+      this.requestService.getClassIntersection().subscribe(data =>{
       this.classIntersection = data;
       this.generateClassEvents(this.earliestDay.startOf('month'));
       //get preexisting events from the database
@@ -75,8 +102,8 @@ export class RequestFormComponent implements OnInit {
           this.events.events.push({ title: "Unavailable", start: element.start, end: element.end });
         });
         this.calendarOptions = {
-          minTime: "08:00:00",
-          maxTime: "23:00:00",
+          minTime: this.constants.earliest_appearance_time,
+          maxTime: this.constants.latest_appearance_time,
           showNonCurrentDates: false,
           allDaySlot: false,
           defaultDate: this.earliestDay, 
@@ -84,7 +111,7 @@ export class RequestFormComponent implements OnInit {
           eventLimit: false,
           selectable: false,
           selectAllow: (selectinfo) => {
-            return selectinfo.end.diff(selectinfo.start,'hours',true)<=4.0;
+            return selectinfo.end.diff(selectinfo.start,'hours',true)<=this.constants.appearance_max_len;
           },
           selectOverlap: false,
           longPressDelay: 500,
@@ -154,8 +181,11 @@ export class RequestFormComponent implements OnInit {
           }
     
         };
+        this.loading = false;
       });
     });
+
+  });
   }
 
   getEvents(year, month){
@@ -171,7 +201,7 @@ export class RequestFormComponent implements OnInit {
   }
 
   saveRequest() {
-    this.loading =true;
+    this.submitting = true;
     this.data.appearance.location = "";
     if(!this.onCampus){
       if(this.locationName){
@@ -194,11 +224,12 @@ export class RequestFormComponent implements OnInit {
     this.data.appearance.start_time = this.newEvent.events[0].start.format('kk:mm');
     this.data.appearance.end_time = this.newEvent.events[0].end.format('kk:mm');
     this.requestService.saveRequest(this.data).subscribe(response => {
-        this.loading = false;
+        this.submitting = false;
         this.router.navigate(['/customer-confirmation']); //how do i route this to a django view url instead???
     
       },
       error => {
+        this.submitting = false;
         console.log(error);
       });
   }
@@ -259,7 +290,13 @@ export class RequestFormComponent implements OnInit {
   //This function is called when the user rezises or moves their event
   updateEvent(event: any){
     this.errorMsg = "";
-    this.newEvent.events[0] = event.event;
+    if(event.event.end.diff(event.event.start,'hours',true)<=this.constants.appearance_max_len){
+      this.newEvent.events[0] = event.event;
+    }
+    else{
+      event.revertFunc();
+    }
+
     this.ucCalendar.fullCalendar("rerenderEvents");
   }
   //This function is called when the user clicks the continue button.
@@ -286,16 +323,27 @@ export class RequestFormComponent implements OnInit {
     this.ucCalendar.fullCalendar("changeView", "month");
     this.showCalendar = true;
   }
-
+  autocompleteBlur(){
+    if (!this.place || !this.place.geometry) {
+      this.invalidAddr = true;
+    }
+    else{
+      this.invalidAddr = false;
+    }
+  }
+  autocompleteFocus(){
+    this.place = undefined;
+  }
   autocompleteSelect(place){
     this.zone.run(() => {
       console.log(place);
-      if (!place.geometry) {
+      this.place = place;
+      if (!this.place.geometry) {
         this.invalidAddr = true;
       }
       else{
         this.invalidAddr = false;
-        this.locationAddr = place.formatted_address;
+        this.locationAddr = this.place.formatted_address;
 
         var service = new google.maps.DistanceMatrixService();
         service.getDistanceMatrix({
@@ -305,7 +353,7 @@ export class RequestFormComponent implements OnInit {
           unitSystem: google.maps.UnitSystem.IMPERIAL
         }, (response, status) => {
           this.distance = response.rows[0].elements[0].distance;
-          this.data.appearance.mileage = _.round(this.distance.value / 1609.344, 1);
+          this.data.appearance.mileage = _.round(this.distance.value / 1609.344, 1)*2;
           console.log(this.data.appearance.mileage); 
           this.zone.run(() =>{this.updateCost()});
         });
@@ -359,31 +407,35 @@ export class RequestFormComponent implements OnInit {
       start.add(1, 'week');
     }
   }
+
   updateCost(){
     this.data.appearance.cost = 0;
-
     this.duration = Math.ceil(this.newEvent.events[0].end.diff(this.newEvent.events[0].start, 'hours', true));
     if(this.data.appearance.org_type == "Private/Business"){
-      this.hourly = 175.0;
+      this.hourly = this.constants.private_hourly_rate;
+      this.spiritSmHourly = this.constants.spirit_private_sm_rate;
+      this.spiritLgHourly = this.constants.spirit_private_lg_rate;
     }
     else{
-      this.hourly = 100.0;
+      this.hourly = this.constants.public_hourly_rate;
+      this.spiritSmHourly = this.constants.spirit_public_sm_rate;
+      this.spiritLgHourly = this.constants.spirit_public_lg_rate;
     }
     this.data.appearance.cost += this.duration * this.hourly;
     if(this.data.appearance.cheerleaders == 'Small Team'){
-      this.data.appearance.cost += this.duration * this.hourly;
+      this.data.appearance.cost += this.duration * this.spiritSmHourly;
     }
     if(this.data.appearance.cheerleaders == 'Large Team'){
-      this.data.appearance.cost += this.duration * (this.hourly+50);
+      this.data.appearance.cost += this.duration * this.spiritLgHourly;
     }
     if(this.data.appearance.showgirls == 'Small Team'){
-      this.data.appearance.cost += this.duration * this.hourly;
+      this.data.appearance.cost += this.duration * this.spiritSmHourly;
     }
     if(this.data.appearance.showgirls == 'Large Team'){
-      this.data.appearance.cost += this.duration * (this.hourly+50);
+      this.data.appearance.cost += this.duration * this.spiritLgHourly;
     }
     if(this.data.appearance.mileage > 2){
-      this.data.appearance.cost += _.round(this.data.appearance.mileage * .5, 1);
+      this.data.appearance.cost += _.round(this.data.appearance.mileage*this.constants.cost_per_mile, 2);
     }
     console.log(this.data.appearance.cost);
 
