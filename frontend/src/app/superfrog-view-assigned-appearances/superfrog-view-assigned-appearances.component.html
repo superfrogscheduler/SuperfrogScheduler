@@ -4,18 +4,18 @@
       <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item" ><a [routerLink]="['/view-appearance']" style = "color: #4d1979;">All My Appearances</a></li>
-            <li class="breadcrumb-item active" aria-current="page">All Superfrog Appearances</li>
+            <li class="breadcrumb-item active" aria-current="page">All SuperFrog Appearances</li>
           </ol>
         </nav>
   </div>
 <!--page content-->
 <div style="text-align:center; padding-top:10px;">
   <div style = "padding-bottom: 50px;">
-    <h1>All Upcoming Superfrog Appearances</h1>
+    <h1>All Upcoming SuperFrog Appearances</h1>
   </div>
   <div class = "container" style = "padding-bottom: 10px;">
     <div class="form-group">
-        <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select Superfrog </label>
+        <label for="exampleFormControlSelect1" style = "padding-right: 10px;">Select SuperFrog </label>
         <select (change)="onChange($event)">
             <option *ngFor="let v of superfrogData" [value]="v.user.id">{{v.user.first_name}} {{v.user.last_name}}</option>
           </select>
@@ -44,7 +44,7 @@
         <p>{{names.appearance.description}}</p>
     </div>
     <div class = "col-md-6" style = "float: none; margin: 0 auto;">
-      <p class = "label">Superfrog Assigned: </p>
+      <p class = "label">SuperFrog Assigned: </p>
       <p>{{names.superfrog.user.first_name}} {{names.superfrog.user.last_name}}</p>
   </div>
     </div>
@@ -55,7 +55,7 @@
   </div>
 </div>
 <!-- 
-<select ng-model="selectedSuperfrogAccount">
-  <option value="">Select Superfrog</option> 
+<select ng-model="selectedSuperFrogAccount">
+  <option value="">Select SuperFrog</option> 
  <option ng-repeat="item in appearanceData" value="{{item.id}}">{{item.appearance.name}}    
  </option></select> -->
