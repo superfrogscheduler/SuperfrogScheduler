@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Headers, RequestOptions, ResponseContentType } from '@angular/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ListPayrollService {
-  baseurl = "http://127.0.0.1:8000/";
+  baseurl = environment.apiURL;
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
   getAppearances(req: {}): Observable<any> {

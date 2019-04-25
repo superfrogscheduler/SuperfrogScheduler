@@ -6,6 +6,7 @@ import { NavbarService } from '../services/navbar.service';
 import { Superfrog } from '../shared/superfrog';
 import { User } from '../shared/user';
 import { Admin } from '../shared/admin';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-authentication',
@@ -25,7 +26,7 @@ export class AuthenticationComponent implements OnInit {
 
   isAdmin: boolean;
   edited: boolean;
-  baseurl = 'This is homepage url'
+  baseurl = environment.apiURL;
   alert = 'This is alert';
 
   constructor(private authService: AuthenticationService, private router: Router, private navbarService: NavbarService) {
@@ -40,8 +41,6 @@ export class AuthenticationComponent implements OnInit {
     else if (this.authService.isLoggedIn == 2)
     this.router.navigate(['/superfrog-landing'])
     
-    //this.baseurl = "http://127.0.0.1:8000/";
-    this.baseurl = "http://127.0.0.1:8000/";
 
     this.alert = '';
     this.edited =  false;

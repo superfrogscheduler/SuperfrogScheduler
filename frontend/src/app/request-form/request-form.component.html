@@ -8,7 +8,7 @@
     
 <div class="container" [hidden]="!showCalendar">
   <h1 style = "text-align:center;">Request a TCU Spirit Appearance</h1>
-  <p>Select your event date from the calendar. Events must be scheduled at least 2 weeks in advance.</p>
+  <p>Click on a date from the calendar, then click and drag to select your event time. Events must be scheduled at least 2 weeks in advance.</p>
   <div class="row justify-content-center" style = "padding-bottom: 25px;">
     <div class="col-md-10">
       <div *ngIf="calendarOptions" style = "padding-top:40px;">
@@ -241,7 +241,7 @@
             <p>By requesting this event, you are agreeing to the terms &amp; conditions of a TCU Spirit Appearance.</p>
           </div>
           <div class="col-md-12">
-            <button class="btn btn-primary" type="button" [disabled]="!form.valid || invalidAddr" (click)="saveRequest(); sendEmail();" data-toggle="modal" data-target="#loadingModal">Submit</button>
+            <button class="btn btn-primary" type="button" [disabled]="!form.valid || invalidAddr" (click)="saveRequest()" data-toggle="modal" data-target="#loadingModal">Submit</button>
           </div>
         </div>
       </form>
