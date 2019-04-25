@@ -47,6 +47,7 @@ import { SuperfrogContactInfoComponent } from './superfrog-contact-info/superfro
 import { SuperfrogSettingsComponent } from './superfrog-settings/superfrog-settings.component';
 import { LogoutComponent } from './logout/logout.component';
 import {TermsAndConditionsComponent} from './terms-and-conditions/terms-and-conditions.component';
+import { AcceptedAppearanceDetailsComponent } from './accepted-appearance-details/accepted-appearance-details.component';
 
 const appRoutes: Routes = [
   {path: '', component: LandingComponent},
@@ -84,8 +85,8 @@ const appRoutes: Routes = [
   {path: 'admin-settings', component: AdminSettingsComponent},
   { path: 'admin-appearance-details', component: AdminAppearancesDetailsComponent},
   {path: 'superfrog-settings', component: SuperfrogSettingsComponent},
-  {path: 'superfrog-contact-info', component: SuperfrogContactInfoComponent}
-
+  {path: 'superfrog-contact-info', component: SuperfrogContactInfoComponent},
+  { path: 'accepted-appearance-details/:id', component: AcceptedAppearanceDetailsComponent},
 ];
 
 @NgModule({
@@ -128,6 +129,7 @@ const appRoutes: Routes = [
     SuperfrogSettingsComponent,
     LogoutComponent,
     TermsAndConditionsComponent,
+    AcceptedAppearanceDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(
