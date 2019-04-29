@@ -20,14 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x22swu=bsyi!g-11j9hq*y0lih0v&h@p(lt!j84-&eh(r2f&g3'
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 
 
-ALLOWED_HOSTS = ['3.94.88.53', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [os.environ.get('HOST_IP'), '127.0.0.1', 'localhost']
 
 
 TIME_ZONE = 'US/Central'
@@ -144,8 +144,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'superfrogscheduler@gmail.com'
-EMAIL_HOST_PASSWORD = '1819Superfrog'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 CORS_ORIGIN_ALLOW_ALL = True
 

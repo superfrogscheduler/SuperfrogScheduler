@@ -17,7 +17,6 @@ from collections import defaultdict, OrderedDict
 from django.contrib.auth import authenticate, login,logout, user_logged_in
 from django.contrib.auth.views import PasswordResetView
 from rest_framework import permissions
-import pdfrw
 import os, locale
 from django.template.loader import render_to_string, get_template
 import datetime
@@ -59,28 +58,6 @@ ANNOT_RECT_KEY = '/Rect'
 SUBTYPE_KEY = '/Subtype'
 WIDGET_SUBTYPE_kEY='/Widget'
 
-def write_fillable_pdf(input_pdf_path,output_pdf_path,data_dict):
-    template_pdf=pdfrw.PdfReader(input_pdf_path)
-    annotations=template_pdf.pages[0][ANNOT_KEY]
-    for annotation in annotations:
-        if annotation[SUBTYPE_KEY]==WIDGET_SUBTYPE_kEY:
-            if(annotation[ANNOT_FIELD_KEY]):
-                key=annotation[ANNOT_FIELD_KEY][1:-1]
-                if key in data_dict.keys():
-                    annotation.update(
-                        pdfrw.PdfDict(V='{}'.format(data_dict[key]))
-                    )
-
-    pdfrw.PdfWriter().write(output_pdf_path,template_pdf)
-
-def payroll_test(request):
-    array = json.loads(request.body)
-    ids = []
-    for i in array:
-        ids.append(i['id'])
-    data = get_appearance_dict(ids)
-
-    return HttpResponse(200)
 
 @csrf_exempt 
 def mark_not_payable(request, id = None):
@@ -593,11 +570,13 @@ def events(request):
         serializer = EventSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))    
 
+#Helper functon to turn a date, start time, and end time into a DateTimeRange object
 def toDateRange(date, start, end):
     startstr = str(date)+"T"+str(start)
     endstr = str(date)+"T"+str(end)
     return DateTimeRange(startstr,endstr)
 
+#Returns all the events for the month to show on the customer calendar
 def events_customer_monthly(request, year, month):
     events = defaultdict(list)
     queryset = Event.objects.filter(date__year = year, date__month = month).order_by('date', 'start_time', 'end_time')
@@ -623,6 +602,7 @@ def events_customer_monthly(request, year, month):
             response.append(OrderedDict([('start', str(day) + " "+ event.get_start_time_str()), ('end',  str(day) + " "+ event.get_end_time_str()), ('editable', False)]))
     return HttpResponse(JSONRenderer().render(response))
 
+#returns the intersections of the superfrogs' class schedules to display on the customer calendar
 def class_schedule_intersection(request):
     classes = {}
     frogs = Superfrog.objects.values_list('pk', flat=True)
@@ -669,7 +649,7 @@ def class_schedule_intersection(request):
             else:
                 temp = "000000000000000000000000000"
             classes[i][j] = temp
-        #And the binary strings together to get intersection
+        #AND the binary strings together to get intersection
         temp = int("111111111111111111111111111",2)
         for j in range(len(frogs)):
             temp = temp & int(classes[i][j],2)
@@ -720,6 +700,7 @@ def email(request):
     send_mail( subject, message, email_from, recipient_list )
     return redirect('/customer-confirmation')
 
+#Get/Update superfrog class schedules
 @csrf_exempt
 def class_schedule(request, id = None):
     if request.method == 'GET':
@@ -761,7 +742,7 @@ def class_schedule(request, id = None):
     else:
         return HttpResponseBadRequest()
 
-
+#run daily dasks
 def run_tasks(request):
     dayscan(repeat=86400)
     return HttpResponse(status=200)

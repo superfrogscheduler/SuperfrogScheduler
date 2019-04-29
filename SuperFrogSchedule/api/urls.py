@@ -64,7 +64,6 @@ urlpatterns = [
     url(r'^class-schedule/(?P<id>\d+)/$', class_schedule),
     url(r'^class-schedule-intersection/$', class_schedule_intersection),
     url(r'^get_Superfrogs/$', get_Superfrogs),   
-    url(r'payroll-test/', payroll_test),
     url(r'^filter_by_Superfrog_Date/(?P<start_date>\d{4}-\d{2}-\d{2})/(?P<end_date>\d{4}-\d{2}-\d{2})/$',filter_by_Superfrog_and_date),
     url(r'^auth/login/$', login_view.as_view(), name='Login'),
     url(r'^auth/logout/$', logout_view.as_view(), name='Logout'),
