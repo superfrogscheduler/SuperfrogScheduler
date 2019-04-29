@@ -32,7 +32,6 @@ from .views import (
     class_schedule_intersection,
     get_Superfrogs,
     filter_by_Superfrog_and_date,
-    payroll_test,
     run_tasks,
     constants,
     appearance_by_past_and_payable,
