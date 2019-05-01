@@ -159,3 +159,7 @@ AUTH_USER_MODEL = 'api.User'
 LOGIN_URL = 'http://localhost:4200/auth'
 
 LOGIN_REDIRECT_URL = '/list-appearances'
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
