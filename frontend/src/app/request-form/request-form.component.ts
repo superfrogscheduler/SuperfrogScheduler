@@ -94,7 +94,7 @@ export class RequestFormComponent implements OnInit {
       this.constants = c;
       this.requestService.getClassIntersection().subscribe(data =>{
       this.classIntersection = data;
-      this.generateClassEvents(this.earliestDay.startOf('month'));
+      this.generateClassEvents(moment().startOf('month'));
       //get preexisting events from the database
       //seeing if this comment will fix our server somehow
       this.requestService.getEvents(this.earliestDay.year(), this.earliestDay.clone().add(1, 'M').month()).subscribe(data => {
@@ -286,6 +286,11 @@ export class RequestFormComponent implements OnInit {
     }
     this.ucCalendar.fullCalendar('refetchEvents');
     this.ucCalendar.fullCalendar('rerenderEvents');
+    window.scroll({ 
+      top: document.body.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
   //This function is called when the user rezises or moves their event
   updateEvent(event: any){

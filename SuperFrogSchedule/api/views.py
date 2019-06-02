@@ -118,13 +118,17 @@ def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
 def list_by_status(request, status=None):
     if request.method == 'GET':
         queryset = Appearance.objects.filter(status=status)
+        if request.GET.get('month') and request.GET.get('year'):
+            queryset = queryset.filter(date__month = int(request.GET.get('month')), date__year = int(request.GET.get('year')))
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
 def list_by_status_superfrog(request, status=None, sId= None):
     if request.method == 'GET':
         queryset = SuperfrogAppearance.objects.filter(superfrog = sId , appearance__status = status)
+        
         serializer = SuperfrogLandingSerializer(queryset, many = True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:

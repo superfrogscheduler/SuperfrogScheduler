@@ -16,6 +16,7 @@ export class AdminViewAppearancesComponent implements OnInit {
   appearances = [];
   calendarOptions: Options;
   chooseDate: any;
+  mode: string = 'all';
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   constructor(private authService: AuthenticationService, private adminView: ViewAppearancesAdminService, private router: Router) { }
@@ -30,6 +31,16 @@ export class AdminViewAppearancesComponent implements OnInit {
     this.calendarOptions = {
       editable: true,
       eventLimit: false,
+      customButtons:{
+        myNext: {
+          text: 'next',
+          icon: 'right-single-arrow',
+          click: () => {
+            this.ucCalendar.fullCalendar('next');
+            
+          }
+        }
+      },
       header: {
         left: 'prevYear,nextYear',
         center: 'title',
@@ -41,9 +52,11 @@ export class AdminViewAppearancesComponent implements OnInit {
     };
     this.getAssignedAppearance();
   }
+  
   getAcceptedAppearance() {
     this.appearances.length = 0;
-    this.adminView.getAcceptedAppearances().subscribe(data => {
+    let day = this.ucCalendar.fullCalendar('getDate');
+    this.adminView.getAcceptedAppearances(day.clone().add(1,'m'), day.year()).subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
           id: element.id,
@@ -87,5 +100,17 @@ export class AdminViewAppearancesComponent implements OnInit {
   }
   onChangeDate() {
     this.ucCalendar.fullCalendar('gotoDate', this.chooseDate);
+  }
+  acceptedClick(){
+    this.mode = 'accepted';
+    this.getAcceptedAppearance();
+  }
+  assignedClick(){
+    this.mode = 'assigned';
+    this.getAssignedAppearance();
+  }
+  allClick(){
+    this.mode = 'all';
+    //this.getAllAppearance();
   }
 }
