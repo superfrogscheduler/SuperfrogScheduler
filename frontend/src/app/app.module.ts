@@ -22,7 +22,6 @@ import { ViewAppearancesComponent } from './view-appearances/view-appearances.co
 import { AppearanceDetailComponent } from './appearance-detail/appearance-detail.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ListAcceptRejectComponent } from './list-accept-reject/list-accept-reject.component';
-import * as $ from 'jquery';
 import { GooglePlacesDirective } from './shared/google-places.directive';
 import { SuperfrogCalendarComponent } from './superfrog-calendar/superfrog-calendar.component';
 import { EventCodeComponent } from './event-code/event-code.component';
