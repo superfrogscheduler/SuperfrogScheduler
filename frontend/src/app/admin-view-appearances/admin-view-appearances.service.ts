@@ -12,10 +12,10 @@ export class ViewAppearancesAdminService {
   httpHeaders = new HttpHeaders({'Content.Type': 'application/json'});
   constructor(private http: HttpClient) { }
   getAcceptedAppearances(month, year): Observable<any> {
-    return this.http.get(this.baseurl + "appearances/status/Accepted/?month="+month+"&year="+year );
+    return this.http.get(this.baseurl + "appearances/status/Accepted");
   }
-  getAssignedAppearances(): Observable<any> {
-    return this.http.get(this.baseurl + "superfrogappearances/status/Assigned/" );
+  getAssignedAppearances(month,year): Observable<any> {
+    return this.http.get(this.baseurl + "superfrogappearances/status/Assigned" );
   }
 
 }
