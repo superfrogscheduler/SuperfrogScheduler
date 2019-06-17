@@ -16,6 +16,7 @@ export class AdminViewAppearancesComponent implements OnInit {
   appearances = [];
   calendarOptions: Options;
   chooseDate: any;
+  mode: string = 'all';
   data: { "appearance": Appearance, "superfrog": Superfrog} = { "appearance": {}, "superfrog": {}};
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   constructor(private authService: AuthenticationService, private adminView: ViewAppearancesAdminService, private router: Router) { }
@@ -30,6 +31,16 @@ export class AdminViewAppearancesComponent implements OnInit {
     this.calendarOptions = {
       editable: true,
       eventLimit: false,
+      customButtons:{
+        myNext: {
+          text: 'next',
+          icon: 'right-single-arrow',
+          click: () => {
+            this.ucCalendar.fullCalendar('next');
+            
+          }
+        }
+      },
       header: {
         left: 'prevYear,nextYear',
         center: 'title',
@@ -41,12 +52,14 @@ export class AdminViewAppearancesComponent implements OnInit {
     };
     this.getAssignedAppearance();
   }
+  
   getAcceptedAppearance() {
-    this.appearances.length = 0;
-    this.adminView.getAcceptedAppearances().subscribe(data => {
+    let day = this.ucCalendar.fullCalendar('getDate');
+    this.adminView.getAcceptedAppearances(day.clone().add(1,'M').month(), day.year()).subscribe(data => {
       data.forEach(element => {
         this.appearances.push({
           id: element.id,
+          color: 'yellow',
           title: element.name,
           start: "" + element.date + " " + element.start_time,
           end: ""+ element.date + " " + element.end_time, 
@@ -60,12 +73,14 @@ export class AdminViewAppearancesComponent implements OnInit {
     });
   }
   getAssignedAppearance() {
-    this.appearances.length = 0;
-    this.adminView.getAssignedAppearances().subscribe(data => {
+    let day = this.ucCalendar.fullCalendar('getDate');
+    this.adminView.getAssignedAppearances(day.clone().add(1,'M').month(), day.year()).subscribe(data => {
+      console.log(data);
       data.forEach(element => {
         this.appearances.push({
           id: element.id,
-          title: element.appearance.name,
+          color: 'green',
+          title: element.appearance.name + ' - ' + element.superfrog.user.first_name + " "+ element.superfrog.user.last_name,
           start: "" + element.appearance.date + " " + element.appearance.start_time,
           end: ""+ element.appearance.date + " " + element.appearance.end_time, 
           superfrog: "" + element.superfrog.user.first_name + "" + element.superfrog.user.last_name
@@ -87,5 +102,21 @@ export class AdminViewAppearancesComponent implements OnInit {
   }
   onChangeDate() {
     this.ucCalendar.fullCalendar('gotoDate', this.chooseDate);
+  }
+  acceptedClick(){
+    this.appearances.length = 0;
+    this.mode = 'accepted';
+    this.getAcceptedAppearance();
+  }
+  assignedClick(){
+    this.appearances.length = 0;
+    this.mode = 'assigned';
+    this.getAssignedAppearance();
+  }
+  allClick(){
+    this.appearances.length = 0;
+    this.mode = 'all';
+    this.getAssignedAppearance();
+    this.getAcceptedAppearance();
   }
 }

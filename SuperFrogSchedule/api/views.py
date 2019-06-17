@@ -118,13 +118,17 @@ def filter_by_Superfrog_and_date(request,  start_date = None, end_date = None):
 def list_by_status(request, status=None):
     if request.method == 'GET':
         queryset = Appearance.objects.filter(status=status)
+        if request.GET.get('month') and request.GET.get('year'):
+            queryset = queryset.filter(date__month = int(request.GET.get('month')), date__year = int(request.GET.get('year')))
         serializer = AppearanceShortSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
         return HttpResponseBadRequest()
+
 def list_by_status_superfrog(request, status=None, sId= None):
     if request.method == 'GET':
         queryset = SuperfrogAppearance.objects.filter(superfrog = sId , appearance__status = status)
+        
         serializer = SuperfrogLandingSerializer(queryset, many = True)
         return HttpResponse(JSONRenderer().render(serializer.data))
     else:
@@ -244,7 +248,14 @@ def detail(request, id=None):
     if request.method == 'GET':
         queryset = Appearance.objects.get(pk=id)
         serializer = CustomerAppearanceSerializer(queryset, many=False)
-        return HttpResponse(JSONRenderer().render(serializer.data))
+        data = serializer.data
+        time = datetime.datetime.strptime(data['start_time'],'%H:%M:%S')
+        data['start_time'] = time.strftime('%I:%M %p')
+        time = datetime.datetime.strptime(data['end_time'],'%H:%M:%S')
+        data['end_time'] = time.strftime('%I:%M %p')
+
+        response = JSONRenderer().render(data)
+        return HttpResponse(response)
     else:
         return HttpResponseBadRequest()
 def payroll_appearance(request,status=None):

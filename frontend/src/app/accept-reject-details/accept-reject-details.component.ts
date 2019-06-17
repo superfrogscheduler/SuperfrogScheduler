@@ -5,6 +5,7 @@ import { Appearance } from '../shared/appearance';
 import { Superfrog } from '../shared/superfrog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../authentication/authentication.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-accept-reject-details',
@@ -32,6 +33,9 @@ export class AcceptRejectDetailsComponent implements OnInit {
     this.adminService.getID(this.id).subscribe(data => {
       console.log(data);
       this.getData = data;
+      // this.getData.start_time = moment(this.getData.start_time).format('h:mma');
+      // this.getData.end_time = moment(this.getData.end_time).format('h:mma');
+
     });
   }
 

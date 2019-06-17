@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { ConstantsService } from '../shared/constants.service';
 
+
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
@@ -30,7 +31,7 @@ export class RequestFormComponent implements OnInit {
   members = [1, 2, 3];
   submitted = false;
   showCalendar = true;
-  data: { "customer": Customer, "appearance": Appearance } = { "customer": {}, "appearance": {performance_required: false, cheerleaders: "None", showgirls: "None", org_type: "TCU", cost: 0} };
+  data: { "customer": Customer, "appearance": Appearance } = { "customer": {}, "appearance": {performance_required: false, cheerleaders: "None", showgirls: "None", org_type:null, cost: 0} };
   clickedDay: any;
   errorMsg: string = "";
   earliestDay: any = moment().add(2, 'weeks').subtract(1, 'day').startOf('day');
@@ -50,6 +51,7 @@ export class RequestFormComponent implements OnInit {
   duration: number=0;
   loading = true;
   submitting = false;
+  modal = 'none';
   constants: any = {
     private_hourly_rate: 0.0,
     public_hourly_rate: 0.0,
@@ -60,12 +62,12 @@ export class RequestFormComponent implements OnInit {
     cost_per_mile: 0.0,
   };
   place: any;
-
   
   constructor(private constantsService: ConstantsService, private requestService: RequestFormService, private googleService: GoogleService, private zone: NgZone, private router: Router) { }
 
   onSubmit() {   
     if (this.form.valid) {
+      console.log("I'm valid!!");
       this.saveRequest();
     } 
     else {
@@ -82,19 +84,21 @@ export class RequestFormComponent implements OnInit {
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     eventTitle: new FormControl('', Validators.required),
+    eventType: new FormControl(null, Validators.required),
     phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     description: new FormControl('', Validators.required),
     locationAddr: new FormControl(''),
     location: new FormControl('', Validators.required),
     agree: new FormControl('', Validators.required),
+    termsClicked: new FormControl(false,Validators.requiredTrue)
   });
   ngOnInit() {
     this.constantsService.getConstants().subscribe(c => {
       this.constants = c;
       this.requestService.getClassIntersection().subscribe(data =>{
       this.classIntersection = data;
-      this.generateClassEvents(this.earliestDay.startOf('month'));
+      this.generateClassEvents(moment().startOf('month'));
       //get preexisting events from the database
       //seeing if this comment will fix our server somehow
       this.requestService.getEvents(this.earliestDay.year(), this.earliestDay.clone().add(1, 'M').month()).subscribe(data => {
@@ -192,7 +196,7 @@ export class RequestFormComponent implements OnInit {
     this.requestService.getEvents(year, month).subscribe(data => {
       this.ucCalendar.fullCalendar('removeEventSource', 'events');
       data.forEach(element => {
-        this.events.events.push({ title: "Unavailable", start: element.start, end: element.end })
+        this.events.events.push({ title: "SuperFrog is booked", start: element.start, end: element.end })
       });
       this.ucCalendar.fullCalendar('addEventSource',this.events);
       console.log(this.ucCalendar.fullCalendar('getEventSources'));
@@ -223,6 +227,8 @@ export class RequestFormComponent implements OnInit {
     this.data.appearance.description = this.form.get('description').value;
     this.data.appearance.start_time = this.newEvent.events[0].start.format('kk:mm');
     this.data.appearance.end_time = this.newEvent.events[0].end.format('kk:mm');
+    this.data.appearance.org_type = this.form.get('eventType').value;
+    console.log(this.data);
     this.requestService.saveRequest(this.data).subscribe(response => {
         this.submitting = false;
         this.router.navigate(['/customer-confirmation']); //how do i route this to a django view url instead???
@@ -286,6 +292,14 @@ export class RequestFormComponent implements OnInit {
     }
     this.ucCalendar.fullCalendar('refetchEvents');
     this.ucCalendar.fullCalendar('rerenderEvents');
+    //Make sure the window scrolls after the continue button has appeared
+    setTimeout(() =>{
+      window.scroll({ 
+      top: document.body.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+      });
+    }, 0);
   }
   //This function is called when the user rezises or moves their event
   updateEvent(event: any){
@@ -395,7 +409,7 @@ export class RequestFormComponent implements OnInit {
           e.hours(time['end']['hour']);
           e.minutes(time['end']['minutes']);
           var event = {
-            title: "Unavailable",
+            title: "SuperFrog has class",
             start: s.format("YYYY-MM-DD kk:mm:ss"),
             end: e.format("YYYY-MM-DD kk:mm:ss"),
             allDay: false
@@ -411,7 +425,7 @@ export class RequestFormComponent implements OnInit {
   updateCost(){
     this.data.appearance.cost = 0;
     this.duration = Math.ceil(this.newEvent.events[0].end.diff(this.newEvent.events[0].start, 'hours', true));
-    if(this.data.appearance.org_type == "Private/Business"){
+    if(this.form.get('eventType').value == "Private/Business"){
       this.hourly = this.constants.private_hourly_rate;
       this.spiritSmHourly = this.constants.spirit_private_sm_rate;
       this.spiritLgHourly = this.constants.spirit_private_lg_rate;
@@ -440,5 +454,13 @@ export class RequestFormComponent implements OnInit {
     console.log(this.data.appearance.cost);
 
   }
+
+  modalOpen(){
+    this.modal='block';
+  }
+  modalClose(){
+    this.modal='none';
+  }
+  
 
 }

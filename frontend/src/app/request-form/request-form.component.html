@@ -9,6 +9,7 @@
 <div class="container" [hidden]="!showCalendar">
   <h1 style = "text-align:center;">Request a TCU Spirit Appearance</h1>
   <p>Click on a date from the calendar, then click and drag to select your event time. Events must be scheduled at least 2 weeks in advance.</p>
+  <p>To make selections on a touch screen, press and hold until the the selection appears, then drag to select your desired time</p>
   <div class="row justify-content-center" style = "padding-bottom: 25px;">
     <div class="col-md-10">
       <div *ngIf="calendarOptions" style = "padding-top:40px;">
@@ -49,7 +50,7 @@
           </div>
           <div class="form-group col-md-12">
             <label class="col-form-label">Event Title*</label>
-            <input type="text" class="form-control" id="last_name" formControlName="eventTitle" [ngClass]="{'is-invalid':form.get('eventTitle').touched && form.get('eventTitle').invalid}">
+            <input type="text" class="form-control" id="eventTitle" formControlName="eventTitle" [ngClass]="{'is-invalid':form.get('eventTitle').touched && form.get('eventTitle').invalid}">
             <div class='invalid-feedback'>
               <div>This field is required.</div>
             </div>
@@ -61,12 +62,16 @@
           </div>
 
           <div class="form-group col-md-12">
-            <label>Organization Type</label>
-            <select class="form-control" [(ngModel)]="data.appearance.org_type" [ngModelOptions]="{standalone: true}" (change) = "updateCost()" name ="orgType">
-              <option selected>TCU</option>
+            <label>Event Type*</label>
+            <select class="form-control" formControlName="eventType" (change) = "updateCost()" name ="orgType" [ngClass]="{'is-invalid':form.get('eventType').touched && form.get('eventType').invalid}">
+              <option [ngValue]="null" hidden >Select one</option>
+              <option>TCU</option>
               <option>Public School/Non-Profit</option>
               <option>Private/Business</option>
             </select>
+            <div class='invalid-feedback'>
+              <div>Please make a selection.</div>
+            </div>
           </div>
           <div class = "row">
             <div class="form-group col-md-4">
@@ -105,7 +110,7 @@
           </div>
           
           <div class="form-group col-md-12">
-            <label class="col-form-label">On TCU Campus</label>
+            <label class="col-form-label">On TCU Campus?</label>
             <select  class="form-control" [(ngModel)]="onCampus" (ngModelChange)="locationTypeChange()" (change)="updateCost()" [ngModelOptions]="{standalone: true}" name="onCampus">
                 <option [ngValue]="true">Yes</option>
                 <option [ngValue]="false">No</option>
@@ -149,16 +154,16 @@
               <label>Cheerleaders</label>
               <select class="form-control" (change)="updateCost()" name ="cheerleaders" [(ngModel)]="data.appearance.cheerleaders" [ngModelOptions]="{standalone: true}" value="None">
                 <option selected>None</option>
-                <option value="Small Team">Small Team (2-4 members)</option>
-                <option value = "Large Team">Large Team (6-8 members)</option>
+                <option value="Small Team">Small Team (2-4 members) +${{spiritSmHourly}}/hr</option>
+                <option value = "Large Team">Large Team (6-8 members) +${{spiritLgHourly}}/hr</option>
               </select>
             </div>
             <div class="form-group col-md-6">
               <label>Showgirls</label>
                 <select class="form-control" (change)="updateCost()" [(ngModel)]="data.appearance.showgirls" [ngModelOptions]="{standalone: true}" name ="showgirls" value = "None">
                   <option selected>None</option>
-                  <option value="Small Team">Small Team (2-4 members)</option>
-                  <option value = "Large Team">Large Team (6-8 members)</option>
+                  <option value="Small Team">Small Team (2-4 members) +${{spiritSmHourly}}/hr</option>
+                  <option value = "Large Team">Large Team (6-8 members) +${{spiritLgHourly}}/hr</option>
                 </select>
               </div>
             </div>
@@ -180,14 +185,14 @@
 
           <div class="form-group col-md-12">
             <label class="col-form-label">
-              Will there be any expenses or benefits to the spirit team members?
+              Describe any expenses or benefits to the spirit team members
             </label>
-            <input type="text" class="form-control" id="expenses" [(ngModel)]="data.appearance.expenses" [ngModelOptions]="{standalone: true}"   name="expenses">
+            <input type="text" placeholder="None" class="form-control" id="expenses" [(ngModel)]="data.appearance.expenses" [ngModelOptions]="{standalone: true}"   name="expenses">
           </div>
 
           <div class="form-group col-md-12">
-            <label class="col-form-label"> Will there be any other outside organizations involved in sponsoring the event?</label>
-            <input type="text" class="form-control" id="outside_orgs"  [(ngModel)]="data.appearance.outside_orgs" [ngModelOptions]="{standalone: true}" name="outside_orgs">
+            <label class="col-form-label"> List any other outside organizations involved in sponsoring the event</label>
+            <input type="text" class="form-control" placeholder="None" id="outside_orgs"  [(ngModel)]="data.appearance.outside_orgs" [ngModelOptions]="{standalone: true}" name="outside_orgs">
           </div>
 
           <div class="form-group col-md-12">
@@ -195,7 +200,7 @@
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="description" formControlName="description"  [ngClass]="{'is-invalid':form.get('description').touched && form.get('description').invalid}" name="description"></textarea>
             <div class='invalid-feedback'>This field is required.</div>
           </div>
-          <table class="table">
+          <table *ngIf="form.get('eventType').value" class="table">
             <thead>
               <tr>
                 <th></th>
@@ -241,12 +246,15 @@
           </table>
           <div class="row">
             <div class="form-group col-md-12">
-              <input class="form-check-input" type="checkbox" formControlName="agree"  [ngClass]="{'is-invalid':form.get('agree').touched && form.get('agree').invalid}"><label class="form-check-label">I agree to the <a href="https://gofrogs.com/documents/2018/12/4/Terms_Conditions.pdf" target="_blank">terms &amp; conditions</a> of a TCU Spirit Appearance.</label>
-              <div class='invalid-feedback'>You must agree to the terms and conditions.</div>
+              <input class="form-check-input" type="checkbox" formControlName="agree"  [ngClass]="{'is-invalid':(form.get('agree').touched && form.get('agree').invalid)||(form.get('termsClicked').touched && form.get('termsClicked').invalid)}"><label class="form-check-label">I agree to the <a href="https://gofrogs.com/documents/2018/12/4/Terms_Conditions.pdf" target="_blank" (click)="form.get('termsClicked').setValue(true)">terms &amp; conditions</a> of a TCU Spirit Appearance.</label>
+              <div class='invalid-feedback' >
+                <div *ngIf="form.get('termsClicked').touched && form.get('termsClicked').invalid">Please review the terms and conditions</div>
+                <div *ngIf="form.get('agree').touched && form.get('agree').invalid">You must agree to the terms and conditions</div>
+              </div>
             </div>
         </div>
           <div class="col-md-12">
-            <button class="btn btn-primary" type="button" (click)="onSubmit()">Submit</button>
+            <button class="btn btn-primary" type="button" data-toggle='modal' data-target='#reminderModal'>Continue</button>
           </div>
         </div>
       </form>
@@ -256,9 +264,9 @@
 
 
   <!-- Modal -->
-<div class="modal fade" *ngIf="submitting" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="reminderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
+      <div *ngIf="submitting" class="modal-content">
         <div class="modal-body">
             <div class="app-loading" style = "margin-top : 80px; margin-bottom: 80px; ">
                 <div class="logo"></div>
@@ -266,6 +274,23 @@
                   <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
                 </svg>
             </div> 
+        </div>
+      </div>
+      <div *ngIf="!submitting" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Just a reminder</h5>
+        </div>
+        <div class="modal-body">
+          <p>By clicking "Submit", you agree to the following:</p>
+          <ul>
+            <li>Submission of a request does NOT guarantee acceptance of an appearance.</li>
+            <li>TCU Spirit has until 5 days prior to the appearance date to accept or decline a request.</li>
+            <li>The SuperFrog suit will NOT be rented out to a third party. Only SuperFrog performers may use the suit.</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="onSubmit()" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss='modal'>Back</button>
         </div>
       </div>
     </div>
