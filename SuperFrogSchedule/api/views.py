@@ -248,7 +248,14 @@ def detail(request, id=None):
     if request.method == 'GET':
         queryset = Appearance.objects.get(pk=id)
         serializer = CustomerAppearanceSerializer(queryset, many=False)
-        return HttpResponse(JSONRenderer().render(serializer.data))
+        data = serializer.data
+        time = datetime.datetime.strptime(data['start_time'],'%H:%M:%S')
+        data['start_time'] = time.strftime('%I:%M %p')
+        time = datetime.datetime.strptime(data['end_time'],'%H:%M:%S')
+        data['end_time'] = time.strftime('%I:%M %p')
+
+        response = JSONRenderer().render(data)
+        return HttpResponse(response)
     else:
         return HttpResponseBadRequest()
 def payroll_appearance(request,status=None):

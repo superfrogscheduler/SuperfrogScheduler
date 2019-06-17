@@ -12,30 +12,41 @@
 <div style="text-align:center; padding-top:40px;">
     <div class = "container align-center" id="request-container">
         <h1 style = "padding-bottom: 10px;">{{getData.name}}</h1>
-        <p style = "padding-bottom: 10px;"><a href = "#" id = "edit">Edit event details</a></p>
 <div style="text-align: center">
       <div class = "row">
         <div class = "col-md-4">
           <h3>Contact Name</h3> <p>{{getData.customer.first_name}} {{getData.customer.last_name}}</p>
           <h3>Phone Number</h3> <p>{{getData.customer.phone}}</p>
           <h3>Email</h3> <p>{{getData.customer.email}}</p>
-          <h3>Organization Requesting Event</h3> <p>{{getData.organization}}</p>
-          <h3>Organization Type</h3> <p>{{getData.org_type}}</p>
-          <h3>Any Outside Organizations?</h3> <p>{{getData.outside_orgs}}</p>
+          <div *ngIf='getData.organization'>
+            <h3>Organization Requesting Event</h3> <p>{{getData.organization}}</p>
+          </div>
+          <h3>Event Type</h3> <p>{{getData.org_type}}</p>
+          <div *ngIf='getData.outside_orgs'>
+            <h3>Outside Organizations</h3> <p>{{getData.outside_orgs}}</p>
+          </div>
         </div>
         <div class = "col-md-4">
             <h3>Event Date</h3> <p>{{getData.date}}</p>
             <h3>Time</h3> <p>{{getData.start_time}} - {{getData.end_time}}</p>
-            <h3>On TCU Campus?</h3> <p>{{getData.location}}</p>
             <h3>Location</h3> <p>{{getData.location}}</p>
         </div>
         <div class = "col-md-4">
-            <h3>Spirit Members</h3> <p>Cheerleaders: {{getData.cheerleaders}}
-                 Showgirls: {{getData.showgirls}}</p>
-            <h3>Special Instructions</h3> <p>{{getData.parking_info}}</p>
+            <div *ngIf="getData.cheerleaders != 'None' || getData.showgirls != 'None'">
+              <h3>Spirit Members</h3>
+            </div>
+            <p *ngIf="getData.cheerleaders != 'None'">Cheerleaders: {{getData.cheerleaders}}</p>
+            <p *ngIf="getData.showgirls !='None'">Showgirls: {{getData.showgirls}}</p>
+            <div *ngIf='getData.parking_info'>
+              <h3>Special Instructions</h3> <p>{{getData.parking_info}}</p>
+            </div>
             <h3>Description</h3> <p>{{getData.description}}</p>
-            <h3>Performance required?</h3> <p>{{getData.performance_required}}</p>
-            <h3>Expenses/Benefits</h3> <p>{{getData.expenses_and_benefits}}</p>
+            <div *ngIf='getData.performance_required'>
+              <h3>Performance required</h3> <p>{{getData.performance_required}}</p>
+            </div>
+            <div *ngIf='getData.expenses_and_benefits'>
+              <h3>Expenses/Benefits</h3> <p>{{getData.expenses_and_benefits}}</p>
+            </div>
             
         </div>
 

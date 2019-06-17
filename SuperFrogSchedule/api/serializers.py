@@ -82,8 +82,7 @@ class CustomerAppearanceSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer()
     class Meta:
         model = Appearance
-        fields = ('id','name','date','start_time','end_time','location','status','description','parking_info','cheerleaders','showgirls','customer')
-
+        exclude= ('event_key', 'status', 'receipt_number', 'compensation_date','eligable_for_pay')
 # class SuperfrogAppearanceSerializer(serializers.ModelSerializer):
 #     superfrog = SuperfrogSerializer()
 #     appearance = AppearanceSerializer()
